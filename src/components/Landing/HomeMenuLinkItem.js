@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Typography, Grow, Card } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
-import ConditionalLinkWrapper from '../Miscellaneous/ConditionalLinkWrapper'
+import { Grid, Typography, Grow, Card } from '@mui/material'
+import withStyles from '@mui/styles/withStyles'
+import { ConditionalLinkWrapper } from '../Miscellaneous'
 
 const styles = theme => ({
   link: {
@@ -11,8 +11,9 @@ const styles = theme => ({
   cardButton: {
     padding: '16px',
     height: '100%',
+    transition: '0.3s box-shadow !important',
     '&:hover': {
-      boxShadow: `0px 0px 0px 2px ${theme.palette.alt.third}`
+      boxShadow: `0px 0px 0px 2px ${theme.palette.M700}`
     }
   },
   gridContainer: {
@@ -46,7 +47,7 @@ const HomeMenuLinkItem = ({ link, title, classes }) => {
               className={classes.gridContainer}
               direction='column'
               alignItems='center'
-              justify='center'
+              justifyContent='center'
             >
               <Typography
                 className={classes.noWrap}

@@ -1,36 +1,37 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import PropTypes from 'prop-types'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
+import { PageBody } from '../pageLayouts'
 
 const styles = (theme) => ({
   container: {
+    display: 'flex',
+    flexDirection: 'column',
     minHeight: '100vh',
     minWidth: '100vw',
     maxWidth: '100vw',
-    display: 'flex',
-    flexDirection: 'column',
-    marginLeft: '0px',
+    marginLeft: 0,
     paddingBottom: '20px'
   },
   page: {
+    flex: 1,
     background: 'transparent',
     width: '100%',
     objectFit: 'cover',
-    margin: '0px 0px 0px 0px ',
-    flex: 1
+    margin: 0
   },
   gridContainer: {
     paddingTop: theme.spacing(6),
-    [theme.breakpoints.down('lg')]: {
+    [theme.breakpoints.down('xl')]: {
       paddingTop: theme.spacing(10)
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       paddingTop: theme.spacing(10)
     }
   },
@@ -38,15 +39,15 @@ const styles = (theme) => ({
     paddingTop: '5vh',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '600',
-    fontSize: '1.7vh',
-    color: 'red'
+    fontSize: '3vh',
+    color: theme.palette.E400
   },
   messageLoad: {
     paddingTop: '5vh',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '100',
     fontSize: '20px',
-    color: 'white'
+    color: theme.palette.M50
   }
 })
 
@@ -81,7 +82,7 @@ class TwitterOAuth extends Component {
         // reload because of unknown race condition
         setTimeout(() => {
           window.location.reload()
-        }, 1000)
+        }, 300)
       } catch (err) {
         if (err.toString().includes('Error: Request failed with status code 429')) {
           this.setState({ errorMessage: 'Request failed. You have attempted to create too many accounts.' })
@@ -93,10 +94,11 @@ class TwitterOAuth extends Component {
 
   render () {
     const { classes } = this.props
+    const customRedirect = localStorage.getItem('twitterRedirect')
     const { isLoading, username, existingAcct, errorMessage } = this.state
     if (isLoading) {
       return (
-        <div style={{
+        <PageBody style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -107,46 +109,46 @@ class TwitterOAuth extends Component {
             display='flex'
             direction='column'
             alignItems='center'
-            justify='center'
+            justifyContent='center'
           >
             <Grid item
               container
               alignItems='center'
-              justify='center'
+              justifyContent='center'
             >
               <DotSpinner />
             </Grid>
             <Grid item>
               { existingAcct
-              ? <Typography
-                className={classes.messageLoad}
+                ? <Typography
+                  className={classes.messageLoad}
                 >
-                Redirecting you to your account...
-              </Typography>
-              : <Typography
-                className={classes.messageLoad}
+                  Redirecting you to your account...
+                </Typography>
+                : <Typography
+                  className={classes.messageLoad}
                 >
-                Creating account...this may take a minute...
-              </Typography>
-            }
+                  Creating account...this may take a minute...
+                </Typography>
+              }
             </Grid>
           </Grid>
-        </div>
+        </PageBody>
       )
     }
 
     if (username !== null) {
-      return <Redirect to={`/${username}`} />
+      return <Redirect to={`/${customRedirect || username}`} />
     }
 
     return (
       <ErrorBoundary>
         <div className={classes.container}>
-          <div className={classes.page}>
+          <PageBody pageClass={classes.page}>
             <Grid alignItems='flex-start'
               className={classes.gridContainer}
               container
-              justify='center'
+              justifyContent='center'
             >
               <Typography
                 className={classes.messageFailure}
@@ -155,7 +157,7 @@ class TwitterOAuth extends Component {
                 {errorMessage}
               </Typography>
             </Grid>
-          </div>
+          </PageBody>
         </div>
       </ErrorBoundary>
     )

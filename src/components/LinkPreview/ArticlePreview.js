@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import PropTypes from 'prop-types'
 import Img from 'react-image'
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Typography } from '@mui/material'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { trimURL, getFavicon } from '../../utils/url'
@@ -19,10 +19,10 @@ const styles = theme => ({
   },
   link: {
     textDecoration: 'none',
-    color: theme.palette.common.first,
+    color: theme.palette.M100,
     '&:visited': {
       textDecoration: 'none',
-      color: theme.palette.common.first
+      color: theme.palette.M100
     }
   },
   linkImg: {
@@ -30,17 +30,17 @@ const styles = theme => ({
     aspectRatio: '1 / 1',
     border: 'none',
     borderRadius: '0.5rem',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       maxHeight: 30,
       maxWidth: 30
     }
   },
   previewContainer: {
     textDecoration: 'none',
-    color: theme.palette.common.first,
+    color: theme.palette.M100,
     '&:visited': {
       textDecoration: 'none',
-      color: theme.palette.common.first
+      color: theme.palette.M100
     },
     maxHeight: '500px'
   },
@@ -48,13 +48,13 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '1rem',
     fontWeight: 600,
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
-    color: theme.palette.common.first,
+    textShadow: `0px 0px 5px ${theme.palette.M900}aa`,
+    color: theme.palette.M100,
     opacity: 0.9
   },
   description: {
     position: 'relative',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
+    textShadow: `0px 0px 5px ${theme.palette.M900}88`,
     lineHeight: '1.25rem',
     margin: '0.5rem 0'
   },
@@ -67,18 +67,19 @@ const styles = theme => ({
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     width: '70%',
-    marginTop: '0px',
+    marginTop: 0,
     opacity: '0.5'
   },
   previewData: {
-    bottom: '0',
+    bottom: 0,
     textAlign: 'left',
     zIndex: 5,
     background:
-      `linear-gradient(${theme.palette.alt.second}00, ${theme.palette.alt.second}46, ${theme.palette.alt.second}ae, ${theme.palette.alt.second}dd, ${theme.palette.alt.second}ed, ${theme.palette.alt.second}fe, ${theme.palette.alt.second}, ${theme.palette.alt.second})`,
+      `linear-gradient(${theme.palette.M850}00, ${theme.palette.M850}46, ${theme.palette.M850}ae, ${theme.palette.M850}dd, ${theme.palette.M850}ed, ${theme.palette.M850}fe, ${theme.palette.M850}, ${theme.palette.M850})`,
     padding: '4% 3% 2% 3%',
     width: '100%',
-    backdropFilter: 'blur(2px)'
+    backdropFilter: 'blur(2px)',
+    boxShadow: `0px 2px ${theme.palette.M850}`
   }
 })
 

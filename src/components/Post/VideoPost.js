@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import ReactPlayer from 'react-player'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const styles = theme => ({
@@ -11,8 +11,8 @@ const styles = theme => ({
     alignItems: 'center',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
-    [theme.breakpoints.down('sm')]: {
-      borderRadius: '0px'
+    [theme.breakpoints.down('md')]: {
+      borderRadius: 0
     }
   },
   reactPlayer: {
@@ -24,13 +24,13 @@ const styles = theme => ({
     zIndex: 50,
     overflow: 'hidden',
     borderRadius: '0.5rem 0.5rem 0px 0px',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       marginLeft: '0%',
       marginRight: '0%',
       height: 'auto'
     },
-    [theme.breakpoints.down('xs')]: {
-      borderRadius: '0px',
+    [theme.breakpoints.down('sm')]: {
+      borderRadius: 0,
       maxWidth: '100vw',
       width: '100vw'
     },
@@ -44,7 +44,7 @@ const styles = theme => ({
 function VideoPost (props) {
   const { classes, caption, postHOC: PostHOC } = props
   const isMobile = window.innerWidth <= 600
-  const heightProp = isMobile ? { height: '0' } : {}
+  const heightProp = isMobile ? { height: 0 } : {}
 
   const VideoComp = (_props) => (
     <div className={classes.postContainer}>

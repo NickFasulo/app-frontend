@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Typography } from '@material-ui/core'
+import { Link, Typography, Grid } from '@mui/material'
 import TweetVidPlayer from './TweetVidPlayer'
 import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
 import LinkPreview from './LinkPreview'
 import HeaderSection from './HeaderSection'
+import Avatar from './Avatar'
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png'
 
@@ -32,7 +33,7 @@ const Reply = ({ tweetData, classes }) => {
         })()
       }
     }
-    }, [])
+  }, [])
 
   let hasMedia
   if (extendedEntities) {
@@ -112,125 +113,246 @@ const Reply = ({ tweetData, classes }) => {
   }
 
   return (
-    <div className={classes.mainReplyContainer}>
-      <div className={classes.replyContainer}>
-        <div className={classes.replyAvatarAndBar}>
-          <div className={classes.userAvatarContainer}
-            style={{ paddingRight: 0 }}
-          >
-            {replyUserAvatar
-          ? <img className={userAvatar}
-            src={replyUserAvatar}
-            alt='user image'
-            onError={addDefaultSrc}
-            />
-            : <span className={classes.letterAvatar}>
-              { replyName && replyName[0] && replyName[0].toUpperCase() }
-            </span>
-          }
-          </div>
-          <div className={classes.barDiv} />
-        </div>
-
-        <div className={classes.replyHeaderAndContent}>
-          <div className={classes.header}>
-            <div className={classes.userTags}>
-              <Link href={accountLink}
-                target='_blank'
-                underline='none'
-              ><h4 className={twitterName}>{replyName}</h4></Link>
-              <Link href={accountLink}
-                target='_blank'
-                underline='none'
-              ><span className={classes.twitterHandle}>@{replyScreenName}</span></Link>
-            </div>
-            <span className={twitterBirdIcon}>
-              <Link href={tweetLink}
-                target='_blank'
-                underline='none'
-              >
-                <img
-                  src='/images/icons/twitter.svg'
-                  height='24'
-                  alt='twitter'
-                />
-              </Link>
-            </span>
-          </div>
-          <div className={classes.replyContent}
-            style={{ display: 'flex', flexDirection: 'column', marginBottom: 20 }}
-          >
-            <Link href={tweetLink}
-              target='_blank'
-              underline='none'
-            >
-              <Typography variant='body2'>
-                {replyTweetText}
-              </Typography>
-            </Link>
-            {
-               (replyHasPhoto && replyMediaURL)
-               ? <div className={classes.replyImageContainer}>
-                 <img className={classes.tweetImg}
-                   style={BothHaveMedia ? smallImage : bigImage}
-                   src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : replyMediaURL}
-                   alt='tweet-image'
-                 />
-               </div>
-               : (replyHasVideo && replyMediaURL) &&
-                 <TweetVidPlayer
-                   url={replyMediaURL}
-                 />
-             }
-          </div>
-        </div>
-      </div>
-      <div className={classes.replyOriginalContainer}>
-        <HeaderSection classes={classes}
-          user={user}
-          hideBird
-        />
-        <Link href={tweetLink}
-          target='_blank'
-          underline='none'
+    <Grid
+      container
+      direction='column'
+      className={classes.mainReplyContainer}
+      spacing={1}
+    >
+      <Grid item
+        xs={12}
+      >
+        <Grid
+          container
+          direction='row'
+          spacing={1}
+          className={classes.replyContainer}
+          style={{ minHeight: '80px' }}
         >
-          <Typography variant='body2'
-            className={classes.tweetText}
-            style={{ marginLeft: '6px' }}
+          <Grid item>
+            <Grid
+              container
+              direction='column'
+              alignItems='stretch'
+              justifyContent='space-between'
+              style={{ height: '100%' }}
+              spacing={1}
+            >
+              <Grid item>
+                {replyUserAvatar ? (
+                  <img
+                    className={userAvatar}
+                    src={replyUserAvatar}
+                    alt='user image'
+                    onError={addDefaultSrc}
+                  />
+                ) : (
+                  <span className={classes.letterAvatar}>
+                    {replyName && replyName[0] && replyName[0].toUpperCase()}
+                  </span>
+                )}
+              </Grid>
+              <Grid item
+                xs
+              >
+                <Grid container
+                  direction='row'
+                  style={{ height: '100%' }}
+                >
+                  <Grid item
+                    xs
+                  />
+                  <Grid
+                    item
+                    style={{ height: '100%' }}
+                    xs='1.5px'
+                    className={classes.barDiv}
+                  />
+                  <Grid item
+                    xs
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item
+            xs
           >
-            {tweetText.replace(/@\S+\s?/gm, '')}
-          </Typography>
-        </Link>
-        {(previewData && !replyHasMedia && !mediaURL) && (
-          <div style={{ marginTop: 20 }}>
-            <LinkPreview
-              size={'large'}
-              classes={classes}
-              description={previewData && previewData.description}
-              image={previewData && previewData.img}
-              title={previewData && previewData.title}
-              url={previewData && previewData.url}
-              caption={caption}
-            />
-          </div>
-         )}
-        {
-          (hasPhoto && mediaURL)
-          ? <Typography className={classes.tweetText}>
-            <img className={classes.tweetImg}
-              src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : mediaURL}
-              alt='tweet-image'
-            />
-          </Typography>
-          : (hasVideo && mediaURL) &&
-            <TweetVidPlayer
-              url={mediaURL}
-            />
-         }
-
-      </div>
-
-    </div>
+            <Grid container
+              direction='column'
+              spacing={1}
+            >
+              <Grid item
+                className={classes.header}
+              >
+                <Grid container
+                  justifyContent='space-between'
+                  alignItems='flex-end'
+                >
+                  <Grid item>
+                    <Grid
+                      container
+                      spacing={1}
+                      direction='row'
+                      className={classes.userTags}
+                    >
+                      <Grid item>
+                        <Link
+                          href={accountLink}
+                          target='_blank'
+                          underline='none'
+                        >
+                          <h4 className={twitterName}>{replyName}</h4>
+                        </Link>
+                      </Grid>
+                      <Grid item>
+                        <Link
+                          href={accountLink}
+                          target='_blank'
+                          underline='none'
+                        >
+                          <Grid className={classes.twitterHandle}>
+                            @{replyScreenName}
+                          </Grid>
+                        </Link>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item
+                    className={twitterBirdIcon}
+                  >
+                    <Link href={tweetLink}
+                      target='_blank'
+                      underline='none'
+                    >
+                      <img
+                        src='/images/icons/twitter.svg'
+                        height='24'
+                        alt='twitter'
+                      />
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid
+                item
+                className={classes.replyContent}
+                style={{ paddingBottom: '8px' }}
+              >
+                <Link href={tweetLink}
+                  target='_blank'
+                  underline='none'
+                >
+                  <Typography variant='body2'>{replyTweetText}</Typography>
+                </Link>
+              </Grid>
+              {replyHasPhoto && replyMediaURL ? (
+                <Grid item
+                  className={classes.replyImageContainer}
+                >
+                  <img
+                    className={classes.tweetImg}
+                    style={BothHaveMedia ? smallImage : bigImage}
+                    src={
+                      tweetData.excludeTweet
+                        ? 'https://api.faviconkit.com/twitter.com/128'
+                        : replyMediaURL
+                    }
+                    alt='tweet-image'
+                  />
+                </Grid>
+              ) : (
+                replyHasVideo &&
+                  replyMediaURL &&
+                  <Grid item
+                    className={classes.replyImageContainer}
+                  ><TweetVidPlayer url={replyMediaURL} /></Grid>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      {/* REPLY TWEET */}
+      <Grid item>
+        <Grid container
+          className={classes.replyOriginalContainer}
+        >
+          <Grid item='item'
+            xs={12}
+          >
+            <Grid container='container'
+              direction='row'
+              spacing={1}
+            >
+              <Grid item='item'>
+                <Avatar classes={classes}
+                  user={user}
+                  tweetLink={tweetLink}
+                />
+              </Grid>
+              <Grid item='item'
+                xs
+              >
+                <Grid container='container'
+                  direction='column'
+                  spacing={1}
+                >
+                  <Grid item='item'>
+                    <HeaderSection classes={classes}
+                      user={user}
+                      hideBird
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Link href={tweetLink}
+                      target='_blank'
+                      underline='none'
+                    >
+                      <Typography
+                        variant='subtitle2'
+                        className={classes.tweetText}
+                      >
+                        {tweetText.replace(/@\S+\s?/gm, '')}
+                      </Typography>
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    {previewData && !replyHasMedia && !mediaURL && (
+                      <Grid>
+                        <LinkPreview
+                          size={'large'}
+                          classes={classes}
+                          description={previewData && previewData.description}
+                          image={previewData && previewData.img}
+                          title={previewData && previewData.title}
+                          url={previewData && previewData.url}
+                          caption={caption}
+                        />
+                      </Grid>
+                    )}
+                    {hasPhoto && mediaURL ? (
+                      <Typography className={classes.tweetText}>
+                        <img
+                          className={classes.tweetImg}
+                          src={
+                            tweetData.excludeTweet
+                              ? 'https://api.faviconkit.com/twitter.com/128'
+                              : mediaURL
+                          }
+                          alt='tweet-image'
+                        />
+                      </Typography>
+                    ) : (
+                      hasVideo && mediaURL && <TweetVidPlayer url={mediaURL} />
+                    )}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   )
 }
 

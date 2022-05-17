@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import TextField from '@material-ui/core/TextField'
-import SearchIcon from '@material-ui/icons/Search'
-import { withStyles } from '@material-ui/core/styles'
+import { TextField } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import withStyles from '@mui/styles/withStyles'
 import { withRouter } from 'react-router-dom'
 import deburr from 'lodash/deburr'
 import axios from 'axios'
@@ -16,65 +16,36 @@ const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   root: {
+    width: '15rem',
     position: 'relative',
     borderRadius: '0.65rem',
-    border: '0px solid #fff',
-    backgroundColor: theme.palette.alt.second,
     '&:hover': {
-      backgroundColor: theme.palette.alt.third
-    },
-    justifyContent: 'flex-start',
-    width: '',
-    fontFamily: 'Gilroy',
-    fontWeight: '300',
-    color: '#fff',
-    maxWidth: '80vw'
+      backgroundColor: theme.palette.M700
+    }
   },
   searchIcon: {
-    width: '10vw',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '5vw',
     height: '100%',
     marginLeft: '10px',
     position: 'absolute',
     pointerEvents: 'none',
-    display: 'flex',
-    color: theme.palette.common.first,
-    maxWidth: '5vw',
-    alignItems: 'center',
-    justifyContent: 'flex-start'
-  },
-  container: {
-    flexGrow: 1,
-    position: 'relative'
-  },
-  inputRoot: {
-    color: 'inherit',
-    width: '100%',
-    marginLeft: '0px',
-    flexWrap: 'wrap'
+    color: theme.palette.M100
   },
   inputInput: {
-    color: 'inherit',
     paddingTop: theme.spacing(),
     paddingRight: theme.spacing(),
     paddingBottom: theme.spacing(),
-    paddingLeft: theme.spacing(6),
-    transition: theme.transitions.create('width'),
-    width: '',
-    maxWidth: '1000vw',
-    [theme.breakpoints.up('sm')]: {
-      width: '200px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: '25vw'
-    },
-    flexGrow: 1
+    paddingLeft: theme.spacing(6)
   }
 })
 
 class YupListSearchBar extends Component {
   updListData (posts) {
-      const { dispatch } = this.props
-      dispatch(updateSearchListPosts({ posts, initialLoad: false, hasMore: false, isSearch: true }))
+    const { dispatch } = this.props
+    dispatch(updateSearchListPosts({ posts, initialLoad: false, hasMore: false, isSearch: true }))
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -91,25 +62,25 @@ class YupListSearchBar extends Component {
 
   onSearchEnter = async (event) => {
     if (event.key === 'Enter') {
-        try {
-          if (this.searchInput.value === '') {
-            return
-          }
-          this.setInitialSearchLoad()
-          let input = deburr(this.searchInput.value.trim()).toLowerCase()
-          this.searchInput.value = ''
-          let posts = (await axios.get(`${BACKEND_API}/search`, {
-            params: {
-              searchText: input,
-              limit: 30,
-              list: this.props.searchInfo.listType,
-              category: this.props.settings.category.name
-            }
-          })).data
-          this.updListData(posts)
-        } catch (err) {
-          this.updListData([])
+      try {
+        if (this.searchInput.value === '') {
+          return
         }
+        this.setInitialSearchLoad()
+        let input = deburr(this.searchInput.value.trim()).toLowerCase()
+        this.searchInput.value = ''
+        let posts = (await axios.get(`${BACKEND_API}/search`, {
+          params: {
+            searchText: input,
+            limit: 30,
+            list: this.props.searchInfo.listType,
+            category: this.props.settings.category.name
+          }
+        })).data
+        this.updListData(posts)
+      } catch (err) {
+        this.updListData([])
+      }
       event.preventDefault()
     }
   }
@@ -130,13 +101,14 @@ class YupListSearchBar extends Component {
           </div>
           <TextField
             InputProps={{
-            inputRef: this.searchInputRef,
-            classes: {
-              root: classes.inputRoot,
-              input: classes.inputInput
-            },
-            disableUnderline: true
-          }}
+              inputRef: this.searchInputRef,
+              classes: {
+                root: classes.inputRoot,
+                input: classes.inputInput
+              },
+              disableUnderline: true
+            }}
+            variant='standard'
             onKeyPress={this.onSearchEnter}
           />
         </div>

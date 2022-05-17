@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import Linkify from 'react-linkify'
 import LinkPreview from '../LinkPreview/LinkPreview'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -9,7 +9,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const styles = theme => ({
   postContainer: {
     display: 'flex',
-    background: theme.palette.alt.second,
+    background: theme.palette.M800,
     padding: '3%',
     alignItems: 'center'
   },
@@ -21,7 +21,7 @@ const styles = theme => ({
     padding: '16px 16px',
     wordBreak: 'break-word',
     width: '100%',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '24px'
     },
     [theme.breakpoints.up('1700')]: {
@@ -35,12 +35,12 @@ function TextPost (props) {
 
   const PreviewData = (_props) => (
     previewData
-    ? <LinkPreview description={previewData.description || ''}
-      image={previewData.img}
-      title={previewData.title}
-      url={previewData.url}
+      ? <LinkPreview description={previewData.description || ''}
+        image={previewData.img}
+        title={previewData.title}
+        url={previewData.url}
       />
-    : null
+      : null
   )
   const TextComp = (_props) => (
     <div className={classes.postContainer}>
@@ -49,14 +49,14 @@ function TextPost (props) {
         className={classes.postCaption}
       >
         <Linkify properties={{
-        style: {
-          color: '#fff',
-          fontWeight: '500',
-          '&:visited': {
-            color: '#fff'
+          style: {
+            color: '#fff',
+            fontWeight: '500',
+            '&:visited': {
+              color: '#fff'
+            }
           }
-        }
-      }}
+        }}
         >
           {caption}
         </Linkify>
@@ -65,14 +65,14 @@ function TextPost (props) {
     </div>
   )
 
-    return (
-      <ErrorBoundary>
-        <PostHOC
-          component={TextComp}
-          {...props}
-        />
-      </ErrorBoundary>
-    )
+  return (
+    <ErrorBoundary>
+      <PostHOC
+        component={TextComp}
+        {...props}
+      />
+    </ErrorBoundary>
+  )
 }
 
 TextPost.propTypes = {

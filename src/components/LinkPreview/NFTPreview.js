@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import PropTypes from 'prop-types'
-// import Img from 'react-image'
-import { Grid, Tooltip, Typography } from '@material-ui/core'
+import Img from 'react-image'
+import { Grid, Tooltip, Typography } from '@mui/material'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import CldImg from '../../components/Miscellaneous/CldImg'
-import CldVid from '../../components/Miscellaneous/CldVid'
+import { CldImg, CldVid } from '../../components/Miscellaneous'
 import { trimURL, getFavicon } from '../../utils/url'
 
 const { RARIBLE_API } = process.env
@@ -39,9 +38,9 @@ const styles = theme => ({
     overflow: 'hidden',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
-    [theme.breakpoints.down('sm')]: {
-      borderTopLeftRadius: '0px',
-      borderTopRightRadius: '0px'
+    [theme.breakpoints.down('md')]: {
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0
     }
   },
   link: {
@@ -66,47 +65,47 @@ const styles = theme => ({
       maxHeight: '25rem',
       width: '100%'
     },
-    [theme.breakpoints.down('xs')]: {
-      borderRadius: '0px'
+    [theme.breakpoints.down('sm')]: {
+      borderRadius: 0
     }
   },
   previewContainer: {
     textDecoration: 'none',
-    color: theme.palette.common.first,
+    color: theme.palette.M100,
     '&:visited': {
       textDecoration: 'none',
-      color: theme.palette.common.first
+      color: theme.palette.M100
     },
     maxHeight: '500px'
   },
   title: {
     position: 'relative',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
-    color: theme.palette.common.first,
+    textShadow: `0px 0px 5px ${theme.palette.M900}aa`,
+    color: theme.palette.M100,
     opacity: 0.9,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: 'auto'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '1.2rem'
     }
   },
   description: {
     position: 'relative',
     fontSize: '12px',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
+    textShadow: `0px 0px 5px ${theme.palette.M900}88`,
     fontWeight: 300,
     lineHeight: 1.3,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '12px'
     }
   },
   credits: {
     position: 'relative',
     fontSize: '14px',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
+    textShadow: `0px 0px 5px ${theme.palette.M900}88`,
     fontWeight: 400,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '12px'
     }
   },
@@ -119,18 +118,19 @@ const styles = theme => ({
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     width: '70%',
-    marginTop: '0px',
+    marginTop: 0,
     display: 'none'
   },
   previewData: {
     position: 'absolute',
-    bottom: '0px',
+    bottom: 0,
     textAlign: 'left',
     width: '100%',
     zIndex: 5,
-    background: `linear-gradient(${theme.palette.alt.second}00, ${theme.palette.alt.second}46, ${theme.palette.alt.second}ae, ${theme.palette.alt.second}dd, ${theme.palette.alt.second}ed, ${theme.palette.alt.second}fe, ${theme.palette.alt.second}, ${theme.palette.alt.second})`,
+    background: `linear-gradient(${theme.palette.M850}00, ${theme.palette.M850}46, ${theme.palette.M850}ae, ${theme.palette.M850}dd, ${theme.palette.M850}ed, ${theme.palette.M850}fe, ${theme.palette.M850}, ${theme.palette.M850})`,
     padding: '2% 3% 3% 3%',
-    backdropFilter: 'blur(2px)'
+    backdropFilter: 'blur(2px)',
+    boxShadow: `0px 2px ${theme.palette.M850}`
   }
 })
 
@@ -219,8 +219,9 @@ class NFTPreview extends Component {
     if (url != null) {
       faviconURL = getFavicon(url)
     }
-
-    const isVideo = image && ((image.substring(image.lastIndexOf('.') + 1, image.length) === 'mp4') || (mimeType && mimeType.includes('video')))
+    const fileType = image && ((image.substring(image.lastIndexOf('.') + 1, image.length)))
+    const isVideo = fileType === 'mp4' || (mimeType && mimeType.includes('video'))
+    const isGif = fileType === 'gif'
 
     return (
       <ErrorBoundary>
@@ -254,19 +255,25 @@ class NFTPreview extends Component {
                   loop
                   playsinline
                 />
-              ) : (
-                <CldImg
-                  className={classes.linkImg}
-                  postid={postid}
-                  src={image}
+              ) : isGif ? (
+                <img src={image}
                   alt={description}
+                  className={classes.linkImg}
                 />
-              )}
+              )
+                : (
+                  <CldImg
+                    className={classes.linkImg}
+                    postid={postid}
+                    src={image}
+                    alt={description}
+                  />
+                )}
               <div className={classes.previewData}>
                 <Grid container
                   direction='column'
                   spacing={1}
-                  justify='center'
+                  justifyContent='center'
                 >
                   <Grid item>
                     <Grid alignItems='center'
@@ -274,7 +281,7 @@ class NFTPreview extends Component {
                       direction='row'
                     >
                       <Grid item>
-                        <CldImg
+                        <Img
                           align='right'
                           href={url}
                           src={faviconURL}
@@ -289,7 +296,7 @@ class NFTPreview extends Component {
                         />
                       </Grid>
                       <Grid item>
-                        <Typography variant='h6'
+                        <Typography variant='subtitle2'
                           className={classes.title}
                         >
                           <LinesEllipsis
@@ -306,7 +313,7 @@ class NFTPreview extends Component {
                   {(this.state.creator || this.state.owners.length > 0) && (
                     <Grid item>
                       <Grid
-                        justify='left'
+                        justifyContent='left'
                         container
                         direction='row'
                         alignItems='center'

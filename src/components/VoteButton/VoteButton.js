@@ -2,27 +2,28 @@ import React, { Component, memo } from 'react'
 import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { Grid, Grow, Typography, Portal, Tooltip, SvgIcon, Snackbar } from '@material-ui/core'
-import { withStyles, useTheme, withTheme } from '@material-ui/core/styles'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
+import CircularProgress from '@mui/material/CircularProgress'
+import { Grid, Grow, Typography, Portal, Tooltip, SvgIcon, Snackbar } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import withStyles from '@mui/styles/withStyles'
+import withTheme from '@mui/styles/withTheme'
+import SnackbarContent from '@mui/material/SnackbarContent'
 import polly from 'polly-js'
 import numeral from 'numeral'
-import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 import { parseError } from '../../eos/error'
 import { connect } from 'react-redux'
 import { setPostInfo, updateInitialVote, updateVoteLoading } from '../../redux/actions'
 import { levelColors } from '../../utils/colors'
-import Rating from '@material-ui/lab/Rating'
+import Rating from '@mui/material/Rating'
 import equal from 'fast-deep-equal'
 import WelcomeDialog from '../WelcomeDialog/WelcomeDialog'
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import scatter from '../../eos/scatter/scatter.wallet'
 import rollbar from '../../utils/rollbar'
 import isEqual from 'lodash/isEqual'
 import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 import { deletevote, editvote, createvotev4, postvotev4, postvotev3, createvote } from '../../eos/actions/vote'
+import AuthModal from '../../features/AuthModal'
 
 const { BACKEND_API } = process.env
 const ICONS = process.env.ICONS.split(',')
@@ -140,16 +141,16 @@ const styles = (theme) => ({
     height: 20,
     borderRadius: '50%',
     padding: '2px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       height: 25,
       width: 25,
-      margin: '0'
+      margin: 0
     }
   },
   postWeight: {
     minWidth: '50px',
     fontSize: '16px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       fontSize: '20px'
     }
   },
@@ -174,7 +175,7 @@ const styles = (theme) => ({
   dialog: {
     width: '100%',
     marginLeft: 190,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xl')]: {
       marginLeft: 0,
       width: '100%'
     },
@@ -188,7 +189,7 @@ const styles = (theme) => ({
     }
   },
   mobileBtn: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('lg')]: {
       width: '1.2em'
     }
   }
@@ -197,14 +198,14 @@ const styles = (theme) => ({
 const ratingStyles = ({ palette }) => ({
   iconFilled: {
     border: '3px',
-    borderColor: palette.common.first,
-    color: palette.alt.first
+    borderColor: palette.M100,
+    color: palette.M900
   },
   iconHover: {
-    stroke: palette.common.first
+    stroke: palette.M100
   },
   iconEmpty: {
-    color: palette.alt.first
+    color: palette.M900
   }
 })
 const StyledRating = withStyles(ratingStyles)(Rating)
@@ -255,36 +256,23 @@ const likeRatingConversion = {
 const convertRating = (like, rating) =>
   like ? likeRatingConversion[rating] : dislikeRatingConversion[rating]
 
-const IconWithRef = class IconWithRef extends Component {
-  iconRef = React.createRef();
+const IconWithRef = React.forwardRef(function IconWithRef (props, ref) {
+  const { value, handleRatingChange } = props
 
-  shouldComponentUpdate (nextProps, nextState) {
-    if (!isEqual(nextProps.value, this.props.value) || !isEqual(nextProps.style, this.props.style) || !isEqual(nextState, this.state)) {
-      return true
-    }
-    return false
-  }
-
-  render () {
-    const { value, handleRatingChange } = this.props
-
-    return (
-      <ErrorBoundary>
-        <div
-          ref={this.iconRef} // Refs and props for tooltip + vote mouse events
-          onTouchStart={(e) => {
-            handleRatingChange(e, value)
-          }}
-          onClick={(e) => {
-            handleRatingChange(e, value)
-          }}
-        >
-          <div {...this.props} />
-        </div>
-      </ErrorBoundary>
-    )
-    }
-  }
+  return (
+    <div
+      ref={ref} // Refs and props for tooltip + vote mouse events
+      onTouchStart={(e) => {
+        handleRatingChange(e, value)
+      }}
+      onClick={(e) => {
+        handleRatingChange(e, value)
+      }}
+    >
+      <div {...props} />
+    </div>
+  )
+})
 
 IconWithRef.propTypes = {
   handleRatingChange: PropTypes.func.isRequired,
@@ -301,16 +289,16 @@ const IconContainer = memo((props) => {
     : null
 
   const ratingQuantile = quantileToRating[quantile]
-  const ratingQuantileStyle = (ratingQuantile >= value) ? { color: quantileColor } : { color: palette.alt.third }
-  const voteStyle = (convertedVoterRating >= value) ? { stroke: palette.common.third } : {}
+  const ratingQuantileStyle = (ratingQuantile >= value) ? { color: quantileColor } : { color: palette.M700 }
+  const voteStyle = (convertedVoterRating >= value) ? { stroke: palette.M300 } : {}
   const marginStyle = (window.innerWidth <= 440)
-      ? { marginTop: '-3px', marginRight: '-5px', marginLeft: '-6px' }
-      : { marginTop: '-3px', marginRight: '-9px', marginLeft: '-1.5px' }
+    ? { marginTop: '-3px', marginRight: '-5px', marginLeft: '-6px' }
+    : { marginTop: '-3px', marginRight: '-9px', marginLeft: '-1.5px' }
 
   const defaultQuantileColor = levelColors[ratingToQuantile[hoverValue]]
   const hoverStyle = (defaultQuantileColor && hoverValue && hoverValue) >= value
-      ? { color: defaultQuantileColor }
-      : {}
+    ? { color: defaultQuantileColor }
+    : {}
 
   const style = {
     ...marginStyle,
@@ -368,7 +356,7 @@ IconContainer.propTypes = {
 
 const VoteLoader = (props) => (
   <CircularProgress size={30}
-    style={{ marginRight: '5px' }}
+    style={{ marginRight: '5px', color: 'white' }}
   />
 )
 
@@ -444,7 +432,7 @@ const StyledCatIcon = withStyles({
     width: 35,
     height: 35,
     margin: 0,
-    marginTop: '0px',
+    marginTop: 0,
     cursor: 'pointer'
   }
 })(CatIcon)
@@ -493,7 +481,7 @@ class PostStats extends Component {
             disableTouchListener
           >
             <p className={classes.weight}
-              style={{ color: !isShown ? levelColors[quantile] : theme.palette.common.first }}
+              style={{ color: !isShown ? levelColors[quantile] : theme.palette.M100 }}
             >{weight}</p>
           </Tooltip>
         </Grid>
@@ -527,7 +515,7 @@ const postStatStyles = theme => ({
   },
   totalVoters: {
     fontSize: '16px',
-    color: theme.palette.common.third,
+    color: theme.palette.M300,
     opacity: 0.3,
     marginLeft: '7px'
   }
@@ -535,6 +523,7 @@ const postStatStyles = theme => ({
 
 const StyledPostStats = withTheme(withStyles(postStatStyles)(PostStats))
 
+// TODO: Convert to functional component
 class VoteButton extends Component {
   state = {
     voteLoading: false,
@@ -666,9 +655,9 @@ class VoteButton extends Component {
               )
               return
             }
-              dispatch(updateInitialVote(postid, account.name, category, vote))
-              resolve(vote)
-              return
+            dispatch(updateInitialVote(postid, account.name, category, vote))
+            resolve(vote)
+            return
           }
           reject(Error('Vote not found'))
         })
@@ -765,14 +754,13 @@ class VoteButton extends Component {
       stateUpdate = { currTotalVoters: currTotalVoters + 1 }
     } else if (vote && prevRating === newRating) {
       if (vote.onchain === false && !signedInWithEth && !signedInWithTwitter) {
-          await this.deletevvote(vote._id.voteid)
-          dispatch(updateInitialVote(postid, account.name, category, null))
-          stateUpdate = { currTotalVoters: currTotalVoters - 1 }
+        await this.deletevvote(vote._id.voteid)
+        dispatch(updateInitialVote(postid, account.name, category, null))
+        stateUpdate = { currTotalVoters: currTotalVoters - 1 }
       } else {
         if (signedInWithEth) {
           await deletevote(account, { voteid: vote._id.voteid }, ethAuth)
         } else if (signedInWithTwitter) {
-          console.log(vote)
           await deletevote(account, { voteid: vote._id.voteid })
         } else {
           await scatter.scatter.deleteVote({ data: { voteid: vote._id.voteid } })
@@ -936,11 +924,11 @@ class VoteButton extends Component {
       return 0
     }
     const catUpvotes = (post.catVotes[category] && post.catVotes[category].up)
-        ? post.catVotes[category].up
-        : 0
+      ? post.catVotes[category].up
+      : 0
     const catDownvotes = (post.catVotes[category] && post.catVotes[category].down)
-        ? post.catVotes[category].down
-        : 0
+      ? post.catVotes[category].down
+      : 0
     const totalVoters = catUpvotes + catDownvotes
 
     return totalVoters
@@ -1015,59 +1003,59 @@ class VoteButton extends Component {
     const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
     const twitterInfo = cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
 
-    return (
-      <>
-        <div style={{ display: 'flex', direction: 'row' }}>
-          <Grid
-            alignItems='flex-start'
-            container
-            spacing='12'
-            direction='row'
-            justify='space-around'
-            width='200px'
-            wrap='nowrap'
+    return <>
+      <div style={{ display: 'flex', direction: 'row' }}>
+        <Grid
+          alignItems='flex-start'
+          container
+          direction='row'
+          justifyContent='space-around'
+          wrap='nowrap'
+        >
+          <Grid item
+            style={{ zIndex: 100 }}
           >
-            <Grid item>
-              <Tooltip title={CAT_DESC[category] || category}>
-                <Grid
-                  alignItems='center'
-                  item
-                  direction='column'
-                  justify='space-around'
-                >
-                  <Grid item>
-                    <StyledCatIcon
-                      category={category}
-                      handleDefaultVote={this.handleDefaultVote}
-                      voteLoading={voteLoading}
-                      quantile={currPostCatQuantile}
-                    />
-                  </Grid>
-                </Grid>
-              </Tooltip>
-            </Grid>
-            <Grid
-              className={classes.postWeight}
-              item
-              style={{ textAlign: '-webkit-left', minWidth: '50px', minHeight: '56px' }}
-            >
-              <Grid container
+            <Tooltip title={CAT_DESC[category] || category}>
+              <Grid
+                alignItems='center'
+                item
                 direction='column'
-                justify='space-between'
+                justifyContent='space-around'
               >
-                <Grid
-                  container
-                  alignItems='flex-start'
-                  direction='column'
-                  spacing={2}
-                >
+                <Grid item>
+                  <StyledCatIcon
+                    category={category}
+                    handleDefaultVote={this.handleDefaultVote}
+                    voteLoading={voteLoading}
+                    quantile={currPostCatQuantile}
+                  />
+                </Grid>
+              </Grid>
+            </Tooltip>
+          </Grid>
+          <Grid
+            className={classes.postWeight}
+            item
+            style={{ textAlign: '-webkit-left', minWidth: '50px', minHeight: '56px' }}
+          >
+            <Grid container
+              direction='column'
+              justifyContent='space-between'
+            >
+              <Grid
+                container
+                alignItems='flex-start'
+                direction='column'
+                spacing={2}
+              >
+                <Grid item>
                   <Grid item>
-                    <Grid item>
-                      {isShown && (
+                    {isShown && (
                       <Grow in
                         timeout={300}
                       >
                         <StyledRating
+                          emptyIcon={null}
                           name='customized-color'
                           max={5}
                           precision={1}
@@ -1106,61 +1094,59 @@ class VoteButton extends Component {
                           }
                         />
                       </Grow>
-                        )}
-                    </Grid>
-                    <Grid
-                      item
-                      style={{
-                        marginTop: !isShown ? (window.innerWidth > 2000 ? '-8px' : '-14px') : '-20px',
-                        marginLeft: '5px',
-                          fontWeight: 400,
-                          width: '70px',
-                          height: '50px',
-                          marginRight: '12px'
-                        }}
-                    >
-                      <StyledPostStats
-                        style={{ marginLeft: '15px' }}
-                        totalVoters={currTotalVoters}
-                        weight={formattedWeight}
-                        isShown={isShown}
-                        quantile={currPostCatQuantile}
-                      />
-                    </Grid>
+                    )}
+                  </Grid>
+                  <Grid
+                    item
+                    style={{
+                      marginTop: !isShown ? (window.innerWidth > 2000 ? '-8px' : '-14px') : '-20px',
+                      marginLeft: '5px',
+                      fontWeight: 400,
+                      width: '70px',
+                      height: '50px',
+                      marginRight: '12px'
+                    }}
+                  >
+                    <StyledPostStats
+                      style={{ marginLeft: '15px' }}
+                      totalVoters={currTotalVoters}
+                      weight={formattedWeight}
+                      isShown={isShown}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </div>
-        <Portal>
-          <Snackbar
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            autoHideDuration={4000}
-            className={classes.snackUpper}
-            onClose={this.handleSnackbarClose}
-            open={this.state.snackbarOpen}
-          >
-            <SnackbarContent
-              className={classes.snack}
-              message={this.state.snackbarContent}
-            />
-          </Snackbar>
-        </Portal>
-        {twitterInfo ? (
-          <WelcomeDialog
-            dialogOpen={this.state.dialogOpen}
-            handleDialogClose={this.handleDialogClose}
+        </Grid>
+      </div>
+      <Portal>
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          autoHideDuration={4000}
+          className={classes.snackUpper}
+          onClose={this.handleSnackbarClose}
+          open={this.state.snackbarOpen}
+        >
+          <SnackbarContent
+            className={classes.snack}
+            message={this.state.snackbarContent}
           />
-        ) : (
-          <SubscribeDialog
-            account={this.props.account}
-            dialogOpen={this.state.dialogOpen}
-            handleDialogClose={this.handleDialogClose}
-          />
-        )}
-      </>
-    )
+        </Snackbar>
+      </Portal>
+      {/* TODO: Use `useAuthModal` after converting to functional component. */}
+      {twitterInfo ? (
+        <WelcomeDialog
+          dialogOpen={this.state.dialogOpen}
+          handleDialogClose={this.handleDialogClose}
+        />
+      ) : (
+        <AuthModal
+          onClose={this.handleDialogClose}
+          open={this.state.dialogOpen}
+        />
+      )}
+    </>
   }
 }
 

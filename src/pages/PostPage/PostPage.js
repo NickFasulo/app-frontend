@@ -1,61 +1,20 @@
 import React, { Component } from 'react'
 import PostDisplay from '../../components/Post/PostDisplay'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
+import withStyles from '@mui/styles/withStyles'
+import Grid from '@mui/material/Grid'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import path from 'path'
 import axios from 'axios'
-import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import { CreateCollectionFab } from '../../components/Miscellaneous'
+import { PageBody } from '../pageLayouts'
 
 const { BACKEND_API } = process.env
 
-const styles = theme => ({
-  container: {
-    minHeight: '100vh',
-    width: '100vw',
-    display: 'flex',
-    flexDirection: 'column',
-    marginLeft: '0px',
-    paddingBottom: '20px'
-  },
-  mainFeed: {
-    paddingLeft: '0vw',
-    paddingRight: '0',
-    [theme.breakpoints.down('md')]: {
-      paddingRight: '0vw'
-    }
-  },
-  page: {
-    background: 'transparent',
-    width: '100%',
-    objectFit: 'cover',
-    margin: '0px 0px 0px 0px ',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
-      width: '100vw'
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 50
-    },
-    [theme.breakpoints.up('md')]: {
-      marginTop: '50px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      backgroundSize: 'contain',
-      overflowX: 'hidden'
-    },
-    flex: 1
-  },
+const styles = () => ({
   gridContainer: {
-    paddingTop: theme.spacing(6),
-    [theme.breakpoints.down('lg')]: {
-      paddingTop: theme.spacing(10)
-    },
-    [theme.breakpoints.down('xs')]: {
-      paddingTop: theme.spacing(10)
-    }
+    height: '100vh'
   }
 })
 
@@ -68,8 +27,8 @@ class PostPage extends Component {
   componentDidMount () {
     this.loadPostData()
     if (!window.analytics) {
-    window.analytics.page('Post Page')
-  }
+      window.analytics.page('Post Page')
+    }
   }
 
   loadPostData = () => {
@@ -91,20 +50,18 @@ class PostPage extends Component {
 
     return (
       <ErrorBoundary>
-        <div className={classes.container}>
-          <div className={classes.page}>
-            <Grid alignItems='flex-start'
-              className={classes.gridContainer}
-              container
-              justify='center'
-            >
-              <PostDisplay isLoading={isLoading}
-                post={post}
-              />
-            </Grid>
-          </div>
-        </div>
-        <CreateCollectionFab />
+        <PageBody>
+          <Grid container
+            justifyContent='center'
+            alignItems='center'
+            className={classes.gridContainer}
+          >
+            <PostDisplay isLoading={isLoading}
+              post={post}
+            />
+          </Grid>
+          <CreateCollectionFab />
+        </PageBody>
       </ErrorBoundary>
     )
   }

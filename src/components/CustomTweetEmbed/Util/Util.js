@@ -1,8 +1,9 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect } from 'react'
-import { withStyles, useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@mui/material/styles';
+import withStyles from '@mui/styles/withStyles';
 import ReactPlayer from 'react-player'
-import Link from '@material-ui/core/Link'
+import Link from '@mui/material/Link'
 import axios from 'axios'
 import _ from 'lodash'
 
@@ -41,7 +42,7 @@ export const linkMentions = (word) => {
            <a
             style={
               {
-                color: palette.common.first,
+                color: palette.M100,
                 textDecoration: 'none',
                 fontWeight: 500
               }
@@ -59,16 +60,16 @@ export const linkMentions = (word) => {
    }
 
 
- export const fetchLinkPreviewData = async (passedURL) => {
-   try {
-     const res = await axios.get(`${BACKEND_API}/posts/linkpreview`, {
-       params: {
-         url: passedURL
-       }
-     })
-     const {previewData} = res.data
-     return previewData
-   } catch (e) {
-     console.log(e)
-   }
- }
+export const fetchLinkPreviewData = async (passedURL) => {
+  try {
+    const res = await axios.get(`${BACKEND_API}/posts/linkpreview`, {
+      params: {
+        url: passedURL
+      }
+    })
+    const {previewData} = res.data
+    return previewData
+  } catch (e) {
+    console.log(e)
+  }
+}

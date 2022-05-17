@@ -2,31 +2,23 @@ import React, { Component, Fragment } from 'react'
 import { unfollowUser, followUser } from '../../redux/actions'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
+import withStyles from '@mui/styles/withStyles'
 import { parseError } from '../../eos/error'
-import Snackbar from '@material-ui/core/Snackbar'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import Snackbar from '@mui/material/Snackbar'
+import SnackbarContent from '@mui/material/SnackbarContent'
+import CircularProgress from '@mui/material/CircularProgress'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { accountInfoSelector } from '../../redux/selectors'
 import { getAuth } from '../../utils/authentication'
+import { YupButton } from '../Miscellaneous'
 
 const { BACKEND_API } = process.env
 
 const styles = theme => ({
-  button: {
-    width: 14,
-    height: 14,
-    padding: 5,
-    color: 'white'
-  },
   followButton: {
-    color: theme.palette.common.first,
-    backgroundColor: `${theme.palette.alt.third}90`,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '12px'
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12
     }
   },
   snack: {
@@ -132,17 +124,18 @@ class FollowButton extends Component {
               />
             </Snackbar>
             {
-            isLoading
-            ? <CircularProgress size={16}
-              style={{ color: 'white', marginTop: '3px', marginRight: '20px' }}
-              />
-            : <Button
-              className={classes.followButton}
-              onClick={() => { this.handleUnfollow(eosname) }}
-              >
-              Following
-            </Button>
-          }
+              isLoading
+                ? <CircularProgress size={16}
+                  style={{ color: 'white', marginTop: '3px', marginRight: '20px' }}
+                />
+                : <YupButton
+                  size='small'
+                  color='secondary'
+                  variant='outlined'
+                  className={classes.followButton}
+                  onClick={() => { this.handleUnfollow(eosname) }}
+                >Following</YupButton>
+            }
           </Fragment>
         </ErrorBoundary>
       )
@@ -163,20 +156,20 @@ class FollowButton extends Component {
               />
             </Snackbar>
             {
-            isLoading
-            ? <CircularProgress size={16}
-              style={{ color: 'white', marginTop: '3px', marginRight: '20px' }}
-              />
-            : <Button
-              className={classes.followButton}
-              onClick={() => { this.handleFollow(eosname) }}
-              >
-              Follow
-            </Button>
-          }
+              isLoading
+                ? <CircularProgress size={16}
+                  style={{ color: 'white', marginTop: '3px', marginRight: '20px' }}
+                />
+                : <YupButton
+                  size='small'
+                  color='secondary'
+                  variant='outlined'
+                  className={classes.followButton}
+                  onClick={() => { this.handleFollow(eosname) }}
+                >Follow</YupButton>
+            }
           </Fragment>
         </ErrorBoundary>
-
       )
     }
   }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { Select, MenuItem, InputLabel, FormControl } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles'
+import { Select, MenuItem, InputLabel, FormControl } from '@mui/material'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
@@ -10,9 +10,9 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const styles = (theme) => ({
   formControl: {
-    minWidth: 100,
-    [theme.breakpoints.down('xs')]: {
-      minWidth: 20
+    width: 155,
+    [theme.breakpoints.down('sm')]: {
+      width: 115
     }
   }
 })
@@ -28,7 +28,7 @@ class SiteMenu extends Component {
     const { site, subject, category } = newSettings
     const levelsUrl = `/leaderboard?site=${site.name}&subject=${subject.name}&category=${category.name}`
     history.push(levelsUrl)
-}
+  }
 
   render () {
     const { classes, settings, listOptions, lightMode } = this.props
@@ -38,7 +38,7 @@ class SiteMenu extends Component {
     return (
       <ErrorBoundary>
         <FormControl className={classes.formControl}
-          variant='outlined'
+          size='small'
         >
           <InputLabel
             style={{ fontSize: '12px' }}
@@ -46,24 +46,17 @@ class SiteMenu extends Component {
           <Select
             type={lightMode ? 'dark' : 'light'}
             label='Where?'
-            labelWidth='52'
             value={currSite.name}
             onChange={this.handleChange}
-            MenuProps={{
-           getContentAnchorEl: null,
-           anchorOrigin: {
-             vertical: 'bottom'
-           }
-         }}
           >{
-          filteredOpts.map((opt) => (
-            <MenuItem
-              value={opt.location.name}
-            >
-              {opt.location.displayName}
-            </MenuItem>
-          ))
-        }
+              filteredOpts.map((opt) => (
+                <MenuItem
+                  value={opt.location.name}
+                >
+                  {opt.location.displayName}
+                </MenuItem>
+              ))
+            }
           </Select>
         </FormControl>
       </ErrorBoundary>

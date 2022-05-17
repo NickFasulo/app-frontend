@@ -1,45 +1,38 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Snackbar, SnackbarContent } from '@material-ui/core'
-import { Skeleton } from '@material-ui/lab'
+import withStyles from '@mui/styles/withStyles'
+import { Grid, Typography, Card, Snackbar, SnackbarContent, Skeleton } from '@mui/material'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import Colors from '../../utils/colors'
-import YupInput from '../../components/Miscellaneous/YupInput'
-import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
-import axios from 'axios'
+import { Brand, Other } from '../../utils/colors'
+import { YupInput, YupButton } from '../../components/Miscellaneous'
+import { PageBody } from '../pageLayouts'
 import CountUp from 'react-countup'
+import axios from 'axios'
+import AuthModal from '../../features/AuthModal'
 
 const { BACKEND_API, REWARDS_MANAGER_API } = process.env
 const CLAIM_IMG = 'https://app-meta-images.s3.amazonaws.com/claim-creator-rewards-thumbnail.jpeg'
 
 const styles = theme => ({
   container: {
-    minHeight: '100vh',
-    maxWidth: '100vw',
     display: 'flex',
     flexDirection: 'column',
+    minHeight: '100vh',
+    maxWidth: '100vw',
     overflowY: 'hidden',
-    backgroundColor: theme.palette.alt.second
+    backgroundColor: theme.palette.M800
   },
   btn: {
-    backgroundColor: '#00E08E',
-    fontFamily: 'Gilroy',
     width: 380,
     height: '45px',
-    borderRadius: '0.65rem',
-    marginTop: 15,
-    color: '#fff',
-    '&:hover': {
-      backgroundColor: '#00E08E'
-    }
+    marginTop: 15
   },
   page: {
+    flex: 1,
     width: '100%',
     marginLeft: 0,
-    overflowX: 'hidden',
-    flex: 1
+    overflowX: 'hidden'
   },
   card: {
     padding: theme.spacing(2),
@@ -47,15 +40,15 @@ const styles = theme => ({
     width: 380,
     marginBottom: 0,
     boxShadow:
-      `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
-    backgroundColor: theme.palette.alt.second,
-    [theme.breakpoints.down('xs')]: {
+      `0px 0px 30px 0px ${theme.M900}44, 0px 0px 0.75px  ${theme.M900}66`,
+    backgroundColor: theme.palette.M800,
+    [theme.breakpoints.down('md')]: {
       marginBottom: '20vh',
       width: '90%'
     }
   },
   Skeleton: {
-    background: `linear-gradient(90deg, ${Colors.Green}33, ${Colors.Moss}33, ${Colors.Yellow}33, ${Colors.Orange}33,  ${Colors.Red}33)`
+    background: `linear-gradient(90deg, ${Brand.mint}33, ${Other.moss}33, ${Brand.yellow}33, ${Brand.orange}33,  ${Brand.red}33)`
   }
 })
 
@@ -109,7 +102,7 @@ class RewardsPage extends Component {
     const { classes } = this.props
     const { isLoading, rewards, price, dialogOpen, snackbarMsg, ethAddress } = this.state
     const metaDescription = ethAddress ? `${ethAddress.slice(0, 5)}...${ethAddress.slice(-6, -1)} has earned ${Math.round(rewards)} $YUP in creator rewards`
-    : `Check your ETH address and claim your rewards`
+      : `Check your ETH address and claim your rewards`
     const metaTitle = 'yup NFT Creator Rewards'
     return (
       <ErrorBoundary>
@@ -152,113 +145,115 @@ class RewardsPage extends Component {
             content={CLAIM_IMG}
           />
         </Helmet>
-        <div className={classes.container}>
-          <Snackbar
-            autoHideDuration={3000}
-            onClose={this.handleSnackbarClose}
-            open={!!snackbarMsg}
-          >
-            <SnackbarContent
-              message={snackbarMsg}
-            />
-          </Snackbar>
-          <Grid className={classes.page}
-            container
-            direction='column'
-            justify='center'
-            alignItems='center'
-          >
-            <Card className={classes.card}
-              elevation={0}
-              style={{ background: 'transparent', boxShadow: 'none', padding: '16px 4px' }}
+        <PageBody>
+          <div className={classes.container}>
+            <Snackbar
+              autoHideDuration={3000}
+              onClose={this.handleSnackbarClose}
+              open={!!snackbarMsg}
             >
-              <Grid container
-                justify='space-between'
-                alignItems='center'
-                direction='row'
-                spacing={3}
-              >
-                <Grid item>
-                  <Typography
-                    variant='h4'
-                  >
-                    Check Rewards Eligibility
-                  </Typography>
-                </Grid>
-                <Grid item
-                  xs={12}
-                >
-                  <form onSubmit={this.onSubmit}>
-                    <YupInput
-                      fullWidth
-                      id='address'
-                      maxLength={50}
-                      label={'ETH address'}
-                      type='text'
-                      value={this.state.ethAddress}
-                      variant='outlined'
-                      onChange={this.handleInput}
-                    /></form>
-                </Grid>
-              </Grid>
-            </Card>
-            <Card className={classes.card}
-              style={{ display: rewards !== null || isLoading ? 'inherit' : 'none' }}
-              elevation={0}
+              <SnackbarContent
+                message={snackbarMsg}
+              />
+            </Snackbar>
+            <Grid className={classes.page}
+              container
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
             >
-              <Grid container
-                direction='row'
+              <Card className={classes.card}
+                elevation={0}
+                style={{ background: 'transparent', boxShadow: 'none', padding: '16px 4px' }}
               >
-                <Grid
-                  item
-                  container
-                  justifyContent='center'
+                <Grid container
+                  justifyContent='space-between'
                   alignItems='center'
                   direction='row'
+                  spacing={3}
                 >
-                  <Typography variant='h2'
-                    style={{ color: '#00E08E' }}
+                  <Grid item>
+                    <Typography
+                      variant='h4'
+                    >
+                      Check Rewards Eligibility
+                    </Typography>
+                  </Grid>
+                  <Grid item
+                    xs={12}
                   >
-                    { isLoading
-                    ? <Skeleton
-                      animation='pulse'
-                      className={classes.Skeleton}
-                      style={{ transform: 'none' }}
-                      >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton>
-                      : <CountUp
-                        end={rewards}
-                        decimals={2}
-                        start={0}
-                        duration={1}
-                        suffix=' YUP'
-                        /> }
-                  </Typography>
-                  <Typography variant='h4'
-                    style={{ opacity: 0.5, marginLeft: 20 }}
-                  >
-                    ~{(price * rewards).toFixed(2)} USD
-                  </Typography>
+                    <form onSubmit={this.onSubmit}>
+                      <YupInput
+                        fullWidth
+                        id='address'
+                        maxLength={50}
+                        label={'ETH address'}
+                        type='text'
+                        value={this.state.ethAddress}
+                        variant='outlined'
+                        onChange={this.handleInput}
+                      /></form>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Card>
-            {rewards !== null && (
-              <>
-                <Button
-                  fullWidth
-                  className={classes.btn}
-                  onClick={this.openWalletConnectDialog}
-                  variant='contained'
+              </Card>
+              <Card className={classes.card}
+                style={{ display: rewards !== null || isLoading ? 'inherit' : 'none' }}
+                elevation={0}
+              >
+                <Grid container
+                  direction='row'
                 >
-                  Claim
-                </Button>
-                <SubscribeDialog
-                  dialogOpen={dialogOpen}
-                  handleDialogClose={this.handleDialogClose}
-                />
-              </>
-            )}
-          </Grid>
-        </div>
+                  <Grid
+                    item
+                    container
+                    justifyContent='center'
+                    alignItems='center'
+                    direction='row'
+                  >
+                    <Typography variant='h2'
+                      style={{ color: '#00E08E' }}
+                    >
+                      { isLoading
+                        ? <Skeleton
+                          animation='pulse'
+                          className={classes.Skeleton}
+                          style={{ transform: 'none' }}
+                        >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton>
+                        : <CountUp
+                          end={rewards}
+                          decimals={2}
+                          start={0}
+                          duration={1}
+                          suffix=' YUP'
+                        /> }
+                    </Typography>
+                    <Typography variant='h4'
+                      style={{ opacity: 0.5, marginLeft: 20 }}
+                    >
+                      ~{(price * rewards).toFixed(2)} USD
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Card>
+              {rewards !== null && (
+                <>
+                  <YupButton
+                    fullWidth
+                    className={classes.btn}
+                    variant='contained'
+                    color='primary'
+                    onClick={this.openWalletConnectDialog}
+                  >Claim</YupButton>
+                  {/* TODO: Use `useAuthModal` after converting to functional component. */}
+                  <AuthModal
+                    onClose={this.handleDialogClose}
+                    open={dialogOpen}
+                  />
+                </>
+              )}
+            </Grid>
+          </div>
+        </PageBody>
       </ErrorBoundary>
     )
   }

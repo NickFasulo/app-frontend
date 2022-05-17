@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import PropTypes from 'prop-types'
 import LinesEllipsis from 'react-lines-ellipsis'
 import CourseLoader from '../FeedLoader/CourseLoader'
-import Grid from '@material-ui/core/Grid'
-import Link from '@material-ui/core/Link'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
 import axios from 'axios'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
@@ -19,9 +19,9 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '22px',
     fontWeight: 600,
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
+    textShadow: `0px 0px 5px ${theme.palette.M900}aa`,
     width: '500px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '70vw',
       fontSize: '18px'
     }
@@ -38,10 +38,10 @@ const styles = theme => ({
   description: {
     position: 'relative',
     fontSize: '18px',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
+    textShadow: `0px 0px 5px ${theme.palette.M900}88`,
     fontWeight: 100,
     wordWrap: 'break-all',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '16px'
     }
   },
@@ -50,7 +50,7 @@ const styles = theme => ({
     bottom: 0,
     marginTop: 0,
     fontWeight: 50,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '14px'
     }
   },
@@ -58,27 +58,27 @@ const styles = theme => ({
     width: 20,
     height: 20,
     backgroundColor: 'primary',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       height: 25,
       width: 25,
-      margin: '0'
+      margin: 0
     },
     filter: 'brightness(0) invert(1)'
   },
   crownIcon: {
     width: '20px',
     height: '20px',
-    marginLeft: '0px',
+    marginLeft: 0,
     backgroundColor: 'primary',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       height: 25,
       width: 25,
-      margin: '0'
+      margin: 0
     }
   },
   previewData: {
     position: 'absolute',
-    top: '0',
+    top: 0,
     textAlign: 'left',
     zIndex: 5,
     padding: '0% 3%',

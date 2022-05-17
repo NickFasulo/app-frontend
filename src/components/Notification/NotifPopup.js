@@ -1,9 +1,9 @@
 import React, { Component, Suspense } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Paper, Grow, IconButton, Badge, Icon } from '@material-ui/core'
-import MenuItem from '@material-ui/core/MenuItem'
-import MenuList from '@material-ui/core/MenuList'
+import withStyles from '@mui/styles/withStyles'
+import { Paper, Grow, IconButton, Badge, Icon } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
+import MenuList from '@mui/material/MenuList'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import Downshift from 'downshift'
 import axios from 'axios'
@@ -17,7 +17,7 @@ const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   root: {
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       maxWidth: 'auto',
       maxHeight: 'auto'
     }
@@ -38,15 +38,15 @@ const styles = theme => ({
   },
   notifPaper: {
     overflow: 'hidden',
-    backgroundColor: `${theme.palette.alt.third}cc`,
+    backgroundColor: `${theme.palette.M700}cc`,
     backdropFilter: 'blur(20px)'
   },
   menuList: {
-    padding: '0',
-    margin: '0'
+    padding: 0,
+    margin: 0
   },
   menuItem: {
-    padding: '0'
+    padding: 0
   }
 })
 
@@ -145,65 +145,65 @@ class NotifPopup extends Component {
             onOuterClick={() => this.setState({ open: false })}
           >
             {({
-            getButtonProps,
-            getMenuProps,
-            isOpen
-          }) => (
-            <div>
-              <div >
-                {notifications[0] && !notifications[0].seen
-                  ? <Badge variant='dot'>
-                    <IconButton
-                      variant='fab'
-                      aria-controls='menu-list-grow'
-                      aria-haspopup='true'
-                      className={classes.notifButton}
-                      onClick={this.handleToggle}
-                    >
-                      <Badge
-                        color='error'
-                        variant='dot'
-                        overlap='circle'
-                        badgeContent=' '
-                      >
-                        <Icon fontSize='small'
-                          className='fal fa-bell'
-                        />
-                      </Badge>
-                    </IconButton>
-                  </Badge>
+              getButtonProps,
+              getMenuProps,
+              isOpen
+            }) => (
+              <div>
+                <div >
+                  {notifications[0] && !notifications[0].seen
+                    ? <Badge variant='dot'>
+                      <IconButton
+                        variant='fab'
+                        aria-controls='menu-list-grow'
+                        aria-haspopup='true'
+                        className={classes.notifButton}
+                        onClick={this.handleToggle}
+                        size='large'>
+                        <Badge
+                          color='error'
+                          variant='dot'
+                          overlap='circular'
+                          badgeContent=' '
+                        >
+                          <Icon fontSize='small'
+                            className='fal fa-bell'
+                          />
+                        </Badge>
+                      </IconButton>
+                    </Badge>
                     : <IconButton
                       variant='fab'
                       aria-controls='menu-list-grow'
                       aria-haspopup='true'
                       className={classes.notifButton}
                       onClick={this.handleToggle}
-                      >
+                      size='large'>
                       <Icon fontSize='small'
                         className='fal fa-bell'
                       />
                     </IconButton>
-                    }
-              </div>
-              <div className={classes.wrapper}
-                style={open ? {
-                } : null}
-                {...getMenuProps()}
-              >
-                {isOpen
-                  ? <Grow in
-                    timeout={500}
+                  }
+                </div>
+                <div className={classes.wrapper}
+                  style={open ? {
+                  } : null}
+                  {...getMenuProps()}
+                >
+                  {isOpen
+                    ? <Grow in
+                      timeout={500}
                     >
-                    <Paper className={classes.notifPaper}
-                      id='menu-list-grow'
-                    >
-                      {this.notifItems()}
-                    </Paper>
-                  </Grow>
-                  : null}
+                      <Paper className={classes.notifPaper}
+                        id='menu-list-grow'
+                      >
+                        {this.notifItems()}
+                      </Paper>
+                    </Grow>
+                    : null}
+                </div>
               </div>
-            </div>
-          )}
+            )}
           </Downshift>
         </div>
       </ErrorBoundary>

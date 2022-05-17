@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { Component, memo } from 'react'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
+import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Grid'
 import { levelColors } from '../../utils/colors'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import { parseError } from '../../eos/error'
 import scatter from '../../eos/scatter/scatter.wallet'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -69,10 +69,10 @@ class Comment extends Component {
     if (!level) {
       dispatch(fetchSocialLevel(comment.author))
       return <div />
-   }
-   if (levels[comment.author].isLoading) {
-    return <div />
-  }
+    }
+    if (levels[comment.author].isLoading) {
+      return <div />
+    }
     if (level) {
       const { quantile } = level.levelInfo
       authorLevelColor = levelColors[quantile]
@@ -128,11 +128,11 @@ class Comment extends Component {
                 className={classes.comment}
                 href={`/${username || eosname}`}
                 style={{
-                textDecoration: 'underline',
-                marginRight: '4px',
-                textDecorationColor: authorLevelColor,
-                textDecorationStyle: 'solid'
-              }}
+                  textDecoration: 'underline',
+                  marginRight: '4px',
+                  textDecorationColor: authorLevelColor,
+                  textDecorationStyle: 'solid'
+                }}
               >
                 {username || eosname}
               </a>
@@ -141,7 +141,7 @@ class Comment extends Component {
           </Grid>
           <Grid item
             container
-            justify='flex-end'
+            justifyContent='flex-end'
           >
             <MenuController />
           </Grid >

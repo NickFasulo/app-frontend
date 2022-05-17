@@ -1,31 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import VoteComp from '../VoteComp/VoteComp'
-import Typography from '@material-ui/core/Typography'
 import { levelColors } from '../../utils/colors'
-import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import CollectionPostMenu from '../Collections/CollectionPostMenu'
+import { CollectionPostMenu } from '../Collections'
+import { Typography, Grid } from '@mui/material'
+
+import withStyles from '@mui/styles/withStyles'
 
 const voteCompPadding = window.innerWidth >= 440 ? '0 0 3vh 3vh' : '0 0 3vh 1vh'
+
 const styles = theme => ({
   voteComp: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0.5vh 0vw 0px 0vw',
+    padding: '0.5vh 0vw 0 0vw',
     height: '60px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       padding: voteCompPadding
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       padding: '2vh 1vw 2vh 1vw'
     }
   },
   listVoteComp: {
     height: '100px',
     background: 'transparent'
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: '4px'
+  },
+  collectButton: {
+    marginRight: '10px'
   }
 })
 
@@ -43,14 +54,19 @@ function PostGrid ({ account,
   isList,
   caption
 }) {
-    const rankQuantile = quantiles[rankCategory]
-    const rankQuantileColor = rank ? levelColors[rankQuantile] : null
-    const listStyle = isList ? `${classes.listVoteComp}` : ''
+  const rankQuantile = quantiles[rankCategory]
+  const rankQuantileColor = rank ? levelColors[rankQuantile] : null
+  const listStyle = isList ? `${classes.listVoteComp}` : ''
 
-    return (
-      <ErrorBoundary>
-        <div className={`${classes.voteComp} ${listStyle}`}
+  return (
+    <ErrorBoundary>
+      <Grid container
+        className={classes.container}
+      >
+        <Grid item
+          xs={9}
           tourname='Rating'
+          className={`${classes.voteComp} ${listStyle}`}
         >
           <VoteComp
             caption={caption}
@@ -63,12 +79,18 @@ function PostGrid ({ account,
             listType={listType}
             postType={postType}
           />
+        </Grid>
+        <Grid item
+          xs={2.5}
+        >
           <CollectionPostMenu
             accountName={account && account.name}
             postid={postid}
           />
-          {
-          rank
+        </Grid>
+      </Grid>
+      {
+        rank
           ? <Typography style={{
             background: '#1A1A1A40',
             borderRadius: '100%',
@@ -78,12 +100,11 @@ function PostGrid ({ account,
             color: rankQuantileColor,
             fontWeight: '400',
             fontSize: '14px' }}
-            > {`#${rank}`} </Typography>
+          > {`#${rank}`} </Typography>
           : null
-        }
-        </div>
-      </ErrorBoundary>
-    )
+      }
+    </ErrorBoundary>
+  )
 }
 
 PostGrid.propTypes = {

@@ -1,27 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { IconButton, MenuItem, Menu, Snackbar, SnackbarContent } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+import { MenuItem, Menu, Snackbar, SnackbarContent, Icon, Typography } from '@mui/material'
 import axios from 'axios'
 import CollectionDialog from './CollectionDialog.js'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import { connect } from 'react-redux'
 import { addPostToCollection, removePostFromCollection } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
 import { getAuth } from '../../utils/authentication'
+import { YupButton } from '../Miscellaneous'
 
 const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
-  button: {
-    color: '#c4c4c4',
-    marginBottom: '25px'
-  },
   snack: {
     justifyContent: 'center'
   },
   menuItem: {
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '10px'
     }
   }
@@ -91,15 +87,21 @@ class CollectionPostMenu extends Component {
             message={snackbarMsg}
           />
         </Snackbar>
-        <IconButton
+        <YupButton size='small'
+          variant='outlined'
+          color='secondary'
           aria-label='more'
           aria-controls='long-menu'
           aria-haspopup='true'
           onClick={this.handleMenuClick}
-          className={classes.button}
+          startIcon={<Icon className='far fa-rectangle-history' />}
         >
-          <MenuIcon />
-        </IconButton>
+          <Typography
+            variant='body2'
+          >
+            Collect
+          </Typography>
+        </YupButton>
         <Menu
           id='long-menu'
           anchorEl={anchorEl}
@@ -130,15 +132,15 @@ class CollectionPostMenu extends Component {
           {collections && accountName && collections.length > 0 && (
             collections.map((collection) => {
               if (!collection.postIds.includes(postid) && collectionsPageId !== collection._id) {
-              return (
-                <MenuItem dense
-                  key={collection._id}
-                  className={classes.menuItem}
-                  onClick={() => this.addToCollection(collection)}
-                >
-                  Add to {collection.name}
-                </MenuItem>
-            )
+                return (
+                  <MenuItem dense
+                    key={collection._id}
+                    className={classes.menuItem}
+                    onClick={() => this.addToCollection(collection)}
+                  >
+                    Add to {collection.name}
+                  </MenuItem>
+                )
               } else {
                 return (
                   <MenuItem dense
@@ -150,7 +152,7 @@ class CollectionPostMenu extends Component {
                   </MenuItem>
                 )
               }
-          })
+            })
           )}
         </Menu>
         <CollectionDialog
@@ -160,8 +162,8 @@ class CollectionPostMenu extends Component {
           handleDialogClose={this.handleDialogClose}
         />
       </>
-  )
-      }
+    )
+  }
 }
 
 CollectionPostMenu.propTypes = {
@@ -186,7 +188,7 @@ const mapActionToProps = (dispatch) => {
   return {
     addPostRedux: (eosname, collection, postid) => dispatch(addPostToCollection(eosname, collection, postid)),
     removePostRedux: (eosname, collection, postid) => dispatch(removePostFromCollection(eosname, collection, postid))
-    }
+  }
 }
 
 export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionPostMenu))

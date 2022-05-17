@@ -1,31 +1,40 @@
 import React, { useState } from 'react'
-import { Snackbar, IconButton } from '@material-ui/core'
-import CloseIcon from '@material-ui/icons/Close'
-import { withStyles } from '@material-ui/core/styles'
+import { IconButton } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import withStyles from '@mui/styles/withStyles'
 import PropTypes from 'prop-types'
+import YupSnackbar from '../Miscellaneous/YupSnackbar'
+
+const { WEB_APP_URL } = process.env
 
 const styles = theme => ({
   root: {
     width: '100vw',
     textAlign: 'center',
     marginTop: -22,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 10
+    },
+    justifyContent: 'center',
     maxHeight: 50
   },
   message: {
-    width: '95vw',
+    width: '100vw',
     position: 'absolute'
   },
   link: {
-    color: theme.palette.alt.first,
+    color: theme.palette.M900,
     textDecoration: 'none'
   }
 })
+
 const SiteBanner = ({ classes }) => {
   const [open, setOpen] = useState(true)
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') { return }
     setOpen(false)
+    localStorage.setItem('bannerClosed', true)
   }
 
   const action = (
@@ -42,16 +51,16 @@ const SiteBanner = ({ classes }) => {
 
   const message = (
     <a
-      href='https://yup.mirror.xyz/rzRK52lDvnsO3Hxp8Tctdt2gjcVVmb4Jp6mxGVSi1KQ'
+      href={`${WEB_APP_URL}/migration`}
       target='_blank'
       className={classes.link}
     >
-      We just raised our $3.5M seed round! 🥳 Learn more here.
+      Yup is migrating to Polygon! Claim your YUP tokens on Polygon now 🥳
     </a>
   )
 
   return (
-    <Snackbar
+    <YupSnackbar
       open={open}
       width={800}
       autoHideDuration={1000000000}
@@ -70,7 +79,7 @@ const SiteBanner = ({ classes }) => {
 }
 
 SiteBanner.propTypes = {
-   classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(SiteBanner)

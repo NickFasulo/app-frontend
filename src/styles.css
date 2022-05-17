@@ -3,7 +3,7 @@ html {
 }
 *::-webkit-scrollbar {
   display: none
-} 
+}
 @media (max-width: 960px) {
   html {
     font-size: 90%;

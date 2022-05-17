@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import SearchIcon from '@material-ui/icons/Search'
+import withStyles from '@mui/styles/withStyles'
+import { TextField, InputAdornment } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PropTypes from 'prop-types'
-import CloseIcon from '@material-ui/icons/Close'
+import CloseIcon from '@mui/icons-material/Close'
 import { fetchUserSearchResults, fetchPostSearchResults, fetchCollectionSearchResults } from '../../redux/actions'
 
 const styles = theme => ({
@@ -19,48 +19,34 @@ const styles = theme => ({
     borderRadius: '0.65rem',
     border: '0px solid #fff',
     '&:hover': {
-      backgroundColor: theme.palette.alt.third
+      backgroundColor: theme.palette.M700
     },
     '&:focus': {
-      backgroundColor: theme.palette.alt.third
+      backgroundColor: theme.palette.M700
     },
-    marginLeft: '1rem',
     justify: 'center',
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}02, -2px -2px 20px ${theme.palette.alt.first}04, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}a, 5px 5px 9px 0px ${theme.palette.common.first}04, -20px -20px 12px ${theme.palette.alt.first}02, inset 1px 1px 6px 0px ${theme.palette.common.first}02, inset -1px -1px 2px 0px ${theme.palette.alt.second}d`,
+    boxShadow: `20px 20px 20px 0px ${theme.palette.M100}02, -2px -2px 20px ${theme.palette.M900}04, inset 12px 3px 20px 0px ${theme.palette.M100}04, inset -3px -7px 17px 0px ${theme.palette.M800}a, 5px 5px 9px 0px ${theme.palette.M100}04, -20px -20px 12px ${theme.palette.M900}02, inset 1px 1px 6px 0px ${theme.palette.M100}02, inset -1px -1px 2px 0px ${theme.palette.M800}d`,
     color: '#fff',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '0px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '-5vw'
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: 0
     }
   },
   searchIcon: {
-    color: theme.palette.common.third,
-    maxWidth: '5vw',
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    margin: '1px 0px 0px 3%',
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '5%'
-    }
+    color: theme.palette.M300,
+    pointerEvents: 'none'
   },
   menuItem: {
     fontWeight: 400,
     color: 'inherit',
     margin: '0%',
-    backgroundColor: theme.palette.common.third,
+    backgroundColor: theme.palette.M300,
     width: 'flex',
     '&:hover': {
-      background: theme.palette.common.fourth
+      background: theme.palette.M400
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       padding: '5px 10px'
     }
   },
@@ -71,48 +57,40 @@ const styles = theme => ({
   paper: {
     position: 'absolute',
     zIndex: 1,
-    marginTop: theme.spacing(),
     left: 0,
     right: 0
   },
   inputRoot: {
     color: 'inherit',
     width: '100%',
-    marginLeft: '0px',
-    [theme.breakpoints.down('sm')]: {
+    borderRadius: '0.65rem',
+    marginLeft: 0,
+    [theme.breakpoints.down('md')]: {
       fontSize: '12px'
     },
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    '& fieldset': {
+      border: 'none'
+    }
   },
   inputInput: {
     color: 'inherit',
-    paddingTop: theme.spacing(),
-    paddingRight: theme.spacing(),
-    paddingBottom: theme.spacing(),
     width: '15vw',
     paddingLeft: '45px',
     transition: theme.transitions.create('width'),
     maxWidth: '1000vw',
     flexGrow: 1,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '25vw',
       paddingLeft: '35px'
     }
   },
   closeIcon: {
-    float: 'right',
-    color: theme.palette.common.third,
+    color: theme.palette.M300,
     opacity: '0.7',
-    width: '25px',
-    height: 'auto',
-    margin: '5px 10px 0px 0px',
-    zIndex: '99999',
     cursor: 'pointer',
-    [theme.breakpoints.down('xs')]: {
-      width: '20px'
-    },
     '&:hover': {
-      color: theme.palette.common.second
+      color: theme.palette.M200
     }
   }
 })
@@ -139,12 +117,11 @@ class SearchBar extends Component {
   }
 
   handleSearchClose = (e) => {
-    const { searchPosts, searchUsers, history } = this.props
+    const { searchPosts, searchUsers } = this.props
     this.setState({ searchText: '' })
 
     searchPosts('', 0)
     searchUsers('', 0)
-    history.goBack()
   }
 
   handleSearch = async () => {
@@ -169,12 +146,6 @@ class SearchBar extends Component {
       <ErrorBoundary>
         <div className={classes.root}>
           <div className={classes.container}>
-            <SearchIcon className={classes.searchIcon} />
-            {searchText && searchText.length > 0 &&
-              <CloseIcon onClick={this.handleSearchClose}
-                className={classes.closeIcon}
-              />
-            }
             <TextField
               onChange={this.handleTextFieldChange}
               onKeyPress={this.handleReturnKeyPress}
@@ -183,6 +154,20 @@ class SearchBar extends Component {
                   root: classes.inputRoot,
                   input: classes.inputInput
                 },
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <SearchIcon className={classes.searchIcon} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {searchText && searchText.length > 0 &&
+                      <CloseIcon onClick={this.handleSearchClose}
+                        className={classes.closeIcon}
+                      />
+                    }
+                  </InputAdornment>
+                ),
                 disableUnderline: true
               }}
               value={searchText}

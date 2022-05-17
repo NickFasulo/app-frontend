@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ListPostGrid from '../YupLeaderboard/ListPostGrid'
-import { withStyles } from '@material-ui/core/styles'
-import Fade from '@material-ui/core/Fade'
+import withStyles from '@mui/styles/withStyles'
+import Fade from '@mui/material/Fade'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import Grid from '@material-ui/core/Grid'
+import Grid from '@mui/material/Grid'
 import isEqual from 'lodash/isEqual'
 import { connect } from 'react-redux'
 import { accountInfoSelector } from '../../redux/selectors'
@@ -12,21 +12,19 @@ import { accountInfoSelector } from '../../redux/selectors'
 const styles = theme => ({
   container: {
     width: '100%',
-    borderRadius: '0',
-    border: '0px solid #ffffff',
     backgroundSize: 'cover',
     fontFamily: '"Gilroy", sans-serif',
     background: 'transparent',
     boxShadow: '0px 1px 0px #AAAAAA09',
     padding: '5px 0px',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       marginLeft: '0%',
       marginRight: '0%'
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       padding: '0.5% 0%'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       maxWidth: '100vw',
       padding: '2% 0%'
     }
@@ -37,13 +35,13 @@ const styles = theme => ({
     }
   },
   listPreview: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       maxWidth: '80%',
       flexBasis: '80%'
     }
   },
   voteComp: {
-    [theme.breakpoints.down('1500')]: {
+    [theme.breakpoints.down('sm')]: {
       display: 'none'
     }
   }
@@ -69,17 +67,17 @@ class ListHOC extends PureComponent {
             <Grid
               container
               direction='row'
-              justify='flex-start'
+              justifyContent='flex-start'
               alignItems='center'
             >
               <Grid item
-                sm={8}
+                sm={7}
                 className={classes.listPreview}
               >
                 <Component {...this.props} />
               </Grid>
               <Grid item
-                sm={4}
+                sm={5}
                 className={classes.voteComp}
               >
                 <ListPostGrid

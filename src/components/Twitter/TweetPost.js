@@ -4,12 +4,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Comments from '../Comments/Comments'
 import PostGrid from '../PostGrid/PostGrid'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import { connect } from 'react-redux'
 import InteractionData from '../InteractionData/InteractionData'
-import Divider from '@material-ui/core/Divider'
+import Divider from '@mui/material/Divider'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
-import Fade from '@material-ui/core/Fade'
+import Fade from '@mui/material/Fade'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import CustomTweetEmbed  from './CustomTweetEmbed'
 
@@ -18,7 +18,7 @@ const styles = theme => ({
   article: {
     borderRadius: '0.5rem',
     border: '4px solid #eaeaea',
-    boxShadow: `20px 20px 30px 0px ${theme.palette.common.first}04, -2px -2px 30px  ${theme.palette.alt.first}06, inset 12px 3px 30px 0px ${theme.palette.common.first}04, inset -3px -7px 27px 0px ${theme.palette.alt.second}4a, 5px 5px 19px 0px ${theme.palette.common.first}24, -20px -20px 22px ${theme.palette.alt.first}06, inset 1px 1px 16px 0px ${theme.palette.common.first}05, inset -1px -1px 12px 0px ${theme.palette.alt.second}0f`,
+    boxShadow: `20px 20px 30px 0px ${theme.palette.M100}04, -2px -2px 30px  ${theme.palette.M900}06, inset 12px 3px 30px 0px ${theme.palette.M100}04, inset -3px -7px 27px 0px ${theme.palette.M800}4a, 5px 5px 19px 0px ${theme.palette.M100}24, -20px -20px 22px ${theme.palette.M900}06, inset 1px 1px 16px 0px ${theme.palette.M100}05, inset -1px -1px 12px 0px ${theme.palette.M800}0f`,
     backgroundSize: 'cover',
     textAlign: 'center',
     maxWidth: '600px',
@@ -27,8 +27,8 @@ const styles = theme => ({
     fontFamily: '"Gilroy", sans-serif',
     marginBottom: '1rem',
     marginTop: '',
-    minWidth: '0px',
-    [theme.breakpoints.down('md')]: {
+    minWidth: 0,
+    [theme.breakpoints.down('lg')]: {
       marginLeft: '0%',
       marginRight: '0%'
     },
@@ -70,7 +70,7 @@ const styles = theme => ({
     background: 'linear-gradient(0deg, #A0A0A0 20%, #1A1A1A 50%)',
     maxHeight: '18rem',
     width: '100%',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '24px'
     },
     [theme.breakpoints.up('1700')]: {
@@ -86,7 +86,7 @@ const styles = theme => ({
       fontFamily: '"Gilroy", sans-serif',
       fontSize: '28px',
       lineHeight: 'normal',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         lineHeight: 'normal'
       },
       [theme.breakpoints.up('1700')]: {

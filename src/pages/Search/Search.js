@@ -2,81 +2,80 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
-import { withStyles } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button, Tabs, Tab } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles'
+import { Fab, Typography, Grid, Tabs, Tab } from '@mui/material'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import { Link } from 'react-router-dom'
 import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
-import Fade from '@material-ui/core/Fade'
+import StyledTourResources from '../../components/Tour/StyledTourResources'
+import Fade from '@mui/material/Fade'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
-import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
+import { RecommendedCollections } from '../../components/Collections'
+import { YupButton, ResponsiveEllipsis } from '../../components/Miscellaneous'
+import { PageBody } from '../pageLayouts'
 
 const DISPLAYED_USERS = 2
 const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
   container: {
-    margin: '75px 0px 0px 20px',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '75px 0 0 20px',
     minHeight: 'calc(100vh - 75px)',
     width: '100vw',
     overflowX: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    [theme.breakpoints.down('xs')]: {
-      margin: '0px'
+    [theme.breakpoints.down('md')]: {
+      margin: 0
     }
   },
   feedContainer: {
     [theme.breakpoints.up('1700')]: {
       width: '100%'
     },
-    [theme.breakpoints.down('md')]: {
-      width: '100vw'
+    [theme.breakpoints.down('xl')]: {
+      width: '100%'
     }
   },
   feedPage: {
     height: '800px',
     minHeight: '800px',
     marginLeft: '-5px',
-    overflowY: 'scroll',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '0px',
-      width: '100vw',
+    [theme.breakpoints.down('xl')]: {
+      marginLeft: 0,
+      width: '100%',
       height: '100%'
     }
   },
   feedLoader: {
-    margin: '0px',
+    margin: 0,
     width: '600px',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '0px'
+    [theme.breakpoints.down('xl')]: {
+      marginLeft: 0
     }
   },
   resultsContainer: {
-    [theme.breakpoints.down('xs')]: {
-      margin: '65px 0px 0px 5px'
+    maxWidth: '100%',
+    [theme.breakpoints.down('md')]: {
+      margin: '65px 0 0 5px'
     }
   },
   Mask: {
     outline: 'solid 0px #FAFAFA44'
   },
   page: {
+    flex: 1,
     width: '100%',
     marginLeft: 0,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xl')]: {
       marginLeft: 0,
       width: '100%'
     },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: '200px',
-      width: `calc(100% - 200px)`
-    },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       backgroundSize: 'contain',
       overflowX: 'hidden'
-    },
-    flex: 1
+    }
   },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
@@ -87,27 +86,27 @@ const styles = theme => ({
     bottom: theme.spacing(3),
     right: theme.spacing(12),
     zIndex: 1000,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xl')]: {
       display: 'none'
     }
   },
   headerText: {
     fontWeight: 300,
     marginBottom: '15px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       marginBottom: '10px'
     }
   },
   peopleContainer: {
     width: '80%',
     display: 'inline-block',
-    padding: '10px 0px',
-    [theme.breakpoints.down('md')]: {
+    padding: '10px 0',
+    [theme.breakpoints.down('xl')]: {
       width: '85%'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       width: '90%',
-      padding: '0px',
+      padding: 0,
       overflow: 'auto',
       whiteSpace: 'nowrap'
     }
@@ -115,36 +114,36 @@ const styles = theme => ({
   people: {
     borderRadius: 10,
     display: 'inline-block',
-    padding: '10px 0px',
+    padding: '10px 0',
     width: '500px',
     '&:hover': {
       background: '#fafafa05'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'flex',
-      padding: '5px 0px 0px 0px'
+      padding: '5px 0 0 0'
     }
   },
   avatar: {
     width: '60px',
     height: '60px',
     borderRadius: '100%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xl')]: {
       width: '50px',
       height: '50px'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       width: '40px',
       height: '40px'
     }
   },
   user: {
     width: '300px',
-    padding: '0px 10px',
-    [theme.breakpoints.down('md')]: {
+    padding: '0 10px',
+    [theme.breakpoints.down('xl')]: {
       width: '275px'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       width: '250px'
     }
   },
@@ -159,16 +158,14 @@ const styles = theme => ({
 
 const User = ({ classes, user }) => {
   return (
-    <Link
-      className={classes.people}
+    <Link className={classes.people}
       key={user._id}
       to={`/${user.username || user._id}`}
       style={{ textDecoration: 'none' }}
     >
-      <Grid
-        container
+      <Grid container
         direction='row'
-        justify='flex-start'
+        justifyContent='flex-start'
         alignItems='center'
         className={classes.user}
         spacing={4}
@@ -177,8 +174,7 @@ const User = ({ classes, user }) => {
           md={4}
           xs={3}
         >
-          <UserAvatar
-            className={classes.avatar}
+          <UserAvatar className={classes.avatar}
             src={user.avatar}
             username={user.username}
             alt='avatar'
@@ -190,7 +186,15 @@ const User = ({ classes, user }) => {
           style={{ marginBottom: '8px' }}
         >
           <Typography variant='body1'>
-            <strong>{user.fullname || user._id || user.username}</strong>
+            <strong>
+              <ResponsiveEllipsis
+                basedOn='letters'
+                ellipsis='...'
+                maxLine='2'
+                text={user.fullname || user._id || user.username}
+                trimRight
+              />
+            </strong>
           </Typography>
           <Typography variant='body1'>
             @{user.username || user.eosname}
@@ -206,41 +210,44 @@ User.propTypes = {
   user: PropTypes.object.isRequired
 }
 
-const People = props => {
+const People = (props) => {
   const { classes, people } = props
 
   return (
-    <Grid
-      container
+    <Grid container
       direction='row'
-      justify='center'
+      justifyContent='center'
       alignItems='center'
       spacing={2}
       className={classes.peopleContainer}
     >
       {/* TODO: need better way to display users in three rows */}
       <Grid item>
-        {people.slice(0, DISPLAYED_USERS).map(user => (
-          <User classes={classes}
-            user={user}
-          />
-        ))}
-      </Grid>
-      <Grid item>
-        {people
-          .slice(DISPLAYED_USERS, DISPLAYED_USERS + DISPLAYED_USERS)
-          .map(user => (
+        {
+          people.slice(0, DISPLAYED_USERS).map((user) => (
             <User classes={classes}
               user={user}
             />
-          ))}
+          ))
+        }
       </Grid>
       <Grid item>
-        {people.slice(DISPLAYED_USERS + DISPLAYED_USERS).map(user => (
-          <User classes={classes}
-            user={user}
-          />
-        ))}
+        {
+          people.slice(DISPLAYED_USERS, DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
+            <User classes={classes}
+              user={user}
+            />
+          ))
+        }
+      </Grid>
+      <Grid item>
+        {
+          people.slice(DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
+            <User classes={classes}
+              user={user}
+            />
+          ))
+        }
       </Grid>
     </Grid>
   )
@@ -255,11 +262,15 @@ function TabPanel (props) {
   const { children, value, index } = props
 
   return (
-    <div role='tabpanel'
+    <Grid
+      role='tabpanel'
       hidden={value !== index}
+      sx={{ maxWidth: '100%' }}
     >
-      {value === index && <div>{children}</div>}
-    </div>
+      {value === index && (
+        <Grid>{children}</Grid>
+      )}
+    </Grid>
   )
 }
 
@@ -289,29 +300,22 @@ class Search extends Component {
   }
 
   render () {
-    const {
-      classes,
-      postSearchResults,
-      userSearchResults,
-      collectionSearchResults
-    } = this.props
+    const { classes, postSearchResults, userSearchResults, collectionSearchResults } = this.props
     const { activeTab } = this.state
     const { posts, searchText, isLoading } = postSearchResults
     const { users } = userSearchResults
     const { collections } = collectionSearchResults
-    console.log(collections, 'collections')
 
     return (
       <ErrorBoundary>
         <div className={classes.container}>
-          <div className={classes.page}>
+          <PageBody pageClass={classes.page}>
             <Fade in
               timeout={1000}
             >
-              <Grid
-                container
+              <Grid container
                 direction='row'
-                justify='flex-start'
+                justifyContent='flex-start'
                 alignItems='flex-start'
                 spacing={4}
                 className={classes.resultsContainer}
@@ -324,175 +328,151 @@ class Search extends Component {
                   </Typography>
                 </Grid>
 
-                {!isLoading &&
-                  posts.length === 0 &&
-                  users.length === 0 &&
-                  collections.length === 0 && (
+                {!isLoading && posts.length === 0 && users.length === 0 && collections.length === 0 &&
+                  <Grid item
+                    xs={12}
+                    style={{ height: '100%' }}
+                  >
+                    <Typography
+                      variant='h5'
+                      className={classes.headerText}
+                      style={{ textAlign: 'center' }}
+                    >
+                      Try searching for posts, users, or keywords
+                    </Typography>
+                  </Grid>
+                }
+
+                {showTabs && (posts.length > 0 || users.length > 0 || collections.length > 0) &&
+                  <>
                     <Grid item
                       xs={12}
-                      style={{ height: '100%' }}
                     >
-                      <Typography
-                        variant='h5'
-                        className={classes.headerText}
-                        style={{ textAlign: 'center' }}
+                      <Tabs value={activeTab}
+                        onChange={this.handleChange}
+                        TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
                       >
-                        Try searching for posts, users, or keywords
-                      </Typography>
+                        <Tab label='Posts' />
+                        <Tab label='People' />
+                        <Tab label='Collections' />
+                      </Tabs>
                     </Grid>
-                  )}
 
-                {showTabs &&
-                  (posts.length > 0 ||
-                    users.length > 0 ||
-                    collections.length > 0) && (
-                    <>
+                    <TabPanel value={activeTab}
+                      index={0}
+                    >
                       <Grid item
                         xs={12}
+                        className={classes.feedContainer}
                       >
-                        <Tabs
-                          value={activeTab}
-                          onChange={this.handleChange}
-                          TabIndicatorProps={{
-                            style: { backgroundColor: '#fff' }
-                          }}
-                        >
-                          <Tab label='Posts' />
-                          <Tab label='People' />
-                          <Tab label='Collections' />
-                        </Tabs>
-                      </Grid>
-
-                      <TabPanel value={activeTab}
-                        index={0}
-                      >
-                        <Grid item
-                          xs={12}
-                          className={classes.feedContainer}
-                        >
-                          <Feed
-                            isLoading={isLoading}
-                            hasMore
-                            classes={classes}
-                            posts={posts}
-                            hideInteractions
-                          />
-                        </Grid>
-                      </TabPanel>
-
-                      <TabPanel value={activeTab}
-                        index={1}
-                      >
-                        <Grid item
-                          xs={12}
-                        >
-                          <People classes={classes}
-                            people={users}
-                          />
-                        </Grid>
-                      </TabPanel>
-
-                      <TabPanel value={activeTab}
-                        index={2}
-                      >
-                        <Grid item
-                          xs={12}
-                        >
-                          {collections.map(rec => {
-                            return (
-                              <RecommendedCollections
-                                classes={classes}
-                                collection={rec}
-                              />
-                            )
-                          })}
-                        </Grid>
-                      </TabPanel>
-                    </>
-                  )}
-
-                {!showTabs &&
-                  (posts.length > 0 ||
-                    users.length > 0 ||
-                    collections.length > 0) && (
-                    <>
-                      <Grid
-                        item
-                        lg={!isLoading && users.length === 0 ? 12 : 5}
-                        md={!isLoading && users.length === 0 ? 12 : 8}
-                        xs={12}
-                        tourname='SearchPosts'
-                        style={{
-                          display:
-                            !isLoading && posts.length === 0 ? 'none' : ''
-                        }}
-                      >
-                        <Typography variant='h5'
-                          className={classes.headerText}
-                        >
-                          Posts
-                        </Typography>
-                        <Feed
-                          isLoading={isLoading}
+                        <Feed isLoading={isLoading}
                           hasMore
                           classes={classes}
                           posts={posts}
                           hideInteractions
                         />
                       </Grid>
-                      <Grid
-                        container
-                        direction='column'
-                        item
-                        lg={!isLoading && posts.length === 0 ? 12 : 7}
-                        md={!isLoading && posts.length === 0 ? 12 : 4}
+                    </TabPanel>
+
+                    <TabPanel value={activeTab}
+                      index={1}
+                    >
+                      <Grid item
                         xs={12}
-                        tourname='SearchUsers'
-                        style={{
-                          display:
-                            !isLoading && users.length === 0 ? 'none' : ''
-                        }}
                       >
-                        <Grid item
-                          xs={12}
-                        >
-                          <Typography
-                            variant='h5'
-                            className={classes.headerText}
-                          >
-                            People
-                          </Typography>
-                          <People classes={classes}
-                            people={users}
-                          />
-                        </Grid>
-                        <Grid
-                          item
-                          xs={12}
-                          tourname='SearchUsers'
-                          style={{
-                            display:
-                              !isLoading && users.length === 0 ? 'none' : ''
-                          }}
-                        >
-                          <Typography
-                            variant='h5'
-                            className={classes.headerText}
-                          >
-                            Collections
-                          </Typography>
-                          {collections.map(rec => {
-                            return (
-                              <RecommendedCollections
-                                classes={classes}
-                                collection={rec}
-                              />
-                            )
-                          })}
-                        </Grid>
+                        <People classes={classes}
+                          people={users}
+                        />
                       </Grid>
-                    </>
-                  )}
+                    </TabPanel>
+
+                    <TabPanel value={activeTab}
+                      index={2}
+                    >
+                      <Grid item
+                        xs={12}
+                      >
+                        {collections.map(rec => {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                        })}
+                      </Grid>
+                    </TabPanel>
+                  </>
+                }
+
+                {!showTabs && (posts.length > 0 || users.length > 0 || collections.length > 0) &&
+                  <>
+                    <Grid item
+                      lg={!isLoading && users.length === 0 ? 12 : 7}
+                      md={!isLoading && users.length === 0 ? 12 : 8}
+                      xs={12}
+                      tourname='SearchPosts'
+                      style={{ display: !isLoading && posts.length === 0 ? 'none' : '' }}
+                    >
+                      <Typography
+                        variant='h5'
+                        className={classes.headerText}
+                      >
+                        Posts
+                      </Typography>
+                      <Feed isLoading={isLoading}
+                        hasMore
+                        classes={classes}
+                        posts={posts}
+                        hideInteractions
+                      />
+                    </Grid>
+                    <Grid container
+                      direction='column'
+                      item
+                      lg={!isLoading && posts.length === 0 ? 12 : 5}
+                      md={!isLoading && posts.length === 0 ? 12 : 4}
+                      xs={12}
+                      tourname='SearchUsers'
+                      style={{ display: users.length === 0 ? 'none' : 'inherit' }}
+                    >
+                      <Grid item
+                        xs={12}
+                      >
+                        <Typography
+                          variant='h5'
+                          className={classes.headerText}
+                        >
+                          People
+                        </Typography>
+                        <People classes={classes}
+                          people={users}
+                        />
+                      </Grid>
+                      <Grid item
+                        direction='column'
+                        xs={12}
+                        tourname='collections'
+                        style={{ display: collections.length === 0 ? 'none' : 'inherit' }}
+                      >
+                        <Typography
+                          variant='h5'
+                          className={classes.headerText}
+                        >
+                          Collections
+                        </Typography>
+                        {collections.map(rec => {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                        })}
+                      </Grid>
+                    </Grid>
+                  </>
+                }
               </Grid>
             </Fade>
 
@@ -506,19 +486,16 @@ class Search extends Component {
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <Button size='small'
-                  variant='outlined'
-                  small
-                >
-                  Next
-                </Button>
+                <YupButton size='small'
+                  variant='contained'
+                  color='primary'
+                >Next</YupButton>
               }
               prevButton={
-                <Button size='small'
-                  variant='outlined'
-                >
-                  Back
-                </Button>
+                <YupButton size='small'
+                  variant='contained'
+                  color='primary'
+                >Back</YupButton>
               }
               lastStepNextButton={<div style={{ display: 'none' }} />}
             />
@@ -533,7 +510,7 @@ class Search extends Component {
                 10-Second Tutorial
               </Fab>
             </Fade>
-          </div>
+          </PageBody>
         </div>
       </ErrorBoundary>
     )
@@ -545,10 +522,11 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          🔍 Search
+          🔍  Search
         </Typography>
         <p className='tourText'>
           Search for users and elevant posts across the web.
@@ -560,12 +538,15 @@ const steps = [
     selector: '[tourName="SearchPosts"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          📰 Posts
+          📰  Posts
         </Typography>
-        <p className='tourText'>These are your search results for posts.</p>
+        <p className='tourText'>
+          These are your search results for posts.
+        </p>
       </div>
     )
   },
@@ -573,12 +554,15 @@ const steps = [
     selector: '[tourName="SearchUsers"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          👥 Users
+          👥  Users
         </Typography>
-        <p className='tourText'>These are the search results for users.</p>
+        <p className='tourText'>
+          These are the search results for users.
+        </p>
       </div>
     )
   },
@@ -586,19 +570,19 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          📡 Feeds
+          📡  Feeds
         </Typography>
-        <p className='tourText'>These are your feeds.</p>
-        <a
-          href='https://docs.yup.io/products/app#feed'
+        <p className='tourText'>
+          These are your feeds.
+        </p>
+        <a href='https://docs.yup.io/products/app#feed'
           target='_blank'
           className='tourLink'
-        >
-          Learn more
-        </a>
+        >Learn more</a>
       </div>
     )
   },
@@ -606,21 +590,19 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          📈 Leaderboard
+          📈  Leaderboard
         </Typography>
         <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
-        <a
-          href='https://docs.yup.io/products/app#lists'
+        <a href='https://docs.yup.io/products/app#lists'
           target='_blank'
           className='tourLink'
-        >
-          Learn more
-        </a>
+        >Learn more</a>
       </div>
     )
   },
@@ -635,47 +617,13 @@ const steps = [
         <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
-        <div className='tourResources'>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://docs.yup.io'
-            target='_blank'
-          >
-            Docs
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://yup.io'
-            target='_blank'
-          >
-            Website
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://blog.yup.io'
-            target='_blank'
-          >
-            Blog
-          </Button>
-        </div>
+        <StyledTourResources />
       </div>
     )
   }
 ]
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     userSearchResults: state.searchResults.userSearchResults, // userSearchResultsSelector(state),
     postSearchResults: state.searchResults.postSearchResults, // postSearchResultsSelector(state)

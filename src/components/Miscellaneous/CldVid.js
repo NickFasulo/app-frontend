@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { CloudinaryContext, Transformation, Video } from 'cloudinary-react'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import ReactPlayer from 'react-player'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 
 const ROOT_CLOUDINARY_URL = `https://res.cloudinary.com/yup-io/video/upload/`
 
@@ -22,8 +22,8 @@ const styles = theme => ({
       maxHeight: '25rem',
       width: '100%'
     },
-    [theme.breakpoints.down('sm')]: {
-      borderRadius: '0px'
+    [theme.breakpoints.down('md')]: {
+      borderRadius: 0
     }
   }
 })
@@ -42,7 +42,7 @@ const CldVid = ({ postid, src, classes, ...restProps }) => {
       muted
       loop
       playsinline
-            />)
+    />)
   }
   return (
     <ErrorBoundary>

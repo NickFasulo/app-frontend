@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import Index from './pages/Index'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
@@ -8,7 +8,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { routerMiddleware, connectRouter } from 'connected-react-router'
 import * as reducers from './redux/reducers'
 import { history } from './utils/history'
-import { StylesProvider } from '@material-ui/core/styles'
+import StylesProvider from '@mui/styles/StylesProvider'
 import './styles.css'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -42,11 +42,15 @@ const store = createStore(
   composeEnhancers(middleware)
 )
 
-ReactDOM.render(
+const rootContainer = document.getElementById('root')
+const root = createRoot(rootContainer)
 
+root.render(
   <Provider store={store}>
     <StylesProvider injectFirst>
       <Index history={history} />
     </StylesProvider>
-  </Provider>, document.getElementById('root'))
+  </Provider>
+)
+
 serviceWorkerRegistration.register()

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import { levelColors } from '../../utils/colors'
 import NotifText from './NotifText'
-import Grid from '@material-ui/core/Grid'
+import Grid from '@mui/material/Grid'
 import moment from 'moment'
 import axios from 'axios'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -13,7 +13,7 @@ const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   root: {
-    padding: '0',
+    padding: 0,
     cursor: 'pointer',
     position: 'sticky',
     alignContent: 'center',
@@ -39,7 +39,7 @@ const styles = theme => ({
     maxWidth: '100%',
     borderRadius: '0.25rem',
     objectFit: 'cover',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       height: '50px'
     }
   },
@@ -66,8 +66,8 @@ const styles = theme => ({
     background: 'linear-gradient(90deg, rgba(43, 43, 43, 0) 0%, rgb(43, 43, 43, 0.5) 50%, rgb(43, 43, 43) 100%)',
     height: '100%',
     width: '100%',
-    top: '0',
-    left: '0'
+    top: 0,
+    left: 0
   },
   notifText: {
     inlineSize: '100%',
@@ -115,7 +115,7 @@ class Notification extends Component {
 
     if (notif.post) {
       const { caption } = notif.post
-      return this.isCaptionLink(caption) ? caption : `/p/${notif.post._id.postid}`
+      return this.isCaptionLink(caption) ? caption : `/p/${notif.post && notif.post._id ? notif.post._id.postid : ''}`
     } else if (notif.action === 'follow') {
       return notif.invoker.eosname ? `/${notif.invoker.eosname}` : `/${notif.invoker}`
     }
@@ -162,20 +162,20 @@ class Notification extends Component {
                 className={classes.imgWrapper}
               >
                 {notif && notif.image && notif.image.includes('nft.mp4')
-                ? <ReactPlayer
-                  className={classes.notifImg}
-                  style={{ overflow: 'hidden' }}
-                  url={notif.image}
-                  height='auto'
-                  playing
-                  muted
-                  loop
-                  playsinline
+                  ? <ReactPlayer
+                    className={classes.notifImg}
+                    style={{ overflow: 'hidden' }}
+                    url={notif.image}
+                    height='auto'
+                    playing
+                    muted
+                    loop
+                    playsinline
                   />
-                : <img className={classes.notifImg}
-                  src={notif.image || defaultImage}
-                  alt='notification'
-                  onError={(e) => { e.target.src = defaultImage }}
+                  : <img className={classes.notifImg}
+                    src={notif.image || defaultImage}
+                    alt='notification'
+                    onError={(e) => { e.target.src = defaultImage }}
                   />
                 }
               </Grid>

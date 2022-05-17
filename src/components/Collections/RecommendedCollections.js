@@ -1,33 +1,39 @@
 
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Typography, Grid } from '@material-ui/core'
+import { Typography, Grid, Skeleton } from '@mui/material'
 import Img from 'react-image'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
+import { styled } from '@mui/material/styles'
 
 const AWS_DEFAULT_COLLECTION_IMG_URLS = [...Array(5)].map((_, i) => `https://app-gradients.s3.amazonaws.com/gradient${i + 1}.png`)
 const getRandomGradientImg = () => `${AWS_DEFAULT_COLLECTION_IMG_URLS[Math.floor(Math.random() * AWS_DEFAULT_COLLECTION_IMG_URLS.length)]}`
 
+const ImageSkeleton = styled(Skeleton)(({ theme }) => ({
+  bgcolor: theme.palette.M850,
+  borderRadius: '8px'
+}))
 const styles = theme => ({
   recommendedImg: {
+    display: 'flex',
+    alignItems: 'center',
     height: '60px',
     width: '60px',
     objectFit: 'cover',
-    marginTop: '10px',
     borderRadius: '5px',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       height: '50px',
       width: '50px'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       height: '40px',
       width: '40px'
     }
   },
   recommendedContainer: {
     borderRadius: 10,
-    margin: '5px 0px',
+    margin: '5px 0',
     '&:hover': {
       background: '#fafafa05'
     }
@@ -38,6 +44,7 @@ const styles = theme => ({
 })
 
 const RecommendedCollections = ({ classes, collection }) => {
+  const [hasLoaded, setHasLoaded] = useState(false)
   const fmtCollectionName = collection && collection.name && collection.name.replace(/\s+/g, '-').toLowerCase()
   const collectionHref = fmtCollectionName && `/collections/${encodeURIComponent(fmtCollectionName.replace('/', ''))}/${collection._id}`
 
@@ -49,36 +56,49 @@ const RecommendedCollections = ({ classes, collection }) => {
       <Grid
         container
         direction='row'
-        justify='flex-start'
+        justifyContent='flex-start'
         alignItems='center'
-        spacing={2}
         className={classes.recommendedContainer}
       >
         <Grid item
           xs={3}
           lg={4}
           xl={4}
+          p={1}
           className={classes.recommendedImgContainer}
         >
-          <Img
-            src={[collection.imgSrcUrl, getRandomGradientImg()]}
-            alt='thumbnail'
-            className={classes.recommendedImg}
-          />
+
+          {!hasLoaded ? (<ImageSkeleton variant='rectangular'
+            animation={false}
+            width='50px'
+            height='50px' > <Img
+              src={[collection.imgSrcUrl, getRandomGradientImg()]}
+              alt='thumbnail'
+              className={classes.recommendedImg}
+              onLoad={() => { setHasLoaded(true) }}
+            /></ImageSkeleton>)
+            : <Img
+              src={[collection.imgSrcUrl, getRandomGradientImg()]}
+              alt='thumbnail'
+              className={classes.recommendedImg}
+            />}
+
         </Grid>
         <Grid item
-          container
-          spacing={1}
-          direction='column'
           xs={9}
           lg={8}
           xl={8}
+          p={1}
         >
-          <Grid item >
-            <Typography variant='h6'>{collection.name}</Typography>
-          </Grid>
-          <Grid item >
-            <Typography variant='body2'>{collection.owner}</Typography>
+          <Grid container
+            direction='column'
+          >
+            <Grid item >
+              <Typography variant='subtitle2'>{!hasLoaded ? <Skeleton animation={false} /> : collection.name}</Typography>
+            </Grid>
+            <Grid item >
+              <Typography variant='body2'>{!hasLoaded ? <Skeleton animation={false} /> : collection.owner}</Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

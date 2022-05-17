@@ -1,21 +1,15 @@
 import React from 'react'
-import { Link, Typography } from '@material-ui/core/'
+import { Link, Typography, Grid } from '@mui/material/'
 import PropTypes from 'prop-types'
 
-const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png'
-
 const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
-  let userAvatar
   let twitterBirdIcon
 
   if (tweetType === 'retweet') {
-    userAvatar = classes.retweetUserAvatar
     twitterBirdIcon = classes.retweetTwitterBirdIcon
   } else if (tweetType === 'reply') {
-    userAvatar = classes.userAvatar
     twitterBirdIcon = classes.twitterBirdIcon
   } else {
-    userAvatar = classes.userAvatar
     if (hideBird === true) {
       twitterBirdIcon = classes.retweetTwitterBirdIcon
     } else {
@@ -24,51 +18,65 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
   }
 
   const accountLink = `https://twitter.com/${user.screen_name}`
-
-  const addDefaultSrc = (e) => {
-    e.target.onerror = null
-    e.target.src = DEFAULT_TWITTER_PROF
-  }
+  const isMobile = window.innerWidth <= 600
 
   return (
-    <div className={classes.header}>
-      <div className={classes.userAvatarContainer}>
-        <img className={userAvatar}
-          src={user.profile_image_url_https}
-          alt='user image'
-          onError={addDefaultSrc}
-        />
-      </div>
-      <div className={classes.userTags}>
-        <Link href={accountLink}
-          target='_blank'
-          underline='none'
+    <Grid
+      container
+      direction='row'
+      className={classes.header}
+      justifyContent='space-between'
+      alignItems='flex-end'
+    >
+      <Grid item>
+        <Grid
+          container
+          direction='row'
+          spacing={1}
+          className={classes.userTags}
         >
-          <Typography variant='h6'
-            style={{ maxWidth: '300px' }}
-          >
-            {user && user.name && user.name.substring(0, 80)}
-          </Typography>
-        </Link>
-        <Link href={accountLink}
-          target='_blank'
-          underline='none'
-        ><span className={classes.twitterHandle}>@{user.screen_name}</span></Link>
-      </div>
-      <span className={twitterBirdIcon}>
+          <Grid item>
+            <Link href={accountLink}
+              target='_blank'
+              underline='none'
+            >
+              <Typography variant='body1'
+                style={{ maxWidth: '300px' }}
+              >
+                {user && user.name && user.name.substring(0, 80)}
+              </Typography>
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link href={accountLink}
+              target='_blank'
+              underline='none'
+            >
+              <Typography variant='body2'
+                className={classes.twitterHandle}
+              >
+                @{user.screen_name}
+              </Typography>
+            </Link>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item
+        className={twitterBirdIcon}
+      >
         <Link href={tweetLink}
           target='_blank'
           underline='none'
         >
           <img
             src='/images/icons/twitter.svg'
-            height='24'
+            height={isMobile ? '12' : '24'}
             alt='twitter'
           />
         </Link>
-      </span>
-    </div>
- )
+      </Grid>
+    </Grid>
+  )
 }
 HeaderSection.propTypes = {
   classes: PropTypes.object.isRequired,

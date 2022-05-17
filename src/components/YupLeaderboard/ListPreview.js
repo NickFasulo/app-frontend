@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import PropTypes from 'prop-types'
-import Grid from '@material-ui/core/Grid'
-import Fade from '@material-ui/core/Fade'
+import Grid from '@mui/material/Grid'
+import Fade from '@mui/material/Fade'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import Typography from '@material-ui/core/Typography'
-import LinesEllipsis from 'react-lines-ellipsis'
+import Typography from '@mui/material/Typography'
 import ReactPlayer from 'react-player'
 import axios from 'axios'
-import ConditionalLinkWrapper from '../Miscellaneous/ConditionalLinkWrapper'
+import { ConditionalLinkWrapper, ResponsiveEllipsis } from '../Miscellaneous'
 import { getFavicon } from '../../utils/url'
 
 const nftPattern = new RegExp('^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com/token/|www.rarible.com/token/|http://rarible.com/token/|https://rarible.com/*/|opensea.io/assets/|www.opensea.io/assets/|http://opensea.io/assets/|https://opensea.io/assets/|superrare.co/|www.superrare.co/|http://superrare.co/|https://superrare.co/|foundation.app/*/|www.foundation.app/*/|http://foundation.app/*/|https://foundation.app/*/|zora.co/|www.zora.co/|http://zora.co/|https://zora.co/)')
@@ -23,7 +22,7 @@ const styles = theme => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       margin: '2px 0px'
     }
   },
@@ -34,10 +33,10 @@ const styles = theme => ({
     aspectRatio: '1 / 1',
     borderRadius: '50%',
     objectFit: 'cover',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: '50px'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '35px'
     }
   },
@@ -49,7 +48,7 @@ const styles = theme => ({
     borderRadius: '20%',
     objectFit: 'cover',
     overflow: 'hidden',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       maxHeight: '35px',
       maxWidth: '35px'
 
@@ -57,26 +56,26 @@ const styles = theme => ({
   },
   caption: {
     textAlign: 'left',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       fontSize: '16px'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '14px'
     }
   },
   rank: {
     fontSize: '18px',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       padding: ' 0px 10px 0px 5px',
       fontSize: '16px'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '14px'
     }
   },
   audiusPost: {
-    [theme.breakpoints.down('xs')]: {
-      borderRadius: '0px'
+    [theme.breakpoints.down('sm')]: {
+      borderRadius: 0
     }
   }
 })
@@ -161,7 +160,7 @@ class ListPreview extends Component {
           <Grid
             container
             direction='row'
-            justify='flex-start'
+            justifyContent='flex-start'
             alignItems='center'
             className={classes.container}
             spacing={isMobile ? 2 : 3}
@@ -182,30 +181,30 @@ class ListPreview extends Component {
             >
               <AudiusComp />
             </Grid>
-              }
+            }
             {previewData && (previewData.url) && !isAudiusPost &&
             <>
               <Grid item
                 xs={2}
               >
                 {(image && image.includes('nft.mp4'))
-                    ? <ReactPlayer
-                      className={classes.nftArt}
-                      target='_blank'
-                      url={image}
-                      playing
-                      muted
-                      loop
-                      playsinline
-                      light={postBroken ? (faviconURL || faviconURLFallback) : ''}
-                      onError={this.addDefaultVid}
-                      />
-                    : <img src={isCollection ? (collectionImg || DEFAULT_IMG) : (image || faviconURL || faviconURLFallback)}
-                      className={(isNftArt || isCollection) ? classes.nftArt : classes.image}
-                      onError={this.addDefaultSrc}
-                      alt='favicon'
-                      />
-                  }
+                  ? <ReactPlayer
+                    className={classes.nftArt}
+                    target='_blank'
+                    url={image}
+                    playing
+                    muted
+                    loop
+                    playsinline
+                    light={postBroken ? (faviconURL || faviconURLFallback) : ''}
+                    onError={this.addDefaultVid}
+                  />
+                  : <img src={isCollection ? (collectionImg || DEFAULT_IMG) : (image || faviconURL || faviconURLFallback)}
+                    className={(isNftArt || isCollection) ? classes.nftArt : classes.image}
+                    onError={this.addDefaultSrc}
+                    alt='favicon'
+                  />
+                }
               </Grid>
               <Grid item
                 xs={9}
@@ -218,7 +217,7 @@ class ListPreview extends Component {
                   <Typography variant='h5'
                     className={classes.caption}
                   >
-                    <LinesEllipsis
+                    <ResponsiveEllipsis
                       basedOn='letters'
                       ellipsis='...'
                       maxLine='1'
@@ -229,7 +228,7 @@ class ListPreview extends Component {
                 </ConditionalLinkWrapper>
               </Grid>
             </>
-              }
+            }
           </Grid>
         </Fade>
       </ErrorBoundary>

@@ -1,16 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Typography from '@material-ui/core/Typography'
+import withStyles from '@mui/styles/withStyles'
+import CircularProgress from '@mui/material/CircularProgress'
+import Typography from '@mui/material/Typography'
 import { Link } from 'react-router-dom'
-import Grid from '@material-ui/core/Grid'
+import Grid from '@mui/material/Grid'
 import FollowButton from './FollowButton'
 import { levelColors } from '../../utils/colors'
 import UserAvatar from '../UserAvatar/UserAvatar'
@@ -18,6 +12,8 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { connect } from 'react-redux'
 import numeral from 'numeral'
 import { fetchSocialLevel } from '../../redux/actions'
+import { YupButton } from '../Miscellaneous'
+import YupDialog from '../Miscellaneous/YupDialog'
 
 const styles = theme => ({
   dialogTitle: {
@@ -39,7 +35,7 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary
+    color: theme.text.secondary
   },
   dialogContent: {
     root: {
@@ -68,7 +64,7 @@ const styles = theme => ({
   },
   text: {
     fontSize: '13px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '12px'
     }
   }
@@ -98,7 +94,7 @@ class FollowingDialog extends Component {
     return (
       <ErrorBoundary>
         <Fragment>
-          <Button
+          <YupButton
             disableRipple
             onClick={this.handleClickOpen}
           >
@@ -108,58 +104,40 @@ class FollowingDialog extends Component {
             >
               <a style={{ fontWeight: 700 }}>{formattedFollowing} </a> following
             </Typography>
-          </Button>
-          <Dialog
-            aria-labelledby='customized-dialog-title'
-            fullWidth
-            maxWidth='xs'
-            onClose={this.handleClose}
+          </YupButton>
+
+          <YupDialog
+            headline='Following'
+            buttonPosition='right'
             open={this.state.open}
+            onClose={this.handleClose}
+            className={classes.dialog}
+            maxWidth='xs'
+            fullWidth
+            aria-labelledby='customized-dialog-title'
           >
-            <DialogTitle
-              className={classes.dialogTitle}
-              disableTypography
-              id='customized-dialog-title'
-              onClose={this.handleClose}
-            >
-              <Typography
-                align='left'
-                variant='h3'
-              >
-                Following
-              </Typography>
-              <IconButton
-                aria-label='Close'
-                className={classes.closeButton}
-                disableRipple
-                onClick={this.handleClose}
-              >
-                <CloseIcon style={{ marginTop: '4px', color: '#a0a0a0' }} />
-              </IconButton>
-            </DialogTitle>
-            <DialogContent>
-              {
+            {
               isLoading
                 ? <div align='center'>
                   <CircularProgress className={classes.progress} />
                 </div>
                 : <Grid container
                   direction='column'
-                  > {
+                > {
                     following.length === 0
                       ? <Typography
                         variant='h5'
                         style={{ textAlign: 'center' }}
-                        >
-                        No users are being followed
+                      >
+                          No users are being followed
                       </Typography>
                       : following.map((user) => {
                         if (!levels[user._id]) {
                           dispatch(fetchSocialLevel(user._id))
                           return <div />
-                       } if (levels[user._id].isLoading) {
-                        return <div />
-                      }
+                        } if (levels[user._id].isLoading) {
+                          return <div />
+                        }
                         const eosname = user._id
                         const level = levels[eosname]
                         const username = level && level.levelInfo.username
@@ -174,7 +152,7 @@ class FollowingDialog extends Component {
                               <Grid alignItems='center'
                                 container
                                 direction='row'
-                                justify='space-between'
+                                justifyContent='space-between'
                               >
                                 <Grid item>
                                   <Grid alignItems='center'
@@ -226,8 +204,7 @@ class FollowingDialog extends Component {
                   }
                 </Grid>
             }
-            </DialogContent>
-          </Dialog>
+          </YupDialog>
         </Fragment>
       </ErrorBoundary>
     )

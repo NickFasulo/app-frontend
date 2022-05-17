@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Card, Chip, Icon } from '@material-ui/core'
-import Typography from '@material-ui/core/Typography'
+import withStyles from '@mui/styles/withStyles'
+import { Card, Chip, Icon, Skeleton } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import UserAvatar from '../UserAvatar/UserAvatar'
-import Grid from '@material-ui/core/Grid'
+import Grid from '@mui/material/Grid'
 import FollowButton from '../Followers/FollowButton'
 import EditProfile from '../EditProfile/EditProfile'
 import FollowersDialog from '../Followers/FollowersDialog'
@@ -13,24 +13,22 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { levelColors } from '../../utils/colors'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
-import Tooltip from '@material-ui/core/Tooltip'
+import Tooltip from '@mui/material/Tooltip'
 import LinesEllipsis from 'react-lines-ellipsis'
 import CountUp from 'react-countup'
 import { fetchSocialLevel } from '../../redux/actions'
 
 const styles = theme => ({
   avatarImage: {
-    width: 100 - theme.spacing(),
-    height: 100 - theme.spacing(),
-    minHeight: 100 - theme.spacing(),
-    minWidth: 100 - theme.spacing(),
+    width: 92,
+    height: 92,
+    minHeight: 92,
+    minWidth: 92,
     fontSize: 60,
-    marginTop: 0,
-    marginBottom: -4,
     borderRadius: '100%',
-    border: `solid 3px ${theme.palette.common.third}`,
+    border: `solid 3px ${theme.palette.M300}`,
     position: 'absolute',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: 45,
       marginLeft: 0,
       marginBottom: '6vw',
@@ -48,7 +46,7 @@ const styles = theme => ({
     fontFamily: 'Gilroy',
     fontWeight: 100,
     display: 'inherit',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: 12,
       display: 'none'
     }
@@ -56,7 +54,7 @@ const styles = theme => ({
   card: {
     paddingTop: theme.spacing(-10),
     paddingBottom: theme.spacing(-10),
-    boxShadow: `0px 0px 0px ${theme.palette.alt.third}81`,
+    boxShadow: `0 0 0 ${theme.palette.M700}81`,
     background: 'transparent',
     backgroundSize: 'cover',
     width: '100%',
@@ -65,21 +63,19 @@ const styles = theme => ({
     maxWidth: '100vw',
     maxHeight: 225,
     position: 'relative',
-    [theme.breakpoints.down('lg')]: {
-      margin: '75px 0px 0px 30px'
+    [theme.breakpoints.down('xl')]: {
+      margin: '75px 0px 0px 0px'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       margin: 'auto',
       marginTop: theme.spacing(10),
       height: 175
     }
   },
   chip: {
-    backgroundColor: theme.palette.alt.third,
-    color: theme.palette.text.secondary,
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     height: 24
   },
   content: {
@@ -93,11 +89,11 @@ const styles = theme => ({
   },
   largeStat: {
     fontSize: 24,
-    padding: '0px',
+    padding: 0,
     fontFamily: 'Gilroy',
     fontWeight: '500',
     marginRight: 5,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: 22,
       width: '2rem'
     }
@@ -114,7 +110,8 @@ const styles = theme => ({
     minWidth: 45,
     minHeight: 45,
     fontSize: 18,
-    [theme.breakpoints.down('xs')]: {
+    marginTop: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
       width: 35,
       height: 35,
       minWidth: 35,
@@ -123,18 +120,17 @@ const styles = theme => ({
     }
   },
   minimizeCard: {
-    maxHeight: 55,
+    maxHeight: 53,
     transition: 'max-height 0.2s linear',
     overflow: 'hidden',
-    [theme.breakpoints.down('xs')]: {
-      maxHeight: 45
+    [theme.breakpoints.down('sm')]: {
+      maxHeight: 55
     }
   },
   name: {
-    padding: 0
+    lineHeight: '100%'
   },
   profileDetails: {
-    ...theme.mixins.gutters(),
     paddingBottom: theme.spacing(1),
     boxShadow: 'none',
     maxHeight: '250px',
@@ -142,18 +138,18 @@ const styles = theme => ({
     width: 550,
     display: 'inline-grid',
     position: 'relative',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       padding: '0 4px',
       display: 'block',
       height: '100px'
     }
   },
   profileStats: {
-    marginLeft: '0px',
+    marginLeft: 0,
     padding: '0px 0rem',
     width: '100%',
     flexWrap: 'nowrap',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       padding: '0px 2rem 0px calc(2rem - 12px)'
     }
   },
@@ -161,17 +157,16 @@ const styles = theme => ({
     fontSize: '18px',
     fontWeight: '500',
     fontFamily: 'Gilroy',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '14px'
     }
   },
-
   username: {
     fontSize: '18px',
-    padding: '0px',
+    padding: 0,
     fontFamily: 'Gilroy',
     fontWeight: '100',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '12px'
     }
   }
@@ -198,23 +193,21 @@ function ProfileCard (props) {
     levels,
     lightMode,
     dispatch,
-    accountInfo
+    accountInfo,
+    isLoading
   } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
   const YUPBalanceError =
     (balanceInfo && balanceInfo.YUP && balanceInfo.YUP.error) || null
 
-    if (!accountInfo.eosname) {
-      return <div />
-    }
-    if (!levels[accountInfo.eosname]) {
-       dispatch(fetchSocialLevel(accountInfo.eosname))
-        return (<div />)
-     }
+  if (!accountInfo.eosname && !isLoading) {
+    return <div />
+  }
+  if (!levels[accountInfo.eosname] && !isLoading) {
+    dispatch(fetchSocialLevel(accountInfo.eosname))
+    return (<div />)
+  }
 
-     if (levels[accountInfo.eosname].isLoading) {
-      // return <div />
-    }
   const formattedYUPBalance =
     YUPBalance && numeral(Number(YUPBalance)).format('0,0.00')
   const formattedWeight = numeral(
@@ -245,8 +238,9 @@ function ProfileCard (props) {
 
   const avatar = levelInfo && levelInfo.avatar
   const twitterName = accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.username
-  const ethAddress = accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address
-
+  const [ethAddress, setEth] = useState(
+    accountInfo ? accountInfo.ethInfo ? accountInfo.ethInfo.address : '' : ''
+  )
   const logo = lightMode ? '/images/logos/logo_outline_b.svg' : '/images/logos/logo_outline_w.svg'
   return (
     <ErrorBoundary>
@@ -254,17 +248,22 @@ function ProfileCard (props) {
         className={`${classes.card} ${minimizeCard}`}
         tourname='ProfileUsername'
       >
-        <UserAvatar
+        {isLoading ? (
+          <Skeleton variant='circular'
+            width='92px'
+            height='92px'
+            className={classes.avatarImage} />) : (<UserAvatar
           alt={accountInfo.username}
           username={accountInfo.username}
           className={`${classes.avatarImage} ${minimize}`}
           src={avatar}
           style={{ border: `solid 3px ${socialLevelColor}` }}
-        />
-        <Grid alignItems='center'
-          container
+        />)}
+
+        <Grid container
+          alignItems='center'
           direction='row'
-          justify='left'
+          justifyContent='left'
         >
           <Grid
             item
@@ -275,7 +274,7 @@ function ProfileCard (props) {
               alignItems={isMinimize ? 'flex-start' : 'center'}
               container
               direction='row'
-              justify='space-between'
+              justifyContent='space-between'
               spacing={0}
             >
               <Grid
@@ -284,48 +283,48 @@ function ProfileCard (props) {
                 sm={10}
                 xs={8}
                 direction='row'
-                justify='flex-start'
+                justifyContent='flex-start'
                 spacing={0}
               >
                 <Grid
-                  xs={6}
                   item
+                  xs={6}
                 >
                   <Typography
                     align='left'
                     className={classes.name}
                     display='inline'
                     variant='h3'
-                  >
-                    <LinesEllipsis
-                      basedOn='letters'
-                      ellipsis='...'
-                      maxLine='4'
-                      text={displayName}
-                      trimRight
-                    />
+                  >{isLoading ? <Skeleton animation={false} />
+                      : <LinesEllipsis
+                        basedOn='letters'
+                        ellipsis='...'
+                        maxLine='4'
+                        text={displayName}
+                        trimRight
+                      />}
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item
+              <Grid
+                item
                 sm={2}
                 xs={3}
-              >
-                {isLoggedIn ? (
-                  <EditProfile
-                    accountInfo={accountInfo}
-                    className={classes.button}
-                    username={username}
-                    size='small'
-                    variant='contained'
-                  />
-                ) : (
-                  <FollowButton
-                    account={account}
-                    eosname={accountInfo.eosname}
-                    isLoggedIn={isLoggedIn}
-                  />
-                )}
+              >{isLoading ? <Skeleton variant='text' /> : (
+                  <Grid>
+                    {isLoggedIn ? (
+                      <EditProfile
+                        accountInfo={accountInfo}
+                        username={username}
+                        setEth={setEth}
+                      />
+                    ) : (
+                      <FollowButton
+                        account={account}
+                        eosname={accountInfo.eosname}
+                        isLoggedIn={isLoggedIn}
+                      />
+                    )}</Grid>)}
               </Grid>
             </Grid>
 
@@ -333,82 +332,82 @@ function ProfileCard (props) {
               align='left'
               variant='h5'
               className={`${classes.username} ${hidden}`}
-            >
-              <Grid container
-                direction='row'
-                alignItems='center'
-                spacing={1}
-              >
-                <Grid item>
-                  <Typography
-                    variant='body2'
-                    style={{
-                      textDecoration: socialLevelColor ? 'none' : 'none',
-                      textDecorationColor: socialLevelColor,
-                      textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                      padding: '0px'
-                    }}
-                  >
-                    {`@${username}`}
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  {isMirror && !isAuthUser ? (
-                    <Tooltip
-                      enterDelay={200}
-                      disableTouchListener
-                      title="This account is a mirror of this Twitter user's activity"
+            >{isLoading ? <Skeleton variant='text' />
+                : (<Grid container
+                  direction='row'
+                  alignItems='center'
+                  spacing={1}
+                >
+                  <Grid item>
+                    <Typography
+                      variant='body2'
+                      style={{
+                        textDecoration: socialLevelColor ? 'none' : 'none',
+                        textDecorationColor: socialLevelColor,
+                        textDecorationStyle: socialLevelColor ? 'solid' : 'none',
+                        padding: 0
+                      }}
                     >
-                      <img
-                        src='/images/icons/twitter.svg'
-                        style={{
-                          height: '20px',
-                          paddingLeft: '15px',
-                          marginTop: '1px'
-                        }}
-                        alt='twitter'
-                      />
-                    </Tooltip>
-                  ) : null}
-                </Grid>
-                {twitterName && (
-                <Grid item>
-                  <a href={`https://twitter.com/${twitterName}`}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className={classes.linkDecoration}
-                  >
-                    <Chip label={twitterName}
-                      className={classes.chip}
-                      onClick
-                      icon={
-                        <Icon
-                          className={['fab fa-twitter', classes.chipIcon]}
+                      {`@${username}`}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    {isMirror && !isAuthUser ? (
+                      <Tooltip
+                        enterDelay={200}
+                        disableTouchListener
+                        title="This account is a mirror of this Twitter user's activity"
+                      >
+                        <img
+                          src='/images/icons/twitter.svg'
+                          style={{
+                            height: '20px',
+                            paddingLeft: '15px',
+                            marginTop: '1px'
+                          }}
+                          alt='twitter'
                         />
-                  }
-                    />
-                  </a>
-                </Grid>
-              )}
-                {ethAddress && (
-                <Grid item> <a href={`https://etherscan.io/address/${ethAddress}`}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={classes.linkDecoration}
-                            >
-                  <Chip label={ethAddress.slice(0, 5)}
-                    className={classes.chip}
-                    onClick
-                    icon={
-                      <Icon
-                        className={['fab fa-ethereum', classes.chipIcon]}
+                      </Tooltip>
+                    ) : null}
+                  </Grid>
+                  {twitterName && (
+                    <Grid item>
+                      <a href={`https://twitter.com/${twitterName}`}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className={classes.linkDecoration}
+                      >
+                        <Chip label={twitterName}
+                          className={classes.chip}
+                          onClick
+                          icon={
+                            <Icon
+                              className={['fab fa-twitter', classes.chipIcon]}
+                            />
+                          }
+                        />
+                      </a>
+                    </Grid>
+                  )}
+                  {ethAddress && (
+                    <Grid item> <a href={`https://etherscan.io/address/${ethAddress}`}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className={classes.linkDecoration}
+                    >
+                      <Chip label={ethAddress.slice(0, 5)}
+                        className={classes.chip}
+                        onClick
+                        icon={
+                          <Icon
+                            className={['fab fa-ethereum', classes.chipIcon]}
+                          />
+                        }
                       />
-                    }
-                  />
-                </a>
-                </Grid>
-              )}
-              </Grid>
+                    </a>
+                    </Grid>
+                  )}
+                </Grid>)}
             </Typography>
             <Typography
               align='left'
@@ -417,24 +416,25 @@ function ProfileCard (props) {
               nowrap
               style={{ wordWrap: 'break-word' }}
               variant='body2'
-            >
-              <LinesEllipsis
-                basedOn='letters'
-                ellipsis='...'
-                maxLine='2'
-                text={formatBio(levelInfo && levelInfo.bio) || (accountInfo && accountInfo.bio)}
-                className={hidden}
-                trimRight
-              />
+            >{isLoading ? <Skeleton variant='text' />
+                : <LinesEllipsis
+                  basedOn='letters'
+                  ellipsis='...'
+                  maxLine='2'
+                  text={formatBio(levelInfo && levelInfo.bio) || (accountInfo && accountInfo.bio)}
+                  className={hidden}
+                  trimRight
+                />}
             </Typography>
           </Grid>
 
+          {!isLoading && (
+              <>
           <Grid
             alignItems='baseline'
             alignContent='center'
             container
             direction='row'
-            justify='end'
             spacing={3}
             className={`${classes.profileStats} ${hidden}`}
           >
@@ -457,7 +457,6 @@ function ProfileCard (props) {
                     className={classes.largeStat}
                     style={{
                       display: 'inline-block',
-                      // fontFamily: 'Gilroy',
                       color: socialLevelColor
                     }}
                     variant='caption'
@@ -471,7 +470,8 @@ function ProfileCard (props) {
                   <Typography
                     variant='body2'
                     style={{
-                      display: 'inline-block'
+                      display: 'inline-block',
+                      color: socialLevelColor
                     }}
                   >
                     Yup Score
@@ -529,10 +529,11 @@ function ProfileCard (props) {
             alignItems='center'
             container
             direction='row'
-            justify='start'
+            justifyContent='start'
             spacing={3}
             className={`${classes.profileStats} ${hidden}`}
           >
+
             <Grid item>
               <Typography align='left'
                 variant='body2'
@@ -557,11 +558,14 @@ function ProfileCard (props) {
               />
             </Grid>
           </Grid>
+          </>
+          )}
         </Grid>
       </Card>
     </ErrorBoundary>
   )
 }
+
 const mapStateToProps = (state, ownProps) => {
   const lightMode = state.lightMode.active
   return {
@@ -583,7 +587,8 @@ ProfileCard.propTypes = {
   accountInfo: PropTypes.object.isRequired,
   levels: PropTypes.object,
   lightMode: PropTypes.bool,
-  account: PropTypes.object
+  account: PropTypes.object,
+  isLoading: PropTypes.bool
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(ProfileCard))

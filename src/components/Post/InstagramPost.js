@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import InstagramEmbed from 'react-instagram-embed'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import LinkPreviewPost from './LinkPreviewPost'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
@@ -29,9 +29,10 @@ class InstagramPost extends PureComponent {
     const { classes, previewData, postHOC: PostHOC } = this.props
 
     if (this.state.hasError) {
-      return <LinkPreviewPost previewData={previewData}
+      return (<LinkPreviewPost previewData={previewData}
         {...this.props}
-             />
+      />
+      )
     }
 
     const InstagramComp = (_props) => (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Typography } from '@material-ui/core'
+import { Link, Typography, Grid } from '@mui/material'
 import TweetVidPlayer from './TweetVidPlayer'
 
 // util
@@ -9,14 +9,19 @@ import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
 // components
 import LinkPreview from './LinkPreview'
 import HeaderSection from './HeaderSection'
+import Avatar from './Avatar'
 
 const Original = ({ tweetData, classes }) => {
   const { caption } = tweetData
   const { user } = tweetData.tweetInfo
-  const extendedEntities = tweetData.tweetInfo.extended_entities ? tweetData.tweetInfo.extended_entities : false
+  const extendedEntities = tweetData.tweetInfo.extended_entities
+    ? tweetData.tweetInfo.extended_entities
+    : false
 
-  const [ previewData, setPreviewData ] = useState(null)
-  const entities = tweetData.tweetInfo.entities ? tweetData.tweetInfo.entities : false
+  const [previewData, setPreviewData] = useState(null)
+  const entities = tweetData.tweetInfo.entities
+    ? tweetData.tweetInfo.entities
+    : false
   const entitiesURLS = (entities && entities.urls.length > 0)
 
   useEffect(() => {
@@ -36,21 +41,27 @@ const Original = ({ tweetData, classes }) => {
 
   let hasMedia
   if (extendedEntities) {
-    hasMedia = extendedEntities.media ? extendedEntities.media.length > 0 : false
+    hasMedia = extendedEntities.media
+      ? extendedEntities.media.length > 0
+      : false
   }
 
   let mediaURL
   let mediaType
   let hasPhoto
   let hasVideo
-  let tweetLink = tweetData.caption ? tweetData.caption : ''
+  let tweetLink = tweetData.caption
+    ? tweetData.caption
+    : ''
   if (hasMedia) {
-    mediaURL = extendedEntities.media[0].media_url_https ? extendedEntities.media[0].media_url_https : false
+    mediaURL = extendedEntities.media[0].media_url_https
+      ? extendedEntities.media[0].media_url_https
+      : false
     mediaType = extendedEntities.media[0].type
     hasPhoto = Boolean(mediaType === 'photo')
     hasVideo = Boolean(mediaType === 'video' || mediaType === 'animated_gif')
 
-    if (hasVideo) mediaURL = extendedEntities.media[0].video_info.variants[0].url
+    if (hasVideo) { mediaURL = extendedEntities.media[0].video_info.variants[0].url }
   }
 
   let initialText = tweetData.tweetInfo.full_text || tweetData.tweetInfo.text
@@ -68,50 +79,93 @@ const Original = ({ tweetData, classes }) => {
 
   let previewDataURL
   if (previewData && previewData.url) {
-    previewDataURL = previewData.url.length > 0 ? previewData.url : false
+    previewDataURL = previewData.url.length > 0
+      ? previewData.url
+      : false
   }
 
-  return (
-    <div className={classes.container}>
-      <HeaderSection classes={classes}
-        user={user}
-        tweetLink={tweetLink}
-      />
-      <Link href={tweetLink}
-        target='_blank'
-        underline='none'
+  return (<Grid container='container'
+    className={classes.container}
+  >
+    <Grid item='item'
+      xs={12}
+    >
+      <Grid container='container'
+        direction='row'
+        spacing={1}
       >
-        <Typography variant='body2'>{tweetText}</Typography>
-      </Link>
-      {
-          (previewData && !hasMedia && !mediaURL && !tweetData.excludeTweet) && (
-          <div style={{ marginTop: 20 }}>
-            <LinkPreview size={'large'}
-              description={previewData.description || ''}
-              image={previewData.img}
-              title={previewData.title}
-              url={previewDataURL}
-              caption={caption}
-              classes={classes}
-            />
-          </div>)
-      }
+        <Grid item='item'>
+          <Avatar classes={classes}
+            user={user}
+            tweetLink={tweetLink}
+          />
+        </Grid>
+        <Grid item='item'
+          xs
+        >
+          <Grid container='container'
+            direction='column'
+            spacing={1}
+          >
+            <Grid item='item'>
+              <HeaderSection classes={classes}
+                user={user}
+                tweetLink={tweetLink}
+              />
+            </Grid>
+            <Grid item='item'>
+              <Grid container='container'
+                spacing={1}
+              >
+                <Grid item='item'
+                  xs={12}
+                >
+                  <Link href={tweetLink}
+                    target='_blank'
+                    underline='none'
+                  >
+                    <Typography variant='body2'>{tweetText}</Typography>
+                  </Link>
+                </Grid>
+                <Grid item='item'
+                  xs={12}
+                >
 
-      {
-        (hasPhoto && mediaURL)
-        ? <Typography className={classes.tweetText}>
-          <img className={classes.tweetImg}
-            src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : mediaURL}
-            alt='tweet-image'
-          />
-        </Typography>
-        : (hasVideo && mediaURL) &&
-          <TweetVidPlayer
-            url={mediaURL}
-          />
-        }
-    </div>
-  )
+                  {
+                    (previewData && !hasMedia && !mediaURL && !tweetData.excludeTweet) && (<div>
+                      <LinkPreview size={'large'}
+                        description={previewData.description || ''}
+                        image={previewData.img}
+                        title={previewData.title}
+                        url={previewDataURL}
+                        caption={caption}
+                        classes={classes}
+                      />
+                    </div>)
+                  }
+
+                  {
+                    (hasPhoto && mediaURL)
+                      ? <Typography className={classes.tweetText}>
+                        <img className={classes.tweetImg}
+                          src={tweetData.excludeTweet
+                            ? 'https://api.faviconkit.com/twitter.com/128'
+                            : mediaURL}
+                          alt='tweet-image'
+                        />
+                      </Typography>
+                      : (hasVideo && mediaURL) && <TweetVidPlayer className={classes.tweetImg}
+                        url={mediaURL}
+                      />
+                  }
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  </Grid>)
 }
 Original.propTypes = {
   tweetData: PropTypes.object.isRequired,

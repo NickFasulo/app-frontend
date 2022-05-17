@@ -2,57 +2,53 @@ import React, { Component, memo } from 'react'
 import HomeMenu from '../../components/Landing/HomeMenu'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core/styles'
-import { Grid, Fab, Button, Typography, Fade } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles'
+import { Grid, Fab, Typography, Fade } from '@mui/material'
 import FeedHOC from '../../components/Feed/FeedHOC'
 import { Helmet } from 'react-helmet'
-import Tooltip from '@material-ui/core/Tooltip'
+import Tooltip from '@mui/material/Tooltip'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
+import StyledTourResources from '../../components/Tour/StyledTourResources'
 import './discover.css'
 import isEqual from 'lodash/isEqual'
 import ReactPlayer from 'react-player'
-import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import { CreateCollectionFab, YupButton } from '../../components/Miscellaneous'
 import { setTourAction } from '../../redux/actions'
+import { PageBody } from '../pageLayouts'
 
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
 const styles = theme => ({
   container: {
-    minHeight: '100vh',
-    maxWidth: '100vw',
     display: 'flex',
     flexDirection: 'column',
-    overflowY: 'hidden',
-    backgroundColor: theme.palette.alt.second
+    minHeight: '100vh',
+    maxWidth: '100vw',
+    overflowY: 'hidden'
   },
   page: {
     width: '100%',
-    marginLeft: 0,
     overflowX: 'hidden',
     [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
-      width: '100%'
-    },
-    [theme.breakpoints.up('1600')]: {
-      width: '100%',
-      marginLeft: 0
-    },
-    [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain'
-    },
-    flex: 1
+    }
+  },
+  feedTitle: {
+    backgroundColor: 'transparent'
   },
   sideFeed: {
     position: 'fixed',
     marginLeft: '38vw',
-    paddingLeft: '0px',
-    paddingRight: '0px'
+    paddingLeft: 0,
+    paddingRight: 0
   },
   feedWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
     width: '100%',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       maxWidth: '100%',
       marginLeft: '0%',
       padding: '0%'
@@ -61,21 +57,21 @@ const styles = theme => ({
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
     padding: '20px 40px 20px 30px !important',
-    backgroundColor: `${theme.palette.alt.third} !important`
+    backgroundColor: `${theme.palette.M700} !important`
   },
   tourFab: {
     position: 'fixed',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    color: theme.palette.common.third,
+    color: theme.palette.M300,
     zIndex: '1000',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'none'
     }
   },
   hideOnMobile: {
     display: 'inherit',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'none'
     }
   },
@@ -86,60 +82,60 @@ const styles = theme => ({
 
 function feedMetaTitle (feed) {
   switch (feed) {
-    case 'dailyhits':
-      return 'Daily Hits • Yup'
-    case 'lol':
-      return 'LOL • Yup'
-    case 'brainfood':
-      return 'Smart • Yup'
-    case 'latenightcool':
-      return 'Popular • Yup'
-    case 'politics':
-      return 'The Race • Yup'
-    case 'non-corona':
-      return 'Safe Space • Yup'
-    case 'crypto':
-      return 'Crypto • Yup'
-    case 'nfts':
-      return 'NFTs • Yup'
-    case 'mirror':
-      return 'Mirror Feed'
-    default:
-      return 'Yup • Social Network for Curators'
+  case 'dailyhits':
+    return 'Daily Hits • Yup'
+  case 'lol':
+    return 'LOL • Yup'
+  case 'brainfood':
+    return 'Smart • Yup'
+  case 'latenightcool':
+    return 'Popular • Yup'
+  case 'politics':
+    return 'The Race • Yup'
+  case 'non-corona':
+    return 'Safe Space • Yup'
+  case 'crypto':
+    return 'Crypto • Yup'
+  case 'nfts':
+    return 'NFTs • Yup'
+  case 'mirror':
+    return 'Mirror Feed'
+  default:
+    return 'Yup • Social Network for Curators'
   }
 }
 
 function feedDescription (feed) {
   switch (feed) {
-    case 'dailyhits':
-      return 'Top content of the day based on general influence'
-    case 'lol':
-      return 'Top content based on the funny category '
-    case 'brainfood':
-      return 'Top content based on the smart category'
-    case 'latenightcool':
-      return 'Top content based on the like category'
-    case 'politics':
-      return 'Top content related to current politics'
-    case 'non-corona':
-      return 'A feed free from virus-related content. Providing clarity and well-being in hard and confusing times.'
-    case 'crypto':
-      return 'The top crypto content out there'
-    case 'nfts':
-      return 'Non-fungibility for days'
-    case 'mirror':
-      return 'Live feed of the best articles across all Mirror publications'
-    default:
-      return 'Yup • Social Layer for the Internet'
+  case 'dailyhits':
+    return 'Top content of the day based on general influence'
+  case 'lol':
+    return 'Top content based on the funny category '
+  case 'brainfood':
+    return 'Top content based on the smart category'
+  case 'latenightcool':
+    return 'Top content based on the like category'
+  case 'politics':
+    return 'Top content related to current politics'
+  case 'non-corona':
+    return 'A feed free from virus-related content. Providing clarity and well-being in hard and confusing times.'
+  case 'crypto':
+    return 'The top crypto content out there'
+  case 'nfts':
+    return 'Non-fungibility for days'
+  case 'mirror':
+    return 'Live feed of the best articles across all Mirror publications'
+  default:
+    return 'Yup • Social Layer for the Internet'
   }
 }
 
 function feedImg (feed) {
   switch (feed) {
-    case 'mirror':
-      return 'mirror-meta.jpg'
-    default:
-      return 'main-meta.jpg'
+  case 'mirror':
+    return 'mirror-meta.jpg'
+  default:
+    return 'main-meta.jpg'
   }
 }
 
@@ -150,7 +146,7 @@ function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
   return (
     <ErrorBoundary>
       <div id='feedTitleContainer'
-        className={classes.feed}
+        className={classes.feedTitle}
       >
         <Helmet>
           <meta charSet='utf-8' />
@@ -193,7 +189,7 @@ function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
         </Helmet>
         <Grid container
           direction='column'
-          justify='center'
+          justifyContent='center'
         >
           <Grid container>
             <StyledFeedHeader
@@ -204,7 +200,7 @@ function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
               isMinimize={isMinimize}
             />
           </Grid>
-          <Grid justify='center'
+          <Grid justifyContent='center'
             container
           >
             <FeedHOC feed={feed} />
@@ -231,7 +227,7 @@ const StyledFeedContainer = withStyles(theme => ({
     margin: '0 auto',
     width: '100%',
     fontSize: '20px',
-    color: theme.palette.common.first
+    color: theme.palette.M100
   }
 }))(FeedContainer)
 
@@ -287,7 +283,7 @@ function FeedHeader ({
           container
           direction='row'
           spacing={2}
-          justify='flex-start'
+          justifyContent='flex-start'
           alignItems='center'
         >
           <Grid
@@ -331,8 +327,8 @@ const StyledFeedHeader = withStyles(theme => ({
     margin: '0 auto',
     position: 'relative',
     padding: '80px 0px 35px 0px',
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '0',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: 0,
       padding: '70px 0px 25px 15px',
       width: '100vw'
     }
@@ -402,9 +398,9 @@ class Discover extends Component {
       <HomeMenu />
     ) : (
       <div className={classes.container}>
-        <div className={classes.page}>
+        <PageBody pageClass={classes.page}>
           <Grid container
-            justify='center'
+            justifyContent='center'
           >
             <Grid
               className={classes.feedWrapper}
@@ -430,20 +426,16 @@ class Discover extends Component {
             disableInteraction
             highlightedMaskClassName={classes.Mask}
             nextButton={
-              <Button
-                variant='outlined'
-                small
-              >
-                Next
-              </Button>
+              <YupButton size='small'
+                variant='contained'
+                color='primary'
+              >Next</YupButton>
             }
             prevButton={
-              <Button
-                small
-                variant='outlined'
-              >
-                Back
-              </Button>
+              <YupButton size='small'
+                variant='contained'
+                color='primary'
+              >Back</YupButton>
             }
             lastStepNextButton={<div style={{ display: 'none' }} />}
           />
@@ -459,7 +451,7 @@ class Discover extends Component {
             </Fab>
           </Fade>
           <CreateCollectionFab />
-        </div>
+        </PageBody>
       </div>
     )
   }
@@ -560,41 +552,7 @@ const steps = [
           className='tourHeader'
         >👏 That's it !</Typography>
         <p className='tourText'>That's all for now. Learn more with some of these resources:</p>
-        <div className='tourResources'>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://docs.yup.io'
-            target='_blank'
-          >
-            Docs
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://yup.io'
-            target='_blank'
-          >
-            Website
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://blog.yup.io'
-            target='_blank'
-          >
-            Blog
-          </Button>
-        </div>
+        <StyledTourResources />
         <ReactPlayer
           controls
           style={{ overFlow: 'hidden', maxHeight: '200px' }}

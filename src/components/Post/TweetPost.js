@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import CustomTweetEmbed from '../CustomTweetEmbed/CustomTweetEmbed'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import './tweet.css'
 
-const styles = theme => ({
+const styles = (theme) => ({
   postContainer: {
     transition: 'opacity 2s ease-in',
     padding: '0% 0% 0% 0%',
@@ -13,8 +13,9 @@ const styles = theme => ({
     overflow: 'hidden',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
-    [theme.breakpoints.down('sm')]: {
-      borderRadius: '0px'
+    [theme.breakpoints.down('md')]: {
+      borderRadius: 0,
+      minHeight: 0
     }
   },
   tweetEl: {
@@ -23,11 +24,11 @@ const styles = theme => ({
     fontFamily: 'Gilroy, sans-serif',
     border: 'none',
     maxWidth: '600px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       minWidth: '100vw'
     },
-    marginLeft: '0px',
-    zoom: '115%',
+    marginLeft: 0,
+    zoom: '100%',
     marginRight: 'auto',
     marginTop: '-10px'
   }

@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
-import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
+import withStyles from '@mui/styles/withStyles'
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import Dotdotdot from 'react-clamp'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const styles = theme => ({
   text: {
     display: 'inline-block',
-    color: theme.palette.common.first,
-    margin: '0'
+    color: theme.palette.M100,
+    margin: 0
   },
   icon: {
     height: '15px',
@@ -26,7 +26,7 @@ const styles = theme => ({
   },
   dotdotdot: {
     whiteSpace: 'normal',
-    color: theme.palette.common.first,
+    color: theme.palette.M100,
     width: '100%',
     lineHeight: '20px'
   }
@@ -79,10 +79,10 @@ function NotifText (props) {
           <p
             className={classes.text}
             style={invokerWeight !== 0
-            ? {
-              textDecoration: 'underline',
-              textDecorationColor: underlineColor
-            } : null}
+              ? {
+                textDecoration: 'underline',
+                textDecorationColor: underlineColor
+              } : null}
           >
             {invoker}
           </p>
@@ -92,7 +92,7 @@ function NotifText (props) {
         &nbsp; on &nbsp;
           <em>
             {(notif.post && notif.post.previewData) ? notif.post.previewData.title
-            : (notif.post && notif.post.caption) || 'Post data null'}
+              : (notif.post && notif.post.caption) || 'Post data null'}
           </em>
         </Dotdotdot>
       </ErrorBoundary>
@@ -107,10 +107,10 @@ function NotifText (props) {
           <p
             className={classes.text}
             style={invokerWeight !== 0
-            ? {
-              textDecoration: 'underline',
-              textDecorationColor: underlineColor
-            } : null}
+              ? {
+                textDecoration: 'underline',
+                textDecorationColor: underlineColor
+              } : null}
           >
             {invoker}
           </p>
@@ -125,7 +125,7 @@ function NotifText (props) {
         &nbsp; on &nbsp;
           <em>
             {(notif.post && notif.post.previewData) ? notif.post.previewData.title
-            : (notif.post && notif.post.caption) || 'Post data null'}
+              : (notif.post && notif.post.caption) || 'Post data null'}
           </em>
         </Dotdotdot>
       </ErrorBoundary>
@@ -140,17 +140,17 @@ function NotifText (props) {
           <p
             className={classes.text}
             style={invokerWeight !== 0
-            ? {
-              textDecoration: 'underline',
-              textDecorationColor: underlineColor
-            } : null}
+              ? {
+                textDecoration: 'underline',
+                textDecorationColor: underlineColor
+              } : null}
           >
             {invoker}
           </p>
           &nbsp;
           commented on &nbsp;
           <i>{(notif.post && notif.post.previewData) ? notif.post.previewData.title
-          : notif.post.caption}
+            : notif.post.caption}
           </i>
         </Dotdotdot>
       </ErrorBoundary>
@@ -166,10 +166,10 @@ function NotifText (props) {
           <p
             className={classes.text}
             style={invokerWeight !== 0
-            ? {
-              textDecoration: 'underline',
-              textDecorationColor: underlineColor
-            } : null}
+              ? {
+                textDecoration: 'underline',
+                textDecorationColor: underlineColor
+              } : null}
           >
             {invoker}
           </p>
@@ -202,10 +202,10 @@ function NotifText (props) {
           <p
             className={classes.text}
             style={invokerWeight !== 0
-            ? {
-              textDecoration: 'underline',
-              textDecorationColor: underlineColor
-            } : null}
+              ? {
+                textDecoration: 'underline',
+                textDecorationColor: underlineColor
+              } : null}
           >
             {invoker}
           </p>
@@ -219,7 +219,10 @@ function NotifText (props) {
 
 NotifText.propTypes = {
   classes: PropTypes.object.isRequired,
-  notif: PropTypes.object.isRequired
+  notif: PropTypes.object.isRequired,
+  invokerWeight: PropTypes.object.isRequired,
+  underlineColor: PropTypes.object.isRequired,
+  invoker: PropTypes.object.isRequired
 }
 
 export default (withStyles(styles)(NotifText))

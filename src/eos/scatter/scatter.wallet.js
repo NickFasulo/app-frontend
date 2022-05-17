@@ -43,15 +43,15 @@ class ScatterWallet {
         authority: identity.accounts[0].authority
       }
 
-    if (!window.analytics) {
-      window.analytics.identify({ userId: this.identity.name })
-    }
+      if (!window.analytics) {
+        window.analytics.identify({ userId: this.identity.name })
+      }
 
       // Add new account to backend if it doesn't exist
       try {
         await axios.get(`${BACKEND_API}/accounts/${this.identity.name}`)
       } catch (e) {
-        if (e.response.data.statusCode === 404) {
+        if (e.response && e.response.data.statusCode === 404) {
           axios.post(`${BACKEND_API}/accounts/${this.identity.name}`)
         }
       }

@@ -1,15 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ImageLoader from 'react-load-image'
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import { Avatar, Fade } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles'
+import { Avatar, Fade } from '@mui/material'
+import { withStyles } from '@mui/styles'
 
 const ANONYMOUS_DEFAULT_AVATAR = 'images/icons/user.svg'
 
 const styles = theme => ({
   avatar: {
-    backgroundColor: theme.palette.alt.first,
+    backgroundColor: theme.palette.M900,
     fontFamily: 'Gilroy',
     fontWeight: '600',
     boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10'
@@ -32,28 +31,34 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
     <Fade in
       timeout={1000}
     >
-      <ErrorBoundary>
-        <ImageLoader className={classes.Loader}
+      <div>
+        <ImageLoader
+          className={classes.Loader}
           src={src || ANONYMOUS_DEFAULT_AVATAR}
         >
-          <img alt={alt}
+          <img
+            alt={alt}
             src={src}
             style={style}
             onError={setDefaultSrc}
             className={className}
           />
-          <Avatar alt={alt}
+          <Avatar
+            alt={alt}
             className={[classes.avatar, className]}
             style={style}
-          >{userLetter && userLetter}
+          >
+            {userLetter && userLetter}
           </Avatar>
-          <Avatar alt={alt}
+          <Avatar
+            alt={alt}
             className={[classes.avatar, className]}
             style={style}
-          >{userLetter && userLetter}
+          >
+            {userLetter && userLetter}
           </Avatar>
         </ImageLoader>
-      </ErrorBoundary>
+      </div>
     </Fade>
   )
 }

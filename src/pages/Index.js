@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
-import { Dialog, DialogContent, DialogContentText, Paper, createMuiTheme, CssBaseline } from '@material-ui/core'
+import {
+  DialogContent,
+  DialogContentText,
+  createTheme,
+  CssBaseline
+} from '@mui/material'
 import { theme, lightPalette, darkPalette } from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { reactReduxContext } from '../utils/history'
-import { MuiThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
 import wallet from '../eos/scatter/scatter.wallet'
 import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions, fetchAuthInfo, toggleColorTheme } from '../redux/actions'
 import { accountInfoSelector } from '../redux/selectors'
@@ -14,6 +19,7 @@ import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
+import { StyledIndexPaper } from './StyledIndexPaper'
 // import SiteBanner from '../components/SiteBanner/SiteBanner'
 
 import YupLists from './YupLists/YupLists'
@@ -22,11 +28,15 @@ import User from './User/User'
 import PostPage from './PostPage/PostPage'
 import ScorePage from './ScorePage/ScorePage'
 import RewardsPage from './RewardsPage/RewardsPage'
+import MigrationPage from './MigrationPage/MigrationPage'
 import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
 import Collections from './Collections/Collections'
 import Analytics from './Analytics/Analytics'
+import StakingPage from './StakingPage/Staking'
 import Footer from '../components/Footer/Footer'
 import Header from '../components/Header/Header'
+import YupDialog from '../components/Miscellaneous/YupDialog.js'
+import Providers from './providers'
 
 const { BACKEND_API } = process.env
 
@@ -97,7 +107,7 @@ class Index extends Component {
       this.checkTwitterAuth()
       this.setThemePreference()
 
-      fetchAuthFromState()
+      fetchAuthFromState(accountName)
 
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
@@ -114,7 +124,7 @@ class Index extends Component {
   componentDidUpdate (prevProps) {
     const { getLoggedUserCollections, fetchUserPerms, fetchAuthFromState, accountName } = this.props
     if (accountName && prevProps.accountName !== accountName) {
-      fetchAuthFromState()
+      fetchAuthFromState(accountName)
       getLoggedUserCollections(accountName)
       fetchUserPerms(accountName)
     }
@@ -138,77 +148,82 @@ class Index extends Component {
 
     const metaTitle = 'Yup • Social Network for Curators in Web3'
     const activePalette = lightMode ? lightPalette : darkPalette
-    const themeWithPalette = createMuiTheme({ ...theme(activePalette), ...activePalette })
-
-    return (
-      <>
-        <MuiThemeProvider theme={themeWithPalette}>
-          <CssBaseline>
-            <Paper style={{ backgroundColor: themeWithPalette.palette.alt.second, borderRadius: 0 }}>
-              <Helmet>
-                <meta charSet='utf-8' />
-                <title> {metaTitle} </title>
-                <meta name='description'
-                  content={metaTitle}
-                />
-              </Helmet>
-              <ConnectedRouter history={history}
-                context={reactReduxContext}
-              >
-                <div>
-                  <Header isTourOpen={tour} />
-                  {/* <SiteBanner /> */}
-                  <Switch>
-                    <Route component={Discover}
-                      exact
-                      path='/'
-                    />
-                    <Route component={YupLists}
-                      path='/leaderboard'
-                    />
-                    <Route component={Search}
-                      path='/search'
-                    />
-                    <Route component={TwitterOAuth}
-                      path='/twitter/:userid'
-                    />
-                    <Route component={PostPage}
-                      exact
-                      path='/p/:postid'
-                    />
-                    <Route component={ScorePage}
-                      exact
-                      path='/s'
-                    />
-                    <Route component={RewardsPage}
-                      path='/rewards'
-                    />
-                    <Route component={Analytics}
-                      exact
-                      path='/:username/analytics'
-                    />
-                    <Route component={Collections}
-                      exact
-                      path='/collections/:name/:id'
-                    />
-                    <Route component={User}
-                      exact
-                      path='/:username'
-                    />
-                    <Redirect from='*'
-                      to='/'
-                    />
-                    <Redirect from='/lists'
-                      to='/leaderboard'
-                    />
-                  </Switch>
-                  <Footer />
-                </div>
-              </ConnectedRouter>
-            </Paper>
-          </CssBaseline>
-        </MuiThemeProvider>
-        <Dialog
+    const themeWithPalette = createTheme({ ...theme(activePalette), ...activePalette })
+    // const hideSiteBanner = pathname.startsWith('/staking') || pathname.startsWith('/migration') || localStorage.getItem('bannerClosed')
+    return <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={themeWithPalette}>
+        <CssBaseline />
+        <Providers>
+          <StyledIndexPaper>
+            <Helmet>
+              <meta charSet='utf-8' />
+              <title> {metaTitle} </title>
+              <meta name='description'
+                content={metaTitle}
+              />
+            </Helmet>
+            <ConnectedRouter history={history}
+              context={reactReduxContext}
+            >
+              <div>
+                <Header isTourOpen={tour} />
+                <Switch>
+                  <Route component={Discover}
+                    exact
+                    path='/'
+                  />
+                  <Route component={YupLists}
+                    path='/leaderboard'
+                  />
+                  <Route component={Search}
+                    path='/search'
+                  />
+                  <Route component={TwitterOAuth}
+                    path='/twitter/:userid'
+                  />
+                  <Route component={PostPage}
+                    exact
+                    path='/p/:postid'
+                  />
+                  <Route component={ScorePage}
+                    exact
+                    path='/s'
+                  />
+                  <Route component={RewardsPage}
+                    path='/rewards'
+                  />
+                  <Route component={MigrationPage}
+                    path='/migration'
+                  />
+                  <Route component={Analytics}
+                    exact
+                    path='/:username/analytics'
+                  />
+                  <Route component={StakingPage}
+                    exact
+                    path='/staking'
+                  />
+                  <Route component={Collections}
+                    exact
+                    path='/collections/:name/:id'
+                  />
+                  <Route component={User}
+                    exact
+                    path='/:username'
+                  />
+                  <Redirect from='*'
+                    to='/'
+                  />
+                  <Redirect from='/lists'
+                    to='/leaderboard'
+                  />
+                </Switch>
+                <Footer />
+              </div>
+            </ConnectedRouter>
+          </StyledIndexPaper>
+        </Providers>
+        <YupDialog
           aria-describedby='alert-dialog-description'
           aria-labelledby='alert-dialog-title'
           onClose={this.handleAlertDialogClose}
@@ -219,9 +234,9 @@ class Index extends Component {
               {this.state.alertDialogContent}
             </DialogContentText>
           </DialogContent>
-        </Dialog>
-      </>
-    )
+        </YupDialog>
+      </ThemeProvider>
+    </StyledEngineProvider>
   }
 }
 
@@ -248,9 +263,9 @@ const mapActionToProps = (dispatch) => {
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
     fetchUserPerms: (accountName) => dispatch(fetchUserPermissions(accountName)),
     getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName)),
-    fetchAuthFromState: () => dispatch(fetchAuthInfo()),
+    fetchAuthFromState: (accountName) => dispatch(fetchAuthInfo(accountName)),
     toggleTheme: () => dispatch(toggleColorTheme())
-    }
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {

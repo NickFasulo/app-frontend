@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import { connect } from 'react-redux'
 import InfiniteScroll from '../InfiniteScroll/InfiniteScroll'
 import FeedLoader from '../FeedLoader/FeedLoader'
@@ -9,7 +9,7 @@ import { fetchFeed } from '../../redux/actions'
 import { createSelector } from 'reselect'
 
 import PostController from '../Post/PostController'
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 
 const styles = theme => ({
   feedLoader: {
@@ -18,28 +18,28 @@ const styles = theme => ({
     minWidth: '250px',
     minHeight: '800px',
     margin: '0 auto',
-    [theme.breakpoints.down('lg')]: {
+    [theme.breakpoints.down('xl')]: {
       maxWidth: '600px'
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       maxWidth: 'auto'
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       maxWidth: '85vw',
-      marginleft: '0'
+      marginleft: 0
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       maxWidth: '98vw',
       margin: '0 0'
     }
   },
   scrollDiv: {
-     overflowY: 'hidden',
-     overflowX: 'hidden'
+    overflowY: 'hidden',
+    overflowX: 'hidden'
   },
   infiniteScroll: {
     display: 'inherit',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       display: 'inline-block'
     }
   },
@@ -52,22 +52,25 @@ const styles = theme => ({
     maxWidth: '625px',
     width: '100%',
     margin: '0 auto',
-    [theme.breakpoints.down('lg')]: {
+    [theme.breakpoints.down('xl')]: {
       maxWidth: '600px'
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       maxWidth: 'auto'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       marginBottom: '0%'
     }
   },
   resetScroll: {
     fontFamily: 'Gilroy',
-    color: '#FAFAFA',
+    color: theme.palette.M50,
     textAlign: 'center',
     textDecoration: 'none',
     fontWeight: '300'
+  },
+  noPostsText: {
+    color: theme.palette.M50
   }
 })
 
@@ -80,36 +83,36 @@ class FeedHOC extends PureComponent {
     }
 
     switch (feed) {
-      case 'dailyhits':
-        window.analytics.page('Daily Hits')
-        break
-      case 'lol':
-        window.analytics.page('Funny')
-        break
-      case 'brainfood':
-        window.analytics.page('Smart')
-        break
-      case 'latenightcool':
-        window.analytics.page('Late Night Cool')
-        break
-      case 'politics':
-        window.analytics.page('The Race')
-        break
-      case 'non-corona':
-        window.analytics.page('Safe Space')
-        break
-      case 'crypto':
-        window.analytics.page('Crypto')
-        break
-      case 'mirror':
-        window.analytics.page('Mirror')
-        break
-      case 'nfts':
-        window.analytics.page('NFTs')
-        break
-      case 'new':
-        window.analytics.page('New')
-        break
+    case 'dailyhits':
+      window.analytics.page('Daily Hits')
+      break
+    case 'lol':
+      window.analytics.page('Funny')
+      break
+    case 'brainfood':
+      window.analytics.page('Smart')
+      break
+    case 'latenightcool':
+      window.analytics.page('Late Night Cool')
+      break
+    case 'politics':
+      window.analytics.page('The Race')
+      break
+    case 'non-corona':
+      window.analytics.page('Safe Space')
+      break
+    case 'crypto':
+      window.analytics.page('Crypto')
+      break
+    case 'mirror':
+      window.analytics.page('Mirror')
+      break
+    case 'nfts':
+      window.analytics.page('NFTs')
+      break
+    case 'new':
+      window.analytics.page('New')
+      break
     }
   }
 
@@ -125,17 +128,17 @@ class FeedHOC extends PureComponent {
     }
   }
 
-// Fetches initial posts, if there are none
+  // Fetches initial posts, if there are none
   fetchPosts = () => {
     const { dispatch, feed, feedInfo } = this.props
     if (feedInfo && feedInfo[feed]) {
       if (feedInfo[feed].posts.length < feedInfo[feed].limit) {
         dispatch(fetchFeed(feed, 0, feedInfo[feed].limit))
-       }
+      }
     }
   }
 
-// Increases start value, to fetch next posts
+  // Increases start value, to fetch next posts
   fetchPostsScroll = () => {
     const { dispatch, feed, feedInfo } = this.props
     dispatch(fetchFeed(feed, feedInfo[feed].start, feedInfo[feed].limit))
@@ -145,10 +148,10 @@ class FeedHOC extends PureComponent {
 
     if (!hasMore && posts.length === 0) {
       return (
-        <div align='center' >
+        <div align='center'>
           <Typography
-            style={{ color: '#ffffff' }}
             variant='caption'
+            className={classes.noPostsText}
           >
             No posts found
           </Typography>
@@ -179,17 +182,17 @@ class FeedHOC extends PureComponent {
                 tourname='ProfileFeed'
               >
                 {
-            posts.map((post) => (
-              <PostController key={post._id.postid}
-                post={post}
-                renderObjects
-              />
-            ))
-          }
+                  posts.map((post) => (
+                    <PostController key={post._id.postid}
+                      post={post}
+                      renderObjects
+                    />
+                  ))
+                }
               </div>
               {!hasMore &&
               <p className={classes.resetScroll}>end of feed</p>
-        }
+              }
             </div>
           </InfiniteScroll>
         </div>

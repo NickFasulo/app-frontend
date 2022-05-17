@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import Input from '@material-ui/core/Input'
-import { withStyles } from '@material-ui/core/styles'
+import Input from '@mui/material/Input'
+import withStyles from '@mui/styles/withStyles'
 import { addPostComment } from '../../redux/actions'
 import { parseError } from '../../eos/error'
 import { connect } from 'react-redux'
-import Grid from '@material-ui/core/Grid'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
+import Grid from '@mui/material/Grid'
+import CircularProgress from '@mui/material/CircularProgress'
 import WelcomeDialog from '../WelcomeDialog/WelcomeDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { accountInfoSelector } from '../../redux/selectors'
 import { getAuth } from '../../utils/authentication'
+import AuthModal from '../../features/AuthModal'
 
 const { BACKEND_API } = process.env
 
@@ -30,7 +30,7 @@ const styles = theme => ({
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '200',
     color: theme.palette.common.first,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '14px'
     }
   }
@@ -60,7 +60,7 @@ class AddComment extends PureComponent {
   handleInputSelect = () => {
     const { account } = this.props
     if (account == null) {
-        this.handleDialogOpen()
+      this.handleDialogOpen()
     }
   }
 
@@ -70,8 +70,8 @@ class AddComment extends PureComponent {
       try {
         const { account, postid, addComment, commentsCount, handleExpansionPanelOpen } = this.props
         if (account == null) {
-            this.handleDialogOpen()
-            return
+          this.handleDialogOpen()
+          return
         }
 
         let com = this.state.comment
@@ -103,10 +103,10 @@ class AddComment extends PureComponent {
     const { isLoading } = this.state
 
     const CommentLoader = () => isLoading
-    ? <CircularProgress size={16}
-      style={{ color: 'white', marginRight: '-8px' }}
+      ? <CircularProgress size={16}
+        style={{ color: 'white', marginRight: '-8px' }}
       />
-    : null
+      : null
 
     const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
     const twitterInfo = cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
@@ -117,7 +117,7 @@ class AddComment extends PureComponent {
           className={classes.addComment}
         >
           <Grid container
-            justify='flex-start'
+            justifyContent='flex-start'
           >
             <Input
               id='demo'
@@ -136,19 +136,19 @@ class AddComment extends PureComponent {
             />
           </Grid>
           <Grid container
-            justify='flex-end'
+            justifyContent='flex-end'
           >
             <CommentLoader />
           </Grid >
+          {/* TODO: Use `useAuthModal` after converting to functional component. */}
           {
             twitterInfo
               ? <WelcomeDialog dialogOpen={this.state.dialogOpen}
                 handleDialogClose={this.handleDialogClose}
-                /> : <SubscribeDialog
-                  account={this.props.account}
-                  dialogOpen={this.state.dialogOpen}
-                  handleDialogClose={this.handleDialogClose}
-                     />
+              /> : <AuthModal
+                open={this.state.dialogOpen}
+                onClose={this.handleDialogClose}
+              />
           }
 
         </Grid>
@@ -158,7 +158,7 @@ class AddComment extends PureComponent {
 }
 
 const mapDispatchToProps = {
-    addComment: addPostComment
+  addComment: addPostComment
 }
 
 const mapStateToProps = (state, ownProps) => {

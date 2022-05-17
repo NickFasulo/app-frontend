@@ -1,14 +1,14 @@
 import React, { memo } from 'react'
 import PostController from '../Post/PostController'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Typography } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles'
+import { Typography } from '@mui/material'
 import FeedLoader from '../FeedLoader/FeedLoader'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const styles = theme => ({
   feedContainer: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: '100%'
     },
     [theme.breakpoints.up('1700')]: {
@@ -16,16 +16,17 @@ const styles = theme => ({
     }
   },
   feedPage: {
-    overflowY: 'none',
+    overflowY: 'scroll',
     margin: 'auto',
-    marginBottom: '0%',
-    maxWidth: '625px',
+    marginBottom: 0,
+    height: '100%',
     width: '100%',
-    [theme.breakpoints.down('lg')]: {
+    maxWidth: '625px',
+    [theme.breakpoints.down('xl')]: {
       maxWidth: '600px'
     },
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '0%'
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 0
     }
   },
   feedLoader: {
@@ -34,24 +35,28 @@ const styles = theme => ({
     minWidth: '250px',
     margin: '0 auto',
     minHeight: '800px',
-    [theme.breakpoints.down('lg')]: {
+    [theme.breakpoints.down('xl')]: {
       maxWidth: '600px'
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       maxWidth: 'auto'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       maxWidth: '98vw',
-      margin: '0 0'
+      margin: 0
     }
   },
   resetScroll: {
     fontFamily: 'Gilroy',
-    color: '#FAFAFA',
+    color: theme.palette.M50,
     textAlign: 'center',
     textDecoration: 'none',
-    fontWeight: '300',
-    maxWidth: 600
+    fontWeight: '300'
+  },
+  noPostsText: {
+    display: 'flex',
+    justifyContent: 'center',
+    color: theme.palette.M50
   }
 })
 
@@ -72,8 +77,8 @@ function Feed (props) {
     return (
       <div className={classes.feedPage}>
         <Typography
-          style={{ color: '#ffffff', display: 'flex', justifyContent: 'center' }}
           variant='caption'
+          className={classes.noPostsText}
         >
           No posts found
         </Typography>

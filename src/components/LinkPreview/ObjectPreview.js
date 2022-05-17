@@ -1,11 +1,12 @@
+/* eslint-disable react/jsx-indent */
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import PropTypes from 'prop-types'
 import Img from 'react-image'
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Typography } from '@mui/material'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { levelColors } from '../../utils/colors'
-import Fade from '@material-ui/core/Fade'
+import Fade from '@mui/material/Fade'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { trimURL, getFavicon } from '../../utils/url'
 import axios from 'axios'
@@ -18,7 +19,7 @@ const styles = theme => ({
     position: 'relative',
     overflowY: 'hidden',
     height: '8rem',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       height: '9rem'
     },
     borderTopLeftRadius: '10px',
@@ -44,17 +45,17 @@ const styles = theme => ({
       width: '100%',
       maxWidth: '6rem'
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '4.5rem',
       height: '4.5rem'
     }
   },
   previewContainer: {
     textDecoration: 'none',
-    color: theme.palette.common.first,
+    color: theme.palette.M100,
     '&:visited': {
       textDecoration: 'none',
-      color: theme.palette.common.first
+      color: theme.palette.M100
     },
     maxHeight: '500px'
   },
@@ -62,21 +63,21 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '1rem',
     fontWeight: 500,
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
-    color: theme.palette.common.first,
+    textShadow: `0px 0px 5px ${theme.palette.M900}aa`,
+    color: theme.palette.M100,
     opacity: 0.9,
     width: '400px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '60vw'
     }
   },
   description: {
     position: 'relative',
     fontSize: '0.7rem',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
+    textShadow: `0px 0px 5px ${theme.palette.M900}88`,
     fontWeight: 200,
     maxWidth: '400px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '60vw'
     }
   },
@@ -90,8 +91,8 @@ const styles = theme => ({
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     width: '70%',
-    marginTop: '0px',
-    [theme.breakpoints.down('xs')]: {
+    marginTop: 0,
+    [theme.breakpoints.down('sm')]: {
       width: '30vw'
     }
   },
@@ -108,7 +109,7 @@ const styles = theme => ({
     marginRight: '0rem',
     border: 'none',
     borderRadius: '0.5rem',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       height: 18,
       width: 18
     }
@@ -132,11 +133,13 @@ class FallbackImage extends Component {
 
   render () {
     const { classes, imageStyle } = this.props
-    return <img className={classes.linkImg}
-      style={imageStyle}
-      src={this.state.imgLink || DEFAULT_POST_IMAGE}
-      alt='fallback'
-           />
+    return (
+      <img className={classes.linkImg}
+        style={imageStyle}
+        src={this.state.imgLink || DEFAULT_POST_IMAGE}
+        alt='fallback'
+      />
+    )
   }
 }
 
@@ -167,7 +170,7 @@ class ObjectPreview extends Component {
 
     const imageStyle = { border: levelColor
       ? `3px solid ${levelColor}`
-       : 'none' }
+      : 'none' }
 
     return (
       <ErrorBoundary>
@@ -193,7 +196,7 @@ class ObjectPreview extends Component {
                     alignItems='flex-start'
                     container
                     direction='row'
-                    justify='space-between'
+                    justifyContent='space-between'
                   >
                     <Grid item
                       xs={1}
@@ -205,8 +208,8 @@ class ObjectPreview extends Component {
                         unloader={<StyledFallbackImage className={classes.linkImg}
                           caption={caption}
                           imageStyle={imageStyle}
-                                  />
-                      }
+                        />
+                        }
                         target='_blank'
                         style={imageStyle}
                       />
