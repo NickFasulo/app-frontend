@@ -25,6 +25,7 @@ const useAuth = () => {
 
   return {
     isLoggedIn: Boolean(account?.name),
+    username: account?.name,
     authInfo: modifyAuthInfo(authInfo),
     ...account
   };
