@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { Box } from '@mui/material';
 import YupHead from '../../components/YupHead';
 import {
   getFeedCategoryWithDefault,
@@ -15,15 +14,7 @@ const Feeds = () => {
   const metaImage = getFeedCategoryMetaImage(category);
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      minHeight="100vh"
-      maxWidth="100vw"
-      sx={{
-        overflowY: 'hidden'
-      }}
-    >
+    <>
       <YupHead
         title={categoryData.metaTitle}
         description={categoryData.description}
@@ -35,7 +26,7 @@ const Feeds = () => {
         }}
       />
       <FeedContainer categoryData={categoryData} />
-    </Box>
+    </>
   );
 };
 

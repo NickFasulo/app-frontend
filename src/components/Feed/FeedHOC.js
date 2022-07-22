@@ -12,9 +12,8 @@ import useStyles from './FeedHOCStyles';
 import { logPageView } from '../../utils/analytics';
 import clsx from 'clsx'
 
-const FeedHOC = ({ feedType, setIsMinimize, isMinimize }) => {
+const FeedHOC = ({ feedType }) => {
   const classes = useStyles();
-  const scrollRef = useRef(0);
   const dispatch = useDispatch();
   const feedInfo = useSelector((state) => state.feedInfo?.feeds[feedType]);
 
@@ -54,17 +53,6 @@ const FeedHOC = ({ feedType, setIsMinimize, isMinimize }) => {
     logPageView(feedType);
   }, [feedType]);
 
-  const handleScroll = (e) => {
-    let element = e.target;
-    if (element.scrollTop > scrollRef.current && !isMinimize) {
-      setIsMinimize(true);
-    }
-    if (element.scrollTop === 0 && isMinimize) {
-      setIsMinimize(false);
-    }
-
-    scrollRef.current = element.scrollTop;
-  };
   const { posts = [], hasMore = false } = feedInfo || {};
 
   if (!hasMore && posts.length === 0) {
@@ -79,40 +67,26 @@ const FeedHOC = ({ feedType, setIsMinimize, isMinimize }) => {
 
   return (
     <ErrorBoundary>
-      <div className={classes.scrollDiv}>
-        <InfiniteScroll
-          dataLength={posts.length}
-          hasMore={hasMore}
-          height={`calc(100vh - ${isMinimize ? 130 : 150}px)`}
-          className={clsx(classes.infiniteScroll, 'infinite-scroll-component')}
-          loader={
-            <div className={classes.feedLoader}>
-              <FeedLoader />
-            </div>
-          }
-          onScroll={handleScroll}
-          next={fetchPostsScroll}
-          endMessage={<p className={classes.resetScroll}>end of feed</p>}
-        >
-          <div
-            className={classes.container}
-          >
-            <div
-              id="profilefeed"
-              align="center"
-              className={classes.page}
-            >
-              {posts.map((post) => (
-                <PostController
-                  key={post._id.postid}
-                  post={post}
-                  renderObjects
-                />
-              ))}
-            </div>
+      <InfiniteScroll
+        dataLength={posts.length}
+        hasMore={hasMore}
+        className={clsx(classes.infiniteScroll, 'infinite-scroll-component')}
+        loader={
+          <div className={classes.feedLoader}>
+            <FeedLoader />
           </div>
-        </InfiniteScroll>
-      </div>
+        }
+        next={fetchPostsScroll}
+        endMessage={<p className={classes.resetScroll}>end of feed</p>}
+      >
+        {posts.map((post) => (
+          <PostController
+            key={post._id.postid}
+            post={post}
+            renderObjects
+          />
+        ))}
+      </InfiniteScroll>
     </ErrorBoundary>
   );
 };
