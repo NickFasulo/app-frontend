@@ -13,7 +13,7 @@ import {
   Typography
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { useAccount, useConnect, useSignMessage } from 'wagmi';
+import { useAccount, useSignMessage } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/router';
 
@@ -27,6 +27,7 @@ import {
   apiInviteEmail,
   apiMirrorAccount,
   apiRequestWhitelist,
+  apiSetETHAddress,
   apiValidateUsername,
   apiVerifyChallenge
 } from '../../apis';
@@ -42,7 +43,7 @@ import {
   INVITE_EMAIL_SUCCESS,
   WAIT_FOR_ACCOUNT_CREATION
 } from '../../constants/messages';
-import { updateEthAuthInfo } from '../../redux/actions';
+import { updateEthAuthInfo, fetchSocialLevel } from '../../redux/actions';
 import {
   ANALYTICS_SIGN_UP_TYPES,
   trackLogin,
@@ -55,6 +56,9 @@ import AuthMethodButton from '../../components/AuthMethodButton';
 import AuthInput from '../../components/AuthInput/AuthInput';
 import useStyles from './AuthModalStyles';
 import useToast from '../../hooks/useToast';
+import useAuth from '../../hooks/useAuth';
+import useYupAccount  from '../../hooks/useAccount';
+import { useDisconnect } from 'wagmi'
 
 const defaultContext = {
   open: () => {},
@@ -73,30 +77,44 @@ export const AuthModalContextProvider = ({ children }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { toastError, toastSuccess } = useToast();
-  const [
-    {
-      data: { connected }
-    }
-  ] = useConnect();
-  const [{ data: accountData }, disconnectAccount] = useAccount();
-  const [, signMessage] = useSignMessage();
+  const { address, isConnected } = useAccount();  
+  const { disconnect } = useDisconnect()
+  const {data: signature, isSuccess, signMessage} = useSignMessage();
   const router = useRouter();
-
+  const {account} = useYupAccount()
   const [modalOpen, setModalOpen] = useState(false);
   const [options, setOptions] = useState({});
   const [stage, setStage] = useState(AUTH_MODAL_STAGE.SIGN_IN);
   const [email, setEmail] = useState('');
   const [ethSignData, setEthSignData] = useState(null);
   const [username, setUsername] = useState('');
+  const [linkEth, setLinkEth] = useState(false);
   const [currAuthMethod, setCurrAuthMethod] = useState(null);
+console.log(account, 'account')
 
   useEffect(() => {
     // If `Connect Wallet` button is clicked and wallet is connect, start auth with ETH.
-    if (currAuthMethod === AUTH_TYPE.ETH && connected) {
-      handleAuthWithWallet();
-      setCurrAuthMethod(null);
+    if(isConnected){
+      if (currAuthMethod === AUTH_TYPE.ETH || linkEth) {
+        getSignature()
+      } 
     }
-  }, [connected, currAuthMethod]);
+  }, [isConnected, currAuthMethod, linkEth]);
+
+  useEffect(() => {
+    // If `Connect Wallet` button is clicked and wallet is connect, start auth with ETH.
+    if (signature && isSuccess) { 
+      if(currAuthMethod === AUTH_TYPE.ETH ){
+        setCurrAuthMethod(null)
+        handleAuthWithWallet()
+      } else if(linkEth){
+        setLinkEth(null);
+        handleLinkEthAddress();
+      }
+    }
+  }, [signature]);
+
+  
 
   const handleCloseModal = () => {
     setModalOpen(false);
@@ -113,28 +131,28 @@ export const AuthModalContextProvider = ({ children }) => {
     setCurrAuthMethod(AUTH_TYPE.ETH);
   }, []);
 
-  const handleAuthWithWallet = async () => {
-    const { address } = accountData;
-    let challenge, signature;
+  const handleStartLinkEthAddress = useCallback((_options = {}) => {
+    setOptions(_options);
+    setLinkEth(true);
+  }, []);
 
+  const getSignature = async () => {
     try {
-      const rspChallenge = await apiGetChallenge({ address });
-      challenge = rspChallenge.data;
-
-      const rspSignature = await signMessage({ message: challenge });
-      signature = rspSignature.data;
-    } catch (err) {
+    const rspChallenge = await apiGetChallenge({ address });
+    signMessage({ message: rspChallenge.data });} 
+    catch (err) {
       // Failed to sign the challenge, should try again.
       // Most cases are when the user rejects to sign.
       toastError(err.message || ERROR_SIGN_FAILED);
-
       return;
     }
-
+  }
+  const handleAuthWithWallet = async () => {
+    
     if (!signature) {
       toastError(ERROR_SIGN_FAILED);
 
-      disconnectAccount();
+      disconnect();
 
       return;
     }
@@ -154,7 +172,6 @@ export const AuthModalContextProvider = ({ children }) => {
     // Store challenge/signature into localStorage for later use.
     const ethAuth = {
       address,
-      challenge,
       signature
     };
 
@@ -201,7 +218,66 @@ export const AuthModalContextProvider = ({ children }) => {
       router.push(`/account/${account.username}`);
     }
   };
+  const handleLinkEthAddress = async () => {
 
+    if (!signature) {
+      toastError(ERROR_SIGN_FAILED);
+
+      disconnect();
+
+      return;
+    }
+
+    try {
+      await apiVerifyChallenge(address, signature);
+    } catch (err) {
+      // Verification failed, should try again.
+      toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
+
+      return;
+    }
+    try {
+
+    await apiSetETHAddress(address, {eosname: account._id, authType:'ETH', signature});
+    dispatch(
+      fetchSocialLevel(account._id)
+    );
+    } catch (err) {
+      toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
+
+      return;
+    }
+    // Save signature data for later use.
+
+    // Store challenge/signature into localStorage for later use.
+    const ethAuth = {
+      address,
+      signature
+    };
+
+    localStorage.setItem(LOCAL_STORAGE_KEYS.ETH_AUTH, JSON.stringify(ethAuth));
+
+
+    // Update redux state
+    dispatch(
+      updateEthAuthInfo({
+        account,
+        address,
+        signature
+      })
+    );
+
+    // Tract for analytics
+    trackLogin(account.username, address);
+
+    // Close modal
+    handleCloseModal();
+
+    if (!options.noRedirect) {
+      // Redirect to profile page
+      router.push(`/account/${account.username}`);
+    }
+  };
   const handleAuthWithTwitter = async () => {
     try {
       const { token, _id: id } = await apiGetOAuthChallenge();
@@ -421,7 +497,8 @@ export const AuthModalContextProvider = ({ children }) => {
     <AuthModalContext.Provider
       value={{
         open: handleOpenModal,
-        startEthAuth: handleStartEthAuth
+        startEthAuth: handleStartEthAuth,
+        linkEthAddress: handleStartLinkEthAddress
       }}
     >
       {children}

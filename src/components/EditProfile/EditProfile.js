@@ -12,37 +12,44 @@ import YupDialog from '../Miscellaneous/YupDialog';
 import { YupButton, YupInput } from '../Miscellaneous';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import { updateAccountInfo, updateEthAuthInfo } from '../../redux/actions';
-import { apiSetETHAddress, apiUploadProfileImage } from '../../apis';
+import { apiGetChallenge, apiSetETHAddress, apiUploadProfileImage, apiVerifyChallenge } from '../../apis';
 import useToast from '../../hooks/useToast';
 import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
 import useStyles from './styles';
-import { useAccount, useConnect } from 'wagmi';
+import {  useAccount, useDisconnect } from 'wagmi';
+import { useAuthModal } from '../../contexts/AuthModalContext';
 import useAuth from '../../hooks/useAuth'
 import { useRouter } from 'next/router';
+import useEthAuth from '../../hooks/useEthAuth';
+import useYupAccount  from '../../hooks/useAccount';
+import {
+  useConnectModal
+} from '@rainbow-me/rainbowkit';
+import withSuspense from '../../hoc/withSuspense';
+import { useSocialLevel } from '../../hooks/queries';
+import { fetchSocialLevel } from '../../redux/actions';
 // TODO: Refactor styling to Mui v5
-const EditProfile = ({ username, account, accountInfo, ethAuth }) => {
+const EditProfile = () => {
   const router = useRouter();
+  const { openConnectModal } = useConnectModal();
+  const {  isConnected } = useAccount();
+  const { disconnect } = useDisconnect()
   const {dialogOpen} = router.query;
   const {authInfo} = useAuth();
+  const {account} = useYupAccount()
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const { toastError } = useToast();
-  const [{ data: ethAccount }, disconnect] = useAccount();
+  const { linkEthAddress } = useAuthModal();
   //const { open: openAuthModal } = useAuthModal();
-  const [
-    {
-      data: { connected }
-    }
-  ] = useConnect();
-  const [connectEthClicked, setConnectEthClicked] = useState(false);
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState([]);
-  const [avatar, setAvatar] = useState(accountInfo.avatar);
-  const [fullName, setFullName] = useState(accountInfo.fullname);
+  const [avatar, setAvatar] = useState();
+  const [fullName, setFullName] = useState();
   const [ethAddress, setEthAddress] = useState(
-    accountInfo.ethInfo.address || ''
   );
-  const [bio, setBio] = useState(accountInfo.bio);
+  const [bio, setBio] = useState();
   const [crop, setCrop] = useState({
     unit: '%',
     width: 50,
@@ -54,41 +61,55 @@ const EditProfile = ({ username, account, accountInfo, ethAuth }) => {
   const [pixelCrop, setPixelCrop] = useState({});
   const [cropTime, setCropTime] = useState(false);
   const [imageRef, setImageRef] = useState(null);
-
+  const [connectModalIsOpen, setConnectModalIsOpen] = useState(false);
+  
   const filePreview = files.length > 0 ? files[0].preview : '';
   const filename = files.length > 0 ? files[0].name : '';
-console.log(open, dialogOpen, connectEthClicked, connected, ethAddress)
-  useEffect(() => {
-    if (connectEthClicked && connected) {  
-      handleNewEthAddress()
-    }
-  }, [connectEthClicked, connected]);
 
+  useEffect(() => {
+    if(account){
+      setAvatar(account.avatar)
+      setFullName(account.fullname)
+      setBio(account.bio)
+    }
+      if(account?.ethInfo?.address !== ethAddress){
+        setEthAddress(account?.ethInfo?.address)
+      } 
+    
+      
+  }, [account]);
+  
   useEffect(() => {
     if (dialogOpen) {
-      setOpen(true)      
-     // setConnectEthClicked(true);
-      //openConnectModal()
+      setOpen(true)   
     }
   }, []);
-  const handleOpenModalDynamicly = (openRainbow) => {
-    openRainbow()
-    setConnectEthClicked(true);
-  }
 
-  const handleNewEthAddress = async () => {
-    try {
-      await apiSetETHAddress(ethAccount.address)
-      setEthAddress(ethAccount.address);      
-      dispatch(updateEthAuthInfo({ address: ethAccount.address }));      
-      setConnectEthClicked(false);
+//Disconnect user if dialogOpen -> openConnectModal returns undefined if already connected
+  useEffect(()=>{     
+
+    if(isConnected && dialogOpen && !connectModalIsOpen){
       disconnect()
     }
-    catch(e){
+  }, [isConnected])
 
-      toastError(e);
+  useEffect(() => {
+    if (openConnectModal && dialogOpen && !connectModalIsOpen && !isConnected) {
+      handleOpenModalDynamicly() 
+      setConnectModalIsOpen(true) 
     }
+  }, [openConnectModal, isConnected]);
+
+  const handleOpenModalDynamicly = () => {
+    openConnectModal()
+    handleLinkEthAddress()
   }
+
+  const handleLinkEthAddress = async () => {
+     linkEthAddress({ noRedirect: true });
+
+  }
+
   const handleDialogClose = () => {
     files.forEach((file) => {
       if (file && file.preview) {
@@ -149,10 +170,9 @@ console.log(open, dialogOpen, connectEthClicked, connected, ethAddress)
       }
 
       if (
-        bio.trim() === accountInfo.bio &&
-        fullName.trim() === accountInfo.fullname &&
-        newAvatar.trim() === accountInfo.avatar &&
-        ethAddress.trim() === accountInfo.ethAddress
+        bio.trim() === account.bio &&
+        fullName.trim() === account.fullname &&
+        newAvatar.trim() === account.avatar
       ) {
         toastError('Must specify different bio, fullname, or avatar to update');
         return;
@@ -163,13 +183,10 @@ console.log(open, dialogOpen, connectEthClicked, connected, ethAddress)
         update.bio = bio;
       }
       if (newAvatar) {
-        update.avatar = newAvatar || accountInfo.avatar;
+        update.avatar = newAvatar || account.avatar;
       }
       if (fullName) {
         update.fullname = fullName;
-      }
-      if (ethAddress) {
-        update.eth_address = ethAddress;
       }
 
       dispatch(updateAccountInfo(account, update, authInfo));
@@ -348,7 +365,7 @@ console.log(open, dialogOpen, connectEthClicked, connected, ethAddress)
                       <UserAvatar
                         align="center"
                         alt="Add"
-                        username={username}
+                        username={account?.username}
                         className={classes.dropzoneImg}
                         style={{ fontSize: '100px' }}
                         height="auto"
@@ -427,14 +444,13 @@ console.log(open, dialogOpen, connectEthClicked, connected, ethAddress)
               )}
                 <Grid item>
                   <ConnectButton.Custom>
-                    {({ openConnectModal, connectModalOpen }) => (
+                    {({ openConnectModal }) => (
                       <>
-                      {dialogOpen && open && !connectModalOpen && !connectEthClicked&& handleOpenModalDynamicly(openConnectModal)}
                       <YupButton
                         fullWidth
                         onClick={() => {
-                          setConnectEthClicked(true);
-                          openConnectModal();
+                         openConnectModal();
+                         handleLinkEthAddress()
                         }}
                         variant="outlined"
                         color="secondary"
@@ -454,21 +470,7 @@ console.log(open, dialogOpen, connectEthClicked, connected, ethAddress)
   );
 };
 
-EditProfile.propTypes = {
-  ethAuth: PropTypes.object,
-  accountInfo: PropTypes.object.isRequired,
-  username: PropTypes.string.isRequired,
-  account: PropTypes.object.isRequired
-};
 
 // TODO: Move to `useSelector`
-const mapStateToProps = (state) => {
-  const account = accountInfoSelector(state);
-  const ethAuth = ethAuthSelector(state);
-  return {
-    account,
-    ethAuth
-  };
-};
 
-export default connect(mapStateToProps)(EditProfile);
+export default withSuspense()(EditProfile);

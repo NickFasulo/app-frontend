@@ -5,11 +5,11 @@ export const apiGetAccount = async (accountName) =>
     url: `/accounts/${accountName}`
   });
 
-export const apiSetETHAddress = async (ethData) =>
+export const apiSetETHAddress = async (address, authInfo) =>
   callYupApi({
     url: '/accounts/linked/eth',
     method: 'POST',
-    data: ethData
+    data: {address, ...authInfo}
   });
 
 export const apiGetAccountByEthAddress = async (address) =>
