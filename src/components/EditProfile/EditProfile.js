@@ -94,11 +94,12 @@ const EditProfile = () => {
   }, [isConnected])
 
   useEffect(() => {
-    if (openConnectModal && dialogOpen && !connectModalIsOpen && !isConnected) {
+    console.log({account, ethAddress})
+    if (account&&  !account.ethInfo?.address &&openConnectModal && dialogOpen && !connectModalIsOpen && !isConnected ) {
       handleOpenModalDynamicly() 
       setConnectModalIsOpen(true) 
     }
-  }, [openConnectModal, isConnected]);
+  }, [openConnectModal, isConnected, account]);
 
   const handleOpenModalDynamicly = () => {
     openConnectModal()
@@ -326,7 +327,8 @@ const EditProfile = () => {
             <YupButton
               onClick={handleAccountInfoSubmit}
               variant="contained"
-              color="secondary"
+              color="primary"
+              size="medium"
             >
               Update
             </YupButton>
@@ -334,8 +336,9 @@ const EditProfile = () => {
           secondButton={
             <YupButton
               onClick={handleDialogClose}
-              variant="contained"
-              color="secondary"
+              variant="outlined"
+              color="primary"
+              size="medium"
             >
               Cancel
             </YupButton>
@@ -398,7 +401,6 @@ const EditProfile = () => {
               item
               container
               direction="column"
-              alignItems="stretch"
               spacing={2}
             >
               <Grid item>
@@ -421,12 +423,13 @@ const EditProfile = () => {
                   maxLength={140}
                   label="Bio"
                   multiline
+                  rows={2}
                   onChange={(e) => setBio(e.target.value)}
                   type="text"
                   variant="outlined"
                 />
               </Grid>
-              {ethAddress && (
+              {ethAddress ? (
                 <Grid item>
                   <YupInput
                     autoFocus
@@ -441,7 +444,7 @@ const EditProfile = () => {
                     variant="outlined"
                   />
                 </Grid>
-              )}
+              ): (
                 <Grid item>
                   <ConnectButton.Custom>
                     {({ openConnectModal }) => (
@@ -460,7 +463,7 @@ const EditProfile = () => {
                       </>
                     )}
                   </ConnectButton.Custom>
-                </Grid>
+                </Grid>)}
              
             </Grid>
           </Grid>

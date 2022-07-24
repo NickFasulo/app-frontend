@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
   Grid,
   Hidden,
   Step,
@@ -16,7 +13,6 @@ import { useDispatch } from 'react-redux';
 import { useAccount, useSignMessage } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/router';
-
 import { AUTH_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
 import {
   apiCheckWhitelist,
@@ -56,9 +52,9 @@ import AuthMethodButton from '../../components/AuthMethodButton';
 import AuthInput from '../../components/AuthInput/AuthInput';
 import useStyles from './AuthModalStyles';
 import useToast from '../../hooks/useToast';
-import useAuth from '../../hooks/useAuth';
 import useYupAccount  from '../../hooks/useAccount';
 import { useDisconnect } from 'wagmi'
+import { YupDialog } from '../../components/Miscellaneous';
 
 const defaultContext = {
   open: () => {},
@@ -503,24 +499,18 @@ console.log(account, 'account')
     >
       {children}
 
-      <Dialog open={modalOpen} onClose={handleCloseModal}>
-        <DialogTitle sx={{ fontSize: 24, fontWeight: 900 }}>
-          Sign Up / Login
-        </DialogTitle>
-
-        <DialogContent>
-          {/* Hide text in small devices */}
-          <Hidden lgDown>
-            <Typography variant="subtitle1" className={classes.title}>
-              {stage === AUTH_MODAL_STAGE.SIGN_IN
-                ? 'Earn money & clout for liking content anywhere on the internet. Get extra rewards for joining today.'
-                : "Please sign up with an 'active' wallet, one that has held some ETH or YUP before. Fresh unused wallets will not be whitelisted and will need to be approved."}
-            </Typography>
-          </Hidden>
-
-          {renderModalContent()}
-        </DialogContent>
-      </Dialog>
+      <YupDialog
+        headline="Sign Up / Login"
+        description={<Hidden lgDown>
+          {stage === AUTH_MODAL_STAGE.SIGN_IN
+            ? 'Earn money & clout for liking content anywhere on the internet. Get extra rewards for joining today.'
+            : "Please sign up with an 'active' wallet, one that has held some ETH or YUP before. Fresh unused wallets will not be whitelisted and will need to be approved."}
+          </Hidden>}
+        open={modalOpen}
+        onClose={handleCloseModal}
+      >
+        {renderModalContent()}
+      </YupDialog>
     </AuthModalContext.Provider>
   );
 };
