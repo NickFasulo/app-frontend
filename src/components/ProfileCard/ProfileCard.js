@@ -194,7 +194,7 @@ function ProfileCard(props) {
     balanceInfo,
     account,
     isLoggedIn,
-    ratingCount,
+    likeCount,
     isMinimize,
     levels,
     dispatch,
@@ -212,7 +212,7 @@ function ProfileCard(props) {
   const formattedWeight = numeral(
     Math.floor(Number(accountInfo.weight))
   ).format('0,0');
-  const formattedRatings = numeral(ratingCount).format('0a').toUpperCase();
+  const formattedLikes = numeral(likeCount).format('0a').toUpperCase();
   const eosname = accountInfo && (accountInfo.eosname || accountInfo._id);
   const levelInfo = levels[eosname] && levels[eosname].levelInfo;
 
@@ -549,8 +549,8 @@ function ProfileCard(props) {
               >
                 <Grid item>
                   <Typography align="left" variant="body2">
-                    <a style={{ fontWeight: 500 }}>{formattedRatings}</a>{' '}
-                    Ratings
+                    <a style={{ fontWeight: 500 }}>{formattedLikes}</a>{' '}
+                    Votes
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -591,7 +591,7 @@ ProfileCard.propTypes = {
   dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  ratingCount: PropTypes.number.isRequired,
+  likeCount: PropTypes.number.isRequired,
   balanceInfo: PropTypes.object.isRequired,
   isMinimize: PropTypes.bool.isRequired,
   accountInfo: PropTypes.object.isRequired,
