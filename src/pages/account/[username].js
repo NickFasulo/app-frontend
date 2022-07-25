@@ -20,6 +20,7 @@ import { levelColors } from '../../utils/colors';
 import UserCollectionsSection from '../../components/UserCollectionsSection/UserCollectionsSection';
 import YupPageHeader from '../../components/YupPageHeader';
 import UserAnalytics from '../../components/UserAnalytics/UserAnalytics';
+import GridLayout from '../../components/GridLayout';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
@@ -85,26 +86,11 @@ const UserAccountPage = () => {
       </YupPageHeader>
       {selectedTab === PROFILE_TAB_IDS.PROFILE && (
         <YupContainer>
-          <Grid container spacing={3}>
-            {/* User Posts */}
-            <Grid item xs={12} md={8} lg={7}>
-              <UserPosts userId={profile._id} />
-            </Grid>
-
-            {/* User Collections */}
-            <Grid item md={4} lg={5}>
-              <Box
-                sx={{
-                  pt: 2,
-                  display: isMobile ? 'none' : 'block',
-                  position: headerHeight === null ? 'relative' : 'sticky',
-                  top: headerHeight === null ? undefined : headerHeight
-                }}
-              >
-                <UserCollectionsSection userId={profile._id} />
-              </Box>
-            </Grid>
-          </Grid>
+          <GridLayout
+            headerHeight={headerHeight}
+            contentLeft={<UserPosts userId={profile._id} />}
+            contentRight={<UserCollectionsSection userId={profile._id} />}
+          />
         </YupContainer>
       )}
       {selectedTab === PROFILE_TAB_IDS.COLLECTIONS && (
