@@ -53,26 +53,35 @@ export const useSocialLevel = (voter) => {
 };
 
 export const useFollowings = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], () =>
-    callYupApi({
-      method: 'GET',
-      url: `/following/${id}`
-    })
-  );
+  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], async () => {
+    try {
+      return await callYupApi({
+        method: 'GET',
+        url: `/following/${id}`
+      });
+    } catch {
+      return [];
+    }
+  });
 
   return data;
 };
 
 export const useFollowers = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWER, id], () =>
-    callYupApi({
-      method: 'GET',
-      url: `/v2/followers/${id}`
-    })
-  );
+  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWER, id], async () => {
+    try {
+      return await callYupApi({
+        method: 'GET',
+        url: `/v2/followers/${id}`
+      });
+    } catch {
+      return [];
+    }
+  });
 
   return data;
 }
+
 
 export const useUserPosts = (userId) => {
   return useInfiniteQuery(
