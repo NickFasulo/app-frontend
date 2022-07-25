@@ -23,7 +23,7 @@ const LeaderboardContainer = () => {
 
   return (
     <FilterContext.Provider value={filters}>
-      <YupPageHeader noborder sx={{ py: 3 }}>
+      <YupPageHeader noborder sx={{ pb: 3 }}>
         <Header />
       </YupPageHeader>
       <YupContainer>

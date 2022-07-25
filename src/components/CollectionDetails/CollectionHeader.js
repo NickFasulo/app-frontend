@@ -36,7 +36,7 @@ const CollectionHeader = ({ collection, minimized }) => {
   const isMyCollection = username === ownerId;
 
   return (
-    <YupContainer sx={{ py: 3 }}>
+    <YupContainer sx={{ pb: 3 }}>
       <HeaderRoot>
         <Logo
           src={[logoPath, DEFAULT_IMAGE_PATH]}

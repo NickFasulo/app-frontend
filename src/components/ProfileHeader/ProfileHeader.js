@@ -39,7 +39,7 @@ const ProfileHeader = ({ profile, hidden }) => {
   return (
     <YupContainer
       sx={{
-        py: 3,
+        pb: 3,
         display: hidden ? 'none' : 'block'
       }}
     >
@@ -53,7 +53,7 @@ const ProfileHeader = ({ profile, hidden }) => {
               <GradientTypography variant="h2">
                 {fullname}
               </GradientTypography>
-              {!isMobile && ethInfo && (
+              {!isMobile && ethInfo?.address && (
                 <Chip
                   icon={<FontAwesomeIcon icon={faEthereum} />}
                   label={shortenEthAddress(ethInfo.address)}
