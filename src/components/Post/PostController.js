@@ -18,8 +18,6 @@ import TwitchPost from './TwitchPost';
 import InstagramPost from './InstagramPost';
 import AudiusPost from './AudiusPost';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { setPostInfo } from '../../redux/actions';
 import isEqual from 'lodash/isEqual';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
@@ -546,7 +544,4 @@ PostController.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = () => {
-  return {};
-};
-export default memo(connect(mapStateToProps)(PostController));
+export default memo(PostController);

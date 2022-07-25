@@ -1,6 +1,7 @@
 import { useRecommendation } from '../../hooks/queries';
 import { FlexBox } from '../styles';
 import RecommendedCollections from '../Collections/RecommendedCollections';
+import withSuspense from '../../hoc/withSuspense';
 
 const RecommendationList = ({ collection }) => {
   const { name, description, _id: id } = collection;
@@ -15,4 +16,4 @@ const RecommendationList = ({ collection }) => {
   );
 };
 
-export default RecommendationList;
+export default withSuspense()(RecommendationList);

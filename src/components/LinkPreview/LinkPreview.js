@@ -79,7 +79,7 @@ const styles = (theme) => ({
   },
   previewData: {
     textAlign: 'left',
-    borderRadius: theme.spacing(1.5),
+    borderRadius: 12,
     zIndex: 5,
     background: theme.palette.M800_OP5,
     padding: '2% 3% 2% 3%',
@@ -98,14 +98,7 @@ const styles = (theme) => ({
 class LinkPreview extends Component {
   constructor(props) {
     super(props);
-    this.state = { imgRetryCount: 0 };
   }
-
-  addDefaultSrc = (e) => {
-    e.target.onerror = null;
-    e.target.src = defaultPostImageUrl;
-    this.setState({ imgRetryCount: this.state.imgRetryCount + 1 });
-  };
 
   render() {
     const { image, title, description, url, classes } = this.props;
@@ -130,42 +123,40 @@ class LinkPreview extends Component {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <img
+              <YupImage
                 alt={title}
                 className={classes.linkImg}
-                src={image || defaultPostImageUrl}
+                src={[image, defaultPostImageUrl]}
                 target="_blank"
-                onError={this.state.imgRetryCount === 0 && this.addDefaultSrc}
               />
               <div className={classes.previewDataContainer}>
-              <div className={classes.previewData}>
-                <Grid alignItems="center" container direction="row" spacing={2}>
-                  <Grid item xs={2} sm={1}>
-                    <YupImage
-                      align="right"
-                      href={url}
-                      src={faviconURL}
-                      style={{
-                        width: '100%',
-                        aspectRatio: '1 / 1',
-                        border: 'none',
-                        borderRadius: theme.spacing(1.5)
-                      }}
-                      target="_blank"
-                    />
+                <div className={classes.previewData}>
+                  <Grid alignItems="center" container direction="row" spacing={2}>
+                    <Grid item xs={2} sm={1}>
+                      <YupImage
+                        align="right"
+                        src={faviconURL}
+                        style={{
+                          width: '100%',
+                          aspectRatio: '1 / 1',
+                          border: 'none',
+                          borderRadius: 12
+                        }}
+                        target="_blank"
+                      />
+                    </Grid>
+                    <Grid item xs={10} sm={11}>
+                      <Typography variant="h6" className={classes.title}>
+                        <TruncateText lines={2}>{title}</TruncateText>
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={10} sm={11}>
-                    <Typography variant="h6" className={classes.title}>
-                      <TruncateText lines={2}>{title}</TruncateText>
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Typography variant='b2' className={classes.description}>
-                  <TruncateText lines={5}>
-                    {description || url}
-                  </TruncateText>
-                </Typography>
-                <Typography className={classes.url}>{url && trimURL(url)}</Typography>
+                  <Typography variant='b2' className={classes.description}>
+                    <TruncateText lines={5}>
+                      {description || url}
+                    </TruncateText>
+                  </Typography>
+                  <Typography className={classes.url}>{url && trimURL(url)}</Typography>
                 </div>
               </div>
             </div>
@@ -181,7 +172,6 @@ LinkPreview.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 };
 

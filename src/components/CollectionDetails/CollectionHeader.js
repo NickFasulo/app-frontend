@@ -1,4 +1,4 @@
-import { FlexBox } from '../styles';
+import { FlexBox, YupContainer } from '../styles';
 import { HeaderRoot, Logo } from './styles';
 import { DEFAULT_IMAGE_PATH } from '../../utils/helpers';
 import { Container, Menu, MenuItem, Typography } from '@mui/material';
@@ -36,7 +36,7 @@ const CollectionHeader = ({ collection, minimized }) => {
   const isMyCollection = username === ownerId;
 
   return (
-    <>
+    <YupContainer sx={{ py: 3 }}>
       <HeaderRoot>
         <Logo
           src={[logoPath, DEFAULT_IMAGE_PATH]}
@@ -117,7 +117,7 @@ const CollectionHeader = ({ collection, minimized }) => {
         collection={collection}
         dialogOpen={reorderModalOpen}
       />
-    </>
+    </YupContainer>
   );
 };
 
