@@ -64,6 +64,7 @@ const HeaderSection = ({ classes, name, handle, address, protocol, tweetType, tw
     </Grid>
   );
 };
+
 HeaderSection.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
