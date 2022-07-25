@@ -92,6 +92,7 @@ const Original = ({ previewData, web3Preview, classes }) => {
                   name={web3Preview.creator.fullname}
                   handle={web3Preview.creator.handle}
                   address={web3Preview.creator.address}
+                  protocol={web3Preview.protocol}
                   tweetLink={tweetLink}
                 />
               </Grid>
