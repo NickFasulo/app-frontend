@@ -100,7 +100,7 @@ const UserAccountPage = () => {
       )}
       {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (
         <YupContainer sx={{ py: 3 }}>
-          <UserAnalytics username={username}/>
+          <UserAnalytics username={username} headerHeight={headerHeight} />
         </YupContainer>
       )}
     </YupPageWrapper>

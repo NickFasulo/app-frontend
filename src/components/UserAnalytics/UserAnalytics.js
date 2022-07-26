@@ -17,6 +17,7 @@ import { apiBaseUrl } from '../../config';
 import { FlexBox, TruncateText } from '../styles';
 import LoadingSpin from '../LoadingSpin';
 import { PageBody } from '../../_pages/pageLayouts';
+import GridLayout from '../GridLayout';
 
 const styles = (theme) => ({
   accountErrorHeader: {
@@ -389,7 +390,7 @@ class UserAnalytics extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, headerHeight } = this.props;
     const {
       account,
       totalClaimedRewards,
@@ -444,28 +445,42 @@ class UserAnalytics extends Component {
 
     return (
       <ErrorBoundary>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8} lg={7}>
-            <FlexBox flexDirection="column" rowGap={3}>
-              <DonutChart
-                chartData={platformDistribution}
-                colors={[Other.blue, Brand.red, Brand.orange, Brand.mint]}
-                className={classes}
-                chartTitle="Platform Distribution"
-              />
-              <DonutChart
-                chartData={categoryDistribution}
-                className={classes}
-                chartTitle="Categories Distribution"
-                colors={[Other.blue, Brand.red, Brand.orange, Brand.mint]}
-              />
-            </FlexBox>
-          </Grid>
-
-          <Grid item xs={12} md={4} lg={5}>
+        <GridLayout
+          contentLeft={(
+            <Grid container spacing={3} sx={{ mt: -6 }}>
+              <Grid item xs={12}>
+                <DonutChart
+                  chartData={platformDistribution}
+                  colors={[Other.blue, Brand.red, Brand.orange, Brand.mint]}
+                  className={classes}
+                  chartTitle="Platform Distribution"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <LineChart
+                  headerNumber={totalClaimedRewards}
+                  chartData={{ name: 'Earnings', data: userEarnings }}
+                  chartTitle="Earnings"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <LineChart
+                  headerNumber={account.balance.YUP}
+                  chartData={{ name: 'Holdings', data: userHoldings }}
+                  chartTitle="Holdings"
+                />
+              </Grid>
+            </Grid>
+          )}
+          contentRight={(
             <FlexBox flexDirection="column" rowGap={3}>
               <BarChart
                 chartData={influence}
+                chartTitle="Yup Score"
+                color={socialLevelColor}
+              />
+              <BarChart
+                chartData={account?.score || 0}
                 chartTitle="Influence"
                 color={socialLevelColor}
               />
@@ -474,19 +489,11 @@ class UserAnalytics extends Component {
                 chartTitle="Rating Power"
                 color=""
               />
-              <LineChart
-                headerNumber={totalClaimedRewards}
-                chartData={{ name: 'Earnings', data: userEarnings }}
-                chartTitle="Earnings"
-              />
-              <LineChart
-                headerNumber={account.balance.YUP}
-                chartData={{ name: 'Holdings', data: userHoldings }}
-                chartTitle="Holdings"
-              />
             </FlexBox>
-          </Grid>
-        </Grid>
+          )}
+          headerHeight={headerHeight}
+          noHideRightContent
+        />
       </ErrorBoundary>
     );
   }
@@ -503,7 +510,8 @@ const mapStateToProps = (state) => {
 
 UserAnalytics.propTypes = {
   classes: PropTypes.object.isRequired,
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
+  headerHeight: PropTypes.number.isRequired
 };
 
 export default connect(mapStateToProps)(
