@@ -5,6 +5,7 @@ import useDevice from '../../hooks/useDevice';
 import { MENU_ANIMATION_DURATION } from '../../constants/const';
 import { MenuItemButton } from './styles';
 import Link from '../Link';
+import { isUrl } from '../../utils/helpers';
 
 const MainLink = ({ icon, text, to, onClick }) => {
   const { isMobile } = useDevice();
@@ -23,6 +24,7 @@ const MainLink = ({ icon, text, to, onClick }) => {
       className="MainLink"
       component={to ? Link : 'div'}
       href={to}
+      target={isUrl(to) && '_blank'}
       sx={{ justifyContent: open ? 'initial' : 'center' }}
     >
       <ListItemIcon

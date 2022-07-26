@@ -1,12 +1,12 @@
 import { Drawer, ExternalLinkList } from './styles';
 import { Grow, List, ListItem, Typography } from '@mui/material';
-import { faHome, faTrophy, faList, faCoins, faGear, faMoon, faBrightness, faMagnifyingGlass, faBell, faCircleXmark } from '@fortawesome/pro-light-svg-icons';
+import { faHome, faTrophy, faList, faCoins, faGear, faMoon, faBrightness, faMagnifyingGlass, faBell, faCircleXmark, faPlug } from '@fortawesome/pro-light-svg-icons';
 import MainLink from './MainLink';
 import useAuth from '../../hooks/useAuth';
 import { useState } from 'react';
 import FeedLink from './FeedLink';
 import ExternalLink from './ExternalLink';
-import { landingPageUrl } from '../../config';
+import { extensionUrl, landingPageUrl } from '../../config';
 import { MENU_ANIMATION_DURATION, PRIVACY_URL } from '../../constants/const';
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 import SettingsModal from '../TopBarAndDrawer/SettingsModal';
@@ -19,6 +19,7 @@ import SideBarContext from './SideBarContext';
 import SearchUi from '../SearchUi';
 import UserMenuItem from './UserMenuItem';
 import YupLogoMenuItem from './YupLogoMenuItem';
+import useExtension from '../../hooks/useExtension';
 
 const SideBar = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const SideBar = () => {
   const [open, setOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const { isInstalled: isExtensionInstalled } = useExtension();
 
   const handleLogout = () => {
     localStorage.removeItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
@@ -55,6 +57,14 @@ const SideBar = () => {
         )}
         <List sx={{ flexGrow: open ? 0 : 1 }}>
           <MainLink icon={faHome} text="Home" to="/" />
+          <MainLink
+            icon={faMagnifyingGlass}
+            text="Search"
+            onClick={() => { setSearchOpen(!searchOpen); setOpen(false); }}
+          />
+          {isLoggedIn && (
+            <MainLink icon={faBell} text="Notification" to="/notifications" />
+          )}
           <MainLink icon={faTrophy} text="Leaderboards" to="/leaderboard" />
           <MainLink icon={faList} text="Collections" to="/leaderboard?site=all&subject=collections&category=overall" />
           <MainLink icon={faCoins} text="Staking" to="/staking" />
@@ -90,13 +100,12 @@ const SideBar = () => {
           </>
         )}
         <List>
-          <MainLink
-            icon={faMagnifyingGlass}
-            text="Search"
-            onClick={() => { setSearchOpen(!searchOpen); setOpen(false); }}
-          />
-          {isLoggedIn && (
-            <MainLink icon={faBell} text="Notification" to="/notifications" />
+          {!isExtensionInstalled && (
+            <MainLink
+              icon={faPlug}
+              text="Extension"
+              to={extensionUrl}
+            />
           )}
           <MainLink
             icon={isLightMode ? faMoon : faBrightness}
