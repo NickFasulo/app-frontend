@@ -44,7 +44,7 @@ const initialState = {
       limit: 10,
       hasMore: true
     },
-    'non-corona': {
+    'safespace': {
       posts: [],
       isLoading: false,
       error: null,

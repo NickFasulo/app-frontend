@@ -67,7 +67,7 @@ export const logPageView = (feedType) => {
     case 'politics':
       window.analytics.page('The Race');
       break;
-    case 'non-corona':
+    case 'safespace':
       window.analytics.page('Safe Space');
       break;
     case 'crypto':

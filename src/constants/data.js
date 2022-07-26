@@ -36,7 +36,7 @@ export const FEED_CATEGORIES = {
     description: 'Top content related to current politics'
   },
   NON_CORONA: {
-    id: 'non-corona',
+    id: 'safespace',
     title: 'Safe Space',
     image: ImgFeedSafe,
     metaTitle: 'Safe Space • Yup',
