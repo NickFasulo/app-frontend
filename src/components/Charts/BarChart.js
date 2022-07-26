@@ -67,7 +67,7 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
   bar: {
     borderRadius: 0,
-    background: 'linear-gradient(45deg,#00e08e75,#00E08E)'
+    background: 'linear-gradient(270deg, #00E08E -2.12%, #A2CF7E 22.97%, #F0C909 49.29%, #FCA016 74.88%, #EB3650 100%)'
   }
 }))(LinearProgress);
 
