@@ -209,6 +209,9 @@ function ProfileCard(props) {
 
   const formattedYUPBalance =
     YUPBalance && numeral(Number(YUPBalance)).format('0,0.00');
+  const formattedScore = numeral(
+    Math.floor(Number(accountInfo.score || 1))
+  ).format('0,0');
   const formattedWeight = numeral(
     Math.floor(Number(accountInfo.weight))
   ).format('0,0');
@@ -477,7 +480,7 @@ function ProfileCard(props) {
                         variant="caption"
                       >
                         <CountUp
-                          end={`${formattedWeight}`}
+                          end={`${formattedScore}`}
                           duration={2}
                           useEasing={false}
                         />
@@ -493,6 +496,31 @@ function ProfileCard(props) {
                       </Typography>
                     </div>
                   </Tooltip>
+                </Grid>
+                <Grid item>
+                  <div className="Tour-Influence">
+                    <Typography
+                      className={classes.largeStat}
+                      style={{
+                        display: 'inline-block'
+                      }}
+                      variant="caption"
+                    >
+                      <CountUp
+                        end={`${formattedWeight}`}
+                        duration={2}
+                        useEasing={false}
+                      />
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      style={{
+                        display: 'inline-block'
+                      }}
+                    >
+                      Influence
+                    </Typography>
+                  </div>
                 </Grid>
                 <Grid item xs={6} sm={3} md={3}>
                   <Tooltip
