@@ -390,7 +390,7 @@ class UserAnalytics extends Component {
   };
 
   render() {
-    const { classes, headerHeight } = this.props;
+    const { classes } = this.props;
     const {
       account,
       totalClaimedRewards,
@@ -491,7 +491,6 @@ class UserAnalytics extends Component {
               />
             </FlexBox>
           )}
-          headerHeight={headerHeight}
           noHideRightContent
         />
       </ErrorBoundary>
@@ -510,8 +509,7 @@ const mapStateToProps = (state) => {
 
 UserAnalytics.propTypes = {
   classes: PropTypes.object.isRequired,
-  username: PropTypes.string.isRequired,
-  headerHeight: PropTypes.number.isRequired
+  username: PropTypes.string.isRequired
 };
 
 export default connect(mapStateToProps)(

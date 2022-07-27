@@ -9,6 +9,7 @@ import YupPageTabs from '../YupPageTabs';
 import SearchPosts from './SearchPosts';
 import SearchPeople from './SearchPeople';
 import SearchCollections from './SearchCollections';
+import { useAppLayout } from '../../contexts/AppLayoutContext';
 
 const SEARCH_TAB_IDS = {
   POSTS: 'posts',
@@ -18,10 +19,10 @@ const SEARCH_TAB_IDS = {
 
 const SearchUi = ({ onClose }) => {
   const { isMobile } = useDevice();
+  const { headerHeight } = useAppLayout();
   const [selectedTab, setSelectedTab] = useState(SEARCH_TAB_IDS.POSTS);
   const [searchQuery, setSearchQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(null);
 
   const handleScroll = (ev) => {
     setScrolled(ev.currentTarget.scrollTop > 0);
@@ -33,7 +34,6 @@ const SearchUi = ({ onClose }) => {
         sx={{ zIndex: 1110 }}
         scrolled={scrolled}
         noborder
-        onChangeHeight={setHeaderHeight}
       >
         <YupContainer sx={{ paddingTop: searchQuery ? 3 : '25vh', paddingBottom: 3 }}>
           <Grid container justifyContent="center">

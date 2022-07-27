@@ -27,7 +27,6 @@ const CollectionDetails = ({ id }) => {
   const collection = useCollection(id);
   const { windowScrolled } = useAppUtils();
   const [selectedTab, setSelectedTab] = useState(COLLECTION_TAB_IDS.FEED);
-  const [headerHeight, setHeaderHeight] = useState(null);
 
   const isTabMode = !isDesktop;
 
@@ -44,7 +43,7 @@ const CollectionDetails = ({ id }) => {
         }}
       />
       <YupPageWrapper>
-        <YupPageHeader onChangeHeight={setHeaderHeight}>
+        <YupPageHeader>
           <CollectionHeader collection={collection} minimized={windowScrolled} />
           <YupPageTabs
             tabs={[
@@ -65,7 +64,6 @@ const CollectionDetails = ({ id }) => {
             )
           ) : (
             <GridLayout
-              headerHeight={headerHeight}
               contentLeft={<CollectionList collection={collection} />}
               contentRight={(
                 <>
