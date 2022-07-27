@@ -201,7 +201,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
   }, [router, accountName]);
 
   useEffect(()=>{
-    if(level&&!level.isLoading){      
+    if(level&&!level.isLoading){
       fetchNotifs()
     }
   }, [level])
@@ -222,7 +222,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
         });
     }
   }, [accountName]);
-  
+
   const addLinkEthNotification = ()  => {
     return {
       action: 'update',
@@ -310,7 +310,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
     level.levelInfo &&
     level.levelInfo.balance &&
     level.levelInfo.balance.YUP;
-  const weight = level && level.levelInfo && level.levelInfo.weight;
+  const weight = level?.levelInfo?.score || 1;
   const formattedYupBalance =
     yupBalance && numeral(Number(yupBalance)).format('0,0.00');
   const formattedWeight = numeral(Math.floor(Number(weight))).format('0,0');
