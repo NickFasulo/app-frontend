@@ -15,6 +15,7 @@ const MainLink = ({ icon, text, to, onClick }) => {
     if (isMobile) {
       closeSideBar();
     }
+
     onClick?.();
   };
 
