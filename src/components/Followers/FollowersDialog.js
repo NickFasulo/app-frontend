@@ -132,7 +132,6 @@ const FollowersDialog = ({ account, followersInfo, levels, dispatch }) => {
                               className={classes.followsButton}
                               eosname={eosname}
                               isLoggedIn={account && account.name === eosname}
-                              style={{ fontFamily: 'Gilroy' }}
                             />
                           </Grid>
                         </Grid>
