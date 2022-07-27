@@ -26,7 +26,7 @@ import { useSelector, connect } from 'react-redux';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import axios from 'axios';
 import numeral from 'numeral';
-import { useConnect } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
@@ -181,11 +181,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
   const { isLightMode, toggleTheme } = useThemeMode();
   const width = useWidth();
   const { open: openAuthModal, startEthAuth } = useAuthModal();
-  const [
-    {
-      data: { connected }
-    }
-  ] = useConnect();
+  const {  isConnected } = useAccount();
   const { isMobile } = useDevice();
   const [open, setOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -391,7 +387,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
                     />
                   </div>
                 ) : (
-                  (!connected || !router.pathname.startsWith('/staking')) && (
+                  (!isConnected || !router.pathname.startsWith('/staking')) && (
                     <Tooltip
                       placement="bottom"
                       disableTouchListener

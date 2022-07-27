@@ -5,7 +5,7 @@ import withStyles from '@mui/styles/withStyles';
 import { Grid, Typography, Card, Tabs, Tab } from '@mui/material';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Helmet } from 'react-helmet';
-import { useAccount, useConnect, useNetwork, useSigner } from 'wagmi';
+import { useAccount, useNetwork, useSigner, useSwitchNetwork } from 'wagmi';
 
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import {
@@ -106,14 +106,10 @@ const StakingPage = ({ classes }) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [
-    {
-      data: { connected }
-    }
-  ] = useConnect();
-  const [{ data: ethAccount }] = useAccount();
-  const [{ data: networkData }, switchNetwork] = useNetwork();
-  const [, getSigner] = useSigner();
+  const { address, isConnected } = useAccount();
+  const { chain } = useNetwork()
+  const { switchNetwork } =   useSwitchNetwork()
+  const { data: signer } = useSigner();
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab);
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab);
@@ -153,14 +149,14 @@ const StakingPage = ({ classes }) => {
   }, [predictedRewardRate]);
 
   useEffect(() => {
-    if (!connected) {
+    if (!isConnected) {
       toastInfo(
         'Connect your wallet to see your balance and perform staking actions.'
       );
       return;
     }
 
-    if (networkData.chain.id !== polygonConfig.chainId) {
+    if (chain.id !== polygonConfig.chainId && switchNetwork) {
       toastInfo('Please switch network to Polygon to stake.');
       switchNetwork(polygonConfig.chainId);
 
@@ -170,7 +166,7 @@ const StakingPage = ({ classes }) => {
     getContracts();
 
     return () => handleDisconnect();
-  }, [connected, networkData.chain && networkData.chain.id]);
+  }, [isConnected,switchNetwork, chain?.id]);
 
   const updateRewardStream = async () => {
     setTimeout(() => {
@@ -184,7 +180,7 @@ const StakingPage = ({ classes }) => {
 
   const getContracts = async () => {
     try {
-      const signer = await getSigner();
+      console.log({signer})
       const polyLiquidity = new ethers.Contract(
         POLY_LIQUIDITY_REWARDS,
         LIQUIDITY_ABI,
@@ -214,7 +210,6 @@ const StakingPage = ({ classes }) => {
 
   const getTotalRewards = async () => {
     try {
-      const { address } = ethAccount;
       const polyRewards = (
         await axios.post(`${subgraphApiPolygonUrl}`, {
           query: `{
@@ -275,14 +270,13 @@ const StakingPage = ({ classes }) => {
 
   const getBalances = async () => {
     try {
-      const { address: acct } = ethAccount;
 
-      const polyBal = await contracts.polyLpToken.balanceOf(acct);
-      const polyStake = await contracts.polyLiquidity.balanceOf(acct);
-      const ethStake = await contracts.ethLiquidity.balanceOf(acct);
-      const ethBal = await contracts.ethLpToken.balanceOf(acct);
-      const polyRwrdsEarned = await contracts.polyLiquidity.earned(acct);
-      const ethRwrdsEarned = await contracts.ethLiquidity.earned(acct);
+      const polyBal = await contracts.polyLpToken.balanceOf(address);
+      const polyStake = await contracts.polyLiquidity.balanceOf(address);
+      const ethStake = await contracts.ethLiquidity.balanceOf(address);
+      const ethBal = await contracts.ethLpToken.balanceOf(address);
+      const polyRwrdsEarned = await contracts.polyLiquidity.earned(address);
+      const ethRwrdsEarned = await contracts.ethLiquidity.earned(address);
       setPolyRwrdAmt(polyRwrdsEarned);
       setEthRwrdAmt(ethRwrdsEarned);
       setCurrentStakePoly(polyStake);
@@ -642,14 +636,14 @@ const StakingPage = ({ classes }) => {
                                               variant="body1"
                                               className={classes.submitBtnTxt}
                                               onClick={() => {
-                                                if (connected) {
+                                                if (isConnected) {
                                                   handleStakingAction('eth');
                                                 } else {
                                                   openConnectModal();
                                                 }
                                               }}
                                             >
-                                              {connected
+                                              {isConnected
                                                 ? activeEthTab
                                                   ? 'Unstake'
                                                   : 'Stake'
@@ -796,7 +790,7 @@ const StakingPage = ({ classes }) => {
                                             variant="contained"
                                             className={classes.submitBtn}
                                             onClick={() => {
-                                              if (connected) {
+                                              if (isConnected) {
                                                 handleStakingAction('poly');
                                               } else {
                                                 openConnectModal();
@@ -807,7 +801,7 @@ const StakingPage = ({ classes }) => {
                                               variant="body1"
                                               className={classes.submitBtnTxt}
                                             >
-                                              {connected
+                                              {isConnected
                                                 ? activePolyTab
                                                   ? 'Unstake'
                                                   : 'Stake'
@@ -940,7 +934,7 @@ const StakingPage = ({ classes }) => {
                                             }
                                           /> */}
                   </Grid>
-                  {(!connected
+                  {(!isConnected
                     ? true
                     : toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) > 0) && (
                     <Grid item>
@@ -951,7 +945,7 @@ const StakingPage = ({ classes }) => {
                             variant="contained"
                             className={classes.submitBtn}
                             onClick={() => {
-                              if (connected) {
+                              if (isConnected) {
                                 collectRewards();
                               } else {
                                 openConnectModal();
@@ -962,7 +956,7 @@ const StakingPage = ({ classes }) => {
                               variant="body1"
                               className={classes.submitBtnTxt}
                             >
-                              {connected ? 'Collect' : 'Connect'}
+                              {isConnected ? 'Collect' : 'Connect'}
                             </Typography>
                           </YupButton>
                         )}
