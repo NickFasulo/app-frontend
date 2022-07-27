@@ -83,4 +83,4 @@ const CollectionDetails = ({ id }) => {
   );
 };
 
-export default withSuspense(LOADER_TYPE.DEFAULT)(CollectionDetails);
+export default withSuspense(LOADER_TYPE.TOP_BAR)(CollectionDetails);

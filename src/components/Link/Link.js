@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import MuiLink from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
+import { useAppUtils } from '../../contexts/AppUtilsContext';
 
 // Add support for the sx prop for consistency with the other branches.
 const Anchor = styled('a')({});
@@ -48,6 +49,7 @@ const Link = React.forwardRef(function Link(props, ref) {
     ...other
   } = props;
 
+  const { showTopBar } = useAppUtils();
   const router = useRouter();
   const pathname = typeof href === 'string' ? href : href.pathname;
   const className = clsx(classNameProps, {
@@ -95,6 +97,11 @@ const Link = React.forwardRef(function Link(props, ref) {
       ref={ref}
       {...nextjsProps}
       {...other}
+      onClick={() => {
+        if (href !== router.asPath) {
+          showTopBar();
+        }
+      }}
     />
   );
 });

@@ -12,7 +12,6 @@ import { LOADER_TYPE } from '../../constants/enum'
 import withSuspense from '../../hoc/withSuspense'
 import { useEffect, useState } from 'react';
 import YupPageTabs from '../../components/YupPageTabs';
-import { Box, Grid } from '@mui/material';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
 import UserPosts from '../../components/UserPosts';
 import useDevice from '../../hooks/useDevice';
@@ -107,4 +106,4 @@ const UserAccountPage = () => {
   )
 };
 
-export default withSuspense(LOADER_TYPE.DEFAULT)(UserAccountPage);
+export default withSuspense(LOADER_TYPE.TOP_BAR)(UserAccountPage);

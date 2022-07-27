@@ -7,7 +7,7 @@ import { CollectionPostMenu } from '../Collections';
 import { Typography, Grid } from '@mui/material';
 
 import withStyles from '@mui/styles/withStyles';
-import PageLoader from '../PageLoader';
+import PageLoadingBar from '../PageLoadingBar';
 
 const styles = (theme) => ({
   voteComp: {

@@ -36,5 +36,6 @@ export const LOADER_TYPE = {
   DEFAULT: 'default',
   USER_CONNECTION: 'user_connection',
   FEED: 'feed',
-  NOTIFICATION: 'notification'
+  NOTIFICATION: 'notification',
+  TOP_BAR: 'topbar'
 };
