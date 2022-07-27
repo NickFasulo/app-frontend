@@ -1,10 +1,12 @@
-import React  from 'react';
+import React from 'react';
 import FeedHOC from '../Feed/FeedHOC';
 import FeedHeader from './FeedHeader';
 import { YupContainer, YupPageWrapper } from '../styles';
 import YupPageHeader from '../YupPageHeader';
-import { Grid } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
+import RecommendationList from '../CollectionDetails/RecommendationList';
+import GridLayout from '../GridLayout';
 
 const FeedContainer = ({ categoryData }) => {
   const { windowScrolled } = useAppUtils();
@@ -15,11 +17,17 @@ const FeedContainer = ({ categoryData }) => {
         <FeedHeader isMinimize={windowScrolled} categoryData={categoryData} />
       </YupPageHeader>
       <YupContainer sx={{ pt: 3 }}>
-        <Grid container justifyContent="center">
-          <Grid item xs={12} md={8} lg={7}>
-            <FeedHOC feedType={categoryData.id}/>
-          </Grid>
-        </Grid>
+        <GridLayout
+          contentLeft={<FeedHOC feedType={categoryData.id}/>}
+          contentRight={(
+            <>
+              <Typography variant="h5" sx={{ pb: 3 }}>
+                Recommended
+              </Typography>
+              <RecommendationList collection={{ name: categoryData.title }} />
+            </>
+          )}
+        />
       </YupContainer>
     </YupPageWrapper>
   );

@@ -35,7 +35,6 @@ const UserAccountPage = () => {
   const { windowScrolled } = useAppUtils();
 
   const [selectedTab, setSelectedTab] = useState(PROFILE_TAB_IDS.PROFILE);
-  const [headerHeight, setHeaderHeight] = useState(null);
 
   useEffect(() => {
     // If `Collections` tab is selected in Desktop mode, switch it to `Profile` tab.
@@ -58,7 +57,7 @@ const UserAccountPage = () => {
 
   return (
     <YupPageWrapper>
-      <YupPageHeader scrolled={windowScrolled} onChangeHeight={setHeaderHeight}>
+      <YupPageHeader scrolled={windowScrolled}>
         <ProfileHeader
           profile={profile}
           hidden={isMobile && windowScrolled}
@@ -86,7 +85,6 @@ const UserAccountPage = () => {
       {selectedTab === PROFILE_TAB_IDS.PROFILE && (
         <YupContainer>
           <GridLayout
-            headerHeight={headerHeight}
             contentLeft={<UserPosts userId={profile._id} />}
             contentRight={<UserCollectionsSection userId={profile._id} />}
           />
@@ -99,7 +97,7 @@ const UserAccountPage = () => {
       )}
       {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (
         <YupContainer sx={{ py: 3 }}>
-          <UserAnalytics username={username} headerHeight={headerHeight} />
+          <UserAnalytics username={username} />
         </YupContainer>
       )}
     </YupPageWrapper>

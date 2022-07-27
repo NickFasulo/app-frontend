@@ -1,8 +1,10 @@
 import { Box, Grid } from '@mui/material';
 import useDevice from '../../hooks/useDevice';
+import { useAppLayout } from '../../contexts/AppLayoutContext';
 
-const GridLayout = ({ contentLeft, contentRight, headerHeight, noHideRightContent }) => {
+const GridLayout = ({ contentLeft, contentRight, noHideRightContent }) => {
   const { isMobile } = useDevice();
+  const { headerHeight } = useAppLayout();
 
   return (
     <Grid container spacing={3}>

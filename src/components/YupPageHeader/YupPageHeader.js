@@ -3,15 +3,15 @@ import { YupPageHeaderRoot } from './styles';
 import { useEffect } from 'react';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
 import { Box } from '@mui/material';
+import { useAppLayout } from '../../contexts/AppLayoutContext';
 
-const YupPageHeader = ({ children, onChangeHeight, ...restProps }) => {
+const YupPageHeader = ({ children, ...restProps }) => {
   const { height, ref } = useResizeDetector();
   const { windowScrolled } = useAppUtils();
+  const { setHeaderHeight } = useAppLayout();
 
   useEffect(() => {
-    if (onChangeHeight) {
-      onChangeHeight(height);
-    }
+    setHeaderHeight(height);
   }, [height]);
 
   return (
