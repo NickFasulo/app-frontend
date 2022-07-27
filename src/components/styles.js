@@ -46,13 +46,13 @@ export const YupContainer = styled(Box)(({ theme, visible }) => ({
     width: '100%'
   },
   [theme.breakpoints.only('md')]: {
-    width: theme.breakpoints.values.md
+    width: 750
   },
   [theme.breakpoints.only('lg')]: {
-    width: theme.breakpoints.values.lg
+    width: 1050
   },
   [theme.breakpoints.only('xl')]: {
-    width: 1280
+    width: 1232
   }
 }));
 

@@ -415,21 +415,6 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           }
         }
       },
-      MuiContainer: {
-        styleOverrides: {
-          root: ({ theme }) => ({
-            [theme.breakpoints.down('xl')]: {
-              maxWidth: 1200
-            },
-            [theme.breakpoints.down('lg')]: {
-              maxWidth: 850
-            },
-            [theme.breakpoints.down('md')]: {
-              maxWidth: 550
-            }
-          })
-        }
-      },
       MuiChip: {
         styleOverrides: {
           root: {
