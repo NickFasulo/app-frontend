@@ -53,26 +53,6 @@ const ProfileHeader = ({ profile, hidden }) => {
               <GradientTypography variant="h2">
                 {fullname}
               </GradientTypography>
-              {!isMobile && ethInfo?.address && (
-                <Chip
-                  icon={<FontAwesomeIcon icon={faEthereum} />}
-                  label={shortenEthAddress(ethInfo.address)}
-                  clickable
-                  component="a"
-                  href={etherscanUrl(ethInfo.address)}
-                  target="_blank"
-                />
-              )}
-              {!isMobile && twitterInfo && (
-                <Chip
-                  icon={<FontAwesomeIcon icon={faTwitter} />}
-                  label={`@${twitterInfo.username}`}
-                  clickable
-                  component="a"
-                  href={twitterUrl(twitterInfo.username)}
-                  target="_blank"
-                />
-              )}
             </FlexBox>
             <FlexBox alignItems="center" columnGap={3}>
               {isDesktop && (
@@ -94,6 +74,37 @@ const ProfileHeader = ({ profile, hidden }) => {
               )}
             </FlexBox>
           </FlexBox>
+          <FlexBox columnGap={1}>
+              {!isMobile && (
+                <Chip
+                  label={`@${username}`}
+                  clickable
+                  component="a"
+                  href={etherscanUrl(ethInfo.address)}
+                  target="_blank"
+                />
+              )}
+              {!isMobile && ethInfo?.address && (
+                <Chip
+                  icon={<FontAwesomeIcon size='12' icon={faEthereum} />}
+                  label={shortenEthAddress(ethInfo.address)}
+                  clickable
+                  component="a"
+                  href={etherscanUrl(ethInfo.address)}
+                  target="_blank"
+                />
+              )}
+              {!isMobile && twitterInfo && (
+                <Chip
+                  icon={<FontAwesomeIcon icon={faTwitter} />}
+                  label={`@${twitterInfo.username}`}
+                  clickable
+                  component="a"
+                  href={twitterUrl(twitterInfo.username)}
+                  target="_blank"
+                />
+              )}
+          </FlexBox>
           <FlexBox alignItems="center">
             <Typography
               variant="h5"
@@ -104,7 +115,7 @@ const ProfileHeader = ({ profile, hidden }) => {
               <CountUp end={yupScore} duration={2} useEasing={false} />
             </Typography>
             <Typography variant="body2" sx={{ ml: 1, mr: 2 }}>
-              yup score
+              Yup Score
             </Typography>
             <YupLogoEmoji />
             <Typography variant="body2" sx={{ ml: 1 }}>

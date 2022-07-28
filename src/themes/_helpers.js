@@ -419,8 +419,8 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         styleOverrides: {
           root: {
             color: palette.M400,
-            backgroundColor: palette.M800,
-            height: 36,
+            backgroundColor: `${palette.M800}DD`,
+            height: 28,
             fontSize: 15,
             fontWeight: 400,
             padding: '0 12px',
@@ -431,7 +431,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           },
           icon: {
             color: palette.M100,
-            fontSize: 20
+            fontSize: '1rem'
           }
         }
       }
