@@ -235,7 +235,6 @@ class NFTPreview extends Component {
       image && image.substring(image.lastIndexOf('.') + 1, image.length);
     const isVideo =
       fileType === 'mp4' || (mimeType && mimeType.includes('video'));
-    const isGif = fileType === 'gif';
 
     return (
       <ErrorBoundary>
@@ -252,7 +251,7 @@ class NFTPreview extends Component {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <div style={{borderRadius: '12px', overflow: 'hidden'}}>
+              <div style={{borderRadius: '12px', overflow: 'hidden', textAlign: 'center' }}>
                 {isVideo ? (
                   <CldVid
                     className={classes.linkImg}
@@ -266,12 +265,6 @@ class NFTPreview extends Component {
                     muted
                     loop
                     playsinline
-                  />
-                ) : isGif ? (
-                  <img
-                    src={image}
-                    alt={description}
-                    className={classes.linkImg}
                   />
                 ) : (
                   <CldImg
