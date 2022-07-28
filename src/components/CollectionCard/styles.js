@@ -1,6 +1,7 @@
 import { styled } from '@mui/material';
 import YupImage from '../YupImage';
 import { FlexBox } from '../styles';
+import { DEFAULT_IMAGE_PATH } from '../../utils/helpers';
 
 export const CollectionCardRoot = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -19,14 +20,13 @@ export const CollectionOverlay = styled('div')(({ theme }) => ({
   border: `solid 1px ${theme.palette.M750}`
 }));
 
-export const CollectionImage = styled(YupImage)(({ theme }) => ({
+export const CollectionCoverWrapper = styled('div')(() => ({
   position: 'absolute',
   left: 0,
   top: 0,
-  width: '100%',
-  maxHeight: '100%',
-  aspectRatio: '1 / 1',
-  objectFit: 'cover'
+  right: 0,
+  bottom: 0,
+  background: `url(${DEFAULT_IMAGE_PATH})`
 }));
 
 export const CollectionContent = styled(FlexBox)(({ theme }) => ({
