@@ -439,29 +439,13 @@ const StakingPage = ({ classes }) => {
     }
   };
 
-  // const handleDisconnect = () => {
-  //   setPolyRwrdAmt(null);
-  //   setEthRwrdAmt(null);
-  //   setCurrentStakePoly(null);
-  //   setCurrentStakeEth(null);
-  //   setPolyLpBal(null);
-  //   setEthLpBal(null);
-  // };
 
   const getPredictedRewardRate = async () => {
-    try {
-      
-      console.log((toBaseNum(currentStakeEth) , toBaseNum(ethRR)) , toBaseNum(currentTotalStakeEth), 'ethRR');
-      console.log ((toBaseNum(currentStakePoly) , toBaseNum(polyRR)) , toBaseNum(currentTotalStakePoly), 'polyRR');
       const ethPredictedRR =
         (toBaseNum(currentStakeEth) * toBaseNum(ethRR)) / toBaseNum(currentTotalStakeEth);
       const polyPredictedRR =
         (toBaseNum(currentStakePoly) * toBaseNum(polyRR)) / toBaseNum(currentTotalStakePoly);
       setPredictedRewardRate(ethPredictedRR + polyPredictedRR);
-    } catch (err) {
-      toastError('There was a problem fetching your balances, try again.');
-      console.log('ERR getting balances', err);
-    }
   };
 
   const getAprs = async () => {
@@ -483,17 +467,6 @@ const StakingPage = ({ classes }) => {
     }
   };
 
-  // const handleEthStakeAction = async () => {
-  //   const isStake = !activeEthTab;
-  //    const updatedLpBal = isStake
-  //       ? toBaseNum(ethLpBal) - Number(ethStakeInput)
-  //       : toBaseNum(ethLpBal) + Number(ethStakeInput);
-  //     const updatedStake = isStake
-  //       ? toBaseNum(currentStakeEth) + Number(ethStakeInput)
-  //       : toBaseNum(currentStakeEth) - Number(ethStakeInput);
-  //     setEthLpBal(toGwei(updatedLpBal)); // optimistic balance update
-  //     setCurrentStakeEth(updatedStake * Math.pow(10, 18)); // optimistic stake update
-  // }
 
   const startEthStakeAction = async () => {
     if (isInvalidStakeAmt(ethStakeInput)) {
@@ -501,100 +474,47 @@ const StakingPage = ({ classes }) => {
       return;
     }
 
-    try {
       setIsLoading(true)
       const isStake = !activeEthTab;
       const stakeAmt = ethers.utils
         .parseEther(ethStakeInput.toString())
         .toString();
        approveEth(ETH_LIQUIDITY_REWARDS,stakeAmt);
-      //console.log({test})
       if (isStake) {
         stakeEth({
           args: [stakeAmt]});
-        // await stakeTransaction.wait();
       } else {
         console.log(stakeAmt)
         unstakeEth({
           args: [stakeAmt]});
-        // await unstakeTransaction.wait();
       }
 
-      // const updatedLpBal = isStake
-      //   ? toBaseNum(ethLpBal) - Number(ethStakeInput)
-      //   : toBaseNum(ethLpBal) + Number(ethStakeInput);
-      // const updatedStake = isStake
-      //   ? toBaseNum(currentStakeEth) + Number(ethStakeInput)
-      //   : toBaseNum(currentStakeEth) - Number(ethStakeInput);
-      // setEthLpBal(toGwei(updatedLpBal)); // optimistic balance update
-      // setCurrentStakeEth(updatedStake * Math.pow(10, 18)); // optimistic stake update
-    } catch (err) {
-      if (err && err.code && err.code !== 4001) {
-        toastError('User rejected transaction.'); // Dont logout if user rejects transaction
-      } else {
-        toastError(`We encountered a problem. ${err.message}`);
-        console.log('ERR handling eth staking', err);
-      }
-    }
+    
   };
 
-  // const handlePolyStakeAction = async () => {
-  //   const isStake = !activePolyTab;
-
-
-  //     const updatedLpBal = isStake
-  //       ? toBaseNum(polyLpBal) - Number(polyStakeInput)
-  //       : toBaseNum(polyLpBal) + Number(polyStakeInput);
-  //     const updatedStake = isStake
-  //       ? toBaseNum(currentStakePoly) + Number(polyStakeInput)
-  //       : toBaseNum(currentStakePoly) - Number(polyStakeInput);
-  //     setPolyLpBal(toGwei(updatedLpBal)); // optimistic balance update
-  //     setCurrentStakePoly(toGwei(updatedStake)); // optimistic stake update
-  // }
   const startPolyStakeAction = async () => {
     if (isInvalidStakeAmt(polyStakeInput)) {
       toastError('Please enter a valid amount.');
       return;
     }
 
-    try {
       setIsLoading(true)
       const isStake = !activePolyTab;
       const stakeAmt = ethers.utils
         .parseEther(polyStakeInput.toString())
         .toString();
        approvePoly(POLY_LIQUIDITY_REWARDS, stakeAmt);
-      //console.log({test})
       if (isStake) {
         stakePoly({
           args: [stakeAmt]});
-        // await stakeTransaction.wait();
       } else {
-        console.log(stakeAmt)
         unstakePoly({
           args: [stakeAmt]});
-        // await unstakeTransaction.wait();
       }
-
-      // const updatedLpBal = isStake
-      //   ? toBaseNum(polyLpBal) - Number(polyStakeInput)
-      //   : toBaseNum(polyLpBal) + Number(polyStakeInput);
-      // const updatedStake = isStake
-      //   ? toBaseNum(currentStakePoly) + Number(polyStakeInput)
-      //   : toBaseNum(currentStakePoly) - Number(polyStakeInput);
-      // setPolyLpBal(toGwei(updatedLpBal)); // optimistic balance update
-      // setCurrentStakePoly(toGwei(updatedStake)); // optimistic stake update
-    } catch (err) {
-      if (err && err.code && err.code !== 4001) {
-        toastError('User rejected transaction.');
-      } else {
-        toastError(`We encountered a problem. ${err.message}`);
-      }
-    }
+   
   };
 
   const collectRewards = async () => {
-    try {
       setIsLoading(true);
       toastInfo(
         'Sign the transactions to collect you rewards. There will be one transaction for each pool you are in.'
@@ -605,13 +525,7 @@ const StakingPage = ({ classes }) => {
       if (polyRwrdAmt > 0) {
         getRewardPoly()
       }
-    } catch (err) {
-      if (err && err.code && err.code === 4001) {
-        toastError('User rejected transaction.');
-      } else {
-        toastError(`We encountered a problem. ${err.message}`);
-      }
-    }
+    
   };
   return (
     <ErrorBoundary>
