@@ -26,7 +26,7 @@ import { useSelector, connect } from 'react-redux';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import axios from 'axios';
 import numeral from 'numeral';
-import { useConnect } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
@@ -181,11 +181,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
   const { isLightMode, toggleTheme } = useThemeMode();
   const width = useWidth();
   const { open: openAuthModal, startEthAuth } = useAuthModal();
-  const [
-    {
-      data: { connected }
-    }
-  ] = useConnect();
+  const {  isConnected } = useAccount();
   const { isMobile } = useDevice();
   const [open, setOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -205,7 +201,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
   }, [router, accountName]);
 
   useEffect(()=>{
-    if(level&&!level.isLoading){      
+    if(level&&!level.isLoading){
       fetchNotifs()
     }
   }, [level])
@@ -226,7 +222,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
         });
     }
   }, [accountName]);
-  
+
   const addLinkEthNotification = ()  => {
     return {
       action: 'update',
@@ -314,7 +310,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
     level.levelInfo &&
     level.levelInfo.balance &&
     level.levelInfo.balance.YUP;
-  const weight = level && level.levelInfo && level.levelInfo.weight;
+  const weight = level?.levelInfo?.score || 1;
   const formattedYupBalance =
     yupBalance && numeral(Number(yupBalance)).format('0,0.00');
   const formattedWeight = numeral(Math.floor(Number(weight))).format('0,0');
@@ -391,7 +387,7 @@ function TopBarAndDrawer({ classes, isTourOpen }) {
                     />
                   </div>
                 ) : (
-                  (!connected || !router.pathname.startsWith('/staking')) && (
+                  (!isConnected || !router.pathname.startsWith('/staking')) && (
                     <Tooltip
                       placement="bottom"
                       disableTouchListener

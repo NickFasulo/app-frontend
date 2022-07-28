@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { useAccount, useConnect, useSignMessage } from 'wagmi';
+import { useAccount, useSignMessage } from 'wagmi';
 
 import {
   Dialog,
@@ -68,13 +68,8 @@ const AuthModal = ({ open, onClose, noRedirect }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  const [
-    {
-      data: { connected }
-    }
-  ] = useConnect();
-  const [{ data: accountData }] = useAccount();
-  const [, signMessage] = useSignMessage();
+  const {address, isConnected} = useAccount();
+  const {signMessage } = useSignMessage();
   const router = useRouter();
 
   const [stage, setStage] = useState(AUTH_MODAL_STAGE.SIGN_IN);
@@ -85,14 +80,13 @@ const AuthModal = ({ open, onClose, noRedirect }) => {
 
   useEffect(() => {
     // If `Connect Wallet` button is clicked and wallet is connect, start auth with ETH.
-    if (currAuthMethod === AUTH_TYPE.ETH && connected) {
+    if (currAuthMethod === AUTH_TYPE.ETH && isConnected) {
       handleAuthWithWallet();
       setCurrAuthMethod(null);
     }
-  }, [connected, currAuthMethod]);
+  }, [isConnected, currAuthMethod]);
 
   const handleAuthWithWallet = async () => {
-    const { address } = accountData;
     let challenge, signature;
 
     try {

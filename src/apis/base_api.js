@@ -6,7 +6,6 @@ const axios = BaseAxios.create({
   baseURL: apiBaseUrl,
   timeout: 60 * 1000
 });
-
 export const callYupApi = async (apiConfig) => {
   const headers = {
     Accept: 'application/json'
