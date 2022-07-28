@@ -12,7 +12,8 @@
     "deploy-staging": "aws s3 sync out s3://staging.app.yup.io",
     "release": "yarn config set version-tag-prefix frontend@v &&  yarn config set version-git-message 'frontend@v%s' && yarn version",
     "lint": "next lint",
-    "format": "prettier --write src"
+    "format": "prettier --write src",
+    "postinstall": "node postinstall.js"
   },
   "dependencies": {
     "@emotion/cache": "^11.7.1",
@@ -51,6 +52,8 @@
     "ipfs-http-client": "^48.2.2",
     "is-ipfs": "^0.6.1",
     "lodash": "^4.17.11",
+    "marked": "^4.0.18",
+    "marked-terminal": "^5.1.1",
     "moment": "^2.24.0",
     "next": "^12.1.6",
     "notistack": "^2.0.4",
