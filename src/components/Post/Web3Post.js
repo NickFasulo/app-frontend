@@ -1,55 +1,40 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import CustomWeb3PostEmbed from '../CustomWeb3PostEmbed/CustomWeb3PostEmbed';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import './tweet.module.css';
+import { styled } from '@mui/material/styles';
 
-const styles = (theme) => ({
-  postContainer: {
-    transition: 'opacity 2s ease-in',
+const PostContainer = styled("div")(
+  ({ theme }) => `
+  transition: 'opacity 2s ease-in',
     padding: '0% 0% 0% 0%',
     overflow: 'hidden',
-    borderTopLeftRadius: '10px',
-    borderTopRightRadius: '10px',
-    [theme.breakpoints.down('md')]: {
-      borderRadius: 0,
-      minHeight: 0
+    border-top-left-radius: '10px',
+    border-top-right-radius: '10px',
+    ${[theme.breakpoints.down('md')]}: {
+      border-radius: 0,
+      min-height: 0
     }
-  },
-  tweetEl: {
-    color: 'white',
-    width: 'max-content',
-    fontFamily: 'Gilroy, sans-serif',
-    border: 'none',
-    maxWidth: '600px',
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '100vw'
-    },
-    marginLeft: 0,
-    zoom: '100%',
-    marginRight: 'auto',
-    marginTop: '-10px'
-  }
-});
+`
+);
 
-class Web3Post extends PureComponent {
-  render() {
-    const { classes, postHOC: PostHOC, previewData, web3Preview } = this.props;
+const Web3Post = (props) => {
+    const { classes, postHOC: PostHOC,  previewData, web3Preview } = props;
 
     const Web3PostComp = (_props) => (
-      <div className={classes.postContainer}>
+      <PostContainer>
         <CustomWeb3PostEmbed previewData={previewData} web3Preview={web3Preview} />
-      </div>
+      </PostContainer>
     );
 
     return (
       <ErrorBoundary>
-        <PostHOC component={Web3PostComp} {...this.props} />
+        <PostHOC component={Web3PostComp} {...props} />
       </ErrorBoundary>
     );
   }
-}
+
 
 Web3Post.propTypes = {
   url: PropTypes.string.isRequired,
@@ -59,4 +44,4 @@ Web3Post.propTypes = {
   postHOC: PropTypes.element.isRequired
 };
 
-export default withStyles(styles)(Web3Post);
+export default Web3Post;
