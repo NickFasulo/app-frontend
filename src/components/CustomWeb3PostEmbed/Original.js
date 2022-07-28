@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
+import ReactMarkdown from 'react-markdown';
 
 // util
 import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
@@ -96,7 +97,11 @@ const Original = ({ previewData, web3Preview, classes }) => {
                 <Grid container="container" spacing={1}>
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
-                      <Typography variant="body2">{tweetText}</Typography>
+                      <Typography variant="body2">
+                        <ReactMarkdown>
+                          {tweetText}
+                        </ReactMarkdown>
+                      </Typography>
                     </Link>
                   </Grid>
                   <Grid item="item" xs={12}>
