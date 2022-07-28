@@ -71,7 +71,7 @@ const BorderLinearProgress = withStyles((theme) => ({
   }
 }))(LinearProgress);
 
-const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
+const BarChart = ({ classes, chartData, chartTitle, color, unit, description }) => {
   if (chartData) {
     const chart = {
       series: [
@@ -182,6 +182,13 @@ const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
               />
             </div>
           </Grid>
+          {description && (
+            <Grid item>
+              <Typography>
+                {description}
+              </Typography>
+            </Grid>
+          )}
           <Grid item style={{ display: 'none' }}>
             <Chart
               options={chart}
@@ -220,6 +227,7 @@ BarChart.propTypes = {
   chartData: PropTypes.array.isRequired,
   chartTitle: PropTypes.string.isRequired,
   unit: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  description: PropTypes.string
 };
 export default withStyles(styles)(BarChart);
