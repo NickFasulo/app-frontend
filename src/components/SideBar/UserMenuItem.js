@@ -1,5 +1,5 @@
 import { Badge, Grow, ListItemAvatar, ListItemText } from '@mui/material';
-import { formatWeight } from '../../utils/helpers';
+import { formatWeight, formatDecimal } from '../../utils/helpers';
 import { StyledProfileAvatar } from '../TopBarAndDrawer/StyledProfileAvatar';
 import { levelColors } from '../../utils/colors';
 import { MENU_ANIMATION_DURATION } from '../../constants/const';
@@ -46,7 +46,7 @@ const UserMenuItem = () => {
         <ListItemText
           primary={profile.username}
           primaryTypographyProps={{ align: 'right', variant: isDesktop ? 'body' : 'h5' }}
-          secondary={profile && `${profile.weight} YUP`}
+          secondary={profile && `${formatDecimal(profile.balance?.YUP || 0)} YUP`}
           secondaryTypographyProps={{ variant: isDesktop ? 'bodyS2' : 'h6', align: 'right' }}
           sx={{ display: !open && 'none' }}
         />

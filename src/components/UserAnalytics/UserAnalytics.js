@@ -448,14 +448,6 @@ class UserAnalytics extends Component {
         <GridLayout
           contentLeft={(
             <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <DonutChart
-                  chartData={platformDistribution}
-                  colors={[Other.blue, Brand.red, Brand.orange, Brand.mint]}
-                  className={classes}
-                  chartTitle="Platform Distribution"
-                />
-              </Grid>
               <Grid item xs={12} md={6}>
                 <LineChart
                   headerNumber={totalClaimedRewards}
@@ -468,6 +460,14 @@ class UserAnalytics extends Component {
                   headerNumber={account.balance.YUP}
                   chartData={{ name: 'Holdings', data: userHoldings }}
                   chartTitle="Holdings"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DonutChart
+                  chartData={platformDistribution}
+                  colors={[Other.blue, Brand.red, Brand.orange, Brand.mint]}
+                  className={classes}
+                  chartTitle="Platform Distribution"
                 />
               </Grid>
             </Grid>
