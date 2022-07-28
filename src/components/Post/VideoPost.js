@@ -7,7 +7,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 const styles = (theme) => ({
   postContainer: {
     display: 'flex',
-    padding: '0% 0% 2% 0%',
+    padding: '0.5rem',
     alignItems: 'center',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
@@ -18,12 +18,10 @@ const styles = (theme) => ({
   reactPlayer: {
     width: '100%',
     height: '100%',
-    maxHeight: '100%',
-    maxWidth: '600px',
     minHeight: '250px',
     zIndex: 50,
     overflow: 'hidden',
-    borderRadius: '0.5rem 0.5rem 0px 0px',
+    borderRadius: '0.75rem',
     [theme.breakpoints.down('md')]: {
       marginLeft: '0%',
       marginRight: '0%',
@@ -35,7 +33,7 @@ const styles = (theme) => ({
       width: '100vw'
     },
     [theme.breakpoints.up('1700')]: {
-      maxWidth: '600px',
+      maxWidth: '100%',
       maxHeight: '900px'
     }
   }
