@@ -2,7 +2,6 @@ import { useResizeDetector } from 'react-resize-detector';
 import { YupPageHeaderRoot } from './styles';
 import { useEffect } from 'react';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
-import { Box } from '@mui/material';
 import { useAppLayout } from '../../contexts/AppLayoutContext';
 
 const YupPageHeader = ({ children, ...restProps }) => {
@@ -16,9 +15,7 @@ const YupPageHeader = ({ children, ...restProps }) => {
 
   return (
     <YupPageHeaderRoot ref={ref} scrolled={windowScrolled} {...restProps}>
-      <Box pt={3}>
-        {children}
-      </Box>
+      {children}
     </YupPageHeaderRoot>
   );
 };
