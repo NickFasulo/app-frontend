@@ -1,10 +1,9 @@
 import Typography from '@mui/material/Typography';
 import React from 'react';
 import capitalize from 'lodash/capitalize';
-import { FlexBox } from '../styles';
+import { FlexBox, YupContainer } from '../styles';
 import FilterBar from './FilterBar';
 import { useFilters } from './LeaderboardContainer';
-import { Container } from '@mui/material';
 
 const Header = () => {
   const { filterObject } = useFilters();
@@ -20,7 +19,7 @@ const Header = () => {
   }
 
   return (
-    <Container className="Tour-LeaderboardMenu">
+    <YupContainer className="Tour-LeaderboardMenu">
       <Typography variant="body2" sx={{ opacity: 0.3 }}>
         Leaderboard
       </Typography>
@@ -29,7 +28,7 @@ const Header = () => {
         <FilterBar />
         {/* Implement Search Bar */}
       </FlexBox>
-    </Container>
+    </YupContainer>
   );
 };
 
