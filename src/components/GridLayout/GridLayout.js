@@ -8,7 +8,7 @@ const GridLayout = ({ contentLeft, contentRight, noHideRightContent }) => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={8} lg={7} sx={{ mt: 3 }}>
+      <Grid item xs={12} md={8} lg={7} sx={{ }}>
         {contentLeft}
       </Grid>
       <Grid item xs={12} md={4} lg={5}>

@@ -53,9 +53,6 @@ const styles = (theme) => ({
     }
   },
   linkImg: {
-    width: '100%',
-    minHeight: '15rem',
-    maxHeight: '30rem',
     objectFit: 'cover',
     backgroundColor: theme.palette.M500,
     objectPosition: '50% 50%',
@@ -78,8 +75,7 @@ const styles = (theme) => ({
     '&:visited': {
       textDecoration: 'none',
       color: theme.palette.M100
-    },
-    maxHeight: '500px'
+    }
   },
   title: {
     position: 'relative',
@@ -135,6 +131,7 @@ const styles = (theme) => ({
   },
   previewDataContainer: {
     position: 'absolute',
+    width: '100%',
     bottom: 4,
     left: 0,
     padding: theme.spacing(2)
