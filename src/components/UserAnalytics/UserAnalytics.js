@@ -447,7 +447,7 @@ class UserAnalytics extends Component {
       <ErrorBoundary>
         <GridLayout
           contentLeft={(
-            <Grid container spacing={3} sx={{ mt: -6 }}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <DonutChart
                   chartData={platformDistribution}
@@ -478,16 +478,18 @@ class UserAnalytics extends Component {
                 chartData={influence}
                 chartTitle="Yup Score"
                 color={socialLevelColor}
+                description="Yup Score is your web3 social score, considering various factors across web3 such as tokens owned, account age, voting participation, etc."
               />
               <BarChart
                 chartData={account?.score || 0}
                 chartTitle="Influence"
-                color={socialLevelColor}
+                description="Influence determines the weight of your vote and is multiplied by how many likes you give a post. "
               />
               <BarChart
                 chartData={ratingPower}
                 chartTitle="Rating Power"
                 color=""
+                description="Rating Power indicates how many votes you have left today."
               />
             </FlexBox>
           )}
