@@ -80,7 +80,6 @@ const ProfileHeader = ({ profile, hidden }) => {
                   label={`@${username}`}
                   clickable
                   component="a"
-                  href={etherscanUrl(ethInfo.address)}
                   target="_blank"
                 />
               )}
