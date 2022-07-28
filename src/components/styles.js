@@ -38,8 +38,7 @@ export const YupMenu = styled(Menu)(({ theme }) => ({
 
 export const YupContainer = styled(Box)(({ theme, visible }) => ({
   position: 'relative',
-  paddingLeft: theme.spacing(3),
-  paddingRight: theme.spacing(3),
+  padding: `${theme.spacing(3)} ${theme.spacing(3)} 0 ${theme.spacing(3)}`,
   marginLeft: 'auto',
   marginRight: 'auto',
   [theme.breakpoints.down('md')]: {

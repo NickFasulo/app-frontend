@@ -38,8 +38,10 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
       imgElement.style.width = '100%';
       imgElement.style.objectFit = 'cover';
       imgElement.style.minHeight = '200px';
+      imgElement.style.maxHeight = '500px';
     } else { // Ratio < 1
       imgElement.style.maxHeight = '400px';
+      imgElement.style.objectFit = 'fit-content';
     }
   };
 
