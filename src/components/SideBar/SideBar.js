@@ -63,7 +63,7 @@ const SideBar = () => {
             onClick={() => { setSearchOpen(!searchOpen); setOpen(false); }}
           />
           {isLoggedIn && (
-            <MainLink icon={faBell} text="Notification" to="/notifications" />
+            <MainLink icon={faBell} text="Notifications" to="/notifications" />
           )}
           <MainLink icon={faTrophy} text="Leaderboards" to="/leaderboard" />
           <MainLink icon={faList} text="Collections" to="/leaderboard?site=all&subject=collections&category=overall" />
