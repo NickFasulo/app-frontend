@@ -45,7 +45,7 @@ export const YupContainer = styled(Box)(({ theme, visible }) => ({
     width: '100%'
   },
   [theme.breakpoints.only('md')]: {
-    width: 750
+    width: 800
   },
   [theme.breakpoints.only('lg')]: {
     width: 1050
