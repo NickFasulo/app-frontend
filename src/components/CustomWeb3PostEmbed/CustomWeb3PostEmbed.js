@@ -1,13 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import withStyles from '@mui/styles/withStyles';
 import { Fade } from '@mui/material/';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 
 // child componenents
-import Reply from './Reply';
-import Retweet from './Retweet';
-import Quoted from './Quoted';
 import Original from './Original';
 
 const styles = (theme) => ({
@@ -181,39 +177,14 @@ const styles = (theme) => ({
   }
 });
 
-class CustomWeb3PostEmbed extends Component {
-  render() {
-    const { previewData, web3Preview, classes } = this.props;
-    // if (!previewData || !previewData.tweetInfo) {
-    //   return <div />;
-    // }
-    // const retweet = previewData.tweetInfo.retweeted_status
-    //   ? !isEmpty(previewData.tweetInfo.retweeted_status)
-    //   : false;
-    // const quoted = previewData.tweetInfo.quoted_status
-    //   ? !isEmpty(previewData.tweetInfo.quoted_status)
-    //   : false;
-    // const reply = previewData.tweetInfo.in_reply_to_status_id
-    //   ? !isEmpty(previewData.tweetInfo.reply_status)
-    //   : false;
-
-
-    return (
-      <Fade in timeout={1000}>
-        <div>
-          {/*retweet ? (
-            <Retweet previewData={previewData} classes={classes} />
-          ) : quoted ? (
-            <Quoted previewData={previewData} classes={classes} />
-          ) : reply ? (
-            <Reply previewData={previewData} classes={classes} />
-          ) : (
-          )*/}
-          <Original previewData={previewData} web3Preview={web3Preview} classes={classes} />
-        </div>
-      </Fade>
-    );
-  }
+const CustomWeb3PostEmbed = ({ previewData, web3Preview, classes }) => {
+  return (
+    <Fade in timeout={1000}>
+      <div>
+        <Original previewData={previewData} web3Preview={web3Preview} classes={classes} />
+      </div>
+    </Fade>
+  );
 }
 
 CustomWeb3PostEmbed.propTypes = {
