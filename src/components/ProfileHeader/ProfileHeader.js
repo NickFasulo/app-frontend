@@ -114,11 +114,11 @@ const ProfileHeader = ({ profile, hidden }) => {
             >
               <CountUp end={yupScore} duration={2} useEasing={false} />
             </Typography>
-            <Typography variant="body2" sx={{ ml: 1, mr: 2 }}>
+            <Typography variant="body2" sx={{ ml: 1, mr: 2, color: '' }}>
               Yup Score
             </Typography>
             <YupLogoEmoji />
-            <Typography variant="body2" sx={{ ml: 1 }}>
+            <Typography variant="body2" sx={{ ml: 1, color: '' }}>
               {formatDecimal(balance?.YUP || 0)}
             </Typography>
           </FlexBox>

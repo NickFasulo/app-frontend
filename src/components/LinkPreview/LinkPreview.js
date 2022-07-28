@@ -36,7 +36,7 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.M500,
     objectPosition: '50% 50%',
     alignItems: 'center',
-    borderRadius: '0.5rem 0.5rem 0px 0px',
+    borderRadius: '0.75rem',
     position: 'relative',
     [theme.breakpoints.up('1700')]: {
       maxHeight: '25rem',
@@ -67,7 +67,7 @@ const styles = (theme) => ({
   },
   url: {
     position: 'relative',
-    fontSize: '10px',
+    fontSize: '0.625rem',
     fontWeight: 100,
     overflowWrap: 'break-word',
     whiteSpace: 'nowrap',
@@ -79,7 +79,7 @@ const styles = (theme) => ({
   },
   previewData: {
     textAlign: 'left',
-    borderRadius: 12,
+    borderRadius: '0.75rem',
     zIndex: 5,
     background: `${theme.palette.M800}AA`,
     padding: '2% 3% 2% 3%',
@@ -90,7 +90,7 @@ const styles = (theme) => ({
     position: 'absolute',
     bottom: 0,
     left: 0,
-    padding: theme.spacing(2)
+    padding: `${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(3)} ${theme.spacing(2)}`
   }
 });
 
