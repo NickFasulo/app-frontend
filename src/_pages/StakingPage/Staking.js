@@ -5,7 +5,7 @@ import withStyles from '@mui/styles/withStyles';
 import { Grid, Typography, Card, Tabs, Tab } from '@mui/material';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Helmet } from 'react-helmet';
-import { useAccount, useNetwork, useSigner, useSwitchNetwork } from 'wagmi';
+import { useAccount, useContractRead, useContractWrite, useNetwork, useSigner, useSwitchNetwork, usePrepareContractWrite } from 'wagmi';
 
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import {
@@ -77,6 +77,11 @@ const styles = (theme) => ({
   }
 });
 
+const isInvalidStakeAmt = (amt) => {
+  const stakeAmt = Number(amt);
+  return isNaN(stakeAmt) || stakeAmt <= 0;
+};
+
 const StakingPage = ({ classes }) => {
   const theme = useTheme();
   const { toastError, toastInfo } = useToast();
@@ -90,16 +95,7 @@ const StakingPage = ({ classes }) => {
   const [polyApr, setPolyApr] = useState(0);
   const [ethApr, setEthApr] = useState(0);
 
-  const [polyRwrdAmt, setPolyRwrdAmt] = useState(0); // amt in rewards poly uni lpto claim
-  const [ethRwrdAmt, setEthRwrdAmt] = useState(0); // amt in rewards eth uni lp to claim
 
-  const [polyLpBal, setPolyLpBal] = useState(0); // available poly uni lp bal
-  const [ethLpBal, setEthLpBal] = useState(0); // available eth uni lp bal
-
-  const [currentStakeEth, setCurrentStakeEth] = useState(0); // current amount staked
-  const [currentStakePoly, setCurrentStakePoly] = useState(0); // current amount staked
-
-  const [contracts, setContracts] = useState(null);
   const [earnings, setEarnings] = useState(null);
   const [predictedRewardRate, setPredictedRewardRate] = useState(null);
   const [predictedRewards, setPredictedRewards] = useState({ prev: 0, new: 0 });
@@ -108,8 +104,214 @@ const StakingPage = ({ classes }) => {
 
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork()
-  const { switchNetwork } =   useSwitchNetwork()
-  const { data: signer } = useSigner();
+
+  const  {config:approveEthConfig }  = usePrepareContractWrite({
+    addressOrName: ETH_UNI_LP_TOKEN,
+    contractInterface: YUPETH_ABI,
+    functionName: 'approve', 
+    args:[ETH_LIQUIDITY_REWARDS,
+      !isInvalidStakeAmt(ethStakeInput)&&ethers.utils
+      .parseEther(ethStakeInput.toString())
+      .toString()],
+      enabled:  !isInvalidStakeAmt(ethStakeInput),
+  })
+  
+  const {config:stakeEthConfig}  = usePrepareContractWrite({
+    addressOrName: ETH_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'stake', args:[!isInvalidStakeAmt(ethStakeInput)&&ethers.utils
+      .parseEther(ethStakeInput.toString())
+      .toString()],
+      enabled:  !isInvalidStakeAmt(ethStakeInput),
+  })  
+
+  const {config:unstakeEthConfig}  = usePrepareContractWrite({
+    addressOrName: ETH_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'unstake',
+    args:[!isInvalidStakeAmt(ethStakeInput)&&ethers.utils
+      .parseEther(ethStakeInput.toString())
+      .toString()],
+      enabled:  !isInvalidStakeAmt(ethStakeInput),
+  })
+  const {config: getRewardEthConfig}  = usePrepareContractWrite({
+    addressOrName: ETH_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'getReward'
+  })
+
+  const {config:approvePolyConfig, error}  = usePrepareContractWrite({
+    addressOrName: POLY_UNI_LP_TOKEN,
+    contractInterface: YUPETH_ABI,
+    functionName: 'approve',
+    args:[POLY_LIQUIDITY_REWARDS,
+      !isInvalidStakeAmt(polyStakeInput)&&ethers.utils
+      .parseEther(polyStakeInput.toString())
+      .toString()],
+      enabled:  !isInvalidStakeAmt(polyStakeInput),
+  })
+  
+  const {config:stakePolyConfig}  = usePrepareContractWrite({
+    addressOrName: POLY_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'stake',
+    args:[!isInvalidStakeAmt(polyStakeInput)&&ethers.utils
+      .parseEther(polyStakeInput.toString())
+      .toString()],
+      enabled:  !isInvalidStakeAmt(polyStakeInput),
+  })  
+
+  const {config:unstakePolyConfig}  = usePrepareContractWrite({
+    addressOrName: POLY_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'unstake',
+    args:[!isInvalidStakeAmt(polyStakeInput)&&ethers.utils
+      .parseEther(polyStakeInput.toString())
+      .toString()],
+      enabled:  !isInvalidStakeAmt(polyStakeInput),
+  })
+
+  const {config: getRewardPolyConfig}  = usePrepareContractWrite({
+    addressOrName: POLY_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'getReward'
+  })
+
+  const { data: approveEthData, isLoading: approveEthLoading, write: approveEth,  } = useContractWrite(approveEthConfig)
+  const { data: stakeEthDate, isLoading: stakeEthLoading,write: stakeEth } = useContractWrite({...stakeEthConfig, 
+    onSuccess: () => {    
+    toastInfo('You have succesfully staked your YUP-ETH LP tokens!');
+    setIsLoading(false);
+  },
+  onError: (error) => {
+    toastError(error.message);
+    setIsLoading(false);
+  }})
+  const { data: unstakeEthData,  isLoading: unstakeEthLoading, write: unstakeEth } = useContractWrite({...unstakeEthConfig, 
+    onSuccess: () => {    
+      toastInfo('You have succesfully staked your YUP-ETH LP tokens!');
+      setIsLoading(false);
+  },
+  onError: (error) => {
+    toastError(error.message);
+    setIsLoading(false);
+  }})
+  const { data: getRewardEthData, isLoading: getRewardEthLoading, write: getRewardEth } = useContractWrite({...getRewardEthConfig, 
+    onSuccess: () => {    
+    toastInfo('You have succesfully collected your Eth rewards!');
+    setIsLoading(false);
+  },
+  onError: (error) => {
+    toastError(error.message);
+    setIsLoading(false);
+  }})
+  const { data: approvePolyData, isLoading: approvePolyLoading,write: approvePoly } = useContractWrite(approvePolyConfig)
+  const { data: stakePolyDate, isLoading: stakePolyLoading,write: stakePoly } = useContractWrite({...stakePolyConfig, 
+    onSuccess: () => {    
+    toastInfo('You have succesfully staked your YUP-WETH LP tokens!');
+    setIsLoading(false);
+  },
+  onError: (error) => {
+    toastError(error.message);
+    setIsLoading(false);
+  }})
+  const { data: unstakePolyData, isLoading: unstakePolyLoading, write: unstakePoly } = useContractWrite({...unstakePolyConfig, 
+    onSuccess: () => {    
+    toastInfo('You have succesfully unstaked your YUP-WETH LP Tokens!');
+    setIsLoading(false);
+  },
+  onError: (error) => {
+    toastError(error.message);
+    setIsLoading(false);
+  }})
+  const { data: getRewardPolyData, isLoading: getRewardPolyLoading,  write: getRewardPoly } = useContractWrite({...getRewardPolyConfig, 
+    onSuccess: () => {    
+    toastInfo('You have succesfully collected your Poly rewards!');
+    setIsLoading(false);
+  },
+  onError: (error) => {
+    toastError(error.message);
+    setIsLoading(false);
+  }})
+
+  const { data: currentStakePoly } = useContractRead({
+    addressOrName: POLY_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'balanceOf',
+    args: [address],
+    watch: true,
+    enabled: !!address,
+  })
+
+  const { data: currentTotalStakePoly } = useContractRead({
+    addressOrName: POLY_UNI_LP_TOKEN,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'balanceOf',
+    args: [POLY_LIQUIDITY_REWARDS],
+    watch: true,
+  })
+
+  const { data: polyRR } = useContractRead({
+    addressOrName: POLY_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'rewardRate'
+  })
+
+  const { data: currentStakeEth } = useContractRead({
+    addressOrName: ETH_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'balanceOf',
+    args: [address],
+    watch: true,
+    enabled: !!address,
+  })
+  const { data: currentTotalStakeEth } = useContractRead({
+    addressOrName: ETH_UNI_LP_TOKEN,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'balanceOf',
+    args: [ETH_LIQUIDITY_REWARDS],
+    watch: true,
+  })
+  const { data: ethRR } = useContractRead({
+    addressOrName: ETH_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'rewardRate'
+  })
+  const { data: polyLpBal } = useContractRead({
+    addressOrName: POLY_UNI_LP_TOKEN,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'balanceOf',
+    args: [address],
+    watch: true,
+    enabled: !!address,
+  })
+  const { data: ethLpBal } = useContractRead({
+    addressOrName: ETH_UNI_LP_TOKEN,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'balanceOf',
+    args: [address],
+    watch: true,
+    enabled: !!address,
+  })
+
+  const { data: polyRwrdAmt } = useContractRead({
+    addressOrName: POLY_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'earned',
+    args: [address],
+    watch: true,
+    enabled: !!address,
+  })
+
+  const { data: ethRwrdAmt } = useContractRead({
+    addressOrName: ETH_LIQUIDITY_REWARDS,
+    contractInterface: LIQUIDITY_ABI,
+    functionName: 'earned',
+    args: [address],
+    watch: true,
+    enabled: !!address,
+  })
+  console.log({isLoading }, error)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab);
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab);
@@ -127,19 +329,24 @@ const StakingPage = ({ classes }) => {
   }, []);
 
   useEffect(() => {
-    if (!contracts) {
-      return;
+    if (address && !earnings) {
+      getTotalRewards();
     }
-    getBalances();
-    getTotalRewards();
-  }, [contracts]);
+  }, [address, earnings]);
 
   useEffect(() => {
-    if (!ethLpBal || !polyLpBal) {
+    if (address && !earnings) {
+      getTotalRewards();
+    }
+  }, [address, earnings]);
+
+  useEffect(() => {
+    console.log(predictedRewardRate)
+    if (!ethLpBal || !polyLpBal || !currentTotalStakePoly || !currentTotalStakeEth, predictedRewardRate) {
       return;
     }
     getPredictedRewardRate();
-  }, [ethLpBal, polyLpBal]);
+  }, [currentTotalStakePoly, currentTotalStakeEth,ethLpBal, polyLpBal]);
 
   useEffect(() => {
     if (!predictedRewardRate) {
@@ -147,7 +354,7 @@ const StakingPage = ({ classes }) => {
     }
     updateRewardStream();
   }, [predictedRewardRate]);
-
+  
   useEffect(() => {
     if (!isConnected) {
       toastInfo(
@@ -156,17 +363,19 @@ const StakingPage = ({ classes }) => {
       return;
     }
 
-    if (chain.id !== polygonConfig.chainId && switchNetwork) {
-      toastInfo('Please switch network to Polygon to stake.');
-      switchNetwork(polygonConfig.chainId);
+// Poly is default chain now, and users are triggerd a network change by rainbow automatically
+// Is a bug in my opinion, but we'll see if it's fixed
+// Github issue for tracking:  https://github.com/rainbow-me/rainbowkit/issues/563
 
-      return;
-    }
+    // if (chain.id !== polygonConfig.chainId && switchNetwork) {
+    //   toastInfo('Please switch network to Polygon to stake.');
+    //   switchNetwork(polygonConfig.chainId);
 
-    getContracts();
+    //   return;
+    // }
 
-    return () => handleDisconnect();
-  }, [isConnected,switchNetwork, chain?.id]);
+    // return () => handleDisconnect();
+  }, [isConnected, chain?.id]);
 
   const updateRewardStream = async () => {
     setTimeout(() => {
@@ -178,35 +387,6 @@ const StakingPage = ({ classes }) => {
     }, 1000);
   };
 
-  const getContracts = async () => {
-    try {
-      console.log({signer})
-      const polyLiquidity = new ethers.Contract(
-        POLY_LIQUIDITY_REWARDS,
-        LIQUIDITY_ABI,
-        signer
-      );
-      const ethLiquidity = new ethers.Contract(
-        ETH_LIQUIDITY_REWARDS,
-        LIQUIDITY_ABI,
-        signer
-      );
-      const polyLpToken = new ethers.Contract(
-        POLY_UNI_LP_TOKEN,
-        YUPETH_ABI,
-        signer
-      );
-      const ethLpToken = new ethers.Contract(
-        ETH_UNI_LP_TOKEN,
-        YUPETH_ABI,
-        signer
-      );
-      setContracts({ polyLpToken, ethLpToken, polyLiquidity, ethLiquidity });
-    } catch (err) {
-      toastError('An error occured. Try again later.');
-      console.log('ERR getting token contracts', err);
-    }
-  };
 
   const getTotalRewards = async () => {
     try {
@@ -259,49 +439,24 @@ const StakingPage = ({ classes }) => {
     }
   };
 
-  const handleDisconnect = () => {
-    setPolyRwrdAmt(null);
-    setEthRwrdAmt(null);
-    setCurrentStakePoly(null);
-    setCurrentStakeEth(null);
-    setPolyLpBal(null);
-    setEthLpBal(null);
-  };
+  // const handleDisconnect = () => {
+  //   setPolyRwrdAmt(null);
+  //   setEthRwrdAmt(null);
+  //   setCurrentStakePoly(null);
+  //   setCurrentStakeEth(null);
+  //   setPolyLpBal(null);
+  //   setEthLpBal(null);
+  // };
 
-  const getBalances = async () => {
-    try {
-
-      const polyBal = await contracts.polyLpToken.balanceOf(address);
-      const polyStake = await contracts.polyLiquidity.balanceOf(address);
-      const ethStake = await contracts.ethLiquidity.balanceOf(address);
-      const ethBal = await contracts.ethLpToken.balanceOf(address);
-      const polyRwrdsEarned = await contracts.polyLiquidity.earned(address);
-      const ethRwrdsEarned = await contracts.ethLiquidity.earned(address);
-      setPolyRwrdAmt(polyRwrdsEarned);
-      setEthRwrdAmt(ethRwrdsEarned);
-      setCurrentStakePoly(polyStake);
-      setCurrentStakeEth(ethStake);
-      setPolyLpBal(polyBal);
-      setEthLpBal(ethBal);
-    } catch (err) {
-      toastError('There was a problem fetching your balances, try again.');
-      console.log('ERR getting balances', err);
-    }
-  };
   const getPredictedRewardRate = async () => {
     try {
-      const polyBal = await contracts.polyLpToken.balanceOf(
-        POLY_LIQUIDITY_REWARDS
-      );
-      const ethBal = await contracts.ethLpToken.balanceOf(
-        ETH_LIQUIDITY_REWARDS
-      );
-      const polyRR = await contracts.polyLiquidity.rewardRate();
-      const ethRR = await contracts.ethLiquidity.rewardRate();
+      
+      console.log((toBaseNum(currentStakeEth) , toBaseNum(ethRR)) , toBaseNum(currentTotalStakeEth), 'ethRR');
+      console.log ((toBaseNum(currentStakePoly) , toBaseNum(polyRR)) , toBaseNum(currentTotalStakePoly), 'polyRR');
       const ethPredictedRR =
-        (toBaseNum(currentStakeEth) * toBaseNum(ethRR)) / toBaseNum(ethBal);
+        (toBaseNum(currentStakeEth) * toBaseNum(ethRR)) / toBaseNum(currentTotalStakeEth);
       const polyPredictedRR =
-        (toBaseNum(currentStakePoly) * toBaseNum(polyRR)) / toBaseNum(polyBal);
+        (toBaseNum(currentStakePoly) * toBaseNum(polyRR)) / toBaseNum(currentTotalStakePoly);
       setPredictedRewardRate(ethPredictedRR + polyPredictedRR);
     } catch (err) {
       toastError('There was a problem fetching your balances, try again.');
@@ -321,55 +476,58 @@ const StakingPage = ({ classes }) => {
   };
 
   const handleStakingAction = async (lpToken) => {
-    setIsLoading(true);
     if (lpToken === 'eth') {
-      await handleEthStakeAction();
+       startEthStakeAction();
     } else if (lpToken === 'poly') {
-      await handlePolyStakeAction();
+       startPolyStakeAction();
     }
-    setIsLoading(false);
   };
 
-  const isInvalidStakeAmt = (amt) => {
-    const stakeAmt = Number(amt);
-    return isNaN(stakeAmt) || stakeAmt <= 0;
-  };
+  // const handleEthStakeAction = async () => {
+  //   const isStake = !activeEthTab;
+  //    const updatedLpBal = isStake
+  //       ? toBaseNum(ethLpBal) - Number(ethStakeInput)
+  //       : toBaseNum(ethLpBal) + Number(ethStakeInput);
+  //     const updatedStake = isStake
+  //       ? toBaseNum(currentStakeEth) + Number(ethStakeInput)
+  //       : toBaseNum(currentStakeEth) - Number(ethStakeInput);
+  //     setEthLpBal(toGwei(updatedLpBal)); // optimistic balance update
+  //     setCurrentStakeEth(updatedStake * Math.pow(10, 18)); // optimistic stake update
+  // }
 
-  const handleEthStakeAction = async () => {
+  const startEthStakeAction = async () => {
     if (isInvalidStakeAmt(ethStakeInput)) {
       toastError('Please enter a valid amount.');
       return;
     }
 
     try {
+      setIsLoading(true)
       const isStake = !activeEthTab;
       const stakeAmt = ethers.utils
         .parseEther(ethStakeInput.toString())
         .toString();
-      const { ethLpToken, ethLiquidity } = contracts;
-
-      const approveTransaction = await ethLpToken.approve(
-        ETH_LIQUIDITY_REWARDS,
-        stakeAmt
-      );
-      await approveTransaction.wait();
-
+       approveEth(ETH_LIQUIDITY_REWARDS,stakeAmt);
+      //console.log({test})
       if (isStake) {
-        const stakeTransaction = await ethLiquidity.stake(stakeAmt);
-        await stakeTransaction.wait();
+        stakeEth({
+          args: [stakeAmt]});
+        // await stakeTransaction.wait();
       } else {
-        const unstakeTransaction = await ethLiquidity.unstake(stakeAmt);
-        await unstakeTransaction.wait();
+        console.log(stakeAmt)
+        unstakeEth({
+          args: [stakeAmt]});
+        // await unstakeTransaction.wait();
       }
 
-      const updatedLpBal = isStake
-        ? toBaseNum(ethLpBal) - Number(ethStakeInput)
-        : toBaseNum(ethLpBal) + Number(ethStakeInput);
-      const updatedStake = isStake
-        ? toBaseNum(currentStakeEth) + Number(ethStakeInput)
-        : toBaseNum(currentStakeEth) - Number(ethStakeInput);
-      setEthLpBal(toGwei(updatedLpBal)); // optimistic balance update
-      setCurrentStakeEth(updatedStake * Math.pow(10, 18)); // optimistic stake update
+      // const updatedLpBal = isStake
+      //   ? toBaseNum(ethLpBal) - Number(ethStakeInput)
+      //   : toBaseNum(ethLpBal) + Number(ethStakeInput);
+      // const updatedStake = isStake
+      //   ? toBaseNum(currentStakeEth) + Number(ethStakeInput)
+      //   : toBaseNum(currentStakeEth) - Number(ethStakeInput);
+      // setEthLpBal(toGwei(updatedLpBal)); // optimistic balance update
+      // setCurrentStakeEth(updatedStake * Math.pow(10, 18)); // optimistic stake update
     } catch (err) {
       if (err && err.code && err.code !== 4001) {
         toastError('User rejected transaction.'); // Dont logout if user rejects transaction
@@ -380,41 +538,52 @@ const StakingPage = ({ classes }) => {
     }
   };
 
-  const handlePolyStakeAction = async () => {
+  // const handlePolyStakeAction = async () => {
+  //   const isStake = !activePolyTab;
+
+
+  //     const updatedLpBal = isStake
+  //       ? toBaseNum(polyLpBal) - Number(polyStakeInput)
+  //       : toBaseNum(polyLpBal) + Number(polyStakeInput);
+  //     const updatedStake = isStake
+  //       ? toBaseNum(currentStakePoly) + Number(polyStakeInput)
+  //       : toBaseNum(currentStakePoly) - Number(polyStakeInput);
+  //     setPolyLpBal(toGwei(updatedLpBal)); // optimistic balance update
+  //     setCurrentStakePoly(toGwei(updatedStake)); // optimistic stake update
+  // }
+  const startPolyStakeAction = async () => {
     if (isInvalidStakeAmt(polyStakeInput)) {
       toastError('Please enter a valid amount.');
       return;
     }
 
     try {
+      setIsLoading(true)
       const isStake = !activePolyTab;
       const stakeAmt = ethers.utils
         .parseEther(polyStakeInput.toString())
         .toString();
-      const { polyLpToken, polyLiquidity } = contracts;
-
-      const approveTransaction = await polyLpToken.approve(
-        POLY_LIQUIDITY_REWARDS,
-        stakeAmt
-      );
-      await approveTransaction.wait();
-
+       approvePoly(POLY_LIQUIDITY_REWARDS, stakeAmt);
+      //console.log({test})
       if (isStake) {
-        const stakeTransaction = await polyLiquidity.stake(stakeAmt);
-        await stakeTransaction.wait();
+        stakePoly({
+          args: [stakeAmt]});
+        // await stakeTransaction.wait();
       } else {
-        const unstakeTransaction = await polyLiquidity.unstake(stakeAmt);
-        await unstakeTransaction.wait();
+        console.log(stakeAmt)
+        unstakePoly({
+          args: [stakeAmt]});
+        // await unstakeTransaction.wait();
       }
 
-      const updatedLpBal = isStake
-        ? toBaseNum(polyLpBal) - Number(polyStakeInput)
-        : toBaseNum(polyLpBal) + Number(polyStakeInput);
-      const updatedStake = isStake
-        ? toBaseNum(currentStakePoly) + Number(polyStakeInput)
-        : toBaseNum(currentStakePoly) - Number(polyStakeInput);
-      setPolyLpBal(toGwei(updatedLpBal)); // optimistic balance update
-      setCurrentStakePoly(toGwei(updatedStake)); // optimistic stake update
+      // const updatedLpBal = isStake
+      //   ? toBaseNum(polyLpBal) - Number(polyStakeInput)
+      //   : toBaseNum(polyLpBal) + Number(polyStakeInput);
+      // const updatedStake = isStake
+      //   ? toBaseNum(currentStakePoly) + Number(polyStakeInput)
+      //   : toBaseNum(currentStakePoly) - Number(polyStakeInput);
+      // setPolyLpBal(toGwei(updatedLpBal)); // optimistic balance update
+      // setCurrentStakePoly(toGwei(updatedStake)); // optimistic stake update
     } catch (err) {
       if (err && err.code && err.code !== 4001) {
         toastError('User rejected transaction.');
@@ -430,19 +599,12 @@ const StakingPage = ({ classes }) => {
       toastInfo(
         'Sign the transactions to collect you rewards. There will be one transaction for each pool you are in.'
       );
-      const { ethLiquidity, polyLiquidity } = contracts;
       if (ethRwrdAmt > 0) {
-        const transaction = await ethLiquidity.getReward();
-        await transaction.wait();
-        setEthRwrdAmt(0);
+        getRewardEth()
       }
       if (polyRwrdAmt > 0) {
-        const transaction = await polyLiquidity.getReward();
-        await transaction.wait();
-        setPolyRwrdAmt(0);
+        getRewardPoly()
       }
-      toastInfo('You have succesfully collected your rewards!');
-      setIsLoading(false);
     } catch (err) {
       if (err && err.code && err.code === 4001) {
         toastError('User rejected transaction.');

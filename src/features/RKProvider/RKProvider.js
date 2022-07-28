@@ -30,7 +30,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 // };
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon],
+  [chain.polygon, chain.mainnet],
   [
     alchemyProvider({ alchemyId: alchemyApiKeys[ethereumConfig.chainId] }),
     alchemyProvider({ alchemyId: alchemyApiKeys[polygonConfig.chainId] })
