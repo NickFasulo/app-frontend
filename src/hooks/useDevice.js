@@ -6,7 +6,7 @@ const useDevice = () => {
 
   return {
     isMobile: useMediaQuery(theme.breakpoints.down('md')),
-    isDesktop: useMediaQuery(theme.breakpoints.up('lg'))
+    isDesktop: useMediaQuery(theme.breakpoints.up('md'))
   };
 };
 
