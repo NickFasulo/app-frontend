@@ -5,7 +5,7 @@ import TweetVidPlayer from './TweetVidPlayer';
 import ReactMarkdown from 'react-markdown';
 
 // util
-import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
+import { parseText, fetchLinkPreviewData } from './Util/Util';
 
 // components
 import LinkPreview from './LinkPreview';
@@ -13,6 +13,8 @@ import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
 const Original = ({ previewData, web3Preview, classes }) => {
+  const {attachments} = web3Preview
+  console.log({web3Preview, attachments})
   const { url } = previewData;
   // const extendedEntities = previewData.tweetInfo.extended_entities
   //   ? previewData.tweetInfo.extended_entities
@@ -70,8 +72,7 @@ const Original = ({ previewData, web3Preview, classes }) => {
 
   let initialText = previewData.description || previewData.description;
   let text = parseText(initialText);
-
-  let tweetText = text.split(' ').map((string) => linkMentions(string));
+console.log({text, initialText})
 
 
   return (
@@ -99,7 +100,7 @@ const Original = ({ previewData, web3Preview, classes }) => {
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
                         <ReactMarkdown>
-                          {tweetText}
+                          {text}
                         </ReactMarkdown>
                       </Typography>
                     </Link>

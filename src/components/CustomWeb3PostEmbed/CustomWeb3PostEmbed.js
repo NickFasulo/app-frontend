@@ -177,10 +177,11 @@ const styles = (theme) => ({
   }
 });
 
-const CustomWeb3PostEmbed = ({ previewData, web3Preview, classes }) => {
+const CustomWeb3PostEmbed = ({ postId, previewData, web3Preview, classes }) => {
   return (
     <Fade in timeout={1000}>
       <div>
+      {"Postid: " + postId}
         <Original previewData={previewData} web3Preview={web3Preview} classes={classes} />
       </div>
     </Fade>
