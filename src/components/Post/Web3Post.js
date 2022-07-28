@@ -20,11 +20,11 @@ const PostContainer = styled("div")(
 );
 
 const Web3Post = (props) => {
-    const { classes, postHOC: PostHOC,  previewData, web3Preview } = props;
+    const { postHOC: PostHOC, web3Preview } = props;
 
     const Web3PostComp = (_props) => (
       <PostContainer>
-        <CustomWeb3PostEmbed previewData={previewData} web3Preview={web3Preview} />
+        <CustomWeb3PostEmbed web3Preview={web3Preview} />
       </PostContainer>
     );
 
@@ -39,7 +39,7 @@ const Web3Post = (props) => {
 Web3Post.propTypes = {
   url: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  previewData: PropTypes.object,
+  web3Preview: PropTypes.object,
   tweetObject: PropTypes.object,
   postHOC: PropTypes.element.isRequired
 };
