@@ -35,7 +35,7 @@ const styles = (theme) => ({
 
 class Web3Post extends PureComponent {
   render() {
-    const { classes, postHOC: PostHOC, tweetObject, previewData, web3Preview } = this.props;
+    const { classes, postHOC: PostHOC, previewData, web3Preview } = this.props;
 
     const Web3PostComp = (_props) => (
       <div className={classes.postContainer}>

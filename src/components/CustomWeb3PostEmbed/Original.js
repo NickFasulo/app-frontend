@@ -25,10 +25,6 @@ const Original = ({ previewData, web3Preview, classes }) => {
   const entities = false;
   const entitiesURLS = entities && entities.urls.length > 0;
 
-  console.log('hit previewData:', previewData);
-
-  console.log('hit web3Preview:', web3Preview);
-
   useEffect(() => {
     if (entitiesURLS) {
       if (entities.urls[0].expanded_url) {
