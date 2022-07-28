@@ -14,7 +14,9 @@ const FeedContainer = ({ categoryData }) => {
   return (
     <YupPageWrapper>
       <YupPageHeader noborder>
-        <FeedHeader isMinimize={windowScrolled} categoryData={categoryData} />
+        <YupContainer>
+          <FeedHeader isMinimize={windowScrolled} categoryData={categoryData} />
+        </YupContainer>
       </YupPageHeader>
       <YupContainer sx={{ pt: 3 }}>
         <GridLayout
