@@ -268,7 +268,6 @@ class PostController extends Component {
             author={post.author}
             postid={post._id.postid}
             quantiles={post.quantiles}
-            previewData={post.previewData}
             web3Preview={post.web3Preview}
             tweetObject={post}
             votes={post.upvotes - post.downvotes}

@@ -39,7 +39,7 @@ const Web3Post = (props) => {
 Web3Post.propTypes = {
   url: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  previewData: PropTypes.object,
+  web3Preview: PropTypes.object,
   tweetObject: PropTypes.object,
   postHOC: PropTypes.element.isRequired
 };

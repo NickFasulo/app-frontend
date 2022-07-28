@@ -13,7 +13,7 @@ import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
 const Original = ({ previewData, web3Preview, classes }) => {
-  const {attachments} = web3Preview
+  const {id, attachments} = web3Preview
   console.log({web3Preview, attachments})
   const { url } = previewData;
   // const extendedEntities = previewData.tweetInfo.extended_entities
@@ -33,10 +33,10 @@ const Original = ({ previewData, web3Preview, classes }) => {
       if (entities.urls[0].expanded_url) {
         (async () => {
           try {
-            const previewData = await fetchLinkPreviewData(
+            const web3Preview = await fetchLinkPreviewData(
               entities.urls[0].expanded_url
             );
-            setPreviewData(previewData);
+            setPreviewData(web3Preview);
           } catch (err) {
             console.error(err);
           }
@@ -56,7 +56,7 @@ const Original = ({ previewData, web3Preview, classes }) => {
   let mediaType;
   let hasPhoto;
   let hasVideo;
-  let tweetLink = previewData.url ? previewData.url : '';
+  let tweetLink = web3Preview.id ? web3Preview.id : '';
   if (hasMedia) {
     mediaURL = extendedEntities.media[0].media_url_https
       ? extendedEntities.media[0].media_url_https
@@ -70,9 +70,10 @@ const Original = ({ previewData, web3Preview, classes }) => {
     }
   }
 
-  let initialText = previewData.description || previewData.description;
-  let text = parseText(initialText);
-console.log({text, initialText})
+  let initialText = web3Preview.content || web3Preview.content;
+  // let text = parseText(initialText);
+
+  // let tweetText = text.split(' ').map((string) => linkMentions(string));
 
 
   return (
@@ -100,7 +101,7 @@ console.log({text, initialText})
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
                         <ReactMarkdown>
-                          {text}
+                          {initialText}
                         </ReactMarkdown>
                       </Typography>
                     </Link>
@@ -109,14 +110,14 @@ console.log({text, initialText})
                     {linkPreviewData &&
                       !hasMedia &&
                       !mediaURL &&
-                      !previewData.excludeTweet && (
+                      !web3Preview.excludeTweet && (
                         <div>
                           <LinkPreview
                             size={'large'}
                             description={linkPreviewData.description || ''}
                             image={linkPreviewData.img}
                             title={linkPreviewData.title}
-                            url={url}
+                            url={id}
                             classes={classes}
                           />
                         </div>
@@ -127,7 +128,7 @@ console.log({text, initialText})
                         <img
                           className={classes.tweetImg}
                           src={
-                            previewData.excludeTweet
+                            web3Preview.excludeTweet
                               ? 'https://api.faviconkit.com/twitter.com/128'
                               : mediaURL
                           }
@@ -154,7 +155,7 @@ console.log({text, initialText})
   );
 };
 Original.propTypes = {
-  previewData: PropTypes.object.isRequired,
+  web3Preview: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 };
 export default Original;
