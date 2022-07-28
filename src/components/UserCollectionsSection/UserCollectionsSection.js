@@ -45,7 +45,7 @@ const UserCollectionsSection = ({ userId }) => {
       </FlexBox>
       <Grid container spacing={2.5}>
         {pageCollections.map((collection) => (
-          <Grid item xs={6}>
+          <Grid item xs={12} md={12} lg={6}>
             <CollectionCard data={collection} />
           </Grid>
         ))}

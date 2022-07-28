@@ -420,10 +420,10 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           root: {
             color: palette.M400,
             backgroundColor: `${palette.M800}DD`,
-            height: 28,
-            fontSize: 15,
+            height: 24,
+            fontSize: '0.725rem',
             fontWeight: 400,
-            padding: '0 12px',
+            padding: '0 8px',
             '&&:hover': {
               boxShadow: `0 0 0 2px ${palette.M700}`,
               backgroundColor: palette.M700
@@ -431,7 +431,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           },
           icon: {
             color: palette.M100,
-            fontSize: '1rem'
+            fontSize: '0.725rem'
           }
         }
       }
@@ -470,7 +470,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       h2: {
         fontWeight: 700,
         fontSize: '3.4375rem',
-        lineHeight: '125%',
+        lineHeight: '120%',
         color: `${palette.M50}EE`
       },
       capsized_h2: {

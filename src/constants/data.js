@@ -373,11 +373,10 @@ export const LEADERBOARD_TUTORIAL_STEPS = [
     content: (
       <div>
         <Typography className="tourHeader" variant="h4">
-          🤔 Rating
+          🤔 Liking
         </Typography>
         <p className="tourText">
-          You can rate content out of 5 in different categories, such as like
-          ♥️, smart 💡, funny 😂, etc.
+          You can like content from any site.
         </p>
         <a
           href="https://docs.yup.io/basic/rating"
