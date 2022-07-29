@@ -5,14 +5,14 @@ import TweetVidPlayer from './TweetVidPlayer';
 import ReactMarkdown from 'react-markdown';
 
 // util
-import { parseText, fetchLinkPreviewData } from './Util/Util';
+import { fetchLinkPreviewData } from './Util/Util';
 
 // components
 import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
-const Original = ({ previewData, web3Preview, classes }) => {
+const Original = ({ web3Preview, classes }) => {
   const {id, attachments} = web3Preview
   // const extendedEntities = previewData.tweetInfo.extended_entities
   //   ? previewData.tweetInfo.extended_entities
