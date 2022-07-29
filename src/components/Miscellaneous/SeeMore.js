@@ -1,26 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
+import { webAppUrl } from '../../config';
 
-const SeeMore = ({ children }) => {
+const SeeMore = ({ children, maxLength, postId }) => {
   const text = typeof children === 'string' ? children : children.props.children;
-
-  const handleClick = () => {
-    
-  };
 
   return (
     <>
-      {text.length > 500 ? text.slice(0, 500) : text}
-      {text.length > 500 ? 
-      (<p onClick={handleClick}>
-        ...see more
-      </p>) : null}
+      {text.length > maxLength ? text.slice(0, maxLength) : text}
+      {text.length > maxLength ? 
+      (<Link href={`${webAppUrl}/post/${postId}`}>
+        <p>...see more</p>
+      </Link>) : null}
     </>
   );
 };
 
 SeeMore.propTypes = {
-  children: PropTypes.object.isRequired
+  children: PropTypes.object.isRequired,
+  maxLength: PropTypes.number.isRequired
 };
 
 export default SeeMore;

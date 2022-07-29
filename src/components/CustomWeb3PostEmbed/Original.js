@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
 import ReactMarkdown from 'react-markdown';
+import { SeeMore } from '../Miscellaneous'
 
 // util
 import { fetchLinkPreviewData } from './Util/Util';
@@ -12,7 +13,7 @@ import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
-const Original = ({ web3Preview, classes }) => {
+const Original = ({ postId, web3Preview, classes }) => {
   const {id, attachments} = web3Preview
   // const extendedEntities = previewData.tweetInfo.extended_entities
   //   ? previewData.tweetInfo.extended_entities
@@ -69,10 +70,6 @@ const Original = ({ web3Preview, classes }) => {
   }
 
   let initialText = web3Preview.content || web3Preview.content;
-  // let text = parseText(initialText);
-
-  // let tweetText = text.split(' ').map((string) => linkMentions(string));
-
 
   return (
     <Grid container="container" className={classes.container}>
@@ -98,9 +95,11 @@ const Original = ({ web3Preview, classes }) => {
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
-                        <ReactMarkdown>
-                          {initialText}
-                        </ReactMarkdown>
+                        <SeeMore maxLength={400} postId={postId}>
+                          <ReactMarkdown>
+                            {initialText}
+                          </ReactMarkdown>
+                        </SeeMore>
                       </Typography>
                     </Link>
                   </Grid>

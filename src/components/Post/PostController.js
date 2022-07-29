@@ -264,7 +264,7 @@ class PostController extends Component {
             url={post.url}
             comment={post.comment}
             author={post.author}
-            postid={post._id.postid}
+            postId={post._id.postid}
             quantiles={post.quantiles}
             web3Preview={post.web3Preview}
             tweetObject={post}
