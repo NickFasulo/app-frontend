@@ -1,5 +1,6 @@
 import { Avatar, Box, Button, Container, Menu, styled, Typography } from '@mui/material';
 import { PROFILE_PICTURE_SIZE } from '../config';
+import CountUp from 'react-countup';
 
 export const FlexBox = styled(Box)(({ theme }) => ({
   display: 'flex'
@@ -100,6 +101,13 @@ export const ConnectionAvatar = styled(Avatar)(({ theme }) => ({
 
 export const ActionButton = styled(Button)(({ theme }) => ({
   background: `${theme.palette.M100}10`,
+}));
+
+export const YupCountUp = styled(CountUp)(({ color, theme }) => ({
+  marginRight: theme.spacing(1),
+  color: color,
+  fontSize: 24,
+  fontWeight: 700
 }));
 
 ActionButton.defaultProps = {

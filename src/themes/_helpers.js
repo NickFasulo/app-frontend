@@ -321,7 +321,8 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       MuiDrawer: {
         styleOverrides: {
           paper: {
-            background: palette.M800
+            background: palette.M800,
+            userSelect: 'none'
           }
         }
       },
@@ -449,13 +450,15 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 600,
         fontSize: '4.5rem',
         lineHeight: '125%',
-        color: `${palette.M50}EE`
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
        capsized_h1: {
         fontWeight: 600,
         fontSize: '4.5rem',
         lineHeight: '100%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.1665em',
@@ -471,13 +474,15 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 700,
         fontSize: '3.4375rem',
         lineHeight: '120%',
-        color: `${palette.M50}EE`
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
       capsized_h2: {
         fontWeight: 700,
         fontSize: '3.4375rem',
         lineHeight: '100%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.45em',
@@ -493,13 +498,15 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 600,
         fontSize: '2.75rem',
         lineHeight: '125%',
-        color: `${palette.M50}EE`
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
       capsized_h3: {
         fontWeight: 600,
         fontSize: '2.75rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.45em',
@@ -515,13 +522,15 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 400,
         fontSize: '2.125rem',
         lineHeight: '125%',
-        color: `${palette.M50}EE`
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
       capsized_h4: {
         fontWeight: 400,
         fontSize: '2.125rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.212em',
@@ -537,13 +546,15 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 700,
         fontSize: '1.5rem',
         lineHeight: '125%',
-        color: `${palette.M50}EE`
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
       capsized_h5: {
         fontWeight: 700,
         fontSize: '1.5rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.214em',

@@ -44,7 +44,7 @@ export async function fetchCategoryFeed(feedType, start, limit) {
 
 export async function fetchHomeFeed(start, limit) {
   return (
-    await axios.get(`${apiBaseUrl}/feed/home?start=${start}&limit=${limit}`)
+    await axios.get(`${apiBaseUrl}/feed/id/staging:dailyhits?start=${start}&limit=${limit}`)
   ).data;
 }
 

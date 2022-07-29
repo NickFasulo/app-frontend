@@ -39,7 +39,8 @@ const styles = (theme) => ({
   },
   recommendedContainer: {
     borderRadius: 10,
-    margin: '5px 0',
+    userSelect: 'none',
+    margin: '2px 0',
     cursor: 'pointer',
     '&:hover': {
       background: `${theme.palette.M500}10`

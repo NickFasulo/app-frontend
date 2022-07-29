@@ -1,9 +1,11 @@
 import { Drawer, ExternalLinkList } from './styles';
-import { Grow, List, ListItem, Typography } from '@mui/material';
+import { Grow, List, ListItemButton, ListItemText } from '@mui/material';
 import { faHome, faTrophy, faList, faCoins, faGear, faMoon, faBrightness, faMagnifyingGlass, faBell, faCircleXmark, faPlug } from '@fortawesome/pro-light-svg-icons';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import MainLink from './MainLink';
 import useAuth from '../../hooks/useAuth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FeedLink from './FeedLink';
 import ExternalLink from './ExternalLink';
 import { extensionUrl, landingPageUrl } from '../../config';
@@ -29,6 +31,7 @@ const SideBar = () => {
   const [open, setOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [feedOpen, setFeedOpen] = useState(false);
   const { isInstalled: isExtensionInstalled } = useExtension();
 
   const handleLogout = () => {
@@ -38,11 +41,16 @@ const SideBar = () => {
     dispatch(logout());
   };
 
+  useEffect(() => {
+    document.body.style.overflowY = searchOpen ? 'hidden' : 'auto';
+  }, [searchOpen]);
+
   return (
     <SideBarContext.Provider
       value={{
         open,
-        closeSideBar: () => setOpen(false)
+        closeSideBar: () => setOpen(false),
+        closeSearch: () => setSearchOpen(false)
       }}
     >
       <Drawer
@@ -71,22 +79,49 @@ const SideBar = () => {
         </List>
         {open && (
           <>
-            <Grow in timeout={MENU_ANIMATION_DURATION}>
-              <List sx={{ flexGrow: 1, minHeight: 160, overflowY: 'scroll' }}>
-                <ListItem sx={{ pl: 1 }}>
-                  <Typography variant={isDesktop ? 'bodyS1' : 'h6'} sx={{ color: (theme) => theme.palette.M300 }}>
-                    Feeds
-                  </Typography>
-                </ListItem>
-                <FeedLink text="New" category="new" />
-                <FeedLink text="Crypto" category="crypto" />
-                <FeedLink text="NFTs" category="nfts" />
-                <FeedLink text="Mirror Articles" category="mirror" />
-                <FeedLink text="Politics" category="politics" />
-                <FeedLink text="Safe Space" category="non-corona" />
-                <FeedLink text="Farcaster" category="farcaster" />
-              </List>
-            </Grow>
+            <List
+              sx={{
+                flexShrink: 0,
+                flexGrow: 1,
+                overflowY: 'scroll'
+              }}
+            >
+              <Grow in={open} timeout={MENU_ANIMATION_DURATION}>
+                <ListItemButton
+                  sx={{
+                    height: 30,
+                    borderRadius: 1,
+                    px: 1
+                  }}
+                  onClick={() => setFeedOpen(!feedOpen)}
+                >
+                  <ListItemText
+                    primary="Feeds"
+                    primaryTypographyProps={{
+                      variant: isDesktop ? 'bodyS1' : 'h6',
+                      sx: {
+                        color: (theme) => theme.palette.M300
+                      }
+                    }}
+                  />
+                  {feedOpen ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </Grow>
+              {feedOpen && (
+                <>
+                  {isLoggedIn && (
+                    <FeedLink text="Your Daily Hits" category="dailyhits" />
+                  )}
+                  <FeedLink text="New" category="new" />
+                  <FeedLink text="Crypto" category="crypto" />
+                  <FeedLink text="NFTs" category="nfts" />
+                  <FeedLink text="Mirror Articles" category="mirror" />
+                  <FeedLink text="Politics" category="politics" />
+                  <FeedLink text="Safe Space" category="non-corona" />
+                  <FeedLink text="Farcaster" category="farcaster" />
+                </>
+              )}
+            </List>
             {isDesktop && (
               <Grow in={open} timeout={MENU_ANIMATION_DURATION}>
                 <ExternalLinkList>
