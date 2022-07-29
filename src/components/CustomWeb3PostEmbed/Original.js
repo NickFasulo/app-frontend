@@ -5,7 +5,7 @@ import TweetVidPlayer from './TweetVidPlayer';
 import ReactMarkdown from 'react-markdown';
 
 // util
-import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
+import { fetchLinkPreviewData } from './Util/Util';
 
 // components
 import LinkPreview from './LinkPreview';
@@ -69,10 +69,6 @@ const Original = ({ web3Preview, classes }) => {
   }
 
   let initialText = web3Preview.content || web3Preview.content;
-  // let text = parseText(initialText);
-
-  // let tweetText = text.split(' ').map((string) => linkMentions(string));
-
 
   return (
     <Grid container="container" className={classes.container}>
