@@ -24,7 +24,7 @@ const FeedContainer = ({ categoryData }) => {
           contentRight={(
             <>
               <Typography variant="h5" sx={{ pb: 3 }}>
-                Recommended
+                Collections
               </Typography>
               <RecommendationList collection={{ name: categoryData.title }} />
             </>
