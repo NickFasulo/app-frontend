@@ -5,7 +5,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import MainLink from './MainLink';
 import useAuth from '../../hooks/useAuth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FeedLink from './FeedLink';
 import ExternalLink from './ExternalLink';
 import { extensionUrl, landingPageUrl } from '../../config';
@@ -40,6 +40,10 @@ const SideBar = () => {
 
     dispatch(logout());
   };
+
+  useEffect(() => {
+    document.body.style.overflowY = searchOpen ? 'hidden' : 'auto';
+  }, [searchOpen]);
 
   return (
     <SideBarContext.Provider
