@@ -82,25 +82,27 @@ const SideBar = () => {
                 overflowY: 'scroll'
               }}
             >
-              <ListItemButton
-                sx={{
-                  height: 30,
-                  borderRadius: 1,
-                  px: 1
-                }}
-                onClick={() => setFeedOpen(!feedOpen)}
-              >
-                <ListItemText
-                  primary="Feeds"
-                  primaryTypographyProps={{
-                    variant: isDesktop ? 'bodyS1' : 'h6',
-                    sx: {
-                      color: (theme) => theme.palette.M300
-                    }
+              <Grow in={open} timeout={MENU_ANIMATION_DURATION}>
+                <ListItemButton
+                  sx={{
+                    height: 30,
+                    borderRadius: 1,
+                    px: 1
                   }}
-                />
-                {feedOpen ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
+                  onClick={() => setFeedOpen(!feedOpen)}
+                >
+                  <ListItemText
+                    primary="Feeds"
+                    primaryTypographyProps={{
+                      variant: isDesktop ? 'bodyS1' : 'h6',
+                      sx: {
+                        color: (theme) => theme.palette.M300
+                      }
+                    }}
+                  />
+                  {feedOpen ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </Grow>
               {feedOpen && (
                 <>
                   {isLoggedIn && (
