@@ -73,6 +73,7 @@ LinkPreview.propTypes = {
   classes: PropTypes.object.isRequired,
   description: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
+  url: PropTypes.string,
   title: PropTypes.string,
   size: PropTypes.string,
   url: PropTypes.string

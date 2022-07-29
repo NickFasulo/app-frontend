@@ -7,6 +7,8 @@ import ImgFeedSafe from '../../public/images/feeds/safecover.png';
 import ImgFeedCrypto from '../../public/images/feeds/cryptocover.png';
 import ImgFeedNft from '../../public/images/feeds/nftcover.png';
 import ImgFeedMirror from '../../public/images/feeds/mirrorcover.png';
+import ImgFeedFarcaster from '../../public/images/feeds/farcastercover.png';
+import ImgFeedLens from '../../public/images/feeds/lenscover.svg';
 import { Typography } from '@mui/material'
 import StyledTourResources from '../components/Tour/StyledTourResources'
 import React from 'react'
@@ -70,6 +72,20 @@ export const FEED_CATEGORIES = {
     image: ImgFeedDailyHits,
     metaTitle: 'New Feed',
     description: 'New Feed'
+  },
+  FARCASTER: {
+    id: 'farcaster',
+    title: 'Farcaster',
+    image: ImgFeedFarcaster,
+    metaTitle: 'Farcaster Feed',
+    description: 'Farcaster Feed'
+  },
+  LENS: {
+    id: 'lens',
+    title: 'Lens',
+    image: ImgFeedLens,
+    metaTitle: 'Lens Feed',
+    description: 'Lens Feed'
   },
   DEFAULT: {
     // default category info

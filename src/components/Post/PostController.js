@@ -7,6 +7,7 @@ import ArticlePost from './ArticlePost';
 import CoursePost from '../Post/CoursePost';
 import ProfPost from '../Post/ProfPost';
 import TweetPost from './TweetPost';
+import Web3Post from './Web3Post';
 import VideoPost from './VideoPost';
 import SoundPost from './SoundPost';
 import SpotifyPost from './SpotifyPost';
@@ -135,6 +136,15 @@ function isNFTPost(url) {
   return nftPattern.test(url);
 }
 
+function isWeb3Post(url) {
+  const web3Pattern = genRegEx([
+    'farcaster',
+    'lens',
+    'view.yup.io'
+  ]);
+  return web3Pattern.test(url);
+}
+
 // TODO: Refactor
 class PostController extends Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -236,6 +246,27 @@ class PostController extends Component {
             postid={post._id.postid}
             quantiles={post.quantiles}
             previewData={post.previewData}
+            tweetObject={post}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            rating={post.rating}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </ErrorBoundary>
+      );
+    } else if (isWeb3Post(post.url)) {
+      return (
+        <ErrorBoundary>
+          <Web3Post
+            post={post}
+            url={post.url}
+            comment={post.comment}
+            author={post.author}
+            postid={post._id.postid}
+            quantiles={post.quantiles}
+            web3Preview={post.web3Preview}
             tweetObject={post}
             votes={post.upvotes - post.downvotes}
             weights={post.weights}
