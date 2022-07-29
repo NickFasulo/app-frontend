@@ -20,11 +20,10 @@ import YupLink from '../YupLink';
 const styles = (theme) => ({
   interactionBar: {
     opacity: '0.7',
-    minHeight: '30px',
-    height: '30px',
+    padding: '0 0 4px 0',
     marginTop: 0,
     [theme.breakpoints.down('sm')]: {
-      padding: '0px 3%'
+      padding: '4px 0'
     }
   },
   keyUser: {
@@ -85,7 +84,7 @@ class PostHeader extends Component {
     const { query } = router;
 
     if (!isLoading && !postInteractions.length) {
-      return <div style={{ height: '25px' }} />;
+      return <div />;
     }
 
     if (isLoading || !postInteractions.length) {
