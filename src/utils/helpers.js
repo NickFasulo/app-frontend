@@ -57,7 +57,7 @@ export const formatDate = (dateStr) => moment(new Date(dateStr)).fromNow(true);
 
 export const isMirrorUrl = (url) => MIRROR_REGEX.test(url);
 
-export const shortenEthAddress = (ethAddress) => `${ethAddress.slice(0, 5)}...${ethAddress.slice(-6, -1)}`;
+export const shortenEthAddress = (ethAddress) => `${ethAddress.slice(0, 8)}...`;
 
 export const twitterUrl = (username) => `https://twitter.com/${username}`;
 
