@@ -28,7 +28,7 @@ const initialState = {
       limit: 10,
       hasMore: true
     },
-    new: {
+    recent: {
       posts: [],
       isLoading: false,
       error: null,
