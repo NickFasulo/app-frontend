@@ -30,7 +30,7 @@ const FollowersDialog = ({ open, onClose, account, followers, levels, dispatch }
       >
         <Grid container direction="column">
           {' '}
-          {followers.length === 0 ? (
+          {!followers?.length ? (
             <Typography variant="subtitle1">No followers</Typography>
           ) : (
             followers.map((follower) => {
