@@ -29,7 +29,7 @@ const UserMenuItem = () => {
         <Badge
           color="secondary"
           overlap="circular"
-          badgeContent={formatWeight(profile.weight)}
+          badgeContent={formatWeight(profile.score || 1)}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'right'

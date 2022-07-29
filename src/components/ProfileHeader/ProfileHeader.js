@@ -1,10 +1,10 @@
-import { ActionButton, FlexBox, GradientTypography, ProfilePicture, YupContainer } from '../styles'
+import { ActionButton, FlexBox, GradientTypography, ProfilePicture, YupContainer, YupCountUp } from '../styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEthereum, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { levelColors } from '../../utils/colors'
 import { useFollowers, useFollowings } from '../../hooks/queries'
 import FollowerSection from './FollowerSection'
-import { Box, Button, Chip, Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import { etherscanUrl, formatDecimal, shortenEthAddress, twitterUrl } from '../../utils/helpers';
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
@@ -25,7 +25,7 @@ const ProfileHeader = ({ profile, hidden }) => {
     total_vote_value: rating,
     ethInfo,
     twitterInfo,
-    weight: yupScore,
+    weight: influence,
     balance
   } = profile;
   const { isLoggedIn, name: authName } = useAuth();
@@ -35,8 +35,8 @@ const ProfileHeader = ({ profile, hidden }) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   const isMyProfile = isLoggedIn && authName === id;
-
   const userColor = levelColors[quantile || 'none'];
+  const yupScore = Math.floor(profile.score || 1);
 
   return (
     <YupContainer
@@ -53,7 +53,7 @@ const ProfileHeader = ({ profile, hidden }) => {
           <FlexBox alignItems="center">
             <FlexBox flexGrow={1} alignItems="center" columnGap={1.5}>
               <GradientTypography variant="h2">
-                {fullname}
+                {fullname || username}
               </GradientTypography>
             </FlexBox>
             <FlexBox alignItems="center" columnGap={3}>
@@ -78,46 +78,52 @@ const ProfileHeader = ({ profile, hidden }) => {
             </FlexBox>
           </FlexBox>
           <FlexBox columnGap={1}>
-              {!isMobile && (
-                <Chip
-                  label={`@${username}`}
-                  clickable
-                  component="a"
-                  target="_blank"
-                />
-              )}
-              {!isMobile && ethInfo?.address && (
-                <Chip
-                  icon={<FontAwesomeIcon size='12' icon={faEthereum} />}
-                  label={shortenEthAddress(ethInfo.address)}
-                  clickable
-                  component="a"
-                  href={etherscanUrl(ethInfo.address)}
-                  target="_blank"
-                />
-              )}
-              {!isMobile && twitterInfo && (
-                <Chip
-                  icon={<FontAwesomeIcon icon={faTwitter} />}
-                  label={`@${twitterInfo.username}`}
-                  clickable
-                  component="a"
-                  href={twitterUrl(twitterInfo.username)}
-                  target="_blank"
-                />
-              )}
+            {!isMobile && (
+              <Chip
+                label={`@${username}`}
+                clickable
+                component="a"
+                target="_blank"
+              />
+            )}
+            {!isMobile && ethInfo?.address && (
+              <Chip
+                icon={<FontAwesomeIcon size='12' icon={faEthereum} />}
+                label={shortenEthAddress(ethInfo.address)}
+                clickable
+                component="a"
+                href={etherscanUrl(ethInfo.address)}
+                target="_blank"
+              />
+            )}
+            {!isMobile && twitterInfo?.username && (
+              <Chip
+                icon={<FontAwesomeIcon icon={faTwitter} />}
+                label={`@${twitterInfo.username}`}
+                clickable
+                component="a"
+                href={twitterUrl(twitterInfo.username)}
+                target="_blank"
+              />
+            )}
           </FlexBox>
           <FlexBox alignItems="center">
-            <Typography
-              variant="h5"
-              sx={{
-                color: userColor
-              }}
-            >
-              <CountUp end={yupScore} duration={2} useEasing={false} />
-            </Typography>
-            <Typography variant="body2" sx={{ ml: 1, mr: 2, color: '' }}>
+            <Typography variant="body2" sx={{ mr: 2 }}>
+              <YupCountUp
+                end={yupScore}
+                duration={2}
+                useEasing={false}
+                color={userColor}
+              />
               Yup Score
+            </Typography>
+            <Typography variant="body2" sx={{ mr: 2 }}>
+              <YupCountUp
+                end={influence}
+                duration={2}
+                useEasing={false}
+              />
+              Influence
             </Typography>
             <YupLogoEmoji />
             <Typography variant="body2" sx={{ ml: 1, color: '' }}>

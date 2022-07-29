@@ -2,7 +2,8 @@ import { createContext, useContext } from 'react';
 
 const SideBarContext = createContext({
   open: false,
-  closeSideBar: () => {}
+  closeSideBar: () => {},
+  closeSearch: () => {}
 });
 
 export default SideBarContext;

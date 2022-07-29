@@ -9,12 +9,14 @@ import { isUrl } from '../../utils/helpers';
 
 const MainLink = ({ icon, text, to, onClick }) => {
   const { isMobile } = useDevice();
-  const { open, closeSideBar } = useSideBar();
+  const { open, closeSideBar, closeSearch } = useSideBar();
 
   const handleClickLink = () => {
     if (isMobile) {
       closeSideBar();
     }
+
+    closeSearch();
 
     onClick?.();
   };

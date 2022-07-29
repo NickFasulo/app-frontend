@@ -77,9 +77,11 @@ function YupDialog(props) {
               position: 'absolute',
               right: 24,
               top: 20,
+              width: 35,
+              height: 35,
               color: (theme) => theme.palette.M150
             }}
-            size='medium'
+            size="medium"
           >
             <FontAwesomeIcon icon={faXmark} />
           </IconButton>
