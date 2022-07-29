@@ -171,8 +171,8 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       },
       MuiAvatar: {
         styleOverrides: {
-          colorDefault: {
-            color: palette.M100
+          root: {
+            color: `${palette.M100} !important`
           }
         }
       },

@@ -85,7 +85,7 @@ const FollowingDialog = ({ open, onClose, classes, account, followings, levels, 
       >
         <Grid container direction="column">
           {' '}
-          {followings.length === 0 ? (
+          {!followings?.length ? (
             <Typography variant="h5" style={{ textAlign: 'center' }}>
               No users are being followed
             </Typography>
