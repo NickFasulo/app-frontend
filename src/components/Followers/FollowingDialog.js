@@ -102,8 +102,6 @@ const FollowingDialog = ({ open, onClose, account, followings, levels, dispatch 
                       </Grid>
                       <Grid item>
                         <FollowButton
-                          account={account}
-                          className={classes.followButton}
                           eosname={eosname}
                           isLoggedIn={account && account.name === eosname}
                         />

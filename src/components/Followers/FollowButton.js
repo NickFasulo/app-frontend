@@ -9,9 +9,9 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import axios from 'axios';
 import { accountInfoSelector } from '../../redux/selectors';
 import { getAuth } from '../../utils/authentication';
-import { YupButton } from '../Miscellaneous';
 import { apiBaseUrl } from '../../config';
 import useToast from '../../hooks/useToast';
+import { ActionButton } from '../styles';
 
 const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -68,11 +68,11 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
     return null;
   }
 
-  const isFollowing = followingInfo[eosname]
-    ? followingInfo[eosname].followers.some((user) => {
-        return user._id === account.name;
-      })
-    : [];
+    const isFollowing = followingInfo[eosname]
+      ? followingInfo[eosname].followers.some((user) => {
+          return user._id === account.name;
+        })
+      : false;
 
   if (isFollowing) {
     return (
@@ -88,7 +88,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
               }}
             />
           ) : (
-            <YupButton
+            <ActionButton
               size="small"
               color="secondary"
               variant="outlined"
@@ -98,7 +98,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
               }}
             >
               Following
-            </YupButton>
+            </ActionButton>
           )}
         </Fragment>
       </ErrorBoundary>
@@ -117,7 +117,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
               }}
             />
           ) : (
-            <YupButton
+            <ActionButton
               size="small"
               color="secondary"
               variant="outlined"
@@ -127,7 +127,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
               }}
             >
               Follow
-            </YupButton>
+            </ActionButton>
           )}
         </Fragment>
       </ErrorBoundary>

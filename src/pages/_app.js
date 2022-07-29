@@ -7,18 +7,9 @@ import { CacheProvider } from '@emotion/react';
 import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useEffect, useState } from 'react';
+import { queryClient } from '../config/react-query';
 
 const clientSideEmotionCache = createEmotionCache();
-
-// Create react-query client
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      suspense: true
-    }
-  }
-});
 
 const MyApp = ({
   Component,
