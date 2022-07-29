@@ -11,8 +11,8 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import axios from 'axios';
 import { accountInfoSelector } from '../../redux/selectors';
 import { getAuth } from '../../utils/authentication';
-import { YupButton } from '../Miscellaneous';
 import { apiBaseUrl } from '../../config';
+import { ActionButton } from '../styles';
 
 const styles = (theme) => ({
   followButton: {
@@ -109,7 +109,7 @@ class FollowButton extends Component {
       ? followingInfo[eosname].followers.some((user) => {
           return user._id === account.name;
         })
-      : [];
+      : false;
 
     if (isFollowing) {
       return (
@@ -137,17 +137,13 @@ class FollowButton extends Component {
                 }}
               />
             ) : (
-              <YupButton
-                size="small"
-                color="secondary"
-                variant="outlined"
-                className={classes.followButton}
+              <ActionButton
                 onClick={() => {
                   this.handleUnfollow(eosname);
                 }}
               >
                 Following
-              </YupButton>
+              </ActionButton>
             )}
           </Fragment>
         </ErrorBoundary>
@@ -178,17 +174,13 @@ class FollowButton extends Component {
                 }}
               />
             ) : (
-              <YupButton
-                size="small"
-                color="secondary"
-                variant="outlined"
-                className={classes.followButton}
+              <ActionButton
                 onClick={() => {
                   this.handleFollow(eosname);
                 }}
               >
                 Follow
-              </YupButton>
+              </ActionButton>
             )}
           </Fragment>
         </ErrorBoundary>

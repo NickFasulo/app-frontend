@@ -3,8 +3,9 @@ import scatter from '../../eos/scatter/scatter.wallet';
 import { editVote } from '../../apis';
 import axios from 'axios';
 import { apiGetAccount, editProfile } from '../../apis';
-import { AUTH_TYPE } from '../../constants/enum';
+import { AUTH_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
 import { apiBaseUrl } from '../../config';
+import { queryClient } from '../../config/react-query';
 
 
 
@@ -102,9 +103,12 @@ export function updateAccountInfo(account, update, authInfo) {
     dispatch(request(account.name));
     try {
 
-      await editProfile({
+      const updatedData = await editProfile({
         username: account.name, ...update , authInfo
       });
+
+      queryClient.setQueryData([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, account.name], updatedData);
+
       dispatch(success(account.name, update));
     } catch (err) {
       dispatch(failure(account.name, err));

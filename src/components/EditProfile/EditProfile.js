@@ -21,7 +21,7 @@ import { useAccount, useConnect } from 'wagmi';
 import useAuthInfo from '../../hooks/useAuthInfo';
 
 // TODO: Refactor styling to Mui v5
-const EditProfile = ({ username, account, accountInfo, ethAuth }) => {
+const EditProfile = ({ username, account, accountInfo, ethAuth, open, onClose }) => {
   const authInfo = useAuthInfo();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -34,7 +34,6 @@ const EditProfile = ({ username, account, accountInfo, ethAuth }) => {
   ] = useConnect();
 
   const [connectEthClicked, setConnectEthClicked] = useState(false);
-  const [open, setOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [avatar, setAvatar] = useState(accountInfo.avatar);
   const [fullName, setFullName] = useState(accountInfo.fullname);
@@ -74,7 +73,7 @@ const EditProfile = ({ username, account, accountInfo, ethAuth }) => {
       }
     });
 
-    setOpen(false);
+    onClose();
     setFiles([]);
   };
 
@@ -232,19 +231,6 @@ const EditProfile = ({ username, account, accountInfo, ethAuth }) => {
     setCropTime(false);
   };
 
-  // Rendering Helpers
-  const EditButton = () => (
-    <YupButton
-      className={classes.editButton}
-      onClick={() => setOpen(true)}
-      variant="outlined"
-      color="secondary"
-      size="small"
-    >
-      Edit
-    </YupButton>
-  );
-
   const CropIcon = () => {
     if (!cropTime) {
       return null;
@@ -274,159 +260,156 @@ const EditProfile = ({ username, account, accountInfo, ethAuth }) => {
 
   return (
     <ErrorBoundary>
-      <>
-        <EditButton />
-        <YupDialog
-          headline="Edit Profile"
-          buttonPosition="right"
-          open={open}
-          onClose={handleDialogClose}
-          className={classes.dialog}
-          aria-labelledby="form-dialog-title"
-          firstButton={
-            <YupButton
-              onClick={handleAccountInfoSubmit}
-              variant="contained"
-              color="primary"
-              size="medium"
-            >
-              Update
-            </YupButton>
-          }
-          secondButton={
-            <YupButton
-              onClick={handleDialogClose}
-              variant="outlined"
-              color="primary"
-              size="medium"
-            >
-              Cancel
-            </YupButton>
-          }
-        >
-          <Grid container direction="row" style={{ justifyContent: 'center' }}>
-            <Grid item>
-              {!cropTime ? (
-                <div className={classes.dropzoneContainer}>
-                  <Dropzone
-                    accept="image/*"
-                    className={classes.dropzone}
-                    maxSize={70000000}
-                    onDrop={handleDrop}
-                  >
-                    {files.length > 0 ? (
-                      <UserAvatar
-                        align="center"
-                        alt="Preview"
-                        className={classes.previewStyle}
-                        height="auto"
-                        key={filename}
-                        src={filePreview}
-                        width="100%"
-                      />
-                    ) : (
-                      <UserAvatar
-                        align="center"
-                        alt="Add"
-                        username={username}
-                        className={classes.dropzoneImg}
-                        style={{ fontSize: '100px' }}
-                        height="auto"
-                        src={avatar}
-                        width="100%"
-                      />
-                    )}
-                  </Dropzone>
-                </div>
-              ) : (
-                <ReactCrop
-                  crop={crop}
-                  imageStyle={{
-                    width: '100%',
-                    height: 'auto',
-                    objectFit: 'contain',
-                    marginTop: 0,
-                    maxWidth: '100%',
-                    maxHeight: '400px'
-                  }}
-                  onChange={handleCropChange}
-                  onImageLoaded={handleImageLoaded}
-                  src={filePreview}
-                />
-              )}
-              <CropIcon />
-              <RemovePhoto />
-            </Grid>
-            <Grid
-              item
-              container
-              direction="column"
-              spacing={2}
-            >
-              <Grid item>
-                <YupInput
-                  defaultValue={fullName}
-                  fullWidth
-                  id="name"
-                  maxLength={17}
-                  label="Name"
-                  onChange={(e) => setFullName(e.target.value)}
-                  type="text"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item>
-                <YupInput
-                  defaultValue={bio}
-                  fullWidth
-                  id="bio"
-                  maxLength={140}
-                  label="Bio"
-                  multiline
-                  rows={2}
-                  onChange={(e) => setBio(e.target.value)}
-                  type="text"
-                  variant="outlined"
-                />
-              </Grid>
-              {ethAddress ? (
-                <Grid item>
-                  <YupInput
-                    autoFocus
-                    defaultValue={ethAddress}
-                    fullWidth
-                    disabled
-                    id="name"
-                    maxLength={250}
-                    label="ETH Address"
-                    multiline
-                    type="text"
-                    variant="outlined"
-                  />
-                </Grid>
-              ) : (
-                <Grid item>
-                  <ConnectButton.Custom>
-                    {({ openConnectModal }) => (
-                      <YupButton
-                        fullWidth
-                        onClick={() => {
-                          setConnectEthClicked(true);
-                          openConnectModal();
-                        }}
-                        variant="outlined"
-                        color="secondary"
-                      >
-                        Connect Eth
-                      </YupButton>
-                    )}
-                  </ConnectButton.Custom>
-                </Grid>
-              )}
-            </Grid>
+      <YupDialog
+        headline="Edit Profile"
+        buttonPosition="right"
+        open={open}
+        onClose={handleDialogClose}
+        className={classes.dialog}
+        aria-labelledby="form-dialog-title"
+        firstButton={
+          <YupButton
+            onClick={handleAccountInfoSubmit}
+            variant="contained"
+            color="primary"
+            size="medium"
+          >
+            Update
+          </YupButton>
+        }
+        secondButton={
+          <YupButton
+            onClick={handleDialogClose}
+            variant="outlined"
+            color="primary"
+            size="medium"
+          >
+            Cancel
+          </YupButton>
+        }
+      >
+        <Grid container direction="row" style={{ justifyContent: 'center' }}>
+          <Grid item>
+            {!cropTime ? (
+              <div className={classes.dropzoneContainer}>
+                <Dropzone
+                  accept="image/*"
+                  className={classes.dropzone}
+                  maxSize={70000000}
+                  onDrop={handleDrop}
+                >
+                  {files.length > 0 ? (
+                    <UserAvatar
+                      align="center"
+                      alt="Preview"
+                      className={classes.previewStyle}
+                      height="auto"
+                      key={filename}
+                      src={filePreview}
+                      width="100%"
+                    />
+                  ) : (
+                    <UserAvatar
+                      align="center"
+                      alt="Add"
+                      username={username}
+                      className={classes.dropzoneImg}
+                      style={{ fontSize: '100px' }}
+                      height="auto"
+                      src={avatar}
+                      width="100%"
+                    />
+                  )}
+                </Dropzone>
+              </div>
+            ) : (
+              <ReactCrop
+                crop={crop}
+                imageStyle={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'contain',
+                  marginTop: 0,
+                  maxWidth: '100%',
+                  maxHeight: '400px'
+                }}
+                onChange={handleCropChange}
+                onImageLoaded={handleImageLoaded}
+                src={filePreview}
+              />
+            )}
+            <CropIcon />
+            <RemovePhoto />
           </Grid>
-        </YupDialog>
-      </>
+          <Grid
+            item
+            container
+            direction="column"
+            spacing={2}
+          >
+            <Grid item>
+              <YupInput
+                defaultValue={fullName}
+                fullWidth
+                id="name"
+                maxLength={17}
+                label="Name"
+                onChange={(e) => setFullName(e.target.value)}
+                type="text"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item>
+              <YupInput
+                defaultValue={bio}
+                fullWidth
+                id="bio"
+                maxLength={140}
+                label="Bio"
+                multiline
+                rows={2}
+                onChange={(e) => setBio(e.target.value)}
+                type="text"
+                variant="outlined"
+              />
+            </Grid>
+            {ethAddress ? (
+              <Grid item>
+                <YupInput
+                  autoFocus
+                  defaultValue={ethAddress}
+                  fullWidth
+                  disabled
+                  id="name"
+                  maxLength={250}
+                  label="ETH Address"
+                  multiline
+                  type="text"
+                  variant="outlined"
+                />
+              </Grid>
+            ) : (
+              <Grid item>
+                <ConnectButton.Custom>
+                  {({ openConnectModal }) => (
+                    <YupButton
+                      fullWidth
+                      onClick={() => {
+                        setConnectEthClicked(true);
+                        openConnectModal();
+                      }}
+                      variant="outlined"
+                      color="secondary"
+                    >
+                      Connect Eth
+                    </YupButton>
+                  )}
+                </ConnectButton.Custom>
+              </Grid>
+            )}
+          </Grid>
+        </Grid>
+      </YupDialog>
     </ErrorBoundary>
   );
 };

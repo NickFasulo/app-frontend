@@ -99,7 +99,6 @@ const FollowersDialog = ({ open, onClose, account, classes, followers, levels, d
                 return <div />;
               }
               const level = levels[eosname];
-              console.log('amlog', eosname, level);
               const username = level?.levelInfo?.username;
               const quantile = level?.levelInfo?.quantile;
               let socialLevelColor = levelColors[quantile];
@@ -157,11 +156,8 @@ const FollowersDialog = ({ open, onClose, account, classes, followers, levels, d
                       </Grid>
                       <Grid item>
                         <FollowButton
-                          account={account}
-                          className={classes.followButton}
                           eosname={eosname}
                           isLoggedIn={account && account.name === eosname}
-                          style={{ fontFamily: 'Gilroy' }}
                         />
                       </Grid>
                     </Grid>

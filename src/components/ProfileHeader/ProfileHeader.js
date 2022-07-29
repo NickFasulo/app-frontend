@@ -11,6 +11,8 @@ import useDevice from '../../hooks/useDevice';
 import CountUp from 'react-countup';
 import useAuth from '../../hooks/useAuth';
 import { useState } from 'react';
+import FollowButton from '../Followers/FollowButton';
+import EditProfile from '../EditProfile/EditProfile';
 
 const ProfileHeader = ({ profile, hidden }) => {
   const { isMobile, isDesktop } = useDevice();
@@ -68,9 +70,10 @@ const ProfileHeader = ({ profile, hidden }) => {
                 </ActionButton>
               )}
               {isLoggedIn && !isMyProfile && (
-                <ActionButton>
-                  Follow
-                </ActionButton>
+                <FollowButton
+                  eosname={username}
+                  isLoggedIn={false}
+                />
               )}
             </FlexBox>
           </FlexBox>
@@ -126,6 +129,12 @@ const ProfileHeader = ({ profile, hidden }) => {
           )}
         </FlexBox>
       </FlexBox>
+      <EditProfile
+        open={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        username={username}
+        accountInfo={profile}
+      />
     </YupContainer>
   );
 };
