@@ -12,7 +12,8 @@ const styles = (theme) => ({
   post: {
     background: 'transparent',
     paddingTop: '0.25rem',
-    width: '100%'
+    width: '100%',
+    userSelect: 'none'
   },
   article: {
     border: `1.5px solid ${theme.palette.M700}22`,
