@@ -7,7 +7,6 @@ import withStyles from '@mui/styles/withStyles';
 const styles = (theme) => ({
   postContainer: {
     display: 'flex',
-    padding: '0% 0% 2% 0%',
     alignItems: 'center'
   }
 });
