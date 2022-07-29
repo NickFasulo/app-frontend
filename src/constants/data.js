@@ -66,12 +66,12 @@ export const FEED_CATEGORIES = {
     metaTitle: 'Mirror Feed',
     description: 'Live feed of the best articles across all Mirror publications'
   },
-  NEW: {
-    id: 'new',
-    title: 'New',
+  RECENT: {
+    id: 'recent',
+    title: 'Recent',
     image: ImgFeedDailyHits,
-    metaTitle: 'New Feed',
-    description: 'New Feed'
+    metaTitle: 'Recent',
+    description: 'Recent content from all feeds'
   },
   FARCASTER: {
     id: 'farcaster',
