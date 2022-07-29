@@ -18,7 +18,7 @@ const FeedHeader = ({ categoryData, isMinimize }) => {
             <HeaderImage src={categoryData.image} alt={categoryData.title} />
           </HeaderImageWrapper>
           <Typography
-            variant={isMinimize ? 'h2' : 'h3'}
+            variant={isMinimize ? 'h3' : 'h3'}
             style={isMinimize ? { fontSize: '1rem' } : {}}
           >
             {categoryData.title}

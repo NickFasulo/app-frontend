@@ -52,7 +52,7 @@ const ProfileHeader = ({ profile, hidden }) => {
         <FlexBox flexGrow={1} flexDirection="column" rowGap={1}>
           <FlexBox alignItems="center">
             <FlexBox flexGrow={1} alignItems="center" columnGap={1.5}>
-              <GradientTypography variant="h2">
+              <GradientTypography variant="h3">
                 {fullname || username}
               </GradientTypography>
             </FlexBox>
