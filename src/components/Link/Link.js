@@ -101,6 +101,8 @@ const Link = React.forwardRef(function Link(props, ref) {
         if (href !== router.asPath) {
           showTopBar();
         }
+
+        other.onClick?.();
       }}
     />
   );

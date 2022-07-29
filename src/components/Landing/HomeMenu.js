@@ -330,11 +330,11 @@ const Home = ({ isUser, userCollections, theme }) => {
                       </Fade>
                     </Grid>
                     {recommendedCollections &&
-                      recommendedCollections.map((coll, idx) => {
+                      recommendedCollections.map((coll) => {
                         if (!coll) return null;
                         return (
                           <Grid
-                            key={idx}
+                            key={coll._id}
                             item
                             xs={6}
                             sm={4}

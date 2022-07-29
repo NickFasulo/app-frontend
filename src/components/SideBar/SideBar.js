@@ -42,7 +42,8 @@ const SideBar = () => {
     <SideBarContext.Provider
       value={{
         open,
-        closeSideBar: () => setOpen(false)
+        closeSideBar: () => setOpen(false),
+        closeSearch: () => setSearchOpen(false)
       }}
     >
       <Drawer
@@ -78,6 +79,9 @@ const SideBar = () => {
                     Feeds
                   </Typography>
                 </ListItem>
+                {isLoggedIn && (
+                  <FeedLink text="Your Daily Hits" category="dailyhits" />
+                )}
                 <FeedLink text="New" category="new" />
                 <FeedLink text="Crypto" category="crypto" />
                 <FeedLink text="NFTs" category="nfts" />

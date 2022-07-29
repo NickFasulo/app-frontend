@@ -7,6 +7,7 @@ import Link from '../Link';
 
 const NotificationItem = ({ data }) => {
   const { image, createdAt, invoker, recipient, post, action, link: notificationLink } = data;
+  const invokerName = invoker?.username || invoker;
 
   const link = post
     ? isUrl(post.url ?? post.caption)
@@ -28,7 +29,7 @@ const NotificationItem = ({ data }) => {
       <ListItemText
         primary={(
           <NotifText
-            invoker={invoker?.username === recipient ? 'You' : invoker?.username}
+            invoker={invokerName === recipient ? 'You' : invokerName}
             notif={data}
           />
         )}
