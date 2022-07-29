@@ -12,8 +12,8 @@ import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
-const Original = ({ web3Preview, classes }) => {
-  const { id } = web3Preview;
+const Original = ({ previewData, web3Preview, classes }) => {
+  const {id, attachments} = web3Preview
   // const extendedEntities = previewData.tweetInfo.extended_entities
   //   ? previewData.tweetInfo.extended_entities
   //   : false;

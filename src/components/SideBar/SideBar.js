@@ -84,6 +84,7 @@ const SideBar = () => {
                 <FeedLink text="Mirror Articles" category="mirror" />
                 <FeedLink text="Politics" category="politics" />
                 <FeedLink text="Safe Space" category="non-corona" />
+                <FeedLink text="Farcaster" category="farcaster" />
               </List>
             </Grow>
             {isDesktop && (
