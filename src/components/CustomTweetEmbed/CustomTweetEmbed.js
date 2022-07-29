@@ -60,7 +60,7 @@ const styles = (theme) => ({
     borderRadius: '12px'
   },
   retweetContainer: {
-    border: `solid 1px ${theme.palette.M500}`,
+    border: `solid 1px ${theme.palette.M700}`,
     borderRadius: '12px',
     overflow: 'hidden',
     padding: '8px'
