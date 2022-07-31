@@ -29,7 +29,7 @@ import withSuspense from '../../hoc/withSuspense';
 import { useSocialLevel } from '../../hooks/queries';
 import { fetchSocialLevel } from '../../redux/actions';
 // TODO: Refactor styling to Mui v5
-const EditProfile = ({ open, onClose }) => {
+const EditProfile = ({ open: modalOpen, onClose }) => {
   const router = useRouter();
   const { openConnectModal } = useConnectModal();
   const {  isConnected } = useAccount();
@@ -84,6 +84,10 @@ const EditProfile = ({ open, onClose }) => {
       setOpen(true)
     }
   }, []);
+
+  useEffect(() => {
+    setOpen(modalOpen);
+  }, [modalOpen]);
 
 //Disconnect user if dialogOpen -> openConnectModal returns undefined if already connected
   useEffect(()=>{
