@@ -137,10 +137,7 @@ function isNFTPost(url) {
 }
 
 function isWeb3Post(tag) {
-  const web3Pattern = genRegEx([
-    'farcaster',
-    'lens'
-  ]);
+  const web3Pattern = genRegEx(['farcaster', 'lens']);
   return web3Pattern.test(tag);
 }
 
@@ -429,9 +426,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (
-      isArticlePost(post.url)
-    ) {
+    } else if (isArticlePost(post.url)) {
       return (
         <ErrorBoundary>
           <ArticlePost

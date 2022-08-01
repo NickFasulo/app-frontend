@@ -127,7 +127,7 @@ const styles = (theme) => ({
     background: `${theme.palette.M800}AA`,
     padding: '2% 3% 2% 3%',
     width: '100%',
-    backdropFilter: 'blur(40px)',
+    backdropFilter: 'blur(40px)'
   },
   previewDataContainer: {
     position: 'absolute',
@@ -152,13 +152,10 @@ class NFTPreview extends Component {
   async getCreator() {
     const { url, previewData } = this.props;
     const raribleNFT = url && url.match(raribleQuery);
-    const superrareNFT =
-    url && url.match(superrareQuery);
-    const foundationNFT =
-    url && url.match(foundationQuery);
+    const superrareNFT = url && url.match(superrareQuery);
+    const foundationNFT = url && url.match(foundationQuery);
     const zoraNFT = url && url.match(zoraQuery);
-    const knownOriginNFT =
-    url && url.match(knownOriginQuery);
+    const knownOriginNFT = url && url.match(knownOriginQuery);
 
     if (raribleNFT && previewData[0] && previewData[0].item) {
       const res = await axios.get(
@@ -184,8 +181,7 @@ class NFTPreview extends Component {
   async getOwners() {
     const { previewData, url } = this.props;
     const raribleNFT = url && url.match(raribleQuery);
-    const foundationNFT =
-      url && url.match(foundationQuery);
+    const foundationNFT = url && url.match(foundationQuery);
     const zoraNFT = url && url.match(zoraQuery);
 
     if (raribleNFT && previewData[0] && previewData[0].item) {
@@ -214,15 +210,8 @@ class NFTPreview extends Component {
   }
 
   render() {
-    const {
-      image,
-      title,
-      description,
-      url,
-      classes,
-      mimeType,
-      postid
-    } = this.props;
+    const { image, title, description, url, classes, mimeType, postid } =
+      this.props;
     let faviconURL = null;
 
     if (url != null) {
@@ -248,7 +237,13 @@ class NFTPreview extends Component {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <div style={{borderRadius: '12px', overflow: 'hidden', textAlign: 'center' }}>
+              <div
+                style={{
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  textAlign: 'center'
+                }}
+              >
                 {isVideo ? (
                   <CldVid
                     className={classes.linkImg}
@@ -320,7 +315,10 @@ class NFTPreview extends Component {
                           style={{ height: '30px' }}
                         >
                           {this.state.creator && (
-                            <Grid item xs={this.state.owners.length > 0 ? 4 : 6}>
+                            <Grid
+                              item
+                              xs={this.state.owners.length > 0 ? 4 : 6}
+                            >
                               <Tooltip
                                 title="Creator"
                                 placement="top"

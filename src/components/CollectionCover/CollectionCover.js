@@ -15,10 +15,17 @@ const CoverImageItem = styled(YupImage)(() => ({
 
 const CollectionCover = ({ id }) => {
   const collection = useCollection(id);
-  const allImages = collection?.posts.map((item) => item?.previewData?.img).filter((img) => !!img) || [];
-  const coverImages = allImages.length === 0
-    ? [DEFAULT_IMAGE_PATH]
-    : allImages.slice(0, Math.min(allImages.length, COLLECTION_COVER_IMAGE_COUNT));
+  const allImages =
+    collection?.posts
+      .map((item) => item?.previewData?.img)
+      .filter((img) => !!img) || [];
+  const coverImages =
+    allImages.length === 0
+      ? [DEFAULT_IMAGE_PATH]
+      : allImages.slice(
+          0,
+          Math.min(allImages.length, COLLECTION_COVER_IMAGE_COUNT)
+        );
 
   return (
     <FlexBox width="100%" height="100%">

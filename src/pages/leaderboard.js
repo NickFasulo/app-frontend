@@ -1,7 +1,7 @@
 import LeaderboardContainer from '../components/LeaderboardContainer';
 import { YupPageWrapper } from '../components/styles';
-import TutorialsProvider from '../providers/TutorialsProvider'
-import { LEADERBOARD_TUTORIAL_STEPS } from '../constants/data'
+import TutorialsProvider from '../providers/TutorialsProvider';
+import { LEADERBOARD_TUTORIAL_STEPS } from '../constants/data';
 
 const Leaderboard = () => {
   return (

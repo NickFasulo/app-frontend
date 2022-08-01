@@ -4,13 +4,7 @@ import ObjectPreview from '../LinkPreview/ObjectPreview';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 function ObjectPost(props) {
-  const {
-    previewData,
-    postHOC: PostHOC,
-    quantiles,
-    rankCategory,
-    url
-  } = props;
+  const { previewData, postHOC: PostHOC, quantiles, rankCategory, url } = props;
 
   const ObjectComp = (_props) => (
     <ObjectPreview

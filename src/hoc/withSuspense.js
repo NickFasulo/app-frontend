@@ -21,7 +21,14 @@ const withSuspense = (loaderType, repeatCount) => (Component) => (props) => {
       loaderUnit = <FeedLoader />;
       break;
     case LOADER_TYPE.NOTIFICATION:
-      loaderUnit = <Skeleton variant="rectangular" animation="wave" height={40} sx={{ borderRadius: 1 }} />;
+      loaderUnit = (
+        <Skeleton
+          variant="rectangular"
+          animation="wave"
+          height={40}
+          sx={{ borderRadius: 1 }}
+        />
+      );
       break;
     case LOADER_TYPE.TOP_BAR:
       loaderUnit = <PageLoadingBar />;
@@ -36,9 +43,7 @@ const withSuspense = (loaderType, repeatCount) => (Component) => (props) => {
     loader = (
       <FlexBox flexDirection="column" gap={2}>
         {[...Array(repeatCount).keys()].map((idx) => (
-          <React.Fragment key={idx}>
-            {loaderUnit}
-          </React.Fragment>
+          <React.Fragment key={idx}>{loaderUnit}</React.Fragment>
         ))}
       </FlexBox>
     );
@@ -51,12 +56,13 @@ const withSuspense = (loaderType, repeatCount) => (Component) => (props) => {
   );
 };
 
-export const withCustomSuspense = (LoaderComponent) => (Component) => (props) => {
-  return (
-    <Suspense fallback={<LoaderComponent />}>
-      <Component {...props} />
-    </Suspense>
-  )
-};
+export const withCustomSuspense =
+  (LoaderComponent) => (Component) => (props) => {
+    return (
+      <Suspense fallback={<LoaderComponent />}>
+        <Component {...props} />
+      </Suspense>
+    );
+  };
 
 export default withSuspense;

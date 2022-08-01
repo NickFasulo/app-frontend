@@ -12,19 +12,22 @@ import YupDialog from '../Miscellaneous/YupDialog';
 import { YupButton, YupInput } from '../Miscellaneous';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import { updateAccountInfo, updateEthAuthInfo } from '../../redux/actions';
-import { apiGetChallenge, apiSetETHAddress, apiUploadProfileImage, apiVerifyChallenge } from '../../apis';
+import {
+  apiGetChallenge,
+  apiSetETHAddress,
+  apiUploadProfileImage,
+  apiVerifyChallenge
+} from '../../apis';
 import useToast from '../../hooks/useToast';
 import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
 import useStyles from './styles';
-import {  useAccount, useDisconnect } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 import { useAuthModal } from '../../contexts/AuthModalContext';
-import useAuth from '../../hooks/useAuth'
+import useAuth from '../../hooks/useAuth';
 import { useRouter } from 'next/router';
 import useEthAuth from '../../hooks/useEthAuth';
-import useYupAccount  from '../../hooks/useAccount';
-import {
-  useConnectModal
-} from '@rainbow-me/rainbowkit';
+import useYupAccount from '../../hooks/useAccount';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import withSuspense from '../../hoc/withSuspense';
 import { useSocialLevel } from '../../hooks/queries';
 import { fetchSocialLevel } from '../../redux/actions';
@@ -32,11 +35,11 @@ import { fetchSocialLevel } from '../../redux/actions';
 const EditProfile = ({ open: modalOpen, onClose }) => {
   const router = useRouter();
   const { openConnectModal } = useConnectModal();
-  const {  isConnected } = useAccount();
-  const { disconnect } = useDisconnect()
-  const {dialogOpen} = router.query;
-  const {authInfo} = useAuth();
-  const {account} = useYupAccount()
+  const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { dialogOpen } = router.query;
+  const { authInfo } = useAuth();
+  const { account } = useYupAccount();
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -47,8 +50,7 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
   const [files, setFiles] = useState([]);
   const [avatar, setAvatar] = useState();
   const [fullName, setFullName] = useState();
-  const [ethAddress, setEthAddress] = useState(
-  );
+  const [ethAddress, setEthAddress] = useState();
   const [bio, setBio] = useState();
   const [crop, setCrop] = useState({
     unit: '%',
@@ -67,21 +69,19 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
   const filename = files.length > 0 ? files[0].name : '';
 
   useEffect(() => {
-    if(account){
-      setAvatar(account.avatar)
-      setFullName(account.fullname)
-      setBio(account.bio)
+    if (account) {
+      setAvatar(account.avatar);
+      setFullName(account.fullname);
+      setBio(account.bio);
     }
-      if(account?.ethInfo?.address !== ethAddress){
-        setEthAddress(account?.ethInfo?.address)
-      }
-
-
+    if (account?.ethInfo?.address !== ethAddress) {
+      setEthAddress(account?.ethInfo?.address);
+    }
   }, [account]);
 
   useEffect(() => {
     if (dialogOpen) {
-      setOpen(true)
+      setOpen(true);
     }
   }, []);
 
@@ -89,31 +89,36 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
     setOpen(modalOpen);
   }, [modalOpen]);
 
-//Disconnect user if dialogOpen -> openConnectModal returns undefined if already connected
-  useEffect(()=>{
-
-    if(isConnected && dialogOpen && !connectModalIsOpen){
-      disconnect()
+  //Disconnect user if dialogOpen -> openConnectModal returns undefined if already connected
+  useEffect(() => {
+    if (isConnected && dialogOpen && !connectModalIsOpen) {
+      disconnect();
     }
-  }, [isConnected])
+  }, [isConnected]);
 
   useEffect(() => {
-    console.log({account, ethAddress})
-    if (account&&  !account.ethInfo?.address &&openConnectModal && dialogOpen && !connectModalIsOpen && !isConnected ) {
-      handleOpenModalDynamicly()
-      setConnectModalIsOpen(true)
+    console.log({ account, ethAddress });
+    if (
+      account &&
+      !account.ethInfo?.address &&
+      openConnectModal &&
+      dialogOpen &&
+      !connectModalIsOpen &&
+      !isConnected
+    ) {
+      handleOpenModalDynamicly();
+      setConnectModalIsOpen(true);
     }
   }, [openConnectModal, isConnected, account]);
 
   const handleOpenModalDynamicly = () => {
-    openConnectModal()
-    handleLinkEthAddress()
-  }
+    openConnectModal();
+    handleLinkEthAddress();
+  };
 
   const handleLinkEthAddress = async () => {
-     linkEthAddress({ noRedirect: true });
-
-  }
+    linkEthAddress({ noRedirect: true });
+  };
 
   const handleDialogClose = () => {
     files.forEach((file) => {
@@ -386,12 +391,7 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
             <CropIcon />
             <RemovePhoto />
           </Grid>
-          <Grid
-            item
-            container
-            direction="column"
-            spacing={2}
-          >
+          <Grid item container direction="column" spacing={2}>
             <Grid item>
               <YupInput
                 defaultValue={fullName}
@@ -441,12 +441,12 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
                       fullWidth
                       onClick={() => {
                         openConnectModal();
-                        handleLinkEthAddress()
+                        handleLinkEthAddress();
                       }}
                       variant="outlined"
                       color="secondary"
                     >
-                      {!ethAddress?"Connect Eth":"Change Eth"}
+                      {!ethAddress ? 'Connect Eth' : 'Change Eth'}
                     </YupButton>
                   )}
                 </ConnectButton.Custom>
@@ -458,7 +458,6 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
     </ErrorBoundary>
   );
 };
-
 
 // TODO: Move to `useSelector`
 

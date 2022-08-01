@@ -1,6 +1,18 @@
 import { Drawer, ExternalLinkList } from './styles';
 import { Grow, List, ListItemButton, ListItemText } from '@mui/material';
-import { faHome, faTrophy, faList, faCoins, faGear, faMoon, faBrightness, faMagnifyingGlass, faBell, faCircleXmark, faPlug } from '@fortawesome/pro-light-svg-icons';
+import {
+  faHome,
+  faTrophy,
+  faList,
+  faCoins,
+  faGear,
+  faMoon,
+  faBrightness,
+  faMagnifyingGlass,
+  faBell,
+  faCircleXmark,
+  faPlug
+} from '@fortawesome/pro-light-svg-icons';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import MainLink from './MainLink';
@@ -58,23 +70,26 @@ const SideBar = () => {
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
       >
-        {isLoggedIn ? (
-          <UserMenuItem />
-        ) : (
-          <YupLogoMenuItem />
-        )}
+        {isLoggedIn ? <UserMenuItem /> : <YupLogoMenuItem />}
         <List sx={{ flexGrow: open ? 0 : 1 }}>
           <MainLink icon={faHome} text="Home" to="/" />
           <MainLink
             icon={faMagnifyingGlass}
             text="Search"
-            onClick={() => { setSearchOpen(!searchOpen); setOpen(false); }}
+            onClick={() => {
+              setSearchOpen(!searchOpen);
+              setOpen(false);
+            }}
           />
           {isLoggedIn && (
             <MainLink icon={faBell} text="Notifications" to="/notifications" />
           )}
           <MainLink icon={faTrophy} text="Leaderboards" to="/leaderboard" />
-          <MainLink icon={faList} text="Collections" to="/leaderboard?site=all&subject=collections&category=overall" />
+          <MainLink
+            icon={faList}
+            text="Collections"
+            to="/leaderboard?site=all&subject=collections&category=overall"
+          />
           <MainLink icon={faCoins} text="Staking" to="/staking" />
         </List>
         {open && (
@@ -138,11 +153,7 @@ const SideBar = () => {
         )}
         <List>
           {!isExtensionInstalled && (
-            <MainLink
-              icon={faPlug}
-              text="Extension"
-              to={extensionUrl}
-            />
+            <MainLink icon={faPlug} text="Extension" to={extensionUrl} />
           )}
           <MainLink
             icon={isLightMode ? faMoon : faBrightness}
@@ -150,22 +161,26 @@ const SideBar = () => {
             onClick={() => toggleTheme()}
           />
           {isLoggedIn && (
-            <MainLink icon={faGear} text="Settings" onClick={() => setSettingsOpen(true)} />
+            <MainLink
+              icon={faGear}
+              text="Settings"
+              onClick={() => setSettingsOpen(true)}
+            />
           )}
           {open && !isDesktop && (
-            <MainLink icon={faCircleXmark} text="Close" onClick={() => setOpen(false)} />
+            <MainLink
+              icon={faCircleXmark}
+              text="Close"
+              onClick={() => setOpen(false)}
+            />
           )}
         </List>
       </Drawer>
 
-      {!isDesktop && (
-        <MobileMenuFab onClick={() => setOpen(true)}/>
-      )}
+      {!isDesktop && <MobileMenuFab onClick={() => setOpen(true)} />}
 
       {/* Search */}
-      {searchOpen && (
-        <SearchUi onClose={() => setSearchOpen(false)} />
-      )}
+      {searchOpen && <SearchUi onClose={() => setSearchOpen(false)} />}
 
       {/* Modals */}
 

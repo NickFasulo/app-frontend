@@ -163,15 +163,8 @@ class ObjectPreview extends Component {
   }
 
   render() {
-    const {
-      image,
-      title,
-      description,
-      url,
-      classes,
-      quantiles,
-      rankCategory
-    } = this.props;
+    const { image, title, description, url, classes, quantiles, rankCategory } =
+      this.props;
     let faviconURL = null;
     if (url != null) {
       faviconURL = getFavicon(url);

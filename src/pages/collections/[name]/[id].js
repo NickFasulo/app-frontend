@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import CollectionDetails from '../../../components/CollectionDetails';
-import TutorialsProvider from '../../../providers/TutorialsProvider'
-import { COLLECTIONS_TUTORIAL_STEPS } from '../../../constants/data'
+import TutorialsProvider from '../../../providers/TutorialsProvider';
+import { COLLECTIONS_TUTORIAL_STEPS } from '../../../constants/data';
 
 const Collections = () => {
   const { query } = useRouter();

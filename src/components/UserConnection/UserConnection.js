@@ -11,10 +11,7 @@ const UserConnection = ({ user }) => {
       style={{ textDecoration: 'none' }}
     >
       <FlexBox my={2} alignItems="center" sx={{ cursor: 'pointer' }}>
-        <ConnectionAvatar
-          src={user.avatar}
-          alt="avatar"
-        >
+        <ConnectionAvatar src={user.avatar} alt="avatar">
           {user.username[0].toUpperCase()}
         </ConnectionAvatar>
         <Box ml={2}>

@@ -67,11 +67,19 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
   bar: {
     borderRadius: 0,
-    background: 'linear-gradient(270deg, #00E08E -2.12%, #A2CF7E 22.97%, #F0C909 49.29%, #FCA016 74.88%, #EB3650 100%)'
+    background:
+      'linear-gradient(270deg, #00E08E -2.12%, #A2CF7E 22.97%, #F0C909 49.29%, #FCA016 74.88%, #EB3650 100%)'
   }
 }))(LinearProgress);
 
-const BarChart = ({ classes, chartData, chartTitle, color, unit, description }) => {
+const BarChart = ({
+  classes,
+  chartData,
+  chartTitle,
+  color,
+  unit,
+  description
+}) => {
   if (chartData) {
     const chart = {
       series: [
@@ -184,9 +192,7 @@ const BarChart = ({ classes, chartData, chartTitle, color, unit, description }) 
           </Grid>
           {description && (
             <Grid item>
-              <Typography>
-                {description}
-              </Typography>
+              <Typography>{description}</Typography>
             </Grid>
           )}
           <Grid item style={{ display: 'none' }}>

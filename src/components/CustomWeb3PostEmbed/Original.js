@@ -13,7 +13,7 @@ import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
 const Original = ({ web3Preview, classes }) => {
-  const {id, attachments} = web3Preview
+  const { id, attachments } = web3Preview;
   // const extendedEntities = previewData.tweetInfo.extended_entities
   //   ? previewData.tweetInfo.extended_entities
   //   : false;
@@ -73,13 +73,16 @@ const Original = ({ web3Preview, classes }) => {
 
   // let tweetText = text.split(' ').map((string) => linkMentions(string));
 
-
   return (
     <Grid container="container" className={classes.container}>
       <Grid item="item" xs={12}>
         <Grid container="container" direction="row" spacing={1}>
           <Grid item="item">
-            <Avatar classes={classes} url={web3Preview.creator.avatarUrl} tweetLink={tweetLink} />
+            <Avatar
+              classes={classes}
+              url={web3Preview.creator.avatarUrl}
+              tweetLink={tweetLink}
+            />
           </Grid>
           <Grid item="item" xs>
             <Grid container="container" direction="column" spacing={0}>
@@ -98,9 +101,7 @@ const Original = ({ web3Preview, classes }) => {
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
-                        <ReactMarkdown>
-                          {initialText}
-                        </ReactMarkdown>
+                        <ReactMarkdown>{initialText}</ReactMarkdown>
                       </Typography>
                     </Link>
                   </Grid>

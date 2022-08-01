@@ -9,7 +9,7 @@ export const apiSetETHAddress = async (address, authInfo) =>
   callYupApi({
     url: '/accounts/linked/eth',
     method: 'POST',
-    data: {address, ...authInfo}
+    data: { address, ...authInfo }
   });
 
 export const apiGetAccountByEthAddress = async (address) =>
@@ -38,14 +38,17 @@ export const apiMirrorAccount = async (address, signature, username) =>
     data: { address, signature, username }
   });
 
-  export const editProfile = async ({username, avatar, bio, fullname, authInfo}) =>
+export const editProfile = async ({
+  username,
+  avatar,
+  bio,
+  fullname,
+  authInfo
+}) =>
   callYupApi({
     url: `/accounts/edit-account/${username}`,
     method: 'POST',
-    data: { avatar,
-      bio,
-      fullname,
-      ...authInfo}
+    data: { avatar, bio, fullname, ...authInfo }
   });
 export const apiUploadProfileImage = async (imageData) =>
   callYupApi({

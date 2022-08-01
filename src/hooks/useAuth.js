@@ -8,13 +8,15 @@ const modifyAuthInfo = (authInfo) => {
       signature: authInfo.signature,
       authType: 'ETH'
     };
-  } if (authInfo.authType === 'extension') {
+  }
+  if (authInfo.authType === 'extension') {
     return {
       eosname: authInfo.eosname,
       signature: authInfo.signature,
       authType: 'extension'
     };
-  } if (authInfo.authType === 'twitter') {
+  }
+  if (authInfo.authType === 'twitter') {
     return { oauthToken: authInfo.oauthToken, authType: 'twitter' };
   }
 };

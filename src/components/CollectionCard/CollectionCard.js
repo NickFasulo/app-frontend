@@ -22,9 +22,7 @@ const CollectionCard = ({ data }) => {
           </CollectionCoverWrapper>
           <CollectionOverlay />
           <CollectionContent flexDirection="column" justifyContent="flex-end">
-            <TruncateText>
-              {name}
-            </TruncateText>
+            <TruncateText>{name}</TruncateText>
             <Typography
               variant="body2"
               sx={{ color: (theme) => theme.palette.M400 }}

@@ -61,18 +61,19 @@ class PostHeader extends Component {
   };
 
   componentDidMount() {
-    try{
-    axios.post(`${apiBaseUrl}/posts/interactions/${this.props.postid}`).then(
-      (res) => {
-        this.setState({
-          postInteractions: res.data,
-          isLoading: false
+    try {
+      axios
+        .post(`${apiBaseUrl}/posts/interactions/${this.props.postid}`)
+        .then((res) => {
+          this.setState({
+            postInteractions: res.data,
+            isLoading: false
+          });
+        })
+        .catch((_) => {
+          this.setState({ isLoading: false });
         });
-      }
-    ).catch((_) => {
-      this.setState({ isLoading: false });
-    })
-    } catch(_) {
+    } catch (_) {
       this.setState({ isLoading: false });
     }
   }
@@ -179,7 +180,12 @@ class PostHeader extends Component {
           className={classes.interactionBar}
           style={hideInteractions ? { marginBottom: '-9px' } : {}}
         >
-          <Grid container direction="row" alignItems="center" justifyContent="space-between">
+          <Grid
+            container
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Grid item>
               <Grid
                 container

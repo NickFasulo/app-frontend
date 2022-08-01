@@ -59,7 +59,9 @@ export const ThemeModeProvider = ({ children }) => {
         mode,
         toggleTheme,
         isLightMode: mode === THEME_MODES.LIGHT,
-        coloredLogoPath: `/images/logos/${mode === THEME_MODES.LIGHT ? 'logo.svg' : 'logo_w.svg'}`
+        coloredLogoPath: `/images/logos/${
+          mode === THEME_MODES.LIGHT ? 'logo.svg' : 'logo_w.svg'
+        }`
       }}
     >
       <ThemeProvider

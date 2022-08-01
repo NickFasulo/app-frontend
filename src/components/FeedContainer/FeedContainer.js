@@ -20,15 +20,15 @@ const FeedContainer = ({ categoryData }) => {
       </YupPageHeader>
       <YupContainer sx={{ pt: 3 }}>
         <GridLayout
-          contentLeft={<FeedHOC feedType={categoryData.id}/>}
-          contentRight={(
+          contentLeft={<FeedHOC feedType={categoryData.id} />}
+          contentRight={
             <>
               <Typography variant="h5" sx={{ pb: 3 }}>
                 Collections
               </Typography>
               <RecommendationList collection={{ name: categoryData.title }} />
             </>
-          )}
+          }
         />
       </YupContainer>
     </YupPageWrapper>

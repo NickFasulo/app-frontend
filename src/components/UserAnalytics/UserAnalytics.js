@@ -446,7 +446,7 @@ class UserAnalytics extends Component {
     return (
       <ErrorBoundary>
         <GridLayout
-          contentLeft={(
+          contentLeft={
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <LineChart
@@ -471,8 +471,8 @@ class UserAnalytics extends Component {
                 />
               </Grid>
             </Grid>
-          )}
-          contentRight={(
+          }
+          contentRight={
             <FlexBox flexDirection="column" rowGap={3}>
               <BarChart
                 chartData={influence}
@@ -492,7 +492,7 @@ class UserAnalytics extends Component {
                 description="Rating Power indicates how many votes you have left today."
               />
             </FlexBox>
-          )}
+          }
           noHideRightContent
         />
       </ErrorBoundary>
@@ -514,6 +514,4 @@ UserAnalytics.propTypes = {
   username: PropTypes.string.isRequired
 };
 
-export default connect(mapStateToProps)(
-  withStyles(styles)(UserAnalytics)
-);
+export default connect(mapStateToProps)(withStyles(styles)(UserAnalytics));

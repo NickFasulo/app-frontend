@@ -3,7 +3,6 @@ import withStyles from '@mui/styles/withStyles';
 import { Fade } from '@mui/material/';
 import PropTypes from 'prop-types';
 
-
 // child componenents
 import Original from './Original';
 
@@ -186,7 +185,7 @@ const CustomWeb3PostEmbed = ({ web3Preview, classes }) => {
       </div>
     </Fade>
   );
-}
+};
 
 CustomWeb3PostEmbed.propTypes = {
   web3Preview: PropTypes.object.isRequired,

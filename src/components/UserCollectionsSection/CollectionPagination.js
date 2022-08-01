@@ -1,7 +1,7 @@
 import numeral from 'numeral';
 import { FlexBox } from '../styles';
-import IconLeft  from '@mui/icons-material/ChevronLeft';
-import IconRight  from '@mui/icons-material/ChevronRight';
+import IconLeft from '@mui/icons-material/ChevronLeft';
+import IconRight from '@mui/icons-material/ChevronRight';
 import { Typography } from '@mui/material';
 import { ArrowButton } from './styles';
 

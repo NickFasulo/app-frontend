@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import VoteButton from '../VoteButton/VoteButton';
 import { useInitialVotes } from '../../hooks/queries';
@@ -13,7 +13,7 @@ import { windowExists } from '../../utils/helpers';
 import useAuth from '../../hooks/useAuth';
 import withSuspense from '../../hoc/withSuspense';
 import axios from 'axios';
- const CREATE_VOTE_LIMIT = 40
+const CREATE_VOTE_LIMIT = 40;
 const ratingConversion = {
   1: 2,
   2: 1,
@@ -37,15 +37,8 @@ function genRegEx(arrOfURLs) {
   );
 }
 
-const VoteComp = ({
-  postid,
-  url,
-  weights,
-  listType,
-  postInfo,
-  rating
-}) =>{
-  const {authInfo, name} = useAuth();
+const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
+  const { authInfo, name } = useAuth();
   const votes = useInitialVotes(postid, name);
   const [newRating, setNewRating] = useState();
   const [lastClicked, setLastClicked] = useState();
@@ -76,9 +69,7 @@ const VoteComp = ({
     vote &&
       setNewRating(vote.like ? likeRatingConversion[vote.rating] : vote.rating);
     setUpvotes((post.catVotes.overall && post.catVotes.overall.up) || 0);
-    setDownvotes(
-      (post.catVotes.overall && post.catVotes.overall.down) || 0
-    );
+    setDownvotes((post.catVotes.overall && post.catVotes.overall.down) || 0);
   }, []);
 
   const fetchActionUsage = async (eosname) => {
@@ -96,11 +87,11 @@ const VoteComp = ({
       if (prevRating < 1) return;
       if (!prevRating || prevRating > 2) {
         return 2;
-      } if (prevRating > 1) {
+      }
+      if (prevRating > 1) {
         return prevRating - 1;
-      } 
-        return 1;
-      
+      }
+      return 1;
     });
   };
   const increaseRating = () => {
@@ -108,11 +99,11 @@ const VoteComp = ({
       if (prevRating > 5) return;
       if (!prevRating || prevRating < 3) {
         return 3;
-      } if (prevRating < 5) {
+      }
+      if (prevRating < 5) {
         return prevRating + 1;
-      } 
-        return 5;
-      
+      }
+      return 5;
     });
   };
   const isMobile = windowExists() ? window.innerWidth <= 600 : false;
@@ -123,7 +114,6 @@ const VoteComp = ({
   };
 
   const submitVote = async (prevRating, newRating, ignoreLoading) => {
- 
     // // Converts 1-5 rating to like/dislike range
     const rating = ratingConversion[newRating];
     const like = newRating > 2;
@@ -208,26 +198,18 @@ const VoteComp = ({
       }
       toastError(parseError(error, 'vote'));
       rollbar.error(
-        `WEB APP VoteButton handleVote() ${ 
-          JSON.stringify(error, Object.getOwnPropertyNames(error), 2) 
-          }:\n` +
-          `Post ID: ${ 
-          postid 
-          }, Account: ${ 
-          name 
-          }, Category: ${ 
-          category}`
+        `WEB APP VoteButton handleVote() ${JSON.stringify(
+          error,
+          Object.getOwnPropertyNames(error),
+          2
+        )}:\n` + `Post ID: ${postid}, Account: ${name}, Category: ${category}`
       );
       console.error(
-        `WEB APP VoteButton handleVote() ${ 
-          JSON.stringify(error, Object.getOwnPropertyNames(error), 2) 
-          }:\n` +
-          `Post ID: ${ 
-          postid 
-          }, Account: ${ 
-          name 
-          }, Category: ${ 
-          category}`
+        `WEB APP VoteButton handleVote() ${JSON.stringify(
+          error,
+          Object.getOwnPropertyNames(error),
+          2
+        )}:\n` + `Post ID: ${postid}, Account: ${name}, Category: ${category}`
       );
     }
   };
@@ -284,7 +266,7 @@ const VoteComp = ({
       </FlexBox>
     </ErrorBoundary>
   );
-}
+};
 
 VoteComp.propTypes = {
   account: PropTypes.object,
@@ -302,7 +284,7 @@ VoteComp.propTypes = {
 
 VoteComp.defaultProps = {
   weights: {
-    overall: null,
+    overall: null
   },
   voterWeight: 0
 };

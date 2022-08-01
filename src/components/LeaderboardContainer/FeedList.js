@@ -54,11 +54,7 @@ const FeedList = () => {
       loader={<ListSkeleton />}
     >
       {posts.map((feed, index) => (
-        <LeaderboardItem
-          key={feed._id.postid}
-          data={feed}
-          rank={index + 1}
-        />
+        <LeaderboardItem key={feed._id.postid} data={feed} rank={index + 1} />
       ))}
     </InfiniteScroll>
   );

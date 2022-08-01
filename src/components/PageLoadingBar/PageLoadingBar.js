@@ -1,4 +1,9 @@
-import { Box, LinearProgress, linearProgressClasses, styled } from '@mui/material';
+import {
+  Box,
+  LinearProgress,
+  linearProgressClasses,
+  styled
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 
 const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -15,7 +20,9 @@ const PageLoadingBar = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setProgress((oldProgress) => Math.min(oldProgress + Math.random() * 10, 98));
+      setProgress((oldProgress) =>
+        Math.min(oldProgress + Math.random() * 10, 98)
+      );
     }, 500);
 
     return () => clearInterval(intervalId);

@@ -29,8 +29,8 @@ const styles = (theme) => ({
     minHeight: '12rem',
     maxHeight: '15rem',
     [theme.breakpoints.down('sm')]: {
-    minHeight: '15rem',
-    maxHeight: '18rem',
+      minHeight: '15rem',
+      maxHeight: '18rem'
     },
     objectFit: 'cover',
     backgroundColor: theme.palette.M500,
@@ -84,13 +84,15 @@ const styles = (theme) => ({
     background: `${theme.palette.M800}AA`,
     padding: '2% 3% 2% 3%',
     width: '100%',
-    backdropFilter: 'blur(40px)',
+    backdropFilter: 'blur(40px)'
   },
   previewDataContainer: {
     position: 'absolute',
     bottom: 0,
     left: 0,
-    padding: `${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(3)} ${theme.spacing(2)}`
+    padding: `${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(
+      3
+    )} ${theme.spacing(2)}`
   }
 });
 
@@ -130,7 +132,12 @@ class LinkPreview extends Component {
               />
               <div className={classes.previewDataContainer}>
                 <div className={classes.previewData}>
-                  <Grid alignItems="center" container direction="row" spacing={2}>
+                  <Grid
+                    alignItems="center"
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
                     <Grid item xs={2} sm={1}>
                       <YupImage
                         align="right"
@@ -150,12 +157,12 @@ class LinkPreview extends Component {
                       </Typography>
                     </Grid>
                   </Grid>
-                  <Typography variant='b2' className={classes.description}>
-                    <TruncateText lines={5}>
-                      {description || url}
-                    </TruncateText>
+                  <Typography variant="b2" className={classes.description}>
+                    <TruncateText lines={5}>{description || url}</TruncateText>
                   </Typography>
-                  <Typography className={classes.url}>{url && trimURL(url)}</Typography>
+                  <Typography className={classes.url}>
+                    {url && trimURL(url)}
+                  </Typography>
                 </div>
               </div>
             </div>

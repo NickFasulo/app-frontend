@@ -190,7 +190,8 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       MuiTabs: {
         styleOverrides: {
           indicator: {
-            background: 'linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)'
+            background:
+              'linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)'
           }
         }
       },
@@ -453,7 +454,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         color: `${palette.M50}EE`,
         userSelect: 'none'
       },
-       capsized_h1: {
+      capsized_h1: {
         fontWeight: 600,
         fontSize: '4.5rem',
         lineHeight: '100%',
@@ -599,7 +600,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontSize: '1.25rem',
         lineHeight: '125%',
         color: `${palette.M50}DD`,
-         '&::before': {
+        '&::before': {
           content: '""',
           marginBottom: '-0.2155em',
           display: 'table'

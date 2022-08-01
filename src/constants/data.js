@@ -9,11 +9,11 @@ import ImgFeedNft from '../../public/images/feeds/nftcover.png';
 import ImgFeedMirror from '../../public/images/feeds/mirrorcover.png';
 import ImgFeedFarcaster from '../../public/images/feeds/farcastercover.png';
 import ImgFeedLens from '../../public/images/feeds/lenscover.svg';
-import { Typography } from '@mui/material'
-import StyledTourResources from '../components/Tour/StyledTourResources'
-import React from 'react'
-import ReactPlayer from 'react-player/lazy'
-import { EXPLAINER_VIDEO } from './const'
+import { Typography } from '@mui/material';
+import StyledTourResources from '../components/Tour/StyledTourResources';
+import React from 'react';
+import ReactPlayer from 'react-player/lazy';
+import { EXPLAINER_VIDEO } from './const';
 
 export const FEED_CATEGORIES = {
   DAILY_HIT: {
@@ -391,9 +391,7 @@ export const LEADERBOARD_TUTORIAL_STEPS = [
         <Typography className="tourHeader" variant="h4">
           🤔 Liking
         </Typography>
-        <p className="tourText">
-          You can like content from any site.
-        </p>
+        <p className="tourText">You can like content from any site.</p>
         <a
           href="https://docs.yup.io/basic/rating"
           target="_blank"
@@ -542,6 +540,7 @@ export const ETH_LINK_NOTIFICATION_TYPE = 'ethaddressmissing';
 export const ETH_LINK_NOTIFICATION_DATA = {
   action: 'update',
   type: ETH_LINK_NOTIFICATION_TYPE,
-  message: 'Link your Polygon Address to continue earning rewards! Eth wallet works too! Make sure to connect your main wallet so that your Yup Score is high',
+  message:
+    'Link your Polygon Address to continue earning rewards! Eth wallet works too! Make sure to connect your main wallet so that your Yup Score is high',
   image: '/images/notifications/linketh.jpg'
 };

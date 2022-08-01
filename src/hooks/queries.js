@@ -80,8 +80,7 @@ export const useFollowers = (id) => {
   });
 
   return data;
-}
-
+};
 
 export const useUserPosts = (userId) => {
   return useInfiniteQuery(
@@ -118,7 +117,7 @@ export const useSearchPosts = (query) => {
           searchText: query,
           limit: DEFAULT_FEED_PAGE_SIZE
         }
-      })
+      });
     },
     {
       getNextPageParam: (lastPage, allPages) => {
@@ -127,7 +126,7 @@ export const useSearchPosts = (query) => {
         return sum(allPages.map((page) => page.length || 0));
       }
     }
-  )
+  );
 };
 
 export const useSearchPeople = (query) => {
@@ -158,7 +157,7 @@ export const useSearchCollections = (query) => {
   );
 
   return data;
-}
+};
 
 export const useUserCollections = (userId) => {
   const { data } = useQuery([REACT_QUERY_KEYS.USER_COLLECTIONS, userId], () =>
@@ -172,14 +171,17 @@ export const useUserCollections = (userId) => {
 };
 
 export const useUserNotifications = (username) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.USER_NOTIFICATIONS, username], () => {
-    if (!username) return [];
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.USER_NOTIFICATIONS, username],
+    () => {
+      if (!username) return [];
 
-    return callYupApi({
-      method: 'GET',
-      url: `/notifications/${username}`
-    });
-  });
+      return callYupApi({
+        method: 'GET',
+        url: `/notifications/${username}`
+      });
+    }
+  );
 
   return data;
-}
+};

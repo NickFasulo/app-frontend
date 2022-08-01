@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'react';
 import PageLoadingBar from '../components/PageLoadingBar';
 import { useRouter } from 'next/router';
 
@@ -37,9 +43,7 @@ export const AppUtilsProvider = ({ children }) => {
         showTopBar
       }}
     >
-      {topBarVisible && (
-        <PageLoadingBar />
-      )}
+      {topBarVisible && <PageLoadingBar />}
       {children}
     </AppUtilsContext.Provider>
   );

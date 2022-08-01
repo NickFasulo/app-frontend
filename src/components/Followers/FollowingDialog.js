@@ -12,7 +12,14 @@ import { connect } from 'react-redux';
 import { fetchSocialLevel } from '../../redux/actions';
 import YupDialog from '../Miscellaneous/YupDialog';
 
-const FollowingDialog = ({ open, onClose, account, followings, levels, dispatch }) => {
+const FollowingDialog = ({
+  open,
+  onClose,
+  account,
+  followings,
+  levels,
+  dispatch
+}) => {
   const classes = useStyles();
 
   return (
@@ -116,7 +123,7 @@ const FollowingDialog = ({ open, onClose, account, followings, levels, dispatch 
       </YupDialog>
     </ErrorBoundary>
   );
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { username } = ownProps;

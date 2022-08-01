@@ -96,11 +96,7 @@ function Feed(props) {
         className={classes.feedContainer}
         style={{ marginBottom: !hasMore ? '10%' : '' }}
       >
-        <div
-          id="profilefeed"
-          align="center"
-          className={classes.feedPage}
-        >
+        <div id="profilefeed" align="center" className={classes.feedPage}>
           {formatPosts.map((post, index) => (
             <PostController
               key={index}

@@ -18,7 +18,7 @@ export const CollectionOverlay = styled('div')(({ theme }) => ({
   bottom: 0,
   background: `linear-gradient(to bottom, transparent 0%, ${theme.palette.M850}E0  75%, ${theme.palette.M850} 100%)`,
   border: `solid 1px ${theme.palette.M850}`,
-  outline: `solid 1px ${theme.palette.M800}`,
+  outline: `solid 1px ${theme.palette.M800}`
 }));
 
 export const CollectionCoverWrapper = styled('div')(() => ({
