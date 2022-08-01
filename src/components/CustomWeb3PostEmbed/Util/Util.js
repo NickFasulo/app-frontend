@@ -90,7 +90,7 @@ export const parseWeb3Post = (post) => {
       parsedPost = <TeaPartyPost text={content} url={urls[0]} previews={attachments[0].images}/>;
       break
     default:
-    parsedPost = <FarCasterPost text={content} url={urls[0]} previews={attachments[0]?.images}/>
+    parsedPost = <FarCasterPost text={content}  attachments={attachments}/>
     // parsedPost = post.content
   }
   console.log(parsedPost, 'parsedPost')

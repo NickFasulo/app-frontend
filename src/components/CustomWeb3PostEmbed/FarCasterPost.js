@@ -7,7 +7,8 @@ import styled from '@emotion/styled';
 import { linkMentions } from './Util/Util';
 
 
-const FarCasterPost = ({text, url, previews} ) => {
+const FarCasterPost = ({text, attachments} ) => {
+    console.log({text}, "HELLO")
     // const regexMdLinks = /\B\@([\w\-]+)/gim
     // console.log(text, "WURST")
     // const matches = text.match(regexMdLinks)
