@@ -48,7 +48,7 @@ const styles = (theme) => ({
     aspectRatio: 1 / 1,
     borderRadius: '50%'
   },
-  tweetImg: {
+  web3Img: {
     width: '100%',
     maxHeight: '400px',
     objectFit: 'cover',

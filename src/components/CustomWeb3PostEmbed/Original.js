@@ -95,9 +95,9 @@ const Original = ({ previewData, web3Preview, classes }) => {
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
-                        <SeeMore maxLength={400} postId={postId}>
+                        {/* <SeeMore maxLength={400} >
                           {initialText}
-                        </SeeMore>
+                        </SeeMore> */}
                         { parseWeb3Post(web3Preview)}
                       </Typography>
                     </Link>

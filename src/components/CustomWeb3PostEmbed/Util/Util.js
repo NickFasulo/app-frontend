@@ -78,7 +78,11 @@ export const fetchLinkPreviewData = async (passedURL) => {
     console.log(e);
   }
 };
-
+export const urlIsImg = (url) => {
+  const re = /\.(jpeg|jpg|gif|png)$/;
+  const match = re.test(url);
+  return match;
+}
 export const parseWeb3Post = (post) => {
   const { content, urls, attachments} = post
   let parsedPost 
