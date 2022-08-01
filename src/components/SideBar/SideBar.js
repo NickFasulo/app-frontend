@@ -34,6 +34,7 @@ import SearchUi from '../SearchUi';
 import UserMenuItem from './UserMenuItem';
 import YupLogoMenuItem from './YupLogoMenuItem';
 import useExtension from '../../hooks/useExtension';
+import { FlexBox } from '../styles';
 
 const SideBar = () => {
   const dispatch = useDispatch();
@@ -94,11 +95,11 @@ const SideBar = () => {
         </List>
         {open && (
           <>
-            <List
+            <FlexBox
+              flexDirection="column"
               sx={{
                 flexShrink: 0,
-                flexGrow: 1,
-                overflowY: 'scroll'
+                flexGrow: 1
               }}
             >
               <Grow in={open} timeout={MENU_ANIMATION_DURATION}>
@@ -106,7 +107,9 @@ const SideBar = () => {
                   sx={{
                     height: 30,
                     borderRadius: 1,
-                    px: 1
+                    px: 1,
+                    flexShrink: 1,
+                    flexGrow: 0
                   }}
                   onClick={() => setFeedOpen(!feedOpen)}
                 >
@@ -122,22 +125,29 @@ const SideBar = () => {
                   {feedOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
               </Grow>
-              {feedOpen && (
-                <>
-                  {isLoggedIn && (
-                    <FeedLink text="Your Daily Hits" category="dailyhits" />
-                  )}
-                  <FeedLink text="Farcaster" category="farcaster" />
-                  <FeedLink text="Lens" category="lens" />
-                  <FeedLink text="Mirror Articles" category="mirror" />
-                  <FeedLink text="Crypto" category="crypto" />
-                  <FeedLink text="Recent" category="recent" />
-                  <FeedLink text="NFTs" category="nfts" />
-                  <FeedLink text="Politics" category="politics" />
-                  <FeedLink text="Safe Space" category="non-corona" />
-                </>
-              )}
-            </List>
+              <List
+                sx={{
+                  maxHeight: 120,
+                  overflowY: 'auto'
+                }}
+              >
+                {feedOpen && (
+                  <>
+                    {isLoggedIn && (
+                      <FeedLink text="Your Daily Hits" category="dailyhits" />
+                    )}
+                    <FeedLink text="Farcaster" category="farcaster" />
+                    <FeedLink text="Lens" category="lens" />
+                    <FeedLink text="Mirror Articles" category="mirror" />
+                    <FeedLink text="Crypto" category="crypto" />
+                    <FeedLink text="Recent" category="recent" />
+                    <FeedLink text="NFTs" category="nfts" />
+                    <FeedLink text="Politics" category="politics" />
+                    <FeedLink text="Safe Space" category="non-corona" />
+                  </>
+                )}
+              </List>
+            </FlexBox>
             {isDesktop && (
               <Grow in={open} timeout={MENU_ANIMATION_DURATION}>
                 <ExternalLinkList>
