@@ -41,7 +41,7 @@ const getWeb3Likes= (postInfo) => {
     return 0
   }
   else{
-    return   postInfo.post.web3Preview.meta.reactions.count
+    return   postInfo.post.web3Preview.meta?.reactions.count
   }
 }
 const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
