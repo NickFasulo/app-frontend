@@ -108,16 +108,6 @@ const styles = (theme) => ({
   }
 });
 
-const dislikeRatingConversion = {
-  1: 2,
-  2: 1
-};
-
-const likeRatingConversion = {
-  1: 3,
-  2: 4,
-  3: 5
-};
 
 const StyledTooltip = memo(
   withStyles({
@@ -146,7 +136,7 @@ const PostStats = ({
   quantile,
   theme,
   totalVoters,
-  weight
+  weight,
 }) => {
   return (
     <Grid itemRef="">
@@ -162,7 +152,7 @@ const PostStats = ({
           >
             {
               Math.round(
-                totalVoters ** (1 + 0.001 * weight)
+                totalVoters  ** (1 + 0.001 * weight)
               ) /* this is a temporary calculation to be expanded on */
             }
           </Typography>
@@ -206,7 +196,8 @@ const VoteButton = ({
   catWeight,
   rating,
   isVoted,
-  setLastClicked
+  setLastClicked,
+  web3Likes=0
 }) => {
   const account = useAuth();
   const { open: openAuthModal } = useAuthModal();
@@ -349,7 +340,7 @@ const VoteButton = ({
       </Grid>
       <Grid xs={4} className={classes.postWeight} item>
         <StyledPostStats
-          totalVoters={totalVoters}
+          totalVoters={totalVoters+ web3Likes}
           weight={Number(formattedWeight)}
           isShown={isShown}
         />

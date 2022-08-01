@@ -87,6 +87,7 @@ const Original = ({ postId, previewData, web3Preview, classes }) => {
                   handle={web3Preview.creator.handle}
                   address={web3Preview.creator.address}
                   protocol={web3Preview.protocol}
+                  replyParentUsername={web3Preview.meta.replyParentUsername?.username}                  
                   tweetLink={tweetLink}
                 />
               </Grid>
@@ -95,7 +96,7 @@ const Original = ({ postId, previewData, web3Preview, classes }) => {
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
-                        {/* {postId} */}
+                        {postId}
                         {/* <SeeMore maxLength={400} postid={postId} >
                           {initialText}
                         </SeeMore> */}

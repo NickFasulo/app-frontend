@@ -10,7 +10,8 @@ const HeaderSection = ({
   protocol,
   tweetType,
   tweetLink,
-  hideBird
+  hideBird,
+  replyParentUsername
 }) => {
   let web3PostIcon;
 
@@ -60,6 +61,11 @@ const HeaderSection = ({
             </Link>
           </Grid>
         </Grid>
+        {replyParentUsername&&(<Grid item>
+          <Typography variant="body2" className={classes.userHandle} sx={{ fontStyle:'italic'}}>
+        {'Replied to ' + replyParentUsername}
+              </Typography>
+        </Grid>)}
       </Grid>
       <Grid item className={web3PostIcon}>
         <Link href={tweetLink} target="_blank" underline="none">

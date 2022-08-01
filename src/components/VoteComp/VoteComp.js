@@ -36,7 +36,14 @@ function genRegEx(arrOfURLs) {
     `^((http:|https:)([/][/]))?(www.)?(${arrOfURLs.join('|')})`
   );
 }
-
+const getWeb3Likes= (postInfo) => {
+  if(postInfo.post.web3Preview.protocol === 'lens') {
+    return 0
+  }
+  else{
+    return   postInfo.post.web3Preview.meta.reactions.count
+  }
+}
 const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   const { authInfo, name } = useAuth();
   const votes = useInitialVotes(postid, name);
@@ -48,6 +55,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   const { toastError } = useToast();
   const category = 'overall';
   const { post } = postInfo;
+  console.log({postInfo})
   const vote = votes?.[0];
   useEffect(() => {
     let timer1;
@@ -249,6 +257,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
           isShown={!isMobile}
           isVoted={lastClicked === 'like' || (!lastClicked && vote?.like)}
           postInfo={postInfo}
+          web3Likes = {getWeb3Likes(postInfo)}
         />
         <VoteButton
           category={category}
