@@ -68,6 +68,22 @@ const initialState = {
       limit: 10,
       hasMore: true
     },
+    'farcaster': {
+      posts: [],
+      isLoading: false,
+      error: null,
+      start: 0,
+      limit: 10,
+      hasMore: true
+    },
+    'lens': {
+      posts: [],
+      isLoading: false,
+      error: null,
+      start: 0,
+      limit: 10,
+      hasMore: true
+    },
     latenightcool: {
       posts: [],
       isLoading: false,

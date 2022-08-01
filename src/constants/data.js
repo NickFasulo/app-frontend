@@ -87,6 +87,20 @@ export const FEED_CATEGORIES = {
     metaTitle: 'Lens Feed',
     description: 'Lens Feed'
   },
+  FARCASTER: {
+    id: 'farcaster',
+    title: 'Farcaster',
+    image: ImgFeedFarcaster,
+    metaTitle: 'Farcaster Feed',
+    description: 'Farcaster Feed'
+  },
+  LENS: {
+    id: 'lens',
+    title: 'Lens',
+    image: ImgFeedLens,
+    metaTitle: 'Lens Feed',
+    description: 'Lens Feed'
+  },
   DEFAULT: {
     // default category info
     id: '',

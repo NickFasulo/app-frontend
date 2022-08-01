@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
-import ReactMarkdown from 'react-markdown';
+import { SeeMore } from '../Miscellaneous'
 
 // util
 import { fetchLinkPreviewData } from './Util/Util';
@@ -12,8 +12,8 @@ import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
-const Original = ({ web3Preview, classes }) => {
-  const { id, attachments } = web3Preview;
+const Original = ({ postId, web3Preview, classes }) => {
+  const {id, attachments} = web3Preview
   // const extendedEntities = previewData.tweetInfo.extended_entities
   //   ? previewData.tweetInfo.extended_entities
   //   : false;
@@ -69,20 +69,13 @@ const Original = ({ web3Preview, classes }) => {
   }
 
   let initialText = web3Preview.content || web3Preview.content;
-  // let text = parseText(initialText);
-
-  // let tweetText = text.split(' ').map((string) => linkMentions(string));
 
   return (
     <Grid container="container" className={classes.container}>
       <Grid item="item" xs={12}>
         <Grid container="container" direction="row" spacing={1}>
           <Grid item="item">
-            <Avatar
-              classes={classes}
-              url={web3Preview.creator.avatarUrl}
-              tweetLink={tweetLink}
-            />
+            <Avatar classes={classes} url={web3Preview.creator.avatarUrl} tweetLink={tweetLink} />
           </Grid>
           <Grid item="item" xs>
             <Grid container="container" direction="column" spacing={0}>
@@ -101,7 +94,9 @@ const Original = ({ web3Preview, classes }) => {
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
-                        <ReactMarkdown>{initialText}</ReactMarkdown>
+                        <SeeMore maxLength={400} postId={postId}>
+                          {initialText}
+                        </SeeMore>
                       </Typography>
                     </Link>
                   </Grid>

@@ -5,7 +5,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import './tweet.module.css';
 import { styled } from '@mui/material/styles';
 
-const PostContainer = styled('div')(
+const PostContainer = styled("div")(
   ({ theme }) => `
   transition: 'opacity 2s ease-in',
     padding: '0% 0% 0% 0%',
@@ -20,20 +20,21 @@ const PostContainer = styled('div')(
 );
 
 const Web3Post = (props) => {
-  const { post, postHOC: PostHOC, web3Preview } = props;
+    const { postId, postHOC: PostHOC, web3Preview } = props;
 
-  const Web3PostComp = (_props) => (
-    <PostContainer>
-      <CustomWeb3PostEmbed postId={post._id.postid} web3Preview={web3Preview} />
-    </PostContainer>
-  );
+    const Web3PostComp = (_props) => (
+      <PostContainer>
+        <CustomWeb3PostEmbed postId={postId} web3Preview={web3Preview} />
+      </PostContainer>
+    );
 
-  return (
-    <ErrorBoundary>
-      <PostHOC component={Web3PostComp} {...props} />
-    </ErrorBoundary>
-  );
-};
+    return (
+      <ErrorBoundary>
+        <PostHOC component={Web3PostComp} {...props} />
+      </ErrorBoundary>
+    );
+  }
+
 
 Web3Post.propTypes = {
   url: PropTypes.string.isRequired,
