@@ -26,7 +26,6 @@ export const parseText = (str) => {
     .replace(re, '')
     .replace(/&amp;/g, '&')
     .replace(/&nbsp;/g, ' ')
-    .replace(/\n\n/g, ' ');
   return parsed;
 };
 
