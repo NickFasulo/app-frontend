@@ -92,7 +92,8 @@ const styles = (theme) => ({
     left: 0,
     padding: `${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(
       3
-    )} ${theme.spacing(2)}`
+    )} ${theme.spacing(2)}`,
+    width: '100%'
   }
 });
 
