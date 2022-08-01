@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
-import { SeeMore } from '../Miscellaneous'
+import { SeeMore } from '../Miscellaneous';
 
 // util
 import { fetchLinkPreviewData } from './Util/Util';
@@ -13,7 +13,7 @@ import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
 const Original = ({ postId, web3Preview, classes }) => {
-  const {id, attachments} = web3Preview
+  const { id, attachments } = web3Preview;
   // const extendedEntities = previewData.tweetInfo.extended_entities
   //   ? previewData.tweetInfo.extended_entities
   //   : false;
@@ -75,7 +75,11 @@ const Original = ({ postId, web3Preview, classes }) => {
       <Grid item="item" xs={12}>
         <Grid container="container" direction="row" spacing={1}>
           <Grid item="item">
-            <Avatar classes={classes} url={web3Preview.creator.avatarUrl} tweetLink={tweetLink} />
+            <Avatar
+              classes={classes}
+              url={web3Preview.creator.avatarUrl}
+              tweetLink={tweetLink}
+            />
           </Grid>
           <Grid item="item" xs>
             <Grid container="container" direction="column" spacing={0}>

@@ -137,11 +137,7 @@ function isNFTPost(url) {
 }
 
 function isWeb3Post(url) {
-  const web3Pattern = genRegEx([
-    'farcaster',
-    'lens',
-    'view.yup.io'
-  ]);
+  const web3Pattern = genRegEx(['farcaster', 'lens', 'view.yup.io']);
   return web3Pattern.test(url);
 }
 
@@ -430,9 +426,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (
-      isArticlePost(post.url)
-    ) {
+    } else if (isArticlePost(post.url)) {
       return (
         <ErrorBoundary>
           <ArticlePost

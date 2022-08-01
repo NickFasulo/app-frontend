@@ -68,7 +68,7 @@ const initialState = {
       limit: 10,
       hasMore: true
     },
-    'farcaster': {
+    farcaster: {
       posts: [],
       isLoading: false,
       error: null,
@@ -76,7 +76,7 @@ const initialState = {
       limit: 10,
       hasMore: true
     },
-    'lens': {
+    lens: {
       posts: [],
       isLoading: false,
       error: null,

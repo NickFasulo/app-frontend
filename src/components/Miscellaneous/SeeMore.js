@@ -5,17 +5,19 @@ import { webAppUrl } from '../../config';
 import ReactMarkdown from 'react-markdown';
 
 const SeeMore = ({ children, maxLength, postId }) => {
-  const text = typeof children === 'string' ? children : children.props.children;
+  const text =
+    typeof children === 'string' ? children : children.props.children;
 
   return (
     <>
       <ReactMarkdown>
         {text.length > maxLength ? text.slice(0, maxLength) : text}
       </ReactMarkdown>
-      {text.length > maxLength ? 
-      (<Link href={`${webAppUrl}/post/${postId}`}>
-        <p>...see more</p>
-      </Link>) : null}
+      {text.length > maxLength ? (
+        <Link href={`${webAppUrl}/post/${postId}`}>
+          <p>...see more</p>
+        </Link>
+      ) : null}
     </>
   );
 };
