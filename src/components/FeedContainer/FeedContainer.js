@@ -5,8 +5,8 @@ import { YupContainer, YupPageWrapper } from '../styles';
 import YupPageHeader from '../YupPageHeader';
 import { Typography } from '@mui/material';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
-import RecommendationList from '../CollectionDetails/RecommendationList';
 import GridLayout from '../GridLayout';
+import FeedCategoryList from './FeedCategoryList';
 
 const FeedContainer = ({ categoryData }) => {
   const { windowScrolled } = useAppUtils();
@@ -24,9 +24,9 @@ const FeedContainer = ({ categoryData }) => {
           contentRight={
             <>
               <Typography variant="h5" sx={{ pb: 3 }}>
-                Collections
+                Recommended
               </Typography>
-              <RecommendationList collection={{ name: categoryData.title }} />
+              <FeedCategoryList currentCategoryId={categoryData.id} />
             </>
           }
         />
