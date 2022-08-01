@@ -1,16 +1,17 @@
 import { FEED_CATEGORIES } from '../../constants/data';
 import { FlexBox } from '../styles';
 import { CategoryImage } from './styles';
-import { Typography } from '@mui/material';
+import { List, ListItemButton, Typography } from '@mui/material';
 import Link from '../Link';
 
 const FeedCategoryList = ({ currentCategoryId }) => {
   const categoryList = Object.values(FEED_CATEGORIES).filter((category) => !!category.id && category.id !== currentCategoryId);
 
   return (
-    <FlexBox flexDirection="column" gap={2}>
+    <List>
       {categoryList.map((category) => (
-        <Link
+        <ListItemButton
+          component={Link}
           href={`/feed/${category.id}`}
         >
           <FlexBox alignItems="center">
@@ -24,9 +25,9 @@ const FeedCategoryList = ({ currentCategoryId }) => {
               {category.title}
             </Typography>
           </FlexBox>
-        </Link>
+        </ListItemButton>
       ))}
-    </FlexBox>
+    </List>
   );
 };
 

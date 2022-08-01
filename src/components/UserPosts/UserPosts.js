@@ -34,7 +34,7 @@ const UserPosts = ({ userId }) => {
           key={post._id.postid}
           post={post}
           renderObjects
-          hideInteractions={false}
+          hideInteractions
         />
       ))}
     </InfiniteScroll>
