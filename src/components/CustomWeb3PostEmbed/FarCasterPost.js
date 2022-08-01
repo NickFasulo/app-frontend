@@ -7,14 +7,9 @@ import styled from '@emotion/styled';
 import { linkMentions, urlIsImg } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { parseText } from './Util/Util';
+import { Web3Img } from './styles';
 
-const Web3Img = styled('img')(`
-width: 100%;
-max-height: 400px;
-object-fit: 'cover';
-overflow: 'hidden';
-border-radius: 12px;
-`)
+
 const FarCasterPost = ({text, attachments} ) => {
   return (
     <>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { webAppUrl } from '../../config';
 import ReactMarkdown from 'react-markdown';
 
-const SeeMore = ({ children, maxLength, postId }) => {
+const SeeMore = ({ children, maxLength, postid }) => {
   const text =
     typeof children === 'string' ? children : children.props.children;
 
@@ -14,7 +14,7 @@ const SeeMore = ({ children, maxLength, postId }) => {
         {text.length > maxLength ? text.slice(0, maxLength) : text}
       </ReactMarkdown>
       {text.length > maxLength ? (
-        <Link href={`${webAppUrl}/post/${postId}`}>
+        <Link href={`${webAppUrl}/post/${postid}`}>
           <p>...see more</p>
         </Link>
       ) : null}

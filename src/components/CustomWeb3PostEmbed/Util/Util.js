@@ -13,6 +13,8 @@ import { Grid } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import TeaPartyPost from '../TeaPartyPost';
 import FarCasterPost from '../FarCasterPost';
+import { SeeMore } from '../../Miscellaneous';
+import LensPost from '../LensPost';
 /**
  * - Removes https://t.co/ERYj5p9VHj that comes at end of text field in tweetData object if present
  * - Replaces '&amp;' with '&'
@@ -83,19 +85,24 @@ export const urlIsImg = (url) => {
   const match = re.test(url);
   return match;
 }
-export const parseWeb3Post = (post) => {
+export const parseWeb3Post = (post, postid) => {
   const { content, urls, attachments} = post
   let parsedPost 
-  switch (post?.meta?.metadata?.appId) {
-    case 'phaver':
-      parsedPost = parsePhaverPost(content, urls[0], attachments[0].images);
-      break
-    case 'teaparty':
-      parsedPost = <TeaPartyPost text={content} url={urls[0]} previews={attachments[0].images}/>;
-      break
-    default:
+  if( post.protocol==='lens') {
+    switch (post?.meta?.metadata?.appId) {
+      case 'phaver':
+        parsedPost = parsePhaverPost(content, urls[0], attachments[0].images);
+        break
+      case 'teaparty':
+        parsedPost = <TeaPartyPost text={content} url={urls[0]} attachments={attachments[0].images}/>;
+        break
+      default:
+      parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments[0]?.images} postid={postid}/>
+      // parsedPost = post.content
+    }
+
+  } else {    
     parsedPost = <FarCasterPost text={content}  attachments={attachments}/>
-    // parsedPost = post.content
   }
   console.log(parsedPost, 'parsedPost')
   return parsedPost
