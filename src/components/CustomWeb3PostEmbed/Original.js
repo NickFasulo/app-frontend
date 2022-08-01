@@ -5,7 +5,7 @@ import TweetVidPlayer from './TweetVidPlayer';
 import ReactMarkdown from 'react-markdown';
 
 // util
-import { parseText, fetchLinkPreviewData } from './Util/Util';
+import { parseWeb3Post, fetchLinkPreviewData } from './Util/Util';
 
 // components
 import LinkPreview from './LinkPreview';
@@ -13,18 +13,10 @@ import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
 const Original = ({ previewData, web3Preview, classes }) => {
-  const {id, attachments} = web3Preview
-  console.log({web3Preview, attachments})
-  const { url } = previewData;
-  // const extendedEntities = previewData.tweetInfo.extended_entities
-  //   ? previewData.tweetInfo.extended_entities
-  //   : false;
+  const {id, attachments, urls} = web3Preview
+  console.log({web3Preview, attachments}, attachments?.[0]?.images?.[0])
   const extendedEntities = false;
-
   const [linkPreviewData, setPreviewData] = useState(null);
-  // const entities = previewData.tweetInfo.entities
-  //   ? previewData.tweetInfo.entities
-  //   : false;
   const entities = false;
   const entitiesURLS = entities && entities.urls.length > 0;
 
@@ -70,10 +62,9 @@ const Original = ({ previewData, web3Preview, classes }) => {
     }
   }
 
-  let initialText = web3Preview.content || web3Preview.content;
-  // let text = parseText(initialText);
-
-  // let tweetText = text.split(' ').map((string) => linkMentions(string));
+  
+  const newText =  parseWeb3Post(web3Preview)
+  console.log(newText, 'NEWTEXT')
 
 
   return (
@@ -100,51 +91,11 @@ const Original = ({ previewData, web3Preview, classes }) => {
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
-                        <ReactMarkdown>
-                          {initialText}
-                        </ReactMarkdown>
+                      {parseWeb3Post(web3Preview)}
                       </Typography>
                     </Link>
                   </Grid>
-                  <Grid item="item" xs={12}>
-                    {linkPreviewData &&
-                      !hasMedia &&
-                      !mediaURL &&
-                      !web3Preview.excludeTweet && (
-                        <div>
-                          <LinkPreview
-                            size={'large'}
-                            description={linkPreviewData.description || ''}
-                            image={linkPreviewData.img}
-                            title={linkPreviewData.title}
-                            url={id}
-                            classes={classes}
-                          />
-                        </div>
-                      )}
-
-                    {hasPhoto && mediaURL ? (
-                      <Typography className={classes.tweetText}>
-                        <img
-                          className={classes.tweetImg}
-                          src={
-                            web3Preview.excludeTweet
-                              ? 'https://api.faviconkit.com/twitter.com/128'
-                              : mediaURL
-                          }
-                          alt="tweet-image"
-                        />
-                      </Typography>
-                    ) : (
-                      hasVideo &&
-                      mediaURL && (
-                        <TweetVidPlayer
-                          className={classes.tweetImg}
-                          url={mediaURL}
-                        />
-                      )
-                    )}
-                  </Grid>
+                 
                 </Grid>
               </Grid>
             </Grid>

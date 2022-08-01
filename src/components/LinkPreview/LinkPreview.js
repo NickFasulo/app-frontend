@@ -107,6 +107,7 @@ class LinkPreview extends Component {
   render() {
     const { image, title, description, url, classes } = this.props;
     let faviconURL = null;
+    console.log(image, 'WURST')
 
     if (url != null) {
       faviconURL = getFavicon(url);

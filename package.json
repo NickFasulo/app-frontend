@@ -12,8 +12,7 @@
     "deploy-staging": "aws s3 sync out s3://staging.app.yup.io",
     "release": "yarn config set version-tag-prefix frontend@v &&  yarn config set version-git-message 'frontend@v%s' && yarn version",
     "lint": "next lint",
-    "format": "prettier --write src",
-    "postinstall": "node postinstall.js"
+    "format": "prettier --write src"
   },
   "dependencies": {
     "@emotion/cache": "^11.7.1",
@@ -89,6 +88,7 @@
     "react-share": "^4.4.0",
     "react-spinners": "^0.10.6",
     "react-spring": "^9.4.5",
+    "react-string-replace": "^1.1.0",
     "react-tilt": "^0.1.4",
     "react-transition-group": "^4.3.0",
     "react-tuber": "^1.4.3",
