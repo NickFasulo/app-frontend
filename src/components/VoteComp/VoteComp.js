@@ -38,7 +38,7 @@ function genRegEx(arrOfURLs) {
 }
 const getWeb3Likes= (postInfo) => {
   if(postInfo.post.web3Preview?.protocol === 'farcaster') {
-    postInfo.post.web3Preview.meta.reactions.count
+    postInfo.post.web3Preview?.meta?.reactions.count
   }
   else {
     return 0
