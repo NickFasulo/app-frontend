@@ -48,7 +48,7 @@ export async function fetchHomeFeed(start, limit) {
   ).data;
 }
 
-export async function fetchNewFeed(start, limit) {
+export async function fetchRecentFeed(start, limit) {
   return (
     await axios.get(`${apiBaseUrl}/feed/recent?start=${start}&limit=${limit}`)
   ).data;
@@ -57,7 +57,7 @@ export async function fetchNewFeed(start, limit) {
 export async function fetchPoliticsFeed(start, limit) {
   return (
     await axios.get(
-      `${apiBaseUrl}/feed/election2020/?start=${start}&limit=${limit}`
+      `${apiBaseUrl}/feed/politics/?start=${start}&limit=${limit}`
     )
   ).data;
 }
@@ -65,7 +65,7 @@ export async function fetchPoliticsFeed(start, limit) {
 export async function fetchSafeFeed(start, limit) {
   return (
     await axios.get(
-      `${apiBaseUrl}/feed/non-corona?start=${start}&limit=${limit}`
+      `${apiBaseUrl}/feed/safespace?start=${start}&limit=${limit}`
     )
   ).data;
 }
@@ -97,13 +97,13 @@ export function fetchFeed(feedType, start, limit) {
         res = await fetchCryptoFeed(start, limit);
       } else if (feedType === 'dailyhits') {
         res = await fetchHomeFeed(start, limit);
-      } else if (feedType === 'new') {
-        res = await fetchNewFeed(start, limit);
+      } else if (feedType === 'recent') {
+        res = await fetchRecentFeed(start, limit);
       } else if (feedType === 'mirror') {
         res = await fetchMirrorFeed(start, limit);
       } else if (feedType === 'politics') {
         res = await fetchPoliticsFeed(start, limit);
-      } else if (feedType === 'non-corona') {
+      } else if (feedType === 'safespace') {
         res = await fetchSafeFeed(start, limit);
       } else if (feedType === 'farcaster') {
         res = await fetchFarcasterFeed(start, limit);

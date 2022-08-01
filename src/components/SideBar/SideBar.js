@@ -112,13 +112,14 @@ const SideBar = () => {
                   {isLoggedIn && (
                     <FeedLink text="Your Daily Hits" category="dailyhits" />
                   )}
-                  <FeedLink text="New" category="new" />
-                  <FeedLink text="Crypto" category="crypto" />
-                  <FeedLink text="NFTs" category="nfts" />
+                  <FeedLink text="Farcaster" category="farcaster" />
+                  <FeedLink text="Lens" category="lens" />
                   <FeedLink text="Mirror Articles" category="mirror" />
+                  <FeedLink text="Crypto" category="crypto" />
+                  <FeedLink text="Recent" category="recent" />
+                  <FeedLink text="NFTs" category="nfts" />
                   <FeedLink text="Politics" category="politics" />
                   <FeedLink text="Safe Space" category="non-corona" />
-                  <FeedLink text="Farcaster" category="farcaster" />
                 </>
               )}
             </List>

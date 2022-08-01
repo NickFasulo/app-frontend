@@ -163,6 +163,9 @@ const BarChart = ({ classes, chartData, chartTitle, color, unit, description }) 
                     align="left"
                     className={classes.text}
                     variant="h5"
+                    sx={{
+                      color: color
+                    }}
                   >
                     {chartTitle}
                   </Typography>

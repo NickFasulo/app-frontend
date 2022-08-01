@@ -2,13 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { webAppUrl } from '../../config';
+import ReactMarkdown from 'react-markdown';
 
 const SeeMore = ({ children, maxLength, postId }) => {
   const text = typeof children === 'string' ? children : children.props.children;
 
   return (
     <>
-      {text.length > maxLength ? text.slice(0, maxLength) : text}
+      <ReactMarkdown>
+        {text.length > maxLength ? text.slice(0, maxLength) : text}
+      </ReactMarkdown>
       {text.length > maxLength ? 
       (<Link href={`${webAppUrl}/post/${postId}`}>
         <p>...see more</p>
@@ -19,7 +22,8 @@ const SeeMore = ({ children, maxLength, postId }) => {
 
 SeeMore.propTypes = {
   children: PropTypes.object.isRequired,
-  maxLength: PropTypes.number.isRequired
+  maxLength: PropTypes.number.isRequired,
+  postId: PropTypes.string.isRequired
 };
 
 export default SeeMore;

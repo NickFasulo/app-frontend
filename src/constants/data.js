@@ -38,7 +38,7 @@ export const FEED_CATEGORIES = {
     description: 'Top content related to current politics'
   },
   NON_CORONA: {
-    id: 'non-corona',
+    id: 'safespace',
     title: 'Safe Space',
     image: ImgFeedSafe,
     metaTitle: 'Safe Space • Yup',
@@ -66,12 +66,26 @@ export const FEED_CATEGORIES = {
     metaTitle: 'Mirror Feed',
     description: 'Live feed of the best articles across all Mirror publications'
   },
-  NEW: {
-    id: 'new',
-    title: 'New',
+  RECENT: {
+    id: 'recent',
+    title: 'Recent',
     image: ImgFeedDailyHits,
-    metaTitle: 'New Feed',
-    description: 'New Feed'
+    metaTitle: 'Recent',
+    description: 'Recent content from all feeds'
+  },
+  FARCASTER: {
+    id: 'farcaster',
+    title: 'Farcaster',
+    image: ImgFeedFarcaster,
+    metaTitle: 'Farcaster Feed',
+    description: 'Farcaster Feed'
+  },
+  LENS: {
+    id: 'lens',
+    title: 'Lens',
+    image: ImgFeedLens,
+    metaTitle: 'Lens Feed',
+    description: 'Lens Feed'
   },
   FARCASTER: {
     id: 'farcaster',

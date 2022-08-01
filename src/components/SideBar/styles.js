@@ -41,10 +41,14 @@ export const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
     visibility: 'visible !important',
     transform: 'none !important',
     padding: theme.spacing(3.5, 1.5),
-    background: `${theme.palette.M750}CC`,
-    border: `solid 1px ${theme.palette.M750}`,
+    background: `${theme.palette.M850}66`,
+    border: `solid 1px ${theme.palette.M750}66`,
     borderRadius: 12,
-    backdropFilter: 'blur(10px)',
+    backdropFilter: 'blur(25px)',
+    [theme.breakpoints.down('xs')]: {
+      background: `${theme.palette.M850}AA`,
+      border: `solid 1px ${theme.palette.M750}AA`
+    },
     rowGap: theme.spacing(5)
   }
 }));

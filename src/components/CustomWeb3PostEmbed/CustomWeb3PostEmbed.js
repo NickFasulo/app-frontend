@@ -3,7 +3,6 @@ import withStyles from '@mui/styles/withStyles';
 import { Fade } from '@mui/material/';
 import PropTypes from 'prop-types';
 
-
 // child componenents
 import Original from './Original';
 

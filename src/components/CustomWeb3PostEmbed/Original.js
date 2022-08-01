@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
-import ReactMarkdown from 'react-markdown';
 import { SeeMore } from '../Miscellaneous'
 
 // util
@@ -96,9 +95,7 @@ const Original = ({ postId, web3Preview, classes }) => {
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
                         <SeeMore maxLength={400} postId={postId}>
-                          <ReactMarkdown>
-                            {initialText}
-                          </ReactMarkdown>
+                          {initialText}
                         </SeeMore>
                       </Typography>
                     </Link>
