@@ -70,9 +70,14 @@ const TwitterOAuth = ({ classes }) => {
   useEffect(() => {
     if (username) {
       const customRedirect = localStorage.getItem('twitterRedirect');
-      router.push(
-        customRedirect ? '/' + customRedirect : '/account/' + username
-      );
+      router.push({
+        pathname: customRedirect
+          ? '/' + customRedirect
+          : '/account/' + username,
+        query: {
+          openDialog: true
+        }
+      });
     }
   }, [username]);
 

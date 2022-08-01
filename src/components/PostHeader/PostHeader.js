@@ -61,23 +61,21 @@ class PostHeader extends Component {
   };
 
   componentDidMount() {
-    (async () => {
-      try {
-        const { postid, hideInteractions, username, account } = this.props;
-
-        let postInteractions = (
-          await axios.post(`${apiBaseUrl}/posts/interactions/${postid}`)
-        ).data;
-        if (hideInteractions && postInteractions.length > 0 && username) {
-          postInteractions = postInteractions.filter(
-            (curr) => curr.voter === account._id
-          );
-        }
-        this.setState({ postInteractions, isLoading: false });
-      } catch (err) {
-        this.setState({ isLoading: false });
-      }
-    })();
+    try {
+      axios
+        .post(`${apiBaseUrl}/posts/interactions/${this.props.postid}`)
+        .then((res) => {
+          this.setState({
+            postInteractions: res.data,
+            isLoading: false
+          });
+        })
+        .catch((_) => {
+          this.setState({ isLoading: false });
+        });
+    } catch (_) {
+      this.setState({ isLoading: false });
+    }
   }
 
   render() {
@@ -176,48 +174,18 @@ class PostHeader extends Component {
       </Grid>
     );
 
-    const AuthorHeader = (props) =>
-      author === yupCreator ? null : (
-        <Grid container direction="row">
-          <Grid item>
-            <UserAvatar
-              alt={authorUsername}
-              className={classes.avatarImage}
-              src={authorAvatar}
-              style={{
-                border: '2px solid',
-                borderColor: authorLevelColor,
-                borderRadius: '100%',
-                width: '22px',
-                marginRight: '7px',
-                height: '22px'
-              }}
-            />
-          </Grid>
-          <Grid item>
-            <Typography
-              className={classes.username}
-              gutterBottom
-              inline
-              style={{
-                fontFamily: '"Gilroy", sans-serif',
-                marginRight: '7px'
-              }}
-            >
-              {' '}
-              {authorUsername || author}
-            </Typography>
-          </Grid>
-        </Grid>
-      );
-
     return (
       <ErrorBoundary>
         <div
           className={classes.interactionBar}
           style={hideInteractions ? { marginBottom: '-9px' } : {}}
         >
-          <Grid container direction="row" alignItems="center" justifyContent="space-between">
+          <Grid
+            container
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Grid item>
               <Grid
                 container
@@ -228,12 +196,6 @@ class PostHeader extends Component {
                 {' '}
                 {hideInteractions ? null : (
                   <Fragment>
-                    <Grid item>
-                      {/* Todo Remove AuthorHeader */}
-                      <div style={{ display: 'none' }}>
-                        <AuthorHeader />
-                      </div>
-                    </Grid>
                     <Grid item>
                       <Grid container direction="row" alignItems="center">
                         <Grid item className={classes.voterOpacity}>

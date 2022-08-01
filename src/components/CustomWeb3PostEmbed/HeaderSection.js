@@ -2,7 +2,16 @@ import React from 'react';
 import { Link, Typography, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const HeaderSection = ({ classes, name, handle, address, protocol, tweetType, tweetLink, hideBird }) => {
+const HeaderSection = ({
+  classes,
+  name,
+  handle,
+  address,
+  protocol,
+  tweetType,
+  tweetLink,
+  hideBird
+}) => {
   let web3PostIcon;
 
   if (tweetType === 'retweet') {
@@ -55,7 +64,9 @@ const HeaderSection = ({ classes, name, handle, address, protocol, tweetType, tw
       <Grid item className={web3PostIcon}>
         <Link href={tweetLink} target="_blank" underline="none">
           <img
-            src={`/images/icons/${protocol === 'lens' ? 'lens' : 'farcaster'}.svg`}
+            src={`/images/icons/${
+              protocol === 'lens' ? 'lens' : 'farcaster'
+            }.svg`}
             height={isMobile ? '12' : '16'}
             alt="🖼️"
           />

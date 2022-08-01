@@ -9,9 +9,11 @@ const RecommendationList = ({ collection }) => {
 
   return (
     <FlexBox flexDirection="column" className="Tour-RecommendedCollections">
-      {recommendation.filter((post) => !!post).map((post) => (
-        <RecommendedCollections key={post._id} collection={post} />
-      ))}
+      {recommendation
+        .filter((post) => !!post)
+        .map((post) => (
+          <RecommendedCollections key={post._id} collection={post} />
+        ))}
     </FlexBox>
   );
 };

@@ -4,42 +4,53 @@ import { useTheme } from '@mui/material';
 import {
   RainbowKitProvider,
   getDefaultWallets,
-  connectorsForWallets,
   lightTheme,
   darkTheme
 } from '@rainbow-me/rainbowkit';
-import { WagmiProvider, chain } from 'wagmi';
-import { providers } from 'ethers';
-import merge from 'lodash/merge';
+import { WagmiConfig, chain, createClient, configureChains } from 'wagmi';
 
-import { alchemyApiKeys } from '../../config';
+import { alchemyApiKeys, ethereumConfig, polygonConfig } from '../../config';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
 
 import '@rainbow-me/rainbowkit/styles.css';
 
-const chains = [
-  { ...chain.mainnet, name: 'Ethereum' },
-  { ...chain.polygonMainnet, name: 'Polygon' }
-];
+// const chains = [
+//   { ...chain.mainnet, name: 'Ethereum' },
+//   { ...chain.polygonMainnet, name: 'Polygon' }
+// ];
 
-const provider = ({ chainId }) => {
-  if (alchemyApiKeys[chainId]) {
-    return new providers.AlchemyProvider(chainId, alchemyApiKeys[chainId]);
-  }
+// const provider = ({ chainId }) => {
+//   if (alchemyApiKeys[chainId]) {
+//     return new providers.AlchemyProvider(chainId, alchemyApiKeys[chainId]);
+//   }
 
-  return null;
-};
+//   return null;
+// };
 
-const wallets = getDefaultWallets({
-  chains,
-  appName: 'Yup'
+const { chains, provider } = configureChains(
+  [chain.polygon, chain.mainnet],
+  [
+    alchemyProvider({ alchemyId: alchemyApiKeys[ethereumConfig.chainId] }),
+    alchemyProvider({ alchemyId: alchemyApiKeys[polygonConfig.chainId] })
+  ]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'Yup',
+  chains
 });
 
-const connectors = connectorsForWallets(wallets);
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider
+});
 
 const RKProvider = ({ children }) => {
   const { palette } = useTheme();
-  const rkDefaultTheme = palette.mode === 'light' ? lightTheme() : darkTheme();
-  const rkTheme = merge(rkDefaultTheme, {
+
+  const rkDefaultTheme = palette.mode === 'light' ? lightTheme : darkTheme;
+  const rkTheme = rkDefaultTheme({
     colors: {
       accentColor: palette.P500,
       modalBackground: `${palette.M500}44;`, // backdrop-filter: blur(20px);
@@ -56,11 +67,11 @@ const RKProvider = ({ children }) => {
   });
 
   return (
-    <WagmiProvider autoConnect connectors={connectors} provider={provider}>
+    <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} theme={rkTheme}>
         {children}
       </RainbowKitProvider>
-    </WagmiProvider>
+    </WagmiConfig>
   );
 };
 

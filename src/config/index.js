@@ -70,7 +70,7 @@ export const DEFAULT_FEED_PAGE_SIZE = 15;
 export const DEFAULT_SEARCH_SIZE = 5;
 export const USER_COLLECTION_PAGE_SIZE = 8;
 export const PROFILE_PICTURE_SIZE = {
-  'lg': 105,
-  'md': 32,
-  'sm': 24
-}
+  lg: 105,
+  md: 32,
+  sm: 24
+};

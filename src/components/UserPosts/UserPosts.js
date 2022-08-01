@@ -12,7 +12,9 @@ const UserPosts = ({ userId }) => {
   const posts = useMemo(() => {
     if (!data) return [];
 
-    return flatten(data.pages.map((page) => page.posts)).filter((item) => item?._id.postid);
+    return flatten(data.pages.map((page) => page.posts)).filter(
+      (item) => item?._id.postid
+    );
   }, [data]);
 
   if (status === 'loading') {
@@ -25,11 +27,7 @@ const UserPosts = ({ userId }) => {
       next={fetchNextPage}
       hasMore={hasNextPage}
       loader={<ListSkeleton />}
-      endMessage={
-        <Typography>
-          End of Feed
-        </Typography>
-      }
+      endMessage={<Typography>End of Feed</Typography>}
     >
       {posts.map((post) => (
         <PostController

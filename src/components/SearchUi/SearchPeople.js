@@ -7,9 +7,10 @@ import { DEFAULT_SEARCH_SIZE } from '../../config';
 const SearchPeople = ({ searchQuery }) => {
   const people = useSearchPeople(searchQuery);
 
-  return people.map((user) => (
-    <UserConnection user={user}/>
-  ));
+  return people.map((user) => <UserConnection user={user} />);
 };
 
-export default withSuspense(LOADER_TYPE.USER_CONNECTION, DEFAULT_SEARCH_SIZE)(SearchPeople);
+export default withSuspense(
+  LOADER_TYPE.USER_CONNECTION,
+  DEFAULT_SEARCH_SIZE
+)(SearchPeople);

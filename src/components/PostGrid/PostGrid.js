@@ -60,7 +60,11 @@ function PostGrid({
 
   return (
     <ErrorBoundary>
-      <Grid container className={classes.container} justifyContent="space-between">
+      <Grid
+        container
+        className={classes.container}
+        justifyContent="space-between"
+      >
         <Grid
           item
           xs={9}

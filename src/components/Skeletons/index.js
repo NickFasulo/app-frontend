@@ -1,5 +1,3 @@
 import UserConnectionSkeleton from './UserConnectionSkeleton';
 
-export {
-  UserConnectionSkeleton
-};
+export { UserConnectionSkeleton };

@@ -1,15 +1,15 @@
-import { useRouter } from 'next/router'
-import ProfileHeader from '../../components/ProfileHeader'
+import { useRouter } from 'next/router';
+import ProfileHeader from '../../components/ProfileHeader';
 import {
   FlexBox,
   GradientTypography,
   ProfilePicture,
   YupContainer,
   YupPageWrapper
-} from '../../components/styles'
-import { useSocialLevel } from '../../hooks/queries'
-import { LOADER_TYPE } from '../../constants/enum'
-import withSuspense from '../../hoc/withSuspense'
+} from '../../components/styles';
+import { useSocialLevel } from '../../hooks/queries';
+import { LOADER_TYPE } from '../../constants/enum';
+import withSuspense from '../../hoc/withSuspense';
 import { useEffect, useState } from 'react';
 import YupPageTabs from '../../components/YupPageTabs';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
@@ -25,7 +25,7 @@ const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
   ANALYTICS: 'analytics',
   COLLECTIONS: 'collections'
-}
+};
 
 const UserAccountPage = () => {
   const { query } = useRouter();
@@ -58,28 +58,27 @@ const UserAccountPage = () => {
   return (
     <YupPageWrapper>
       <YupPageHeader scrolled={windowScrolled}>
-        <ProfileHeader
-          profile={profile}
-          hidden={isMobile && windowScrolled}
-        />
+        <ProfileHeader profile={profile} hidden={isMobile && windowScrolled} />
         <YupPageTabs
           tabs={tabs}
           value={selectedTab}
           onChange={setSelectedTab}
           hidden={!isMobile && windowScrolled}
-          endComponent={ windowScrolled && (
-            <FlexBox gap={1} alignItems="center" mr={3}>
-              <ProfilePicture
-                src={avatar}
-                alt={username}
-                size="md"
-                border={levelColors[quantile || 'none']}
-              />
-              <GradientTypography variant="h6">
-                {profile.fullname}
-              </GradientTypography>
-            </FlexBox>
-          )}
+          endComponent={
+            windowScrolled && (
+              <FlexBox gap={1} alignItems="center" mr={3}>
+                <ProfilePicture
+                  src={avatar}
+                  alt={username}
+                  size="md"
+                  border={levelColors[quantile || 'none']}
+                />
+                <GradientTypography variant="h6">
+                  {profile.fullname}
+                </GradientTypography>
+              </FlexBox>
+            )
+          }
         />
       </YupPageHeader>
       {selectedTab === PROFILE_TAB_IDS.PROFILE && (
@@ -101,7 +100,7 @@ const UserAccountPage = () => {
         </YupContainer>
       )}
     </YupPageWrapper>
-  )
+  );
 };
 
 export default withSuspense(LOADER_TYPE.TOP_BAR)(UserAccountPage);

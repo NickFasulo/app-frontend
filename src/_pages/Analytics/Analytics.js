@@ -421,6 +421,7 @@ class Analytics extends Component {
     } = this.state;
 
     const influence = account && account.weight;
+    const yupScore = Math.floor(account?.score) || 1;
     const quantile = account && account.quantile;
     const socialLevelColor = levelColors[quantile];
     const isMirror =
@@ -511,14 +512,17 @@ class Analytics extends Component {
             justifyContent="center"
             spacing={3}
           >
-            <Grid item sm={6} xs={12}>
+            <Grid item sm={6} xs={12} md={4}>
               <BarChart
-                chartData={influence}
-                chartTitle="Influence"
+                chartData={yupScore}
+                chartTitle="Yup Score"
                 color={socialLevelColor}
               />
             </Grid>
-            <Grid item sm={6} xs={12}>
+            <Grid item sm={6} xs={12} md={4}>
+              <BarChart chartData={influence} chartTitle="Influence" />
+            </Grid>
+            <Grid item xs={12} md={4}>
               <BarChart
                 chartData={likePower}
                 chartTitle="Like Power"

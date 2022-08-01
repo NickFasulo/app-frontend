@@ -29,17 +29,19 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
   const handleLoad = () => {
     const imgElement = imgRef.current;
 
-    if (!imgElement) return ;
+    if (!imgElement) return;
 
     const width = imgElement.naturalWidth;
     const height = imgElement.naturalHeight;
 
-    if (width >= height) { // Ratio >= 1
+    if (width >= height) {
+      // Ratio >= 1
       imgElement.style.width = '100%';
       imgElement.style.objectFit = 'cover';
       imgElement.style.minHeight = '200px';
       imgElement.style.maxHeight = '500px';
-    } else { // Ratio < 1
+    } else {
+      // Ratio < 1
       imgElement.style.maxHeight = '400px';
       imgElement.style.objectFit = 'fit-content';
     }
@@ -49,7 +51,9 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
     return (
       <img
         ref={imgRef}
-        src={`${src}?${new URLSearchParams(foundationOptimizeParams).toString()}`}
+        src={`${src}?${new URLSearchParams(
+          foundationOptimizeParams
+        ).toString()}`}
         alt={alt}
         onLoad={handleLoad}
         {...restProps}

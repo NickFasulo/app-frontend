@@ -45,7 +45,7 @@ export const isUrl = (url) => {
   } catch {
     return false;
   }
-}
+};
 
 export const calc2dArrayItemsCount = (arr) => {
   return arr
@@ -61,8 +61,10 @@ export const shortenEthAddress = (ethAddress) => `${ethAddress.slice(0, 8)}...`;
 
 export const twitterUrl = (username) => `https://twitter.com/${username}`;
 
-export const etherscanUrl = (address) => `https://etherscan.io/address/${address}`;
+export const etherscanUrl = (address) =>
+  `https://etherscan.io/address/${address}`;
 
 export const formatDecimal = (decimal) => numeral(decimal).format('0,0.00');
 
-export const formatWeight = (weight) => numeral(Math.floor(weight)).format('0,0');
+export const formatWeight = (weight) =>
+  numeral(Math.floor(weight)).format('0,0');

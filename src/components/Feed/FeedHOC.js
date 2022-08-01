@@ -10,7 +10,7 @@ import { Typography } from '@mui/material';
 
 import useStyles from './FeedHOCStyles';
 import { logPageView } from '../../utils/analytics';
-import clsx from 'clsx'
+import clsx from 'clsx';
 
 const FeedHOC = ({ feedType }) => {
   const classes = useStyles();
@@ -80,11 +80,7 @@ const FeedHOC = ({ feedType }) => {
         endMessage={<p className={classes.resetScroll}>end of feed</p>}
       >
         {posts.map((post) => (
-          <PostController
-            key={post._id.postid}
-            post={post}
-            renderObjects
-          />
+          <PostController key={post._id.postid} post={post} renderObjects />
         ))}
       </InfiniteScroll>
     </ErrorBoundary>

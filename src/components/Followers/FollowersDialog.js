@@ -1,77 +1,28 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
-import CircularProgress from '@mui/material/CircularProgress';
+import useStyles from './styles';
 import Typography from '@mui/material/Typography';
 import FollowButton from './FollowButton';
 import Link from 'next/link';
 import Grid from '@mui/material/Grid';
 import { levelColors } from '../../utils/colors';
 import UserAvatar from '../UserAvatar/UserAvatar';
-import numeral from 'numeral';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { fetchSocialLevel } from '../../redux/actions';
 import { accountInfoSelector } from '../../redux/selectors';
-import { YupButton } from '../Miscellaneous';
 import YupDialog from '../Miscellaneous/YupDialog';
 
-const styles = (theme) => ({
-  dialogTitle: {
-    margin: 0,
-    padding: theme.spacing(1.5)
-  },
-  gridRoot: {
-    flexGrow: 1
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(),
-    top: theme.spacing(),
-    color: 'black',
-    '&:hover': {
-      backgroundColor: 'transparent'
-    }
-  },
-  followButton: {
-    margin: theme.spacing()
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary
-  },
-  dialogContent: {
-    root: {
-      margin: 0,
-      padding: theme.spacing(2)
-    }
-  },
-  user: {
-    display: 'flex',
-    padding: '3% 0% 3% 0%',
-    paddingTop: '2%',
-    alignItems: 'center'
-  },
-  avatar: {
-    height: '30px',
-    paddingRight: '5%'
-  },
-  avatarImage: {
-    width: '30px',
-    height: '30px',
-    borderRadius: '50%'
-  },
-  progress: {
-    margin: theme.spacing(2),
-    color: '#ffffff'
-  },
-  Typography: {
-    fontFamily: 'Gilroy'
-  }
-});
+const FollowersDialog = ({
+  open,
+  onClose,
+  account,
+  followers,
+  levels,
+  dispatch
+}) => {
+  const classes = useStyles();
 
-const FollowersDialog = ({ open, onClose, account, classes, followers, levels, dispatch }) => {
   return (
     <ErrorBoundary>
       <YupDialog
@@ -170,7 +121,7 @@ const FollowersDialog = ({ open, onClose, account, classes, followers, levels, d
       </YupDialog>
     </ErrorBoundary>
   );
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { username } = ownProps;
@@ -199,4 +150,4 @@ FollowersDialog.propTypes = {
   followersInfo: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(FollowersDialog));
+export default connect(mapStateToProps)(FollowersDialog);

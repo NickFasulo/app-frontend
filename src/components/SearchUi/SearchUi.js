@@ -30,12 +30,10 @@ const SearchUi = ({ onClose }) => {
 
   return (
     <SearchLayout onScroll={handleScroll}>
-      <SearchUiHeader
-        sx={{ zIndex: 1110 }}
-        scrolled={scrolled}
-        noborder
-      >
-        <YupContainer sx={{ paddingTop: searchQuery ? 3 : '25vh', paddingBottom: 3 }}>
+      <SearchUiHeader sx={{ zIndex: 1110 }} scrolled={scrolled} noborder>
+        <YupContainer
+          sx={{ paddingTop: searchQuery ? 3 : '25vh', paddingBottom: 3 }}
+        >
           <Grid container justifyContent="center">
             <Grid item xs={12} sm={10} lg={8}>
               <SearchInput onSearch={setSearchQuery} />
@@ -63,8 +61,8 @@ const SearchUi = ({ onClose }) => {
           <IconClose />
         </IconButton>
       </SearchUiHeader>
-      {searchQuery && (
-        isMobile ? (
+      {searchQuery &&
+        (isMobile ? (
           <YupContainer>
             {selectedTab === SEARCH_TAB_IDS.POSTS ? (
               <SearchPosts searchQuery={searchQuery} />
@@ -72,8 +70,7 @@ const SearchUi = ({ onClose }) => {
               <SearchPeople searchQuery={searchQuery} />
             ) : selectedTab === SEARCH_TAB_IDS.COLLECTIONS ? (
               <SearchCollections searchQuery={searchQuery} />
-            ) : null
-            }
+            ) : null}
           </YupContainer>
         ) : (
           <YupContainer>
@@ -108,8 +105,7 @@ const SearchUi = ({ onClose }) => {
               </Grid>
             </Grid>
           </YupContainer>
-        )
-      )}
+        ))}
     </SearchLayout>
   );
 };

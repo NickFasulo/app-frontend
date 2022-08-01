@@ -1,6 +1,6 @@
 import numeral from 'numeral';
-import { FlexBox } from '../styles'
-import NumberText from '../NumberText'
+import { FlexBox } from '../styles';
+import NumberText from '../NumberText';
 import FollowersDialog from '../Followers/FollowersDialog';
 import { useState } from 'react';
 import FollowingDialog from '../Followers/FollowingDialog';
@@ -12,7 +12,10 @@ const FollowerSection = ({ rating, followers, followings }) => {
   return (
     <>
       <FlexBox columnGap={2.5}>
-        <NumberText number={numeral(rating).format('0a').toUpperCase()} text="Likes" />
+        <NumberText
+          number={numeral(rating).format('0a').toUpperCase()}
+          text="Likes"
+        />
         <NumberText
           number={followers?.length || 0}
           text="Followers"
@@ -37,7 +40,7 @@ const FollowerSection = ({ rating, followers, followings }) => {
         followings={followings}
       />
     </>
-  )
+  );
 };
 
 export default FollowerSection;

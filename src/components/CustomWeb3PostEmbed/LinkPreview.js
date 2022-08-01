@@ -2,14 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material/';
 
-const LinkPreview = ({
-  description,
-  image,
-  title,
-  url,
-  classes,
-  size
-}) => {
+const LinkPreview = ({ description, image, title, url, classes, size }) => {
   const getDomain = (str) => {
     let a = document.createElement('a');
     a.href = str;

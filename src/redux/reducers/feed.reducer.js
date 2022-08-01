@@ -44,7 +44,7 @@ const initialState = {
       limit: 10,
       hasMore: true
     },
-    'non-corona': {
+    safespace: {
       posts: [],
       isLoading: false,
       error: null,
@@ -52,7 +52,7 @@ const initialState = {
       limit: 10,
       hasMore: true
     },
-    'farcaster': {
+    farcaster: {
       posts: [],
       isLoading: false,
       error: null,
@@ -60,7 +60,23 @@ const initialState = {
       limit: 10,
       hasMore: true
     },
-    'lens': {
+    lens: {
+      posts: [],
+      isLoading: false,
+      error: null,
+      start: 0,
+      limit: 10,
+      hasMore: true
+    },
+    farcaster: {
+      posts: [],
+      isLoading: false,
+      error: null,
+      start: 0,
+      limit: 10,
+      hasMore: true
+    },
+    lens: {
       posts: [],
       isLoading: false,
       error: null,

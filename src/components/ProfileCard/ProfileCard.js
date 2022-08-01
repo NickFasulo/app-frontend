@@ -21,7 +21,7 @@ import { TruncateText } from '../styles';
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faEthereum } from '@fortawesome/free-brands-svg-icons';
-import clsx from 'clsx'
+import clsx from 'clsx';
 
 const styles = (theme) => ({
   avatarImage: {
@@ -194,7 +194,7 @@ function ProfileCard(props) {
     balanceInfo,
     account,
     isLoggedIn,
-    ratingCount,
+    likeCount,
     isMinimize,
     levels,
     dispatch,
@@ -209,10 +209,13 @@ function ProfileCard(props) {
 
   const formattedYUPBalance =
     YUPBalance && numeral(Number(YUPBalance)).format('0,0.00');
+  const formattedScore = numeral(
+    Math.floor(Number(accountInfo.score || 1))
+  ).format('0,0');
   const formattedWeight = numeral(
     Math.floor(Number(accountInfo.weight))
   ).format('0,0');
-  const formattedRatings = numeral(ratingCount).format('0a').toUpperCase();
+  const formattedLikes = numeral(likeCount).format('0a').toUpperCase();
   const eosname = accountInfo && (accountInfo.eosname || accountInfo._id);
   const levelInfo = levels[eosname] && levels[eosname].levelInfo;
 
@@ -258,9 +261,7 @@ function ProfileCard(props) {
     : '/images/logos/logo_outline_w.svg';
   return (
     <ErrorBoundary>
-      <Card
-        className={`${classes.card} ${minimizeCard} Tour-ProfileUsername`}
-      >
+      <Card className={`${classes.card} ${minimizeCard} Tour-ProfileUsername`}>
         {isLoading ? (
           <Skeleton
             variant="circular"
@@ -315,8 +316,9 @@ function ProfileCard(props) {
                   ) : (
                     <TruncateText
                       className={minimizeName}
-                      lines={4} variant="capsized_h3"
-                      sx={{overflow: 'visible'}}
+                      lines={4}
+                      variant="capsized_h3"
+                      sx={{ overflow: 'visible' }}
                     >
                       {displayName}
                     </TruncateText>
@@ -477,7 +479,7 @@ function ProfileCard(props) {
                         variant="caption"
                       >
                         <CountUp
-                          end={`${formattedWeight}`}
+                          end={`${formattedScore}`}
                           duration={2}
                           useEasing={false}
                         />
@@ -493,6 +495,31 @@ function ProfileCard(props) {
                       </Typography>
                     </div>
                   </Tooltip>
+                </Grid>
+                <Grid item>
+                  <div className="Tour-Influence">
+                    <Typography
+                      className={classes.largeStat}
+                      style={{
+                        display: 'inline-block'
+                      }}
+                      variant="caption"
+                    >
+                      <CountUp
+                        end={`${formattedWeight}`}
+                        duration={2}
+                        useEasing={false}
+                      />
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      style={{
+                        display: 'inline-block'
+                      }}
+                    >
+                      Influence
+                    </Typography>
+                  </div>
                 </Grid>
                 <Grid item xs={6} sm={3} md={3}>
                   <Tooltip
@@ -549,8 +576,7 @@ function ProfileCard(props) {
               >
                 <Grid item>
                   <Typography align="left" variant="body2">
-                    <a style={{ fontWeight: 500 }}>{formattedRatings}</a>{' '}
-                    Ratings
+                    <a style={{ fontWeight: 500 }}>{formattedLikes}</a> Votes
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -591,7 +617,7 @@ ProfileCard.propTypes = {
   dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  ratingCount: PropTypes.number.isRequired,
+  likeCount: PropTypes.number.isRequired,
   balanceInfo: PropTypes.object.isRequired,
   isMinimize: PropTypes.bool.isRequired,
   accountInfo: PropTypes.object.isRequired,

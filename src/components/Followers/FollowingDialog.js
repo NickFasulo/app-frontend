@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
-import CircularProgress from '@mui/material/CircularProgress';
+import useStyles from './styles';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import Grid from '@mui/material/Grid';
@@ -10,67 +9,19 @@ import { levelColors } from '../../utils/colors';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { connect } from 'react-redux';
-import numeral from 'numeral';
 import { fetchSocialLevel } from '../../redux/actions';
-import { YupButton } from '../Miscellaneous';
 import YupDialog from '../Miscellaneous/YupDialog';
 
-const styles = (theme) => ({
-  dialogTitle: {
-    margin: 0,
-    padding: theme.spacing(1.5)
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(),
-    top: theme.spacing(),
-    color: 'black',
-    '&:hover': {
-      backgroundColor: 'transparent'
-    }
-  },
-  followButton: {
-    margin: theme.spacing()
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary
-  },
-  dialogContent: {
-    root: {
-      margin: 0,
-      padding: theme.spacing(2)
-    }
-  },
-  user: {
-    display: 'flex',
-    padding: '3% 0% 3% 0%',
-    paddingTop: '2%',
-    alignItems: 'center'
-  },
-  avatar: {
-    height: '30px',
-    paddingRight: '5%'
-  },
-  avatarImage: {
-    width: '30px',
-    height: '30px',
-    borderRadius: '50%'
-  },
-  progress: {
-    margin: theme.spacing(2),
-    color: '#ffffff'
-  },
-  text: {
-    fontSize: '13px',
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '12px'
-    }
-  }
-});
+const FollowingDialog = ({
+  open,
+  onClose,
+  account,
+  followings,
+  levels,
+  dispatch
+}) => {
+  const classes = useStyles();
 
-const FollowingDialog = ({ open, onClose, classes, account, followings, levels, dispatch }) => {
   return (
     <ErrorBoundary>
       <YupDialog
@@ -172,7 +123,7 @@ const FollowingDialog = ({ open, onClose, classes, account, followings, levels, 
       </YupDialog>
     </ErrorBoundary>
   );
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { username } = ownProps;
@@ -216,4 +167,4 @@ FollowingDialog.propTypes = {
   account: PropTypes.object
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(FollowingDialog));
+export default connect(mapStateToProps)(FollowingDialog);

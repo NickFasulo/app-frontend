@@ -22,14 +22,10 @@ const SearchPosts = ({ searchQuery }) => {
       next={fetchNextPage}
     >
       {posts.map((post) => (
-        <PostController
-          key={post._id.postid}
-          post={post}
-          hideInteractions
-        />
+        <PostController key={post._id.postid} post={post} hideInteractions />
       ))}
     </InfiniteScroll>
-  )
+  );
 };
 
 export default withSuspense(LOADER_TYPE.FEED)(SearchPosts);

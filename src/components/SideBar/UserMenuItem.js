@@ -45,9 +45,17 @@ const UserMenuItem = () => {
       <Grow in={open} timeout={MENU_ANIMATION_DURATION}>
         <ListItemText
           primary={profile.username}
-          primaryTypographyProps={{ align: 'right', variant: isDesktop ? 'body' : 'h5' }}
-          secondary={profile && `${formatDecimal(profile.balance?.YUP || 0)} YUP`}
-          secondaryTypographyProps={{ variant: isDesktop ? 'bodyS2' : 'h6', align: 'right' }}
+          primaryTypographyProps={{
+            align: 'right',
+            variant: isDesktop ? 'bodyS1' : 'h5'
+          }}
+          secondary={
+            profile && `${formatDecimal(profile.balance?.YUP || 0)} YUP`
+          }
+          secondaryTypographyProps={{
+            variant: isDesktop ? 'bodyS2' : 'h6',
+            align: 'right'
+          }}
           sx={{ display: !open && 'none' }}
         />
       </Grow>

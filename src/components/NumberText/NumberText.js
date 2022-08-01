@@ -1,11 +1,9 @@
-import { Typography } from '@mui/material'
+import { Typography } from '@mui/material';
 import { FlexBox } from '../styles';
 
 const NumberText = ({ number, text, clickable, onClick }) => (
   <FlexBox>
-    <Typography variant="body1">
-      {number}
-    </Typography>
+    <Typography variant="body1">{number}</Typography>
     <Typography
       variant="body2"
       onClick={onClick}

@@ -13,7 +13,10 @@ const UserCollectionsSection = ({ userId }) => {
   const collections = useUserCollections(userId);
 
   const pageStartIndex = page * USER_COLLECTION_PAGE_SIZE;
-  const pageCollections = collections.slice(pageStartIndex, Math.min(pageStartIndex + USER_COLLECTION_PAGE_SIZE, collections.length));
+  const pageCollections = collections.slice(
+    pageStartIndex,
+    Math.min(pageStartIndex + USER_COLLECTION_PAGE_SIZE, collections.length)
+  );
 
   return (
     <>
@@ -23,9 +26,7 @@ const UserCollectionsSection = ({ userId }) => {
         sx={{ mb: 2.5 }}
       >
         <FlexBox alignItems="center">
-          <Typography variant="h5">
-            Collections
-          </Typography>
+          <Typography variant="h5">Collections</Typography>
           <Typography
             variant="body2"
             sx={{

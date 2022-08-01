@@ -11,15 +11,14 @@ const CollectionList = ({ collection }) => {
       textAlign="center"
       className="Tour-CollectionPosts"
     >
-      {posts
-        .map((post) => (
-          <PostController
-            key={post?._id.postid}
-            post={post}
-            hideInteractions
-            renderObjects
-          />
-        ))}
+      {posts.map((post) => (
+        <PostController
+          key={post?._id.postid}
+          post={post}
+          hideInteractions
+          renderObjects
+        />
+      ))}
     </FlexBox>
   );
 };

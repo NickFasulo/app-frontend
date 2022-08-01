@@ -7,8 +7,6 @@ import { AUTH_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
 import { apiBaseUrl } from '../../config';
 import { queryClient } from '../../config/react-query';
 
-
-
 export function deductBalance(username, amount, currency) {
   return { type: constants.DEDUCT_BALANCE, username, currency, amount };
 }
@@ -102,12 +100,16 @@ export function updateAccountInfo(account, update, authInfo) {
   return async (dispatch) => {
     dispatch(request(account.name));
     try {
-
       const updatedData = await editProfile({
-        username: account.name, ...update , authInfo
+        username: account.name,
+        ...update,
+        authInfo
       });
 
-      queryClient.setQueryData([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, account.name], updatedData);
+      queryClient.setQueryData(
+        [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, account.name],
+        updatedData
+      );
 
       dispatch(success(account.name, update));
     } catch (err) {

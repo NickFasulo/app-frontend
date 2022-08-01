@@ -1,4 +1,12 @@
-import { Avatar, Box, Button, Container, Menu, styled, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Menu,
+  styled,
+  Typography
+} from '@mui/material';
 import { PROFILE_PICTURE_SIZE } from '../config';
 import CountUp from 'react-countup';
 
@@ -100,7 +108,7 @@ export const ConnectionAvatar = styled(Avatar)(({ theme }) => ({
 }));
 
 export const ActionButton = styled(Button)(({ theme }) => ({
-  background: `${theme.palette.M100}10`,
+  background: `${theme.palette.M100}10`
 }));
 
 export const YupCountUp = styled(CountUp)(({ color, theme }) => ({

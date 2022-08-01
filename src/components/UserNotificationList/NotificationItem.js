@@ -6,16 +6,24 @@ import { NotificationItemRoot } from './styles';
 import Link from '../Link';
 
 const NotificationItem = ({ data }) => {
-  const { image, createdAt, invoker, recipient, post, action, link: notificationLink } = data;
+  const {
+    image,
+    createdAt,
+    invoker,
+    recipient,
+    post,
+    action,
+    link: notificationLink
+  } = data;
   const invokerName = invoker?.username || invoker;
 
   const link = post
     ? isUrl(post.url ?? post.caption)
-      ? (post.url ?? post.caption)
+      ? post.url ?? post.caption
       : `/post/${post._id.postid}`
     : action === 'follow'
-      ? `/account/${invoker?.eosname || invoker}`
-      : notificationLink;
+    ? `/account/${invoker?.eosname || invoker}`
+    : notificationLink;
 
   return (
     <NotificationItemRoot
@@ -27,12 +35,12 @@ const NotificationItem = ({ data }) => {
         <NotificationMedia url={image} />
       </ListItemAvatar>
       <ListItemText
-        primary={(
+        primary={
           <NotifText
             invoker={invokerName === recipient ? 'You' : invokerName}
             notif={data}
           />
-        )}
+        }
         secondary={formatDate(createdAt)}
         secondaryTypographyProps={{
           sx: {

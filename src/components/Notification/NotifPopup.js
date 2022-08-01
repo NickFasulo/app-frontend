@@ -32,7 +32,7 @@ const styles = (theme) => ({
     width: '350px',
     maxHeight: '80vh',
     overflowY: 'hidden',
-    borderRadius: "0.65rem"
+    borderRadius: '0.65rem'
   },
   notifPopper: {
     maxHeight: '450px',
@@ -57,27 +57,24 @@ const styles = (theme) => ({
   }
 });
 
-const NotifPopup = ({notifications, ethAuth, classes}) => {
-  const [open, setOpen] = useState(false)
+const NotifPopup = ({ notifications, ethAuth, classes }) => {
+  const [open, setOpen] = useState(false);
 
   const handleToggle = () => {
-    setOpen(prev=> !prev)
- 
+    setOpen((prev) => !prev);
 
     if (notifications[0] && !notifications[0].seen) {
       setNotifsToSeen();
     }
   };
-  const handleClose = () =>{
-    setOpen(false)
-  }
-  
-  const setNotifsToSeen = async()=> {
+  const handleClose = () => {
+    setOpen(false);
+  };
 
+  const setNotifsToSeen = async () => {
     notifications[0].seen = true;
-    if(notifications[0].type==='ethaddressmissing') {
-
-      localStorage.setItem('sawEthNotfication', new Date().getTime())
+    if (notifications[0].type === 'ethaddressmissing') {
+      localStorage.setItem('sawEthNotfication', new Date().getTime());
     }
     if (!ethAuth) {
       const { signature, eosname } = await wallet.scatter.getAuthToken();
@@ -105,10 +102,9 @@ const NotifPopup = ({notifications, ethAuth, classes}) => {
         }
       });
     }
-  }
+  };
 
   const notifItems = () => {
-
     if (notifications.length === 0) {
       return (
         <MenuList
@@ -144,44 +140,21 @@ const NotifPopup = ({notifications, ethAuth, classes}) => {
         </MenuList>
       );
     }
-  }
+  };
 
-
-    return (
-      <ErrorBoundary>
-        <div className={classes.root}>
-          <Downshift
-            id="notifications"
-            isOpen={open}
-            onOuterClick={() => setOpen(false)}
-          >
-            {({ getButtonProps, getMenuProps, isOpen }) => (
+  return (
+    <ErrorBoundary>
+      <div className={classes.root}>
+        <Downshift
+          id="notifications"
+          isOpen={open}
+          onOuterClick={() => setOpen(false)}
+        >
+          {({ getButtonProps, getMenuProps, isOpen }) => (
+            <div>
               <div>
-                <div>
-                  {notifications[0] && !notifications[0].seen ? (
-                    <Badge variant="dot">
-                      <IconButton
-                        variant="fab"
-                        aria-controls="menu-list-grow"
-                        aria-haspopup="true"
-                        className={classes.notifButton}
-                        onClick={handleToggle}
-                        size="small"
-                      >
-                        <Badge
-                          color="error"
-                          variant="dot"
-                          overlap="circular"
-                          badgeContent=" "
-                        >
-                          <FontAwesomeIcon
-                            icon={faBell}
-                            className={classes.iconColor}
-                          />
-                        </Badge>
-                      </IconButton>
-                    </Badge>
-                  ) : (
+                {notifications[0] && !notifications[0].seen ? (
+                  <Badge variant="dot">
                     <IconButton
                       variant="fab"
                       aria-controls="menu-list-grow"
@@ -190,34 +163,55 @@ const NotifPopup = ({notifications, ethAuth, classes}) => {
                       onClick={handleToggle}
                       size="small"
                     >
-                      <FontAwesomeIcon
-                        icon={faBell}
-                        className={classes.iconColor}
-                      />
+                      <Badge
+                        color="error"
+                        variant="dot"
+                        overlap="circular"
+                        badgeContent=" "
+                      >
+                        <FontAwesomeIcon
+                          icon={faBell}
+                          className={classes.iconColor}
+                        />
+                      </Badge>
                     </IconButton>
-                  )}
-                </div>
-                <div
-                  className={classes.wrapper}
-                  style={open ? {} : null}
-                  {...getMenuProps()}
-                >
-                  {isOpen ? (
-                    <Grow in timeout={500}>
-                      <Paper className={classes.notifPaper} id="menu-list-grow">
-                        {notifItems()}
-                      </Paper>
-                    </Grow>
-                  ) : null}
-                </div>
+                  </Badge>
+                ) : (
+                  <IconButton
+                    variant="fab"
+                    aria-controls="menu-list-grow"
+                    aria-haspopup="true"
+                    className={classes.notifButton}
+                    onClick={handleToggle}
+                    size="small"
+                  >
+                    <FontAwesomeIcon
+                      icon={faBell}
+                      className={classes.iconColor}
+                    />
+                  </IconButton>
+                )}
               </div>
-            )}
-          </Downshift>
-        </div>
-      </ErrorBoundary>
-    );
-  }
-
+              <div
+                className={classes.wrapper}
+                style={open ? {} : null}
+                {...getMenuProps()}
+              >
+                {isOpen ? (
+                  <Grow in timeout={500}>
+                    <Paper className={classes.notifPaper} id="menu-list-grow">
+                      {notifItems()}
+                    </Paper>
+                  </Grow>
+                ) : null}
+              </div>
+            </div>
+          )}
+        </Downshift>
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 const mapStateToProps = (state, ownProps) => {
   const ethAuth = ethAuthSelector(state);

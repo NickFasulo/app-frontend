@@ -1,11 +1,23 @@
-import { ActionButton, FlexBox, GradientTypography, ProfilePicture, YupContainer, YupCountUp } from '../styles'
+import {
+  ActionButton,
+  FlexBox,
+  GradientTypography,
+  ProfilePicture,
+  YupContainer,
+  YupCountUp
+} from '../styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEthereum, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { levelColors } from '../../utils/colors'
-import { useFollowers, useFollowings } from '../../hooks/queries'
-import FollowerSection from './FollowerSection'
+import { levelColors } from '../../utils/colors';
+import { useFollowers, useFollowings } from '../../hooks/queries';
+import FollowerSection from './FollowerSection';
 import { Chip, Typography } from '@mui/material';
-import { etherscanUrl, formatDecimal, shortenEthAddress, twitterUrl } from '../../utils/helpers';
+import {
+  etherscanUrl,
+  formatDecimal,
+  shortenEthAddress,
+  twitterUrl
+} from '../../utils/helpers';
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
 import CountUp from 'react-countup';
@@ -70,10 +82,7 @@ const ProfileHeader = ({ profile, hidden }) => {
                 </ActionButton>
               )}
               {isLoggedIn && !isMyProfile && (
-                <FollowButton
-                  eosname={username}
-                  isLoggedIn={false}
-                />
+                <FollowButton eosname={username} isLoggedIn={false} />
               )}
             </FlexBox>
           </FlexBox>
@@ -88,7 +97,7 @@ const ProfileHeader = ({ profile, hidden }) => {
             )}
             {!isMobile && ethInfo?.address && (
               <Chip
-                icon={<FontAwesomeIcon size='12' icon={faEthereum} />}
+                icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
                 label={shortenEthAddress(ethInfo.address)}
                 clickable
                 component="a"
@@ -118,11 +127,7 @@ const ProfileHeader = ({ profile, hidden }) => {
               Yup Score
             </Typography>
             <Typography variant="body2" sx={{ mr: 2 }}>
-              <YupCountUp
-                end={influence}
-                duration={2}
-                useEasing={false}
-              />
+              <YupCountUp end={influence} duration={2} useEasing={false} />
               Influence
             </Typography>
             <YupLogoEmoji />
@@ -130,9 +135,7 @@ const ProfileHeader = ({ profile, hidden }) => {
               {formatDecimal(balance?.YUP || 0)}
             </Typography>
           </FlexBox>
-          {!isDesktop && (
-            <FollowerSection />
-          )}
+          {!isDesktop && <FollowerSection />}
         </FlexBox>
       </FlexBox>
       <EditProfile
