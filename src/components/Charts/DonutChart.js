@@ -8,14 +8,14 @@ import { Chart } from '../../dynamic-imports';
 
 const styles = (theme) => ({
   card: {
-    background: `${theme.palette.M800}dd`,
-    backdropFilter: 'blur(10px)',
+    background: `${theme.palette.M850}AA`,
+    backdropFilter: 'blur(24px)',
     backgroundSize: 'cover',
     padding: theme.spacing(2),
     maxWidth: '100%',
     position: 'relative',
     borderRadius: '12px',
-    border: `0px solid ${theme.palette.M400}10`,
+    border: `1.5px solid ${theme.palette.M700}22`,
     boxShadow: `0px 0px 40px ${theme.palette.M900}02`,
     [theme.breakpoints.down('sm')]: {
       width: '100%'
