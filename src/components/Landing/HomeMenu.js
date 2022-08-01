@@ -82,7 +82,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                       className={classes.bannerCard}
                       style={{
                         backgroundImage: isUser
-                          ? `linear-gradient(to top, ${theme.palette.M500}, ${theme.palette.M600})`
+                          ? `linear-gradient(to top, #825EC6, ${theme.palette.M700})`
                           : "url('images/feeds/rainbowbanner.svg')"
                       }}
                     >
@@ -99,7 +99,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               className={classes.titlePlain}
                             >
                               {isUser
-                                ? `Mirror Feed`
+                                ? `Farcaster Feed`
                                 : `Social Network for Curators`}
                             </Typography>
                             <Typography
@@ -107,7 +107,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               className={classes.subtitle}
                             >
                               {isUser
-                                ? `Explore Mirror articles from all publications, all in one feed`
+                                ? `Explore Farcaster content`
                                 : `Curate and share content across the web. Earn money and clout for your taste`}
                             </Typography>
                           </Grid>
@@ -126,7 +126,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               }
                               src={
                                 isUser
-                                  ? 'images/graphics/mirrorgraphic.png'
+                                  ? 'images/graphics/farcaster_logo.svg'
                                   : 'images/graphics/coingraphic.png'
                               }
                             />
@@ -135,11 +135,11 @@ const Home = ({ isUser, userCollections, theme }) => {
                       </CardContent>
                       <CardActions>
                         {isUser ? (
-                          <Link className={classes.link} href="/feed/mirror">
+                          <Link className={classes.link} href="/feed/farcaster">
                             <YupButton
                               size="large"
                               variant="contained"
-                              color="primary"
+                              color="secondary"
                             >
                               Enter
                             </YupButton>
