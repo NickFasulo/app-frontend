@@ -82,7 +82,7 @@ export const fetchLinkPreviewData = async (passedURL) => {
 export const parseWeb3Post = (post) => {
   const { content, urls, attachments} = post
   let parsedPost 
-  switch (post.appId) {
+  switch (post?.meta?.metadata?.appId) {
     case 'phaver':
       parsedPost = parsePhaverPost(content, urls[0], attachments[0].images);
       break
