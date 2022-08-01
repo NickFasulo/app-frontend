@@ -41,7 +41,7 @@ const FarCasterPost = ({text, attachments} ) => {
           <LinkPreview
             size={'large'}
             description={attachment.description || ''}
-            image={attachment.images[0]?attachment.images[0]:attachment.url}
+            image={attachment.images[0] ? attachment.images[0]: attachment.url}
             title={attachment.title}
             url={attachment.url}
           />

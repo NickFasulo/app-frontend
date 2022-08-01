@@ -41,7 +41,7 @@ const styles = (theme) => ({
   twitterName: {
     margin: 0
   },
-  twitterHandle: {
+  userHandle: {
     color: 'grey'
   },
   userAvatar: {
