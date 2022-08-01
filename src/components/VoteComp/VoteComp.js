@@ -118,14 +118,25 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
     const rating = ratingConversion[newRating];
     const like = newRating > 2;
     if (vote == null || vote._id == null) {
-      await createVote({
-        url,
-        postid,
-        voter: name,
-        like: true,
-        rating,
-        authInfo
-      });
+      if(postid) {
+        await createVote({
+          postid ,
+          voter: name,
+          like: true,
+          rating,
+          authInfo
+        });
+
+      } else {
+
+        await createVote({
+          url ,
+          voter: name,
+          like: true,
+          rating,
+          authInfo
+        });
+      }
     }
     // //If already voted on, and new rating is the same as old rating -> Deletes existing vote
     else if (vote && prevRating === newRating) {

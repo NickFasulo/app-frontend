@@ -12,7 +12,7 @@ import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
-const Original = ({ previewData, web3Preview, classes }) => {
+const Original = ({ postId, previewData, web3Preview, classes }) => {
   const {id, attachments, urls} = web3Preview
   console.log('web3:', attachments[0])
   const extendedEntities = false;
@@ -95,7 +95,8 @@ const Original = ({ previewData, web3Preview, classes }) => {
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
-                        {/* <SeeMore maxLength={400} >
+                        {/* {postId} */}
+                        {/* <SeeMore maxLength={400} postid={postId} >
                           {initialText}
                         </SeeMore> */}
                         { parseWeb3Post(web3Preview)}
