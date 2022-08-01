@@ -5,7 +5,6 @@ const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
 const Avatar = ({ classes, user, tweetType, tweetLink, hideBird, url }) => {
   let userAvatar;
-
   if (tweetType === 'retweet') {
     userAvatar = classes.retweetUserAvatar;
   } else if (tweetType === 'reply') {
@@ -23,7 +22,7 @@ const Avatar = ({ classes, user, tweetType, tweetLink, hideBird, url }) => {
     <div className={classes.header}>
       <img
         className={userAvatar}
-        src={url}
+        src={url||DEFAULT_TWITTER_PROF}
         alt="user image"
         onError={addDefaultSrc}
       />

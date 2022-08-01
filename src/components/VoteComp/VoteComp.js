@@ -37,11 +37,11 @@ function genRegEx(arrOfURLs) {
   );
 }
 const getWeb3Likes= (postInfo) => {
-  if(postInfo.post.web3Preview?.protocol === 'lens') {
-    return 0
+  if(postInfo.post.web3Preview?.protocol === 'farcaster') {
+    postInfo.post.web3Preview?.meta?.reactions.count
   }
-  else{
-    return postInfo.post.web3Preview?.meta?.reactions.count
+  else {
+    return 0
   }
 }
 const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {

@@ -63,7 +63,7 @@ const HeaderSection = ({
         </Grid>
         {replyParentUsername&&(<Grid item>
           <Typography variant="body2" className={classes.userHandle} sx={{ fontStyle:'italic'}}>
-        {'Replied to ' + replyParentUsername}
+        {'Replied to @' + replyParentUsername}
               </Typography>
         </Grid>)}
       </Grid>
