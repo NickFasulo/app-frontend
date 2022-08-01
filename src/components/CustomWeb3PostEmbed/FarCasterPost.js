@@ -37,10 +37,11 @@ const FarCasterPost = ({text, attachments} ) => {
       </Grid>
       {attachments ? (attachments.map((attachment) => {
         return (
+            
           <LinkPreview
             size={'large'}
             description={attachment.description || ''}
-            image={attachment.images[0]}
+            image={attachment.images[0]?attachment.images[0]:attachment.url}
             title={attachment.title}
             url={attachment.url}
           />
