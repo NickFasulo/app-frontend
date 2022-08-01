@@ -39,7 +39,7 @@ const HeaderSection = ({ classes, name, handle, address, protocol, tweetType, tw
           <Grid item>
             <Link href={accountLink} target="_blank" underline="none">
               <Typography variant="body1" style={{ maxWidth: '300px' }}>
-                {name.substring(0, 80)}
+                {name?.substring(0, 80)}
               </Typography>
             </Link>
           </Grid>
