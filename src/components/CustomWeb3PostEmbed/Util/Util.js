@@ -85,6 +85,12 @@ export const urlIsImg = (url) => {
   const match = re.test(url);
   return match;
 }
+export const getAllLinks = (text) => {
+  const re = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm
+  ;
+  const matches = text.match(re);
+  return matches;
+}
 export const parseWeb3Post = (post, postid) => {
   const { content, urls, attachments} = post
   let parsedPost 
@@ -97,7 +103,7 @@ export const parseWeb3Post = (post, postid) => {
         parsedPost = <TeaPartyPost text={content} url={urls[0]} attachments={attachments[0].images}/>;
         break
       default:
-      parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments[0]?.images} postid={postid}/>
+      parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments} postid={postid}/>
       // parsedPost = post.content
     }
 
