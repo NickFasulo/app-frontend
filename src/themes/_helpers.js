@@ -213,6 +213,16 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           }
         }
       },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            '&:hover': {
+              backgroundColor: `${palette.M500}10`
+            },
+            borderRadius: 10
+          }
+        }
+      },
       MuiListSubheader: {
         styleOverrides: {
           root: {
