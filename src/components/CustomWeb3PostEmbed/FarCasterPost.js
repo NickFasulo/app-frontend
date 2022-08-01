@@ -6,6 +6,7 @@ import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
 import { linkMentions } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
+import { parseText } from './Util/Util';
 
 const FarCasterPost = ({text, attachments} ) => {
     // const regexMdLinks = /\B\@([\w\-]+)/gim
@@ -31,7 +32,7 @@ const FarCasterPost = ({text, attachments} ) => {
     <>
       <Grid item>
         <ReactMarkdown>
-          {text}
+          {attachments ? parseText(text) : text }
         </ReactMarkdown>
       </Grid>
       {attachments ? (attachments.map((attachment) => {
