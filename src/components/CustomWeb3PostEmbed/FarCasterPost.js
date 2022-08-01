@@ -5,10 +5,9 @@ import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
 import { linkMentions } from './Util/Util';
-
+import LinkPreview from '../LinkPreview/LinkPreview';
 
 const FarCasterPost = ({text, attachments} ) => {
-    console.log({text}, "HELLO")
     // const regexMdLinks = /\B\@([\w\-]+)/gim
     // console.log(text, "WURST")
     // const matches = text.match(regexMdLinks)
@@ -28,14 +27,26 @@ const FarCasterPost = ({text, attachments} ) => {
     //     {match + 'replaced'}
     //     </TeaPartyLink>
     // })
-    return (
-        <Grid item >
-        <ReactMarkdown >
-            {text} 
+  return (
+    <>
+      <Grid item>
+        <ReactMarkdown>
+          {text}
         </ReactMarkdown>
-
-</Grid>
+      </Grid>
+      {attachments ? (attachments.map((attachment) => {
+        return (
+          <LinkPreview
+            size={'large'}
+            description={attachment.description || ''}
+            image={attachment.images[0]}
+            title={attachment.title}
+            url={attachment.url}
+          />
         )
-
+      })) : null }
+    </>
+  )
 }
+
 export default FarCasterPost;

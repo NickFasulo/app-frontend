@@ -14,7 +14,6 @@ import Avatar from './Avatar';
 
 const Original = ({ previewData, web3Preview, classes }) => {
   const {id, attachments, urls} = web3Preview
-  console.log({web3Preview, attachments}, attachments?.[0]?.images?.[0])
   const extendedEntities = false;
   const [linkPreviewData, setPreviewData] = useState(null);
   const entities = false;
