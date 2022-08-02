@@ -40,7 +40,7 @@ export const isCollectionUrl = (url) => {
 };
 
 export const generateCollectionUrl = (name, id) => {
-  return `/collections/name/${id}`;
+  return `/collections/${encodeURIComponent(name)}/${id}`;
 };
 
 export const isUrl = (url) => {
