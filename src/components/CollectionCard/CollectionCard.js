@@ -2,19 +2,19 @@ import {
   CollectionCardRoot,
   CollectionContent,
   CollectionCoverWrapper,
-  CollectionImage,
   CollectionOverlay
 } from './styles';
 import { Typography } from '@mui/material';
 import { TruncateText } from '../styles';
 import Link from 'next/link';
 import CollectionCover from '../CollectionCover';
+import { generateCollectionUrl } from '../../utils/helpers';
 
 const CollectionCard = ({ data }) => {
-  const { _id: id, name, postIds, imgSrcUrl } = data;
+  const { _id: id, name, postIds } = data;
 
   return (
-    <Link href={`/collections/${name}/${id}`}>
+    <Link href={generateCollectionUrl(name, id)}>
       <a>
         <CollectionCardRoot>
           <CollectionCoverWrapper>

@@ -1,5 +1,4 @@
 import { styled } from '@mui/material';
-import YupImage from '../YupImage';
 import { FlexBox } from '../styles';
 import { DEFAULT_IMAGE_PATH } from '../../utils/helpers';
 

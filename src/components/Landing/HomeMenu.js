@@ -27,6 +27,7 @@ import Link from '../Link';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import { useAuthModal } from '../../contexts/AuthModalContext';
+import { generateCollectionUrl } from '../../utils/helpers';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
@@ -272,9 +273,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                             className={classes.linkItemContainer}
                           >
                             <Link
-                              href={`/collections/${encodeURIComponent(
-                                coll.name.replace(/\s+|\//g, '-').toLowerCase()
-                              )}/${coll._id}`}
+                              href={generateCollectionUrl(coll.name, coll._id)}
                               className={classes.link}
                             >
                               <Grid
@@ -342,9 +341,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                             className={classes.linkItemContainer}
                           >
                             <Link
-                              href={`/collections/${encodeURIComponent(
-                                coll.name.replace('/', '')
-                              )}/${coll._id}`}
+                              href={generateCollectionUrl(coll.name, coll._id)}
                               className={classes.link}
                             >
                               <Grid
