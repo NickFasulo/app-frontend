@@ -7,6 +7,7 @@ import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
+import ReactMarkdown from 'react-markdown';
 
 const styles = (theme) => ({
   container: {
@@ -81,14 +82,13 @@ const styles = (theme) => ({
   }
 });
 
-class ArticlePreview extends Component {
-  addDefaultSrc = (e) => {
+const ArticlePreview = ({ title, description, url, classes }) => {
+  console.log({title})
+  const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
   };
 
-  render() {
-    const { title, description, url, classes } = this.props;
     let faviconURL = null;
 
     if (url != null) {
@@ -121,13 +121,21 @@ class ArticlePreview extends Component {
                   </TruncateText>
                 </Grid>
               </Grid>
-              <Typography
-                variant="body2"
-                className={classes.description}
-                lines={6}
-              >
+              <TruncateText variant="body2" 
+              className={classes.description}
+              lines={6}>
+                <ReactMarkdown    
+                  includeElementIndex    
+                  components={{
+                  a: ({node, ...props}) => <a style={{color: 'white', textDecoration: 'none'}} {...props} />,
+                  img: ({node, index, ...props }) => <> </>
+                }}        
+                 className={classes.reactMarkDown}
+                >
                 {description || url}
-              </Typography>
+
+                </ReactMarkdown>
+                  </TruncateText>
               <Typography variant="body2" className={classes.url}>
                 {url && trimURL(url).split(/[/]+/g, 1)}
               </Typography>
@@ -137,7 +145,7 @@ class ArticlePreview extends Component {
       </ErrorBoundary>
     );
   }
-}
+
 
 ArticlePreview.propTypes = {
   url: PropTypes.string.isRequired,
