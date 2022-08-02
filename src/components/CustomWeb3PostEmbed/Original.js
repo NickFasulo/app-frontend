@@ -79,8 +79,8 @@ const Original = ({ postid, previewData, web3Preview, classes }) => {
             />
           </Grid>
           <Grid item="item" xs>
-            <Grid container="container" direction="column" spacing={0}>
-              <Grid item="item">
+            <Grid container="container" direction="row" spacing={0}>
+              <Grid item="item" xs={12}>
                 <HeaderSection
                   classes={classes}
                   name={web3Preview.creator.fullname}
@@ -91,7 +91,7 @@ const Original = ({ postid, previewData, web3Preview, classes }) => {
                   tweetLink={tweetLink}
                 />
               </Grid>
-              <Grid item="item">
+              <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
