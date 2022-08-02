@@ -25,7 +25,6 @@ export const PageLayout = styled('div')(({ theme }) => ({
   overflowX: 'hidden',
   overflowY: 'auto',
   paddingTop: 'var(--header-height)',
-
   display: 'flex',
   flexDirection: 'column',
   rowGap: theme.spacing(2)

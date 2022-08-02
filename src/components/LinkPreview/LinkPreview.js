@@ -62,8 +62,8 @@ const styles = (theme) => ({
   description: {
     position: 'relative',
     textShadow: `0px 0px 5px ${theme.palette.M900}88`,
-    margin: '0.5rem 0',
-    fontWeight: 300
+    margin: '0.25rem 0',
+    fontWeight: '300'
   },
   url: {
     position: 'relative',
@@ -84,7 +84,8 @@ const styles = (theme) => ({
     background: `${theme.palette.M800}AA`,
     padding: '2% 3% 2% 3%',
     width: '100%',
-    backdropFilter: 'blur(40px)'
+    backdropFilter: 'blur(40px)',
+    overflow: 'hidden'
   },
   previewDataContainer: {
     position: 'absolute',
@@ -159,12 +160,18 @@ class LinkPreview extends Component {
                       </Typography>
                     </Grid>
                   </Grid>
-                  <Typography variant="b2" className={classes.description}>
-                    <TruncateText lines={5}>{description || url}</TruncateText>
-                  </Typography>
-                  <Typography className={classes.url}>
-                    {url && trimURL(url)}
-                  </Typography>
+                   <Grid direction="row" spacing={1}>
+                      <Grid item xs>
+                        <Typography variant="body1" className={classes.description}>
+                          <TruncateText lines={4}>{description || url}</TruncateText>
+                        </Typography>
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="bodyS2" className={classes.url}>
+                          {url && trimURL(url)}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                 </div>
               </div>
             </div>
