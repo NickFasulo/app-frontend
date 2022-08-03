@@ -7,7 +7,6 @@ import styled from '@emotion/styled';
 import { linkMentions, urlIsImg } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { parseText } from './Util/Util';
-import { Web3Img } from './styles';
 import YupReactMarkdown from '../ReactMarkdown';
 
 const FarCasterPost = ({text, attachments} ) => {
@@ -26,7 +25,7 @@ const FarCasterPost = ({text, attachments} ) => {
       return (
         <>
           {urlIsImg(attachment.url) ? (
-          <Web3Img
+          <img
             src={attachment.url}
             alt={attachment.title}
           />

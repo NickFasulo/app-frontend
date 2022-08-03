@@ -14,7 +14,7 @@ const SeeMore = ({ children, maxLength, postid }) => {
         {text.length > maxLength ? text.slice(0, maxLength) : text}
       </ReactMarkdown>
       {text.length > maxLength ? (
-        <Link href={`${webAppUrl}/post/${postid}`}>
+        <Link href={`/post/${postid}`}>
           <p>...see more</p>
         </Link>
       ) : null}

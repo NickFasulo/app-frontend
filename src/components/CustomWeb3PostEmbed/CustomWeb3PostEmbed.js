@@ -48,13 +48,6 @@ const styles = (theme) => ({
     aspectRatio: 1 / 1,
     borderRadius: '50%'
   },
-  web3Img: {
-    width: '100%',
-    maxHeight: '400px',
-    objectFit: 'cover',
-    overflow: 'hidden',
-    borderRadius: '12px'
-  },
   retweetContainer: {
     border: `solid 1px ${theme.palette.M500}`,
     borderRadius: '12px',

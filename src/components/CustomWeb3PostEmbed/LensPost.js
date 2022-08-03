@@ -7,7 +7,6 @@ import styled from '@emotion/styled';
 import { fetchLinkPreviewData, getAllLinks, getNameInBrackets, linkMentions } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { SeeMore } from '../Miscellaneous';
-import { Web3Img } from './styles';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ReactPlayer from 'react-player';
@@ -117,12 +116,12 @@ const isFullPost = () =>{
         
       {/*If post has Attachments */}
         {attachments?.length>0&&(
-           <ImageList sx={{  height:imageListHeight(), overflow: 'hidden' }} cols={multipleAttachments()?2:1} rowHeight={164}>
+           <ImageList sx={{  borderRadius:"12px",height:450, overflow: 'hidden' }} cols={multipleAttachments()?2:1} >
           {attachments.map((attachment, index)=>(
-            <ImageListItem key={attachment.images[0]}>
+            <ImageListItem sx={{overflow:'hidden' }}key={attachment.images[0]}>
                 {attachment.images[0]?(  
-                <Web3Img
-                    height={multipleAttachments()?164:450}
+                <img
+                   // height={multipleAttachments()?164:450}
                     src={attachment.images[0]}
                     alt={attachment.images[0]}
                   />):(

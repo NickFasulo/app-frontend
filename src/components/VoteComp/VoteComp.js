@@ -54,7 +54,7 @@ const getWeb3Dislikes= (postInfo) => {
   }
   else if(postInfo.post.web3Preview?.protocol === 'lens') {
     
-    postInfo.post.web3Preview?.meta?.metadata.stats.totalDownvotes
+    return postInfo.post.web3Preview?.meta?.metadata.stats.totalDownvotes
   }
   
   return 0
