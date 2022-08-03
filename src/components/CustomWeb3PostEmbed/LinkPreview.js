@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material/';
+import { TruncateText } from '../styles';
 
 const LinkPreview = ({ description, image, title, url, classes, size }) => {
   const getDomain = (str) => {
@@ -50,8 +51,15 @@ const LinkPreview = ({ description, image, title, url, classes, size }) => {
         >
           <Typography className={classes.LinkPreviewTitle}>{title}</Typography>
           <Typography className={classes.LinkPreviewText}>
-            {`${description && description.substring(0, 50)}...` ||
-              `${url && url.substring(0, 50)}...`}{' '}
+            
+          <TruncateText variant="h6" lines={2}>
+                    {description.split(/[|]|[—]+/g, 1)}
+                  </TruncateText>
+          <TruncateText variant="h6" lines={2}>
+                    {url.split(/[|]|[—]+/g, 1)}
+                  </TruncateText>
+            {/* {`${description && description.substring(0, 50)}...` ||
+              `${url && url.substring(0, 50)}...`}{' '} */}
           </Typography>
           <Typography className={classes.LinkPreviewURL}>
             {url && getDomain(url)}

@@ -43,6 +43,8 @@ const LensPost = ({postid, text, url, attachments}) => {
 const isFullPost = () =>{
   return pathname === '/post/[id]'
 }
+
+console.log({pathname}, isFullPost())
 //Uncomment to get LinkPreviews
 
 // const getLinkPreviews  = () => {
@@ -110,13 +112,15 @@ const isFullPost = () =>{
       {isFullPost()?(
                 <YupReactMarkdown >
                     {text} 
-                </YupReactMarkdown>):( <SeeMore maxLength={attachments? 150:400} postid={postid}>{text}</SeeMore>)}
+                </YupReactMarkdown>):( 
+                <SeeMore lines={attachments? 3:6} postid={postid}>{text}
+                </SeeMore>)}
        
 
         
       {/*If post has Attachments */}
         {attachments?.length>0&&(
-           <ImageList sx={{  borderRadius:"12px",height:450, overflow: 'hidden' }} cols={multipleAttachments()?2:1} >
+           <ImageList sx={{  borderRadius:"12px", height: isFullPost()?450:300, overflow: 'hidden' }} cols={multipleAttachments()?2:1} >
           {attachments.map((attachment, index)=>(
             <ImageListItem sx={{overflow:'hidden' }}key={attachment.images[0]}>
                 {attachment.images[0]?(  
@@ -129,7 +133,6 @@ const isFullPost = () =>{
                     {index===0&&(
                     <ReactPlayer
                       controls
-                      height={multipleAttachments() ? 164 : 450}
                       url={attachment.videos[0]}
                       width={'100%'}
                       style={{ borderRadius: 12, overflow: 'hidden' }}

@@ -118,7 +118,7 @@ export const parseWeb3Post = (post, postid) => {
     // }
 
   } else {    
-    parsedPost = <FarCasterPost text={content}  attachments={attachments}/>
+    parsedPost = <FarCasterPost text={content}  attachments={attachments} postid={postid}/>
   }
   console.log(parsedPost, 'parsedPost')
   return parsedPost

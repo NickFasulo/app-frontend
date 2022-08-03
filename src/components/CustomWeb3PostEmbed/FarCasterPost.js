@@ -8,8 +8,9 @@ import { linkMentions, urlIsImg } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { parseText } from './Util/Util';
 import YupReactMarkdown from '../ReactMarkdown';
+import { SeeMore } from '../Miscellaneous';
 
-const FarCasterPost = ({text, attachments} ) => {
+const FarCasterPost = ({text, postid, attachments} ) => {
   return (
     <>
       <Grid item
@@ -17,15 +18,19 @@ const FarCasterPost = ({text, attachments} ) => {
         textDecoration: "none",
         color: 'white'
     }}}>
-        <YupReactMarkdown>
-          {attachments ? parseText(text) : text }
-        </YupReactMarkdown>
+    
+        {/* <YupReactMarkdown> */}
+        <SeeMore lines={attachments? 3:6} postid={postid}>{text}
+    </SeeMore>
+          {/* {attachments ? parseText(text) : text }
+        </YupReactMarkdown> */}
       </Grid>
       {attachments ? (attachments.map((attachment) => {
       return (
         <>
           {urlIsImg(attachment.url) ? (
           <img
+          style={{width: '100%', borderRadius:"12px"}}
             src={attachment.url}
             alt={attachment.title}
           />
