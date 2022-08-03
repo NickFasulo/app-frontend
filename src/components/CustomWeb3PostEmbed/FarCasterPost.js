@@ -9,7 +9,6 @@ import LinkPreview from '../LinkPreview/LinkPreview';
 import { parseText } from './Util/Util';
 import { Web3Img } from './styles';
 
-
 const FarCasterPost = ({text, attachments} ) => {
   return (
     <>
@@ -19,22 +18,23 @@ const FarCasterPost = ({text, attachments} ) => {
         </ReactMarkdown>
       </Grid>
       {attachments ? (attachments.map((attachment) => {
-        return (
-            <>
-            {urlIsImg(attachment.url)? (
-            <Web3Img
-                          src={attachment.url}
-                          alt={attachment.title}
-                        />) :( 
-              <LinkPreview
+      return (
+        <>
+          {urlIsImg(attachment.url) ? (
+          <Web3Img
+            src={attachment.url}
+            alt={attachment.title}
+          />
+          ) : (
+          <LinkPreview
             size={'large'}
             description={attachment.description || ''}
             image={attachment.images[0] ? attachment.images[0]: attachment.url}
             title={attachment.title}
             url={attachment.url}
-          />) }
-            </>
-         
+          />
+          )}
+        </>
         )
       })) : null }
     </>
