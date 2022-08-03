@@ -23,16 +23,17 @@ const TeaPartyLink = styled('a')(
     background-size: 300% 100%;
     `
   );
-const LensPost = ({postid, text, url, attachments} ) => {
-    
-const multipleAttachments = () => {
-    return attachments.length>1 && attachments[0].images.length > 0
-}
-const imageListHeight = () => {
-    if(attachments.length ===2){
-        if(!attachments[0].images.length > 0){
-        return 164
-        }
+
+const LensPost = ({postid, text, url, attachments}) => {
+  const multipleAttachments = () => {
+    return attachments.length > 1 && attachments[0].images.length > 0
+  }
+
+  const imageListHeight = () => {
+    if(attachments.length === 2){
+      if(!attachments[0].images.length > 0){
+      return 164
+      }
     }
      return 450
 }
@@ -150,24 +151,21 @@ getLinkPreviews()
                 {index===0&&(
                 <ReactPlayer
                   controls
-                  height={multipleAttachments()?164:450}
+                  height={multipleAttachments() ? 164 : 450}
                   url={attachment.videos[0]}
                   width={'100%'}
                   style={{ borderRadius: 12, overflow: 'hidden' }}
-                />)}
-                </>
-                )}
-        
-        </ImageListItem>
-      ))}
-    </ImageList>)}
-         </>)}
-        
-
-        
-
-</Grid>
-        )
-
+                />
+              )}
+              </>
+              )}
+            </ImageListItem>
+          ))}
+        </ImageList>)}
+      </>
+      )}
+    </Grid>
+  )
 }
+
 export default LensPost;

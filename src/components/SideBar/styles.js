@@ -88,8 +88,9 @@ export const StyledFab = styled(Fab)(({ theme }) => ({
   position: 'fixed',
   left: theme.spacing(3),
   bottom: theme.spacing(3),
+  backdropFilter: 'blur(10px)',
   backgroundColor: `${theme.palette.M800}A6`,
-  border: `solid 1px ${theme.palette.M750}`,
+  border: `solid 1.5px ${theme.palette.M750}`,
   zIndex: 1150,
   '& img': {
     width: 45

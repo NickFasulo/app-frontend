@@ -39,6 +39,10 @@ export const isCollectionUrl = (url) => {
   return url.match(regExp);
 };
 
+export const generateCollectionUrl = (name, id) => {
+  return `/collections/${encodeURIComponent(name)}/${id}`;
+};
+
 export const isUrl = (url) => {
   try {
     return !!new URL(url);
