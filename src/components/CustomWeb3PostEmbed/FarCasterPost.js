@@ -8,14 +8,19 @@ import { linkMentions, urlIsImg } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { parseText } from './Util/Util';
 import { Web3Img } from './styles';
+import YupReactMarkdown from '../ReactMarkdown';
 
 const FarCasterPost = ({text, attachments} ) => {
   return (
     <>
-      <Grid item>
-        <ReactMarkdown>
+      <Grid item
+       sx={{ "& *> a": {
+        textDecoration: "none",
+        color: 'white'
+    }}}>
+        <YupReactMarkdown>
           {attachments ? parseText(text) : text }
-        </ReactMarkdown>
+        </YupReactMarkdown>
       </Grid>
       {attachments ? (attachments.map((attachment) => {
       return (

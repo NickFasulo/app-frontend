@@ -85,11 +85,11 @@ const Original = ({ postid, web3Preview, classes }) => {
                 <Grid container="container" spacing={1}>
                         {/* {postid} */}
                   <Grid item="item" xs={12}>
-                    <Link href={tweetLink} target="_blank" underline="none">
+                    {/* <Link href={tweetLink} target="_blank" underline="none"> */}
                       <Typography variant="body2">
                         {parseWeb3Post(web3Preview, postid)}
                       </Typography>
-                    </Link>
+                    {/* </Link> */}
                   </Grid>
                 </Grid>
               </Grid>
