@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     (async function checkAuth() {
-      console.log('amlog', 'checking scater');
       // 1. Check auth through the extension.
       try {
         await scatter.detect(
@@ -39,13 +38,10 @@ export const AuthProvider = ({ children }) => {
           toastError('Both Scatter Desktop and Extension are installed. Close or uninstall one to continue');
         }
       }
-      console.log('amlog', 'check scatter', scatter.connected);
 
       if (scatter.connected) {
         try {
-          console.log('amlog', 'get auth');
           const { eosname, signature } = await scatter.scatter.getAuthToken();
-          console.log('amlog', 'scatter auth', eosname, signature);
           const account = await apiGetAccount(eosname);
 
           setAuthInfo({
@@ -57,7 +53,6 @@ export const AuthProvider = ({ children }) => {
 
           return ;
         } catch (err) {
-          console.log('amlog', 'scatter failed', err);
           logError('Scatter authentication failed.', err);
         }
       }
@@ -120,7 +115,6 @@ export const AuthProvider = ({ children }) => {
         }
       }
 
-      console.log('amlog', 'not loggedin')
       // Set not-authenticated
       setIsLoggedIn(false);
       setIsCheckingAuth(false);
