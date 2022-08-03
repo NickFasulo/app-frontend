@@ -117,7 +117,7 @@ const isFullPost = () =>{
         
       {/*If post has Attachments */}
         {attachments?.length>0&&(
-           <ImageList sx={{ width: 500, height:imageListHeight(), overflow: 'hidden' }} cols={multipleAttachments()?2:1} rowHeight={164}>
+           <ImageList sx={{  height:imageListHeight(), overflow: 'hidden' }} cols={multipleAttachments()?2:1} rowHeight={164}>
           {attachments.map((attachment, index)=>(
             <ImageListItem key={attachment.images[0]}>
                 {attachment.images[0]?(  
