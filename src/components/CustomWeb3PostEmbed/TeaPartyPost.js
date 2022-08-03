@@ -20,9 +20,11 @@ const TeaPartyLink = styled('a')(
   );
 
 const TeaPartyPost = ({text, url, attachments} ) => {
+
     const regexMdLinks = /\B\@([\w\-]+)/gim
     const matches = text.match(regexMdLinks)
     console.log({matches})
+    if(attachments.length > 0){
     matches?.forEach((element,i) => {
         text = reactStringReplace(text, element, (match) => {
             return (
@@ -35,13 +37,8 @@ const TeaPartyPost = ({text, url, attachments} ) => {
                 </>
       ); 
       });
-});
-console.log(text, "WURST")
-    // reactStringReplace(text, /\B\@([\w\-]+)/gim, (match, i) => {
-    //     return <TeaPartyLink >
-    //     {match + 'replaced'}
-    //     </TeaPartyLink>
-    // })
+    });
+}
     return (
          <Grid item 
         sx={{ "& *> a": {
@@ -58,14 +55,15 @@ console.log(text, "WURST")
         //     backgroundClip: "text",
         //     backgroundSize: "300% 100%", }}}
      >
-        {text.map((element,i) => {
+        
+        {matches? (<>{text.map((element,i) => {
            return typeof element === 'string'?
                 <ReactMarkdown key={i}>
                     {element} 
                 </ReactMarkdown>
            : element            
 
-        })}
+        })}</>):(text)}
 
 </Grid>
         )

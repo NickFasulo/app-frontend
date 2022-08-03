@@ -15,6 +15,7 @@ import TeaPartyPost from '../TeaPartyPost';
 import FarCasterPost from '../FarCasterPost';
 import { SeeMore } from '../../Miscellaneous';
 import LensPost from '../LensPost';
+import PhaverPost from '../PhaverPost';
 /**
  * - Removes https://t.co/ERYj5p9VHj that comes at end of text field in tweetData object if present
  * - Replaces '&amp;' with '&'
@@ -91,21 +92,30 @@ export const getAllLinks = (text) => {
   const matches = text.match(re);
   return matches;
 }
+
+export const getNameInBrackets = (text) => {
+  const re = /(?<=\[).+?(?=\])/g
+  const matches = text.match(re);
+  return matches;
+}
+
 export const parseWeb3Post = (post, postid) => {
   const { content, urls, attachments} = post
   let parsedPost 
   if( post.protocol==='lens') {
-    switch (post?.meta?.metadata?.appId) {
-      case 'phaver':
-        parsedPost = parsePhaverPost(content, urls[0], attachments[0].images);
-        break
-      case 'teaparty':
-        parsedPost = <TeaPartyPost text={content} url={urls[0]} attachments={attachments[0].images}/>;
-        break
-      default:
-      parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments} postid={postid}/>
-      // parsedPost = post.content
-    }
+    
+    parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments} postid={postid}/>
+    // switch (post?.meta?.metadata?.appId) {
+    //   case 'phaver':
+    //     parsedPost = <PhaverPost text={content} url={urls[0]} attachments={attachments}/>;
+    //     break
+    //   case 'teaparty':
+    //     parsedPost = <TeaPartyPost text={content} url={urls[0]} attachments={attachments}/>;
+    //     break
+    //   default:
+    //   parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments} postid={postid}/>
+    //   // parsedPost = post.content
+    // }
 
   } else {    
     parsedPost = <FarCasterPost text={content}  attachments={attachments}/>
@@ -114,25 +124,29 @@ export const parseWeb3Post = (post, postid) => {
   return parsedPost
 }
 
-export const parsePhaverPost = (text, url, previews) => {  
+export const parsePhaverPost = (text, url, attachments) => {  
   const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm 
   console.log(regexMdLinks[2], 'DESCRIPTION')
   console.log(regexMdLinks[0], 'TITLE')
   console.log(regexMdLinks[1], 'MATCH')
   
   const matches = text.match(regexMdLinks)
-  matches?.forEach((element,i) => {
-    text = reactStringReplace(text, element, () => {
-      return previews[i]
-  }); 
-  });
+  if(attachments.length>0){
+    matches?.forEach((element,i) => {
+      text = reactStringReplace(text, element, () => {
+        return attachments[i]
+    }); 
+    });
+
+    return <LinkPreview
+    size={'large'}
+    description={text[2]}
+    image={text[1]}
+    title={text[0]}
+    url={url}
+    />
+  } else {
+    return text
+  }
   
-  console.log(text, 'WURST')
-  return <LinkPreview
-  size={'large'}
-  description={text[2]}
-  image={text[1]}
-  title={text[0]}
-  url={url}
-  />
 }

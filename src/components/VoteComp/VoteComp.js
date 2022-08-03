@@ -40,9 +40,24 @@ const getWeb3Likes= (postInfo) => {
   if(postInfo.post.web3Preview?.protocol === 'farcaster') {
     postInfo.post.web3Preview?.meta?.reactions.count
   }
-  else {
+  else if(postInfo.post.web3Preview?.protocol === 'lens') {
+    
+    postInfo.post.web3Preview?.meta?.metadata.stats.totalUpvotes
+  }
+  
+  return 0
+}
+
+const getWeb3Dislikes= (postInfo) => {
+  if(postInfo.post.web3Preview?.protocol === 'farcaster') {
     return 0
   }
+  else if(postInfo.post.web3Preview?.protocol === 'lens') {
+    
+    postInfo.post.web3Preview?.meta?.metadata.stats.totalDownvotes
+  }
+  
+  return 0
 }
 const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   const { authInfo, name } = useAuth();
@@ -282,6 +297,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
             lastClicked === 'dislike' || (!lastClicked && vote && !vote.like)
           }
           postInfo={postInfo}
+          web3Likes = {getWeb3Dislikes(postInfo)}
         />
       </FlexBox>
     </ErrorBoundary>

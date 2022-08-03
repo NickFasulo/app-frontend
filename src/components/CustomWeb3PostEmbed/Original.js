@@ -93,6 +93,7 @@ const Original = ({ postid, previewData, web3Preview, classes }) => {
               </Grid>
               <Grid item="item">
                 <Grid container="container" spacing={1}>
+                        {/* {postid} */}
                   <Grid item="item" xs={12}>
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography variant="body2">
