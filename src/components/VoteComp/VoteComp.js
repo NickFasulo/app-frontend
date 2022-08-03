@@ -38,11 +38,11 @@ function genRegEx(arrOfURLs) {
 }
 const getWeb3Likes= (postInfo) => {
   if(postInfo.post.web3Preview?.protocol === 'farcaster') {
-    postInfo.post.web3Preview?.meta?.reactions.count
+  return postInfo.post.web3Preview?.meta?.reactions.count
   }
   else if(postInfo.post.web3Preview?.protocol === 'lens') {
     
-    postInfo.post.web3Preview?.meta?.metadata.stats.totalUpvotes
+   return postInfo.post.web3Preview?.meta?.metadata.stats.totalUpvotes
   }
   
   return 0
