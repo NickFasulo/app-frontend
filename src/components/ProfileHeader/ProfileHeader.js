@@ -21,10 +21,10 @@ import {
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
 import CountUp from 'react-countup';
-import useAuth from '../../hooks/useAuth';
 import { useState } from 'react';
 import FollowButton from '../Followers/FollowButton';
 import EditProfile from '../EditProfile/EditProfile';
+import { useAuth } from '../../contexts/AuthContext';
 
 const ProfileHeader = ({ profile, hidden }) => {
   const { isMobile, isDesktop } = useDevice();

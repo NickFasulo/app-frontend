@@ -36,7 +36,7 @@ import {
 } from '@react-spring/web';
 import { styled } from '@mui/material/styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
-import useAuth from '../../hooks/useAuth';
+import { useAuth } from '../../contexts/AuthContext';
 
 const styles = (theme) => ({
   greenArrow: {

@@ -1,0 +1,162 @@
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import scatter from '../eos/scatter/scatter.wallet';
+import { loginScatter, signalConnection, updateEthAuthInfo } from '../redux/actions';
+import { AUTH_TYPE, LOCAL_STORAGE_KEYS } from '../constants/enum';
+import { logError } from '../utils/logging';
+import { apiGetAccount, apiGetAccountByEthAddress, apiVerifyChallenge } from '../apis';
+import { accountConstants } from '../redux/constants';
+import useToast from '../hooks/useToast';
+
+const AuthContext = createContext({
+  isLoggedIn: false,
+  isCheckingAuth: true,
+  name: null,
+  username: null,
+  authInfo: {},
+  updateAuthInfo: () => {}
+});
+
+export const AuthProvider = ({ children }) => {
+  const dispatch = useDispatch();
+  const { toastError } = useToast();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [authInfo, setAuthInfo] = useState({});
+
+  useEffect(() => {
+    (async function checkAuth() {
+      console.log('amlog', 'checking scater');
+      // 1. Check auth through the extension.
+      try {
+        await scatter.detect(
+          (scatter, account) => dispatch(loginScatter(scatter, account)),
+          (isInstalled) => dispatch(signalConnection(isInstalled))
+        );
+      } catch (err) {
+        if (err.message === 'TWO_SCATTERS_INSTALLED') {
+          toastError('Both Scatter Desktop and Extension are installed. Close or uninstall one to continue');
+        }
+      }
+      console.log('amlog', 'check scatter', scatter.connected);
+
+      if (scatter.connected) {
+        try {
+          console.log('amlog', 'get auth');
+          const { eosname, signature } = await scatter.scatter.getAuthToken();
+          console.log('amlog', 'scatter auth', eosname, signature);
+          const account = await apiGetAccount(eosname);
+
+          setAuthInfo({
+            authType: AUTH_TYPE.EXTENSION,
+            eosname,
+            address: account.ethInfo?.address,
+            signature
+          });
+
+          return ;
+        } catch (err) {
+          console.log('amlog', 'scatter failed', err);
+          logError('Scatter authentication failed.', err);
+        }
+      }
+
+      // 2. Check auth through ETH
+      const ethAuthInfo = localStorage.getItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
+
+      if (ethAuthInfo) {
+        try {
+          const { address, signature } = JSON.parse(ethAuthInfo);
+
+          // Check if signature is valid
+          await apiVerifyChallenge(address, signature);
+
+          // Get ETH account info
+          const account = await apiGetAccountByEthAddress(address);
+
+          setAuthInfo({
+            authType: AUTH_TYPE.ETH,
+            eosname: account._id,
+            address,
+            signature
+          });
+
+          // Update redux for eth auth.
+          dispatch(updateEthAuthInfo({
+            address,
+            signature,
+            account
+          }));
+
+          return ;
+        } catch (err) {
+          logError('ETH authentication failed.', err);
+
+          localStorage.removeItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
+        }
+      }
+
+      // 3. Check auth through Twitter
+      const twitterAuthInfo = localStorage.getItem(LOCAL_STORAGE_KEYS.TWITTER_INFO);
+
+      if (twitterAuthInfo) {
+        try {
+          const { expiration, name, token } = JSON.parse(twitterAuthInfo);
+          const account = await apiGetAccount(name);
+
+          if (expiration && expiration > Date.now()) {
+            setAuthInfo({
+              authType: AUTH_TYPE.TWITTER,
+              eosname: name,
+              address: account.ethInfo?.address,
+              oauthToken: token
+            });
+
+            return ;
+          }
+        } catch (err) {
+          logError('Twitter authentication failed.', err);
+        }
+      }
+
+      console.log('amlog', 'not loggedin')
+      // Set not-authenticated
+      setIsLoggedIn(false);
+      setIsCheckingAuth(false);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!authInfo.eosname) return ;
+
+    // Store auth info into redux.
+    dispatch({
+      type: accountConstants.FETCH_AUTH_TOKEN_SUCCESS,
+      ...authInfo
+    });
+
+    // Set as authenticated
+    setIsLoggedIn(true);
+    setIsCheckingAuth(false);
+  }, [authInfo]);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        isCheckingAuth,
+        name: authInfo.eosname,
+        username: authInfo.eosname,
+        authInfo,
+        updateAuthInfo: setAuthInfo
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  )
+};
+
+export const useAuth = () => useContext(AuthContext);
+
+export default AuthContext;

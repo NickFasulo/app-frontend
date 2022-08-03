@@ -55,6 +55,7 @@ import useToast from '../../hooks/useToast';
 import useYupAccount from '../../hooks/useAccount';
 import { useDisconnect } from 'wagmi';
 import { YupDialog } from '../../components/Miscellaneous';
+import { useAuth } from '../AuthContext';
 
 const defaultContext = {
   open: () => {},
@@ -72,6 +73,7 @@ const AUTH_MODAL_STAGE = {
 export const AuthModalContextProvider = ({ children }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { updateAuthInfo } = useAuth();
   const { toastError, toastSuccess } = useToast();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
@@ -86,7 +88,6 @@ export const AuthModalContextProvider = ({ children }) => {
   const [username, setUsername] = useState('');
   const [linkEth, setLinkEth] = useState(false);
   const [currAuthMethod, setCurrAuthMethod] = useState(null);
-  console.log(account, 'account');
 
   useEffect(() => {
     // If `Connect Wallet` button is clicked and wallet is connect, start auth with ETH.
@@ -199,6 +200,13 @@ export const AuthModalContextProvider = ({ children }) => {
         signature
       })
     );
+
+    updateAuthInfo({
+      authType: AUTH_TYPE.ETH,
+      address,
+      signature,
+      eosname: account._id
+    });
 
     // Tract for analytics
     trackLogin(account.username, address);
