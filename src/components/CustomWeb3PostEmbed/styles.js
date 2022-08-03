@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+
 export const Web3Img = styled('img')(`
-width: 100%;
+width: 90%;
 max-height: 400px;
-object-fit: 'cover';
-overflow: 'hidden';
+object-fit: cover;
 border-radius: 12px;
 `)

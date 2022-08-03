@@ -24,7 +24,7 @@ const TeaPartyLink = styled('a')(
     `
   );
 
-const LensPost = ({postid, text, url, attachments} ) => {
+const LensPost = ({postid, text, url, attachments}) => {
   const multipleAttachments = () => {
     return attachments.length > 1 && attachments[0].images.length > 0
   }
