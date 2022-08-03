@@ -11,6 +11,7 @@ const SeeMore = ({ children, lines, postid }) => {
   const text =
     typeof children === 'string' ? children : children.props.children;
 console.log(text.split(/[|]|[—]+/g, 1), {lines})
+
   return (
     <>  
           <TruncateText  lines={lines}>
