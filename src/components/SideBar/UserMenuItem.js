@@ -4,13 +4,13 @@ import { StyledProfileAvatar } from '../TopBarAndDrawer/StyledProfileAvatar';
 import { levelColors } from '../../utils/colors';
 import { MENU_ANIMATION_DURATION } from '../../constants/const';
 import { useSocialLevel } from '../../hooks/queries';
-import useAuth from '../../hooks/useAuth';
 import { withCustomSuspense } from '../../hoc/withSuspense';
 import useDevice from '../../hooks/useDevice';
 import { useSideBar } from './SideBarContext';
 import { MenuItemButton } from './styles';
 import YupLogoMenuItem from './YupLogoMenuItem';
 import Link from '../Link';
+import { useAuth } from '../../contexts/AuthContext';
 
 const UserMenuItem = () => {
   const { open } = useSideBar();

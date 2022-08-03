@@ -1,4 +1,3 @@
-import useAuth from '../../hooks/useAuth';
 import { useSocialLevel, useUserNotifications } from '../../hooks/queries';
 import NotificationItem from './NotificationItem';
 import withSuspense from '../../hoc/withSuspense';
@@ -12,6 +11,7 @@ import {
 } from '../../apis';
 import { ETH_NOTIFICATION_INTERVAL } from '../../constants/const';
 import { ETH_LINK_NOTIFICATION_DATA } from '../../constants/data';
+import { useAuth } from '../../contexts/AuthContext';
 
 const UserNotificationList = () => {
   const { username, authInfo } = useAuth();

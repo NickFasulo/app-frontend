@@ -10,9 +10,9 @@ import rollbar from '../../utils/rollbar';
 import { createVote, editVote, deleteVote } from '../../apis';
 import { FlexBox } from '../styles';
 import { windowExists } from '../../utils/helpers';
-import useAuth from '../../hooks/useAuth';
 import withSuspense from '../../hoc/withSuspense';
 import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 const CREATE_VOTE_LIMIT = 40;
 const ratingConversion = {
   1: 2,

@@ -16,7 +16,6 @@ import {
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import MainLink from './MainLink';
-import useAuth from '../../hooks/useAuth';
 import { useEffect, useState } from 'react';
 import FeedLink from './FeedLink';
 import ExternalLink from './ExternalLink';
@@ -35,6 +34,7 @@ import UserMenuItem from './UserMenuItem';
 import YupLogoMenuItem from './YupLogoMenuItem';
 import useExtension from '../../hooks/useExtension';
 import { FlexBox } from '../styles';
+import { useAuth } from '../../contexts/AuthContext';
 
 const SideBar = () => {
   const dispatch = useDispatch();

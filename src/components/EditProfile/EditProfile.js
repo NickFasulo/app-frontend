@@ -23,7 +23,6 @@ import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
 import useStyles from './styles';
 import { useAccount, useDisconnect } from 'wagmi';
 import { useAuthModal } from '../../contexts/AuthModalContext';
-import useAuth from '../../hooks/useAuth';
 import { useRouter } from 'next/router';
 import useEthAuth from '../../hooks/useEthAuth';
 import useYupAccount from '../../hooks/useAccount';
@@ -31,6 +30,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import withSuspense from '../../hoc/withSuspense';
 import { useSocialLevel } from '../../hooks/queries';
 import { fetchSocialLevel } from '../../redux/actions';
+import { useAuth } from '../../contexts/AuthContext';
 // TODO: Refactor styling to Mui v5
 const EditProfile = ({ open: modalOpen, onClose }) => {
   const router = useRouter();

@@ -19,11 +19,11 @@ import {
 import IconThreeDots from '@mui/icons-material/MoreHoriz';
 import { YupMenu } from '../styles';
 import useToast from '../../hooks/useToast';
-import useAuth from '../../hooks/useAuth';
 import { useInitialVotes } from '../../hooks/queries';
 import withSuspense from '../../hoc/withSuspense';
 import { deleteVote } from '../../apis';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { useAuth } from '../../contexts/AuthContext';
 
 const CollectionPostMenu = ({ postid }) => {
   const { isLoggedIn, authInfo, ...account } = useAuth();
