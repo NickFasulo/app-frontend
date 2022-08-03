@@ -3,21 +3,28 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { webAppUrl } from '../../config';
 import ReactMarkdown from 'react-markdown';
+import { Typography } from '@mui/material';
+import { TruncateText } from '../styles';
+import YupReactMarkdown from '../ReactMarkdown';
 
-const SeeMore = ({ children, maxLength, postid }) => {
+const SeeMore = ({ children, lines, postid }) => {
   const text =
     typeof children === 'string' ? children : children.props.children;
-
+console.log(text.split(/[|]|[—]+/g, 1), {lines})
   return (
-    <>
-      <ReactMarkdown>
-        {text.length > maxLength ? text.slice(0, maxLength) : text}
-      </ReactMarkdown>
-      {text.length > maxLength ? (
-        <Link href={`${webAppUrl}/post/${postid}`}>
-          <p>...see more</p>
+    <>  
+          <TruncateText  lines={lines}>
+            <YupReactMarkdown>
+                          {text.split(/[|]|[—]+/g, 1)[0]}
+            </YupReactMarkdown>
+          </TruncateText>
+        {/* {text.length > maxLength ? text.slice(0, maxLength) : text} */}
+      {/* {text.length > maxLength ? (
+        <Link href={`/post/${postid}`}>
+            <Typography variant="body2"  sx={{ cursor:"pointer", fontStyle:'italic', color: 'gray'}}>
+              See more</Typography>
         </Link>
-      ) : null}
+      ) : null} */}
     </>
   );
 };

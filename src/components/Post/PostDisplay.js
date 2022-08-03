@@ -12,6 +12,7 @@ const styles = (theme) => ({
     color: 'white'
   },
   container: {
+    maxWidth: "100%",
     [theme.breakpoints.down('sm')]: {
       marginBottom: '8%'
     }
