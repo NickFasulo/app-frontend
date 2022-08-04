@@ -20,7 +20,9 @@ const MainLayout = ({ children }) => {
     (async function checkBrave() {
       if (localStorage.getItem(LOCAL_STORAGE_KEYS.CHECK_BRAVE)) return;
       if (navigator.brave && (await navigator.brave.isBrave())) {
-        toastInfo(`You may experience some performance issues on Brave, please turn shields off for the best experience.`);
+        toastInfo(
+          `You may experience some performance issues on Brave, please turn shields off for the best experience.`
+        );
         localStorage.setItem(LOCAL_STORAGE_KEYS.CHECK_BRAVE, true);
       }
     })();
@@ -29,12 +31,8 @@ const MainLayout = ({ children }) => {
   return (
     <>
       <BackgroundGradients />
-      {showHeader && (
-        <SideBar />
-      )}
-      {isCheckingAuth ? (
-        <PageLoadingBar />
-      ) : children}
+      {showHeader && <SideBar />}
+      {isCheckingAuth ? <PageLoadingBar /> : children}
 
       <ConnectButton />
     </>

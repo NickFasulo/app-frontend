@@ -99,7 +99,12 @@ const CollectionDuplicateDialog = ({
         onClose={handleSnackbarClose}
         open={!!snackbarMsg}
       >
-        <Link href={generateCollectionUrl(newCollectionInfo.name, newCollectionInfo._id)}>
+        <Link
+          href={generateCollectionUrl(
+            newCollectionInfo.name,
+            newCollectionInfo._id
+          )}
+        >
           <SnackbarContent className={classes.snack} message={snackbarMsg} />
         </Link>
       </Snackbar>

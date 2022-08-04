@@ -144,11 +144,7 @@ const Reply = ({ tweetData, classes }) => {
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      className={classes.mainReplyContainer}
-    >
+    <Grid container direction="column" className={classes.mainReplyContainer}>
       <Grid item xs={12}>
         <Grid
           container

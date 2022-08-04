@@ -1,10 +1,18 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import scatter from '../eos/scatter/scatter.wallet';
-import { loginScatter, signalConnection, updateEthAuthInfo } from '../redux/actions';
+import {
+  loginScatter,
+  signalConnection,
+  updateEthAuthInfo
+} from '../redux/actions';
 import { AUTH_TYPE, LOCAL_STORAGE_KEYS } from '../constants/enum';
 import { logError } from '../utils/logging';
-import { apiGetAccount, apiGetAccountByEthAddress, apiVerifyChallenge } from '../apis';
+import {
+  apiGetAccount,
+  apiGetAccountByEthAddress,
+  apiVerifyChallenge
+} from '../apis';
 import { accountConstants } from '../redux/constants';
 import useToast from '../hooks/useToast';
 
@@ -35,7 +43,9 @@ export const AuthProvider = ({ children }) => {
         );
       } catch (err) {
         if (err.message === 'TWO_SCATTERS_INSTALLED') {
-          toastError('Both Scatter Desktop and Extension are installed. Close or uninstall one to continue');
+          toastError(
+            'Both Scatter Desktop and Extension are installed. Close or uninstall one to continue'
+          );
         }
       }
 
@@ -51,7 +61,7 @@ export const AuthProvider = ({ children }) => {
             signature
           });
 
-          return ;
+          return;
         } catch (err) {
           logError('Scatter authentication failed.', err);
         }
@@ -78,13 +88,15 @@ export const AuthProvider = ({ children }) => {
           });
 
           // Update redux for eth auth.
-          dispatch(updateEthAuthInfo({
-            address,
-            signature,
-            account
-          }));
+          dispatch(
+            updateEthAuthInfo({
+              address,
+              signature,
+              account
+            })
+          );
 
-          return ;
+          return;
         } catch (err) {
           logError('ETH authentication failed.', err);
 
@@ -93,7 +105,9 @@ export const AuthProvider = ({ children }) => {
       }
 
       // 3. Check auth through Twitter
-      const twitterAuthInfo = localStorage.getItem(LOCAL_STORAGE_KEYS.TWITTER_INFO);
+      const twitterAuthInfo = localStorage.getItem(
+        LOCAL_STORAGE_KEYS.TWITTER_INFO
+      );
 
       if (twitterAuthInfo) {
         try {
@@ -108,7 +122,7 @@ export const AuthProvider = ({ children }) => {
               oauthToken: token
             });
 
-            return ;
+            return;
           }
         } catch (err) {
           logError('Twitter authentication failed.', err);
@@ -122,7 +136,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (!authInfo.eosname) return ;
+    if (!authInfo.eosname) return;
 
     // Store auth info into redux.
     dispatch({
@@ -148,7 +162,7 @@ export const AuthProvider = ({ children }) => {
     >
       {children}
     </AuthContext.Provider>
-  )
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);

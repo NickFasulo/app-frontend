@@ -106,7 +106,7 @@ class LinkPreview extends Component {
   render() {
     const { image, title, description, url, classes } = this.props;
     let faviconURL = null;
-    console.log(image, 'WURST')
+    console.log(image, 'WURST');
 
     if (url != null) {
       faviconURL = getFavicon(url);
@@ -160,18 +160,23 @@ class LinkPreview extends Component {
                       </Typography>
                     </Grid>
                   </Grid>
-                   <Grid direction="row" spacing={1}>
-                      <Grid item xs>
-                        <Typography variant="body1" className={classes.description}>
-                          <TruncateText lines={4}>{description || url}</TruncateText>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs>
-                        <Typography variant="bodyS2" className={classes.url}>
-                          {url && trimURL(url)}
-                        </Typography>
-                      </Grid>
+                  <Grid direction="row" spacing={1}>
+                    <Grid item xs>
+                      <Typography
+                        variant="body1"
+                        className={classes.description}
+                      >
+                        <TruncateText lines={4}>
+                          {description || url}
+                        </TruncateText>
+                      </Typography>
                     </Grid>
+                    <Grid item xs>
+                      <Typography variant="bodyS2" className={classes.url}>
+                        {url && trimURL(url)}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </div>
               </div>
             </div>

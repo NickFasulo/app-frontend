@@ -19,9 +19,7 @@ const Providers = ({ children }) => {
             <RKProvider>
               <AppUtilsProvider>
                 <AuthModalContextProvider>
-                  <AppLayoutProvider>
-                    {children}
-                  </AppLayoutProvider>
+                  <AppLayoutProvider>{children}</AppLayoutProvider>
                 </AuthModalContextProvider>
               </AppUtilsProvider>
             </RKProvider>

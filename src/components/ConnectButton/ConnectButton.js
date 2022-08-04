@@ -43,11 +43,7 @@ const ConnectButton = () => {
   if (isConnected && isStakingPage) return null;
 
   return (
-    <StyledButton
-      variant="contained"
-      size="large"
-      onClick={handleConnect}
-    >
+    <StyledButton variant="contained" size="large" onClick={handleConnect}>
       Connect
     </StyledButton>
   );

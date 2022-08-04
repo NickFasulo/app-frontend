@@ -9,7 +9,7 @@ import LinkPreview from '../LinkPreview/LinkPreview';
 
 //Enables funky colors on links
 const TeaPartyLink = styled('a')(
-    ({ theme }) => `
+  ({ theme }) => `
     background-image: linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)
     font-weight: 700;
     position: relative;
@@ -18,39 +18,40 @@ const TeaPartyLink = styled('a')(
     background-clip: text;
     background-size: 300% 100%;
     `
-  );
+);
 
-const PhaverPost = ({text, url, attachments} ) => {
-    const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm 
-    
-    const matches = text.match(regexMdLinks)
-      matches?.forEach((element,i) => {
-        text = reactStringReplace(text, element, async (match) => {
-            const url = getAllLinks(match)?.[0]
-            return  await fetchLinkPreviewData(url)
-          
-      }); 
-      });  
-    console.log({matches},text)
+const PhaverPost = ({ text, url, attachments }) => {
+  const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
 
-    return (
-         <Grid item 
-            sx={{ "& *> a": {
-                textDecoration: "none",
-                color: 'white'
-            }}}
+  const matches = text.match(regexMdLinks);
+  matches?.forEach((element, i) => {
+    text = reactStringReplace(text, element, async (match) => {
+      const url = getAllLinks(match)?.[0];
+      return await fetchLinkPreviewData(url);
+    });
+  });
+  console.log({ matches }, text);
 
-        //   sx={{ "& *> a": { 
-        //     backgroundImage: "linear-gradient(90deg,#12c2e9,#c471ed,#12c2e9,#f64f59,#c471ed,#ebed71)",
-        //     fontWeight: 700,
-        //     position: "relative",
-        //     color: "transparent",
-        //     WebkitBackgroundClip: "text",
-        //     backgroundClip: "text",
-        //     backgroundSize: "300% 100%", }}}
-     >
+  return (
+    <Grid
+      item
+      sx={{
+        '& *> a': {
+          textDecoration: 'none',
+          color: 'white'
+        }
+      }}
 
-        {/* {matches?(<>{text.map((element,i) => {
+      //   sx={{ "& *> a": {
+      //     backgroundImage: "linear-gradient(90deg,#12c2e9,#c471ed,#12c2e9,#f64f59,#c471ed,#ebed71)",
+      //     fontWeight: 700,
+      //     position: "relative",
+      //     color: "transparent",
+      //     WebkitBackgroundClip: "text",
+      //     backgroundClip: "text",
+      //     backgroundSize: "300% 100%", }}}
+    >
+      {/* {matches?(<>{text.map((element,i) => {
            return typeof element === 'string'? 
                 <ReactMarkdown 
                 components={{
@@ -65,21 +66,22 @@ const PhaverPost = ({text, url, attachments} ) => {
         <ReactMarkdown>
                 {text} 
             </ReactMarkdown>)} */}
-<ReactMarkdown
+      <ReactMarkdown
         components={{
-    a: ({node, ...props}) => 
-    <LinkPreview
-          size={'large'}
-          description={"text[2]"}
-          image={async ()=> await fetchPreview(props.href) }
-          title={"text[0]"}
-          url={ props.href}
-          />  
-}}>
-                {text} 
-            </ReactMarkdown>
-</Grid>
-        )
-
-}
+          a: ({ node, ...props }) => (
+            <LinkPreview
+              size={'large'}
+              description={'text[2]'}
+              image={async () => await fetchPreview(props.href)}
+              title={'text[0]'}
+              url={props.href}
+            />
+          )
+        }}
+      >
+        {text}
+      </ReactMarkdown>
+    </Grid>
+  );
+};
 export default PhaverPost;

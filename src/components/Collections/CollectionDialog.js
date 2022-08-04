@@ -107,7 +107,10 @@ const CollectionDialog = ({
         open={!!snackbarMsg}
       >
         <Link
-          href={generateCollectionUrl(newCollectionInfo.name, newCollectionInfo._id)}
+          href={generateCollectionUrl(
+            newCollectionInfo.name,
+            newCollectionInfo._id
+          )}
         >
           <SnackbarContent className={classes.snack} message={snackbarMsg} />
         </Link>

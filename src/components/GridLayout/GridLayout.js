@@ -21,7 +21,8 @@ const GridLayout = ({ contentLeft, contentRight, noHideRightContent }) => {
               isMobile || headerHeight === null
                 ? undefined
                 : (theme) => `calc(${headerHeight}px + ${theme.spacing(3)})`,
-            maxHeight: (theme) => `calc(100vh - ${headerHeight}px - ${theme.spacing(3)})`,
+            maxHeight: (theme) =>
+              `calc(100vh - ${headerHeight}px - ${theme.spacing(3)})`,
             overflowY: 'auto'
           }}
         >

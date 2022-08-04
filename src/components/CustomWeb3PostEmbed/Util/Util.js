@@ -1,4 +1,3 @@
-
 import React, { Component, useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import withStyles from '@mui/styles/withStyles';
@@ -28,7 +27,7 @@ export const parseText = (str) => {
   const parsed = str
     .replace(re, '')
     .replace(/&amp;/g, '&')
-    .replace(/&nbsp;/g, ' ')
+    .replace(/&nbsp;/g, ' ');
   return parsed;
 };
 
@@ -56,7 +55,8 @@ export const linkMentions = (word) => {
             fontWeight: 600
           }}
           href={userLink}
-          target="_blank" rel="noreferrer"
+          target="_blank"
+          rel="noreferrer"
         >
           {word}
         </a>
@@ -85,26 +85,32 @@ export const urlIsImg = (url) => {
   const re = /\.(jpeg|jpg|gif|png)$/;
   const match = re.test(url);
   return match;
-}
+};
 export const getAllLinks = (text) => {
-  const re = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm
-  ;
+  const re =
+    /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
   const matches = text.match(re);
   return matches;
-}
+};
 
 export const getNameInBrackets = (text) => {
-  const re = /(?<=\[).+?(?=\])/g
+  const re = /(?<=\[).+?(?=\])/g;
   const matches = text.match(re);
   return matches;
-}
+};
 
 export const parseWeb3Post = (post, postid) => {
-  const { content, urls, attachments} = post
-  let parsedPost 
-  if( post.protocol==='lens') {
-    
-    parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments} postid={postid}/>
+  const { content, urls, attachments } = post;
+  let parsedPost;
+  if (post.protocol === 'lens') {
+    parsedPost = (
+      <LensPost
+        text={content}
+        url={urls[0]}
+        attachments={attachments}
+        postid={postid}
+      />
+    );
     // switch (post?.meta?.metadata?.appId) {
     //   case 'phaver':
     //     parsedPost = <PhaverPost text={content} url={urls[0]} attachments={attachments}/>;
@@ -116,37 +122,39 @@ export const parseWeb3Post = (post, postid) => {
     //   parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments} postid={postid}/>
     //   // parsedPost = post.content
     // }
-
-  } else {    
-    parsedPost = <FarCasterPost text={content}  attachments={attachments} postid={postid}/>
+  } else {
+    parsedPost = (
+      <FarCasterPost text={content} attachments={attachments} postid={postid} />
+    );
   }
-  console.log(parsedPost, 'parsedPost')
-  return parsedPost
-}
+  console.log(parsedPost, 'parsedPost');
+  return parsedPost;
+};
 
-export const parsePhaverPost = (text, url, attachments) => {  
-  const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm 
-  console.log(regexMdLinks[2], 'DESCRIPTION')
-  console.log(regexMdLinks[0], 'TITLE')
-  console.log(regexMdLinks[1], 'MATCH')
-  
-  const matches = text.match(regexMdLinks)
-  if(attachments.length>0){
-    matches?.forEach((element,i) => {
+export const parsePhaverPost = (text, url, attachments) => {
+  const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
+  console.log(regexMdLinks[2], 'DESCRIPTION');
+  console.log(regexMdLinks[0], 'TITLE');
+  console.log(regexMdLinks[1], 'MATCH');
+
+  const matches = text.match(regexMdLinks);
+  if (attachments.length > 0) {
+    matches?.forEach((element, i) => {
       text = reactStringReplace(text, element, () => {
-        return attachments[i]
-    }); 
+        return attachments[i];
+      });
     });
 
-    return <LinkPreview
-    size={'large'}
-    description={text[2]}
-    image={text[1]}
-    title={text[0]}
-    url={url}
-    />
+    return (
+      <LinkPreview
+        size={'large'}
+        description={text[2]}
+        image={text[1]}
+        title={text[0]}
+        url={url}
+      />
+    );
   } else {
-    return text
+    return text;
   }
-  
-}
+};

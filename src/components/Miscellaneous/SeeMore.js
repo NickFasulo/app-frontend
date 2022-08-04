@@ -10,16 +10,14 @@ import YupReactMarkdown from '../ReactMarkdown';
 const SeeMore = ({ children, lines, postid }) => {
   const text =
     typeof children === 'string' ? children : children.props.children;
-console.log(text.split(/[|]|[—]+/g, 1), {lines})
+  console.log(text.split(/[|]|[—]+/g, 1), { lines });
 
   return (
-    <>  
-          <TruncateText  lines={lines}>
-            <YupReactMarkdown>
-                          {text.split(/[|]|[—]+/g, 1)[0]}
-            </YupReactMarkdown>
-          </TruncateText>
-        {/* {text.length > maxLength ? text.slice(0, maxLength) : text} */}
+    <>
+      <TruncateText lines={lines}>
+        <YupReactMarkdown>{text.split(/[|]|[—]+/g, 1)[0]}</YupReactMarkdown>
+      </TruncateText>
+      {/* {text.length > maxLength ? text.slice(0, maxLength) : text} */}
       {/* {text.length > maxLength ? (
         <Link href={`/post/${postid}`}>
             <Typography variant="body2"  sx={{ cursor:"pointer", fontStyle:'italic', color: 'gray'}}>

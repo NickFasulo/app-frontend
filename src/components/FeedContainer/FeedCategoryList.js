@@ -17,16 +17,15 @@ const Categories = [
 
 const FeedCategoryList = ({ currentCategoryId }) => {
   const categoryList = useMemo(() => {
-    return shuffle(Categories).filter((category) => category.id !== currentCategoryId).slice(0, 5);
+    return shuffle(Categories)
+      .filter((category) => category.id !== currentCategoryId)
+      .slice(0, 5);
   }, [currentCategoryId]);
 
   return (
     <List>
       {categoryList.map((category) => (
-        <ListItemButton
-          component={Link}
-          href={`/feed/${category.id}`}
-        >
+        <ListItemButton component={Link} href={`/feed/${category.id}`}>
           <FlexBox alignItems="center">
             <CategoryImage
               src={category.image}

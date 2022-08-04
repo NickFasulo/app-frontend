@@ -1,4 +1,3 @@
-
 const LOG_TYPE = {
   ERROR: 'error',
   WARNING: 'warning',
@@ -6,7 +5,7 @@ const LOG_TYPE = {
 };
 
 const doLog = (type, ...args) => {
-  switch(type) {
+  switch (type) {
     case LOG_TYPE.ERROR:
       console.error(...args);
       break;

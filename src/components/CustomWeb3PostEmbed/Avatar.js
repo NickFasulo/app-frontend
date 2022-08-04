@@ -22,7 +22,7 @@ const Avatar = ({ classes, user, tweetType, tweetLink, hideBird, url }) => {
     <div className={classes.header}>
       <img
         className={userAvatar}
-        src={url||DEFAULT_TWITTER_PROF}
+        src={url || DEFAULT_TWITTER_PROF}
         alt="user image"
         onError={addDefaultSrc}
       />

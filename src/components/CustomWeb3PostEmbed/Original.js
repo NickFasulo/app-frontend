@@ -77,18 +77,20 @@ const Original = ({ postid, web3Preview, classes }) => {
                   handle={web3Preview.creator.handle}
                   address={web3Preview.creator.address}
                   protocol={web3Preview.protocol}
-                  replyParentUsername={web3Preview.meta.replyParentUsername?.username}                  
+                  replyParentUsername={
+                    web3Preview.meta.replyParentUsername?.username
+                  }
                   tweetLink={tweetLink}
                 />
               </Grid>
               <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
-                        {/* {postid} */}
+                  {/* {postid} */}
                   <Grid item="item" xs={12}>
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
-                      <Typography variant="body2">
-                        {parseWeb3Post(web3Preview, postid)}
-                      </Typography>
+                    <Typography variant="body2">
+                      {parseWeb3Post(web3Preview, postid)}
+                    </Typography>
                     {/* </Link> */}
                   </Grid>
                 </Grid>

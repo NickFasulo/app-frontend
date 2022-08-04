@@ -36,29 +36,25 @@ function genRegEx(arrOfURLs) {
     `^((http:|https:)([/][/]))?(www.)?(${arrOfURLs.join('|')})`
   );
 }
-const getWeb3Likes= (postInfo) => {
-  if(postInfo.post.web3Preview?.protocol === 'farcaster') {
-  return postInfo.post.web3Preview?.meta?.reactions.count
+const getWeb3Likes = (postInfo) => {
+  if (postInfo.post.web3Preview?.protocol === 'farcaster') {
+    return postInfo.post.web3Preview?.meta?.reactions.count;
+  } else if (postInfo.post.web3Preview?.protocol === 'lens') {
+    return postInfo.post.web3Preview?.meta?.metadata.stats.totalUpvotes;
   }
-  else if(postInfo.post.web3Preview?.protocol === 'lens') {
-    
-   return postInfo.post.web3Preview?.meta?.metadata.stats.totalUpvotes
-  }
-  
-  return 0
-}
 
-const getWeb3Dislikes= (postInfo) => {
-  if(postInfo.post.web3Preview?.protocol === 'farcaster') {
-    return 0
+  return 0;
+};
+
+const getWeb3Dislikes = (postInfo) => {
+  if (postInfo.post.web3Preview?.protocol === 'farcaster') {
+    return 0;
+  } else if (postInfo.post.web3Preview?.protocol === 'lens') {
+    return postInfo.post.web3Preview?.meta?.metadata.stats.totalDownvotes;
   }
-  else if(postInfo.post.web3Preview?.protocol === 'lens') {
-    
-    return postInfo.post.web3Preview?.meta?.metadata.stats.totalDownvotes
-  }
-  
-  return 0
-}
+
+  return 0;
+};
 const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   const { authInfo, name } = useAuth();
   const votes = useInitialVotes(postid, name);
@@ -70,7 +66,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   const { toastError } = useToast();
   const category = 'overall';
   const { post } = postInfo;
-  console.log({postInfo})
+  console.log({ postInfo });
   const vote = votes?.[0];
   useEffect(() => {
     let timer1;
@@ -141,19 +137,17 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
     const rating = ratingConversion[newRating];
     const like = newRating > 2;
     if (vote == null || vote._id == null) {
-      if(postid) {
+      if (postid) {
         await createVote({
-          postid ,
+          postid,
           voter: name,
           like: true,
           rating,
           authInfo
         });
-
       } else {
-
         await createVote({
-          url ,
+          url,
           voter: name,
           like: true,
           rating,
@@ -272,7 +266,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
           isShown={!isMobile}
           isVoted={lastClicked === 'like' || (!lastClicked && vote?.like)}
           postInfo={postInfo}
-          web3Likes = {getWeb3Likes(postInfo)}
+          web3Likes={getWeb3Likes(postInfo)}
         />
         <VoteButton
           category={category}
@@ -297,7 +291,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
             lastClicked === 'dislike' || (!lastClicked && vote && !vote.like)
           }
           postInfo={postInfo}
-          web3Likes = {getWeb3Dislikes(postInfo)}
+          web3Likes={getWeb3Dislikes(postInfo)}
         />
       </FlexBox>
     </ErrorBoundary>
