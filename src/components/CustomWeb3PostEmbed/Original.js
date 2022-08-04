@@ -81,6 +81,7 @@ const Original = ({ postid, web3Preview, classes }) => {
                     web3Preview.meta.replyParentUsername?.username
                   }
                   tweetLink={tweetLink}
+                  createdAt={web3Preview.createdAt}
                 />
               </Grid>
               <Grid item="item" xs={12}>

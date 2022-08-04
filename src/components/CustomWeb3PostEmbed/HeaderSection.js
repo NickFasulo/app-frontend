@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, Typography, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import { timeSince } from './Util/Util';
 
 const HeaderSection = ({
   classes,
@@ -11,7 +13,8 @@ const HeaderSection = ({
   tweetType,
   tweetLink,
   hideBird,
-  replyParentUsername
+  replyParentUsername,
+  createdAt
 }) => {
   let web3PostIcon;
 
@@ -30,6 +33,7 @@ const HeaderSection = ({
   const accountLink = `farcaster://profiles/${address}/posts`;
   const isMobile = window.innerWidth <= 600;
 
+  //const formattedVoteTime = moment(createdAt, 'x').fromNow(true);
   return (
     <Grid
       container
@@ -73,6 +77,16 @@ const HeaderSection = ({
           </Grid>
         )}
       </Grid>
+      <Grid item>
+      <Grid container alignItems={'center'} spacing={2}>
+      <Grid item>
+      <Typography
+              variant="body2"
+              className={classes.userHandle}
+              sx={{marginBottom:'6px'}}
+            >
+              {'Posted ' + timeSince(new Date(createdAt)) + ' ago'}
+            </Typography></Grid>
       <Grid item className={web3PostIcon}>
         <Link href={tweetLink} target="_blank" underline="none">
           <img
@@ -84,6 +98,9 @@ const HeaderSection = ({
           />
         </Link>
       </Grid>
+      </Grid>
+        
+        </Grid>
     </Grid>
   );
 };
