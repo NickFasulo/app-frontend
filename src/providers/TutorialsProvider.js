@@ -35,7 +35,7 @@ const TutorialsProvider = ({ steps, children }) => {
       }}
     >
       {children}
-      {buttonVisible && <TutorialsButton />}
+      {/*{buttonVisible && <TutorialsButton />}*/}
     </TourProvider>
   );
 };
