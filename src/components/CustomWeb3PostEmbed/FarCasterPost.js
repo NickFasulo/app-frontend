@@ -23,7 +23,7 @@ const FarCasterPost = ({ text, postid, attachments }) => {
         }}
       >
         {/* <YupReactMarkdown> */}
-        <SeeMore lines={attachments ? 3 : 6} postid={postid}>
+        <SeeMore maxChars={attachments ? 150 : 400} postid={postid}>
           {text}
         </SeeMore>
         {/* {attachments ? parseText(text) : text }
