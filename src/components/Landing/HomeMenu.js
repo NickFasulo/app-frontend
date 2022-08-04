@@ -17,7 +17,7 @@ import axios from 'axios';
 import { Mono } from '../../utils/colors.js';
 import { accountInfoSelector } from '../../redux/selectors';
 import HomeMenuLinkItem from './HomeMenuLinkItem';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { YupButton } from '../Miscellaneous';
 import { PageBody } from '../../_pages/pageLayouts';
 import useStyles from './styles';
@@ -28,6 +28,8 @@ import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { generateCollectionUrl } from '../../utils/helpers';
+import { fetchUserCollections } from '../../redux/actions';
+import { useAuth } from '../../contexts/AuthContext';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
@@ -40,9 +42,11 @@ const getRandomGradientImg = () =>
   }`;
 
 const Home = ({ isUser, userCollections, theme }) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { isMobile } = useDevice();
   const { open: openAuthModal } = useAuthModal();
+  const { isLoggedIn, username } = useAuth();
 
   const [linkItems, setLinkItems] = useState([]);
   const [cardItems, setCardItems] = useState([]);
@@ -60,6 +64,10 @@ const Home = ({ isUser, userCollections, theme }) => {
       .then(({ data: recommendedCollections }) => {
         setRecommendedCollections(recommendedCollections);
       });
+
+    if (isLoggedIn) {
+      dispatch(fetchUserCollections(username));
+    }
   }, []);
 
   return (
@@ -254,11 +262,13 @@ const Home = ({ isUser, userCollections, theme }) => {
             </Grid>
             <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
               <Grid container direction="row">
-                <Grid item xs={12}>
-                  <Fade in timeout={2000}>
-                    <Typography variant="h5">Your Collections</Typography>
-                  </Fade>
-                </Grid>
+                {userCollections?.length && (
+                  <Grid item xs={12}>
+                    <Fade in timeout={2000}>
+                      <Typography variant="h5">Your Collections</Typography>
+                    </Fade>
+                  </Grid>
+                )}
                 <Grid item xs={12}>
                   <Grid container spacing={3}>
                     {userCollections &&
