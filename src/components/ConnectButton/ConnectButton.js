@@ -13,6 +13,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   borderRadius: 100,
   [theme.breakpoints.down('md')]: {
     right: '50%',
+    bottom: theme.spacing(3.5),
     transform: `translateX(50%)`
   }
 }));
