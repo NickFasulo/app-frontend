@@ -260,75 +260,72 @@ const Home = ({ isUser, userCollections, theme }) => {
                   })}
               </Grid>
             </Grid>
-            <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
-              <Grid container direction="row">
-                {userCollections?.length ? (
+            {userCollections?.length > 0 && (
+              <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
+                <Grid container direction="row">
                   <Grid item xs={12}>
                     <Fade in timeout={2000}>
                       <Typography variant="h5">Your Collections</Typography>
                     </Fade>
                   </Grid>
-                ) : null}
-                <Grid item xs={12}>
-                  <Grid container spacing={3}>
-                    {userCollections &&
-                      userCollections.slice(0, 8).map((coll, idx) => {
-                        return (
-                          <Grid
-                            key={idx}
-                            item
-                            xs={6}
-                            sm={4}
-                            md={3}
-                            className={classes.linkItemContainer}
+                  <Grid item xs={12}>
+                    <Grid container spacing={3}>
+                      {userCollections.slice(0, 8).map((coll, idx) => (
+                        <Grid
+                          key={idx}
+                          item
+                          xs={6}
+                          sm={4}
+                          md={3}
+                          className={classes.linkItemContainer}
+                        >
+                          <Link
+                            href={generateCollectionUrl(coll.name, coll._id)}
+                            className={classes.link}
                           >
-                            <Link
-                              href={generateCollectionUrl(coll.name, coll._id)}
-                              className={classes.link}
+                            <Grid
+                              container
+                              direction="row"
+                              justifyContent="flex-start"
+                              alignItems="center"
+                              className={classes.recommendedContainer}
                             >
                               <Grid
-                                container
-                                direction="row"
-                                justifyContent="flex-start"
-                                alignItems="center"
-                                className={classes.recommendedContainer}
+                                item
+                                xs={4}
+                                lg={4}
+                                xl={4}
+                                p={1}
+                                className={classes.recommendedImgContainer}
                               >
-                                <Grid
-                                  item
-                                  xs={4}
-                                  lg={4}
-                                  xl={4}
-                                  p={1}
-                                  className={classes.recommendedImgContainer}
-                                >
-                                  <YupImage
-                                    src={[
-                                      coll.imgSrcUrl,
-                                      getRandomGradientImg()
-                                    ]}
-                                    alt="thumbnail"
-                                    className={classes.recommendedImg}
-                                  />
-                                </Grid>
-                                <Grid item xs={8} lg={8} xl={8} p={1}>
-                                  <TruncateText variant="subtitle1" lines={2}>
-                                    {coll.name}
-                                  </TruncateText>
-                                  <Typography variant="body2">
-                                    {coll.postIds.length === 1
-                                      ? `1 post`
-                                      : `${coll.postIds.length} posts`}
-                                  </Typography>
-                                </Grid>
+                                <YupImage
+                                  src={[
+                                    coll.imgSrcUrl,
+                                    getRandomGradientImg()
+                                  ]}
+                                  alt="thumbnail"
+                                  className={classes.recommendedImg}
+                                />
                               </Grid>
-                            </Link>
-                          </Grid>
-                        );
-                      })}
+                              <Grid item xs={8} lg={8} xl={8} p={1}>
+                                <TruncateText variant="subtitle1" lines={2}>
+                                  {coll.name}
+                                </TruncateText>
+                                <Typography variant="body2">
+                                  {coll.postIds.length === 1
+                                    ? `1 post`
+                                    : `${coll.postIds.length} posts`}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Link>
+                        </Grid>
+                      ))}
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            )}
             <Grid item xs={12}>
               <Grid container direction="column">
                 <Grid item xs={12}>
