@@ -10,6 +10,7 @@ import { accountInfoSelector } from '../../redux/selectors';
 import { getAuth } from '../../utils/authentication';
 import YupDialog from '../Miscellaneous/YupDialog';
 import { apiBaseUrl, webAppUrl } from '../../config';
+import { generateCollectionUrl } from '../../utils/helpers';
 
 const TITLE_LIMIT = 30;
 const DESC_LIMIT = 140;
@@ -106,9 +107,10 @@ const CollectionDialog = ({
         open={!!snackbarMsg}
       >
         <Link
-          href={`${webAppUrl}/collections/${encodeURIComponent(
-            newCollectionInfo.name
-          )}/${newCollectionInfo._id}`}
+          href={generateCollectionUrl(
+            newCollectionInfo.name,
+            newCollectionInfo._id
+          )}
         >
           <SnackbarContent className={classes.snack} message={snackbarMsg} />
         </Link>

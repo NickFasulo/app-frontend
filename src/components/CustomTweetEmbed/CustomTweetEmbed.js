@@ -12,7 +12,7 @@ import Original from './Original';
 
 const styles = (theme) => ({
   container: {
-    padding: '16px',
+    padding: '16px 16px 0 16px',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
     textAlign: 'left',
@@ -60,7 +60,7 @@ const styles = (theme) => ({
     borderRadius: '12px'
   },
   retweetContainer: {
-    border: `solid 1px ${theme.palette.M500}`,
+    border: `solid 1px ${theme.palette.M700}`,
     borderRadius: '12px',
     overflow: 'hidden',
     padding: '8px'
@@ -85,7 +85,8 @@ const styles = (theme) => ({
   },
   replyTwitterName: {
     display: 'inline',
-    marginRight: '10px'
+    marginRight: '10px',
+    color: theme.palette.M200
   },
   barDiv: {
     border: `1.2px solid ${theme.palette.M600}`,

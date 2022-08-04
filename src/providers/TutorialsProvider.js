@@ -1,15 +1,18 @@
 import { TourProvider } from '@reactour/tour';
 import { useTheme } from '@mui/material';
-import React, { useEffect, useState } from 'react'
-import TutorialsButton from '../components/TutorialsButton'
-import { TUTORIAL_VISIBLE_PERIOD } from '../constants/const'
+import React, { useEffect, useState } from 'react';
+import TutorialsButton from '../components/TutorialsButton';
+import { TUTORIAL_VISIBLE_PERIOD } from '../constants/const';
 
 const TutorialsProvider = ({ steps, children }) => {
   const theme = useTheme();
   const [buttonVisible, setButtonVisible] = useState(true);
 
   useEffect(() => {
-    const intervalId = setTimeout(() => setButtonVisible(false), TUTORIAL_VISIBLE_PERIOD);
+    const intervalId = setTimeout(
+      () => setButtonVisible(false),
+      TUTORIAL_VISIBLE_PERIOD
+    );
     return () => clearTimeout(intervalId);
   }, []);
 
@@ -32,9 +35,7 @@ const TutorialsProvider = ({ steps, children }) => {
       }}
     >
       {children}
-      {buttonVisible && (
-        <TutorialsButton />
-      )}
+      {/*{buttonVisible && <TutorialsButton />}*/}
     </TourProvider>
   );
 };

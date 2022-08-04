@@ -520,10 +520,7 @@ class Analytics extends Component {
               />
             </Grid>
             <Grid item sm={6} xs={12} md={4}>
-              <BarChart
-                chartData={influence}
-                chartTitle="Influence"
-              />
+              <BarChart chartData={influence} chartTitle="Influence" />
             </Grid>
             <Grid item xs={12} md={4}>
               <BarChart

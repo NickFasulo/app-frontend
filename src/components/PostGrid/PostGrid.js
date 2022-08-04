@@ -7,7 +7,7 @@ import { CollectionPostMenu } from '../Collections';
 import { Typography, Grid } from '@mui/material';
 
 import withStyles from '@mui/styles/withStyles';
-import PageLoader from '../PageLoader';
+import PageLoadingBar from '../PageLoadingBar';
 
 const styles = (theme) => ({
   voteComp: {
@@ -15,8 +15,7 @@ const styles = (theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0.5vh 0vw 0 0vw',
-    height: '60px',
+    height: '32px',
     [theme.breakpoints.down('sm')]: {
       padding: '0 0 3vh 1vh'
     },
@@ -32,8 +31,7 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: '4px'
+    alignItems: 'center'
   },
   collectButton: {
     marginRight: '10px'
@@ -62,7 +60,11 @@ function PostGrid({
 
   return (
     <ErrorBoundary>
-      <Grid container className={classes.container} justifyContent="space-between">
+      <Grid
+        container
+        className={classes.container}
+        justifyContent="space-between"
+      >
         <Grid
           item
           xs={9}

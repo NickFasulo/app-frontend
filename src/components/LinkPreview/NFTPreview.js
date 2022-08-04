@@ -53,14 +53,12 @@ const styles = (theme) => ({
     }
   },
   linkImg: {
-    width: '100%',
-    minHeight: '15rem',
-    maxHeight: '30rem',
     objectFit: 'cover',
-    background: 'linear-gradient(0deg,#1b1b1b,#ffffff00,#ffffff00)',
+    backgroundColor: theme.palette.M500,
     objectPosition: '50% 50%',
     alignItems: 'center',
-    borderRadius: '0.5rem 0.5rem 0px 0px',
+    borderRadius: '12px',
+    overflow: 'hidden',
     position: 'relative',
     [theme.breakpoints.up('1700')]: {
       maxHeight: '25rem',
@@ -72,12 +70,12 @@ const styles = (theme) => ({
   },
   previewContainer: {
     textDecoration: 'none',
+    padding: '8px',
     color: theme.palette.M100,
     '&:visited': {
       textDecoration: 'none',
       color: theme.palette.M100
-    },
-    maxHeight: '500px'
+    }
   },
   title: {
     position: 'relative',
@@ -123,15 +121,20 @@ const styles = (theme) => ({
     display: 'none'
   },
   previewData: {
-    position: 'absolute',
-    bottom: 0,
     textAlign: 'left',
-    width: '100%',
+    borderRadius: theme.spacing(1.5),
     zIndex: 5,
-    background: `linear-gradient(${theme.palette.M850}00, ${theme.palette.M850}46, ${theme.palette.M850}ae, ${theme.palette.M850}dd, ${theme.palette.M850}ed, ${theme.palette.M850}fe, ${theme.palette.M850}, ${theme.palette.M850})`,
-    padding: '2% 3% 3% 3%',
-    backdropFilter: 'blur(2px)',
-    boxShadow: `0px 2px ${theme.palette.M850}`
+    background: `${theme.palette.M800}AA`,
+    padding: '2% 3% 2% 3%',
+    width: '100%',
+    backdropFilter: 'blur(40px)'
+  },
+  previewDataContainer: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 4,
+    left: 0,
+    padding: theme.spacing(2)
   }
 });
 
@@ -149,13 +152,10 @@ class NFTPreview extends Component {
   async getCreator() {
     const { url, previewData } = this.props;
     const raribleNFT = url && url.match(raribleQuery);
-    const superrareNFT =
-    url && url.match(superrareQuery);
-    const foundationNFT =
-    url && url.match(foundationQuery);
+    const superrareNFT = url && url.match(superrareQuery);
+    const foundationNFT = url && url.match(foundationQuery);
     const zoraNFT = url && url.match(zoraQuery);
-    const knownOriginNFT =
-    url && url.match(knownOriginQuery);
+    const knownOriginNFT = url && url.match(knownOriginQuery);
 
     if (raribleNFT && previewData[0] && previewData[0].item) {
       const res = await axios.get(
@@ -181,8 +181,7 @@ class NFTPreview extends Component {
   async getOwners() {
     const { previewData, url } = this.props;
     const raribleNFT = url && url.match(raribleQuery);
-    const foundationNFT =
-      url && url.match(foundationQuery);
+    const foundationNFT = url && url.match(foundationQuery);
     const zoraNFT = url && url.match(zoraQuery);
 
     if (raribleNFT && previewData[0] && previewData[0].item) {
@@ -211,15 +210,8 @@ class NFTPreview extends Component {
   }
 
   render() {
-    const {
-      image,
-      title,
-      description,
-      url,
-      classes,
-      mimeType,
-      postid
-    } = this.props;
+    const { image, title, description, url, classes, mimeType, postid } =
+      this.props;
     let faviconURL = null;
 
     if (url != null) {
@@ -229,7 +221,6 @@ class NFTPreview extends Component {
       image && image.substring(image.lastIndexOf('.') + 1, image.length);
     const isVideo =
       fileType === 'mp4' || (mimeType && mimeType.includes('video'));
-    const isGif = fileType === 'gif';
 
     return (
       <ErrorBoundary>
@@ -246,121 +237,129 @@ class NFTPreview extends Component {
               rel="noopener noreferrer"
               target="_blank"
             >
-              {isVideo ? (
-                <CldVid
-                  className={classes.linkImg}
-                  style={{ overFlow: 'hidden', maxHeight: '1000px' }}
-                  src={image}
-                  postid={postid}
-                  alt={description}
-                  height="auto"
-                  width="100%"
-                  playing
-                  muted
-                  loop
-                  playsinline
-                />
-              ) : isGif ? (
-                <img
-                  src={image}
-                  alt={description}
-                  className={classes.linkImg}
-                />
-              ) : (
-                <CldImg
-                  className={classes.linkImg}
-                  postid={postid}
-                  src={image}
-                  alt={description}
-                />
-              )}
-              <div className={classes.previewData}>
-                <Grid
-                  container
-                  direction="column"
-                  spacing={1}
-                  justifyContent="center"
-                >
-                  <Grid item>
-                    <Grid alignItems="center" container direction="row">
-                      <Grid item>
-                        <YupImage
-                          align="right"
-                          href={url}
-                          src={faviconURL}
-                          style={{
-                            height: 30,
-                            width: 30,
-                            marginRight: '0.5rem',
-                            border: 'none'
-                          }}
-                          target="_blank"
-                          alt={faviconURL}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <TruncateText
-                          variant="subtitle2"
-                          className={classes.title}
-                          lines={2}
-                        >
-                          {title}
-                        </TruncateText>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  {(this.state.creator || this.state.owners.length > 0) && (
+              <div
+                style={{
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  textAlign: 'center'
+                }}
+              >
+                {isVideo ? (
+                  <CldVid
+                    className={classes.linkImg}
+                    style={{ overFlow: 'hidden', maxHeight: '1000px' }}
+                    src={image}
+                    postid={postid}
+                    alt={description}
+                    height="auto"
+                    width="100%"
+                    playing
+                    muted
+                    loop
+                    playsinline
+                  />
+                ) : (
+                  <CldImg
+                    className={classes.linkImg}
+                    postid={postid}
+                    src={image}
+                    alt={image}
+                  />
+                )}
+              </div>
+
+              <div className={classes.previewDataContainer}>
+                <div className={classes.previewData}>
+                  <Grid
+                    container
+                    direction="column"
+                    spacing={1}
+                    justifyContent="center"
+                  >
                     <Grid item>
-                      <Grid
-                        justifyContent="left"
-                        container
-                        direction="row"
-                        alignItems="center"
-                        spacing={0}
-                        style={{ height: '30px' }}
-                      >
-                        {this.state.creator && (
-                          <Grid item xs={this.state.owners.length > 0 ? 4 : 6}>
-                            <Tooltip
-                              title="Creator"
-                              placement="top"
-                              arrow
-                              disableTouchListener
-                            >
-                              <TruncateText variant="body2">
-                                {`🧑‍🎨` + `\u00A0` + ` ${this.state.creator}`}
-                              </TruncateText>
-                            </Tooltip>
-                          </Grid>
-                        )}
-                        {this.state.owners.length > 0 && (
-                          <Grid item xs={this.state.creator ? 8 : 6}>
-                            <Tooltip
-                              title="Owner"
-                              placement="top"
-                              arrow
-                              disableTouchListener
-                            >
-                              <TruncateText variant="body2">
-                                {`🗝` +
-                                  `\u00A0\u00A0` +
-                                  `${this.state.owners.join(', ')}`}
-                              </TruncateText>
-                            </Tooltip>
-                          </Grid>
-                        )}
+                      <Grid alignItems="center" container direction="row">
+                        <Grid item>
+                          <YupImage
+                            align="right"
+                            href={url}
+                            src={faviconURL}
+                            style={{
+                              height: 30,
+                              width: 30,
+                              marginRight: '0.5rem',
+                              border: 'none'
+                            }}
+                            target="_blank"
+                            alt={faviconURL}
+                          />
+                        </Grid>
+                        <Grid item>
+                          <TruncateText
+                            variant="subtitle2"
+                            className={classes.title}
+                            lines={2}
+                          >
+                            {title}
+                          </TruncateText>
+                        </Grid>
                       </Grid>
                     </Grid>
-                  )}
-                  <Grid item>
-                    <TruncateText variant="body2" lines={2}>
-                      {description || url}
-                    </TruncateText>
-                    <Typography className={classes.url}>
-                      {url && trimURL(url)}
-                    </Typography>
+                    {(this.state.creator || this.state.owners.length > 0) && (
+                      <Grid item>
+                        <Grid
+                          justifyContent="left"
+                          container
+                          direction="row"
+                          alignItems="center"
+                          spacing={0}
+                          style={{ height: '30px' }}
+                        >
+                          {this.state.creator && (
+                            <Grid
+                              item
+                              xs={this.state.owners.length > 0 ? 4 : 6}
+                            >
+                              <Tooltip
+                                title="Creator"
+                                placement="top"
+                                arrow
+                                disableTouchListener
+                              >
+                                <TruncateText variant="body2">
+                                  {`🧑‍🎨` + `\u00A0` + ` ${this.state.creator}`}
+                                </TruncateText>
+                              </Tooltip>
+                            </Grid>
+                          )}
+                          {this.state.owners.length > 0 && (
+                            <Grid item xs={this.state.creator ? 8 : 6}>
+                              <Tooltip
+                                title="Owner"
+                                placement="top"
+                                arrow
+                                disableTouchListener
+                              >
+                                <TruncateText variant="body2">
+                                  {`🗝` +
+                                    `\u00A0\u00A0` +
+                                    `${this.state.owners.join(', ')}`}
+                                </TruncateText>
+                              </Tooltip>
+                            </Grid>
+                          )}
+                        </Grid>
+                      </Grid>
+                    )}
+                    <Grid item>
+                      <TruncateText variant="body2" lines={2}>
+                        {description || url}
+                      </TruncateText>
+                      <Typography className={classes.url}>
+                        {url && trimURL(url)}
+                      </Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
+                </div>
               </div>
             </div>
           </a>

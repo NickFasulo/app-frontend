@@ -55,7 +55,7 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
         <Link href={tweetLink} target="_blank" underline="none">
           <img
             src="/images/icons/twitter.svg"
-            height={isMobile ? '12' : '24'}
+            height={isMobile ? '12' : '16'}
             alt="twitter"
           />
         </Link>

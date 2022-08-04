@@ -21,7 +21,7 @@ import { TruncateText } from '../styles';
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faEthereum } from '@fortawesome/free-brands-svg-icons';
-import clsx from 'clsx'
+import clsx from 'clsx';
 
 const styles = (theme) => ({
   avatarImage: {
@@ -261,9 +261,7 @@ function ProfileCard(props) {
     : '/images/logos/logo_outline_w.svg';
   return (
     <ErrorBoundary>
-      <Card
-        className={`${classes.card} ${minimizeCard} Tour-ProfileUsername`}
-      >
+      <Card className={`${classes.card} ${minimizeCard} Tour-ProfileUsername`}>
         {isLoading ? (
           <Skeleton
             variant="circular"
@@ -318,8 +316,9 @@ function ProfileCard(props) {
                   ) : (
                     <TruncateText
                       className={minimizeName}
-                      lines={4} variant="capsized_h3"
-                      sx={{overflow: 'visible'}}
+                      lines={4}
+                      variant="capsized_h3"
+                      sx={{ overflow: 'visible' }}
                     >
                       {displayName}
                     </TruncateText>
@@ -577,8 +576,7 @@ function ProfileCard(props) {
               >
                 <Grid item>
                   <Typography align="left" variant="body2">
-                    <a style={{ fontWeight: 500 }}>{formattedLikes}</a>{' '}
-                    Votes
+                    <a style={{ fontWeight: 500 }}>{formattedLikes}</a> Votes
                   </Typography>
                 </Grid>
                 <Grid item>

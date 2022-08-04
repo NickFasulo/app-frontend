@@ -1,3 +1,6 @@
+import numeral from 'numeral';
+import moment from 'moment';
+
 const EMAIL_RE =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i;
 export const isValidEmail = (email) => EMAIL_RE.test(email);
@@ -36,10 +39,36 @@ export const isCollectionUrl = (url) => {
   return url.match(regExp);
 };
 
-export const calc2dArrayItems = (arr) => {
+export const generateCollectionUrl = (name, id) => {
+  return `/collections/${encodeURIComponent(name)}/${id}`;
+};
+
+export const isUrl = (url) => {
+  try {
+    return !!new URL(url);
+  } catch {
+    return false;
+  }
+};
+
+export const calc2dArrayItemsCount = (arr) => {
   return arr
     .map((item) => item.length || 0)
     .reduce((prev, curr) => prev + curr, 0);
 };
 
+export const formatDate = (dateStr) => moment(new Date(dateStr)).fromNow(true);
+
 export const isMirrorUrl = (url) => MIRROR_REGEX.test(url);
+
+export const shortenEthAddress = (ethAddress) => `${ethAddress.slice(0, 8)}...`;
+
+export const twitterUrl = (username) => `https://twitter.com/${username}`;
+
+export const etherscanUrl = (address) =>
+  `https://etherscan.io/address/${address}`;
+
+export const formatDecimal = (decimal) => numeral(decimal).format('0,0.00');
+
+export const formatWeight = (weight) =>
+  numeral(Math.floor(weight)).format('0,0');

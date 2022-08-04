@@ -1,7 +1,7 @@
 html {
     font-size: 100%;
 
-    --header-height: 65px;
+    --header-height: 30px;
     --container-width: 1200px;
 }
 *::-webkit-scrollbar {
@@ -38,4 +38,8 @@ div[aria-labelledby="rk_connect_title"] {
 }
 .tourText {
     color: #aaa;
+}
+
+a {
+    text-decoration: none !important;
 }

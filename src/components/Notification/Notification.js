@@ -10,7 +10,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ReactPlayer from 'react-player/lazy';
 import { apiBaseUrl } from '../../config';
 import { useEffect } from 'react';
-import useAuth from '../../hooks/useAuth';
+import { useAuth } from '../../contexts/AuthContext';
 
 const styles = (theme) => ({
   root: {
@@ -77,137 +77,133 @@ const styles = (theme) => ({
   }
 });
 
-const Notification = ({notif, classes}) => {
+const Notification = ({ notif, classes }) => {
   const { isLoggedIn, ...account } = useAuth();
-  const [invokerWeight, setInvokerWeight] = useState()
-  const [underlineColor, setUnderlineColor] = useState()
+  const [invokerWeight, setInvokerWeight] = useState();
+  const [underlineColor, setUnderlineColor] = useState();
 
-  useEffect(()=>{
-    if(notif.invoker) getInvokerWeight()
-  }, [])
+  useEffect(() => {
+    if (notif.invoker) getInvokerWeight();
+  }, []);
 
   const getInvokerWeight = async () => {
-    const invoker = notif.invoker
+    const invoker = notif.invoker;
     const res = await axios.get(
       `${apiBaseUrl}/levels/user/${invoker.eosname || invoker}`
     );
     if (!res.error) {
       getUnderlineColor(res.data.quantile, res.data.weight);
     }
-  }
+  };
 
-  const getUnderlineColor =(quantile, weight) =>{
+  const getUnderlineColor = (quantile, weight) => {
     const underlineColor = levelColors[quantile];
-    setInvokerWeight(weight)
-    setUnderlineColor(underlineColor)
-  }
+    setInvokerWeight(weight);
+    setUnderlineColor(underlineColor);
+  };
 
   const getInvoker = () => {
     if (notif.invoker === notif.recipient) {
       return 'You';
     }
     return notif.invoker.username || notif.invoker;
-  }
+  };
 
-  const getPostUrl =()=> {
-    
+  const getPostUrl = () => {
     if (notif.post) {
       // backend dosen't return the post url yet will delete later
       const { url, caption } = notif.post;
       return isURL(url ?? caption)
-        ? (url ?? caption)
+        ? url ?? caption
         : `/p/${notif.post._id.postid}`;
     } else if (notif.action === 'follow') {
       return notif.invoker.eosname
         ? `/${notif.invoker.eosname}`
         : `/${notif.invoker}`;
-    }
-    else if (notif.action === 'update') {
-      if(notif.type === 'ethaddressmissing'){
-        return `/account/${account.name}?dialogOpen=true`
+    } else if (notif.action === 'update') {
+      if (notif.type === 'ethaddressmissing') {
+        return `/account/${account.name}?dialogOpen=true`;
       }
     }
 
     return null;
-  }
+  };
 
-  const isURL =(url)=> {
-   try {
+  const isURL = (url) => {
+    try {
       return !!new URL(url);
-   } catch (_) {
+    } catch (_) {
       return false;
-   }
-  }
-
-
-    const postUrl = getPostUrl();
-    const invoker = getInvoker();
-    const formattedTime = moment(new Date(notif.createdAt)).fromNow(true);
-    const target = isURL(notif.post && (notif.post?.url ?? notif.post.caption))
-      ? '_blank'
-      : '_self';
-
-    const defaultImage =
-      'https://source.unsplash.com/featured/?black,white,abstract';
-    if (!notif) {
-      return null;
     }
-   if(notif.action==='update') console.log(notif)
-    return (
-      <ErrorBoundary>
-        <div className={classes.root}>
-          <a className={classes.anchor} href={postUrl} target={target}>
-            <Grid className={classes.container} container spacing={2}>
-              <Grid item xs={3} className={classes.imgWrapper}>
-                {notif && notif.image && notif.image.includes('nft.mp4') ? (
-                  <ReactPlayer
-                    className={classes.notifImg}
-                    style={{ overflow: 'hidden' }}
-                    url={notif.image}
-                    height="auto"
-                    playing
-                    muted
-                    loop
-                    playsinline
-                  />
-                ) : (
-                  <img
-                    className={classes.notifImg}
-                    src={notif.image || defaultImage}
-                    alt="notification"
-                    onError={(e) => {
-                      e.target.src = defaultImage;
-                    }}
-                  />
-                )}
+  };
+
+  const postUrl = getPostUrl();
+  const invoker = getInvoker();
+  const formattedTime = moment(new Date(notif.createdAt)).fromNow(true);
+  const target = isURL(notif.post && (notif.post?.url ?? notif.post.caption))
+    ? '_blank'
+    : '_self';
+
+  const defaultImage =
+    'https://source.unsplash.com/featured/?black,white,abstract';
+  if (!notif) {
+    return null;
+  }
+  if (notif.action === 'update') console.log(notif);
+  return (
+    <ErrorBoundary>
+      <div className={classes.root}>
+        <a className={classes.anchor} href={postUrl} target={target}>
+          <Grid className={classes.container} container spacing={2}>
+            <Grid item xs={3} className={classes.imgWrapper}>
+              {notif && notif.image && notif.image.includes('nft.mp4') ? (
+                <ReactPlayer
+                  className={classes.notifImg}
+                  style={{ overflow: 'hidden' }}
+                  url={notif.image}
+                  height="auto"
+                  playing
+                  muted
+                  loop
+                  playsinline
+                />
+              ) : (
+                <img
+                  className={classes.notifImg}
+                  src={notif.image || defaultImage}
+                  alt="notification"
+                  onError={(e) => {
+                    e.target.src = defaultImage;
+                  }}
+                />
+              )}
+            </Grid>
+            <Grid
+              className={classes.textContainer}
+              container
+              item
+              direction="column"
+              jutifyContent="center"
+              xs={9}
+            >
+              <Grid item className={classes.notifText}>
+                <NotifText
+                  invoker={invoker}
+                  invokerWeight={invokerWeight}
+                  notif={notif}
+                  underlineColor={underlineColor}
+                />
               </Grid>
-              <Grid
-                className={classes.textContainer}
-                container
-                item
-                direction="column"
-                jutifyContent="center"
-                xs={9}
-              >
-                <Grid item className={classes.notifText}>
-                  <NotifText
-                    invoker={invoker}
-                    invokerWeight={invokerWeight}
-                    notif={notif}
-                    underlineColor={underlineColor}
-                  />
-                </Grid>
-                <Grid item>
-                  <div className={classes.time}>{formattedTime}</div>
-                </Grid>
+              <Grid item>
+                <div className={classes.time}>{formattedTime}</div>
               </Grid>
             </Grid>
-          </a>
-        </div>
-      </ErrorBoundary>
-    );
-  }
-
+          </Grid>
+        </a>
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 Notification.propTypes = {
   classes: PropTypes.object.isRequired,

@@ -17,7 +17,7 @@ import axios from 'axios';
 import { Mono } from '../../utils/colors.js';
 import { accountInfoSelector } from '../../redux/selectors';
 import HomeMenuLinkItem from './HomeMenuLinkItem';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { YupButton } from '../Miscellaneous';
 import { PageBody } from '../../_pages/pageLayouts';
 import useStyles from './styles';
@@ -27,6 +27,9 @@ import Link from '../Link';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import { useAuthModal } from '../../contexts/AuthModalContext';
+import { generateCollectionUrl } from '../../utils/helpers';
+import { fetchUserCollections } from '../../redux/actions';
+import { useAuth } from '../../contexts/AuthContext';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
@@ -39,9 +42,11 @@ const getRandomGradientImg = () =>
   }`;
 
 const Home = ({ isUser, userCollections, theme }) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { isMobile } = useDevice();
   const { open: openAuthModal } = useAuthModal();
+  const { isLoggedIn, username } = useAuth();
 
   const [linkItems, setLinkItems] = useState([]);
   const [cardItems, setCardItems] = useState([]);
@@ -59,6 +64,10 @@ const Home = ({ isUser, userCollections, theme }) => {
       .then(({ data: recommendedCollections }) => {
         setRecommendedCollections(recommendedCollections);
       });
+
+    if (isLoggedIn) {
+      dispatch(fetchUserCollections(username));
+    }
   }, []);
 
   return (
@@ -82,7 +91,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                       className={classes.bannerCard}
                       style={{
                         backgroundImage: isUser
-                          ? `linear-gradient(to top, ${theme.palette.M500}, ${theme.palette.M600})`
+                          ? `linear-gradient(to top, #825EC6, ${theme.palette.M700})`
                           : "url('images/feeds/rainbowbanner.svg')"
                       }}
                     >
@@ -99,7 +108,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               className={classes.titlePlain}
                             >
                               {isUser
-                                ? `Mirror Feed`
+                                ? `Farcaster Feed`
                                 : `Social Network for Curators`}
                             </Typography>
                             <Typography
@@ -107,7 +116,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               className={classes.subtitle}
                             >
                               {isUser
-                                ? `Explore Mirror articles from all publications, all in one feed`
+                                ? `Explore Farcaster content`
                                 : `Curate and share content across the web. Earn money and clout for your taste`}
                             </Typography>
                           </Grid>
@@ -126,7 +135,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               }
                               src={
                                 isUser
-                                  ? 'images/graphics/mirrorgraphic.png'
+                                  ? 'images/graphics/farcaster_logo.svg'
                                   : 'images/graphics/coingraphic.png'
                               }
                             />
@@ -135,11 +144,11 @@ const Home = ({ isUser, userCollections, theme }) => {
                       </CardContent>
                       <CardActions>
                         {isUser ? (
-                          <Link className={classes.link} href="/feed/mirror">
+                          <Link className={classes.link} href="/feed/farcaster">
                             <YupButton
                               size="large"
                               variant="contained"
-                              color="primary"
+                              color="secondary"
                             >
                               Enter
                             </YupButton>
@@ -253,11 +262,13 @@ const Home = ({ isUser, userCollections, theme }) => {
             </Grid>
             <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
               <Grid container direction="row">
-                <Grid item xs={12}>
-                  <Fade in timeout={2000}>
-                    <Typography variant="h5">Your Collections</Typography>
-                  </Fade>
-                </Grid>
+                {userCollections?.length ? (
+                  <Grid item xs={12}>
+                    <Fade in timeout={2000}>
+                      <Typography variant="h5">Your Collections</Typography>
+                    </Fade>
+                  </Grid>
+                ) : null}
                 <Grid item xs={12}>
                   <Grid container spacing={3}>
                     {userCollections &&
@@ -272,9 +283,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                             className={classes.linkItemContainer}
                           >
                             <Link
-                              href={`/collections/${encodeURIComponent(
-                                coll.name.replace(/\s+|\//g, '-').toLowerCase()
-                              )}/${coll._id}`}
+                              href={generateCollectionUrl(coll.name, coll._id)}
                               className={classes.link}
                             >
                               <Grid
@@ -330,11 +339,11 @@ const Home = ({ isUser, userCollections, theme }) => {
                       </Fade>
                     </Grid>
                     {recommendedCollections &&
-                      recommendedCollections.map((coll, idx) => {
+                      recommendedCollections.map((coll) => {
                         if (!coll) return null;
                         return (
                           <Grid
-                            key={idx}
+                            key={coll._id}
                             item
                             xs={6}
                             sm={4}
@@ -342,9 +351,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                             className={classes.linkItemContainer}
                           >
                             <Link
-                              href={`/collections/${encodeURIComponent(
-                                coll.name.replace('/', '')
-                              )}/${coll._id}`}
+                              href={generateCollectionUrl(coll.name, coll._id)}
                               className={classes.link}
                             >
                               <Grid

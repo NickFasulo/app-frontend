@@ -9,12 +9,18 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import axios from 'axios';
 import { accountInfoSelector } from '../../redux/selectors';
 import { getAuth } from '../../utils/authentication';
-import { YupButton } from '../Miscellaneous';
 import { apiBaseUrl } from '../../config';
 import useToast from '../../hooks/useToast';
+import { ActionButton } from '../styles';
 
-const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch }) => {
-  const [isLoading, setIsLoading] = useState(false)
+const FollowButton = ({
+  eosname,
+  isLoggedIn,
+  account,
+  followingInfo,
+  dispatch
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { toastError } = useToast();
   const classes = useStyles();
 
@@ -24,7 +30,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
         toastError('Login to follow user!');
         return;
       }
-      setIsLoading(true)
+      setIsLoading(true);
 
       const auth = await getAuth(account);
       const followData = { account: account.name, accountToFollow, ...auth };
@@ -38,7 +44,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
       toastError(parseError(err, 'follow'));
     }
 
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   const handleUnfollow = async (accountToUnfollow) => {
@@ -47,7 +53,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
         toastError('Login to unfollow user!');
         return;
       }
-      setIsLoading(true)
+      setIsLoading(true);
 
       const auth = await getAuth(account);
       const followData = { account: account.name, accountToUnfollow, ...auth };
@@ -61,7 +67,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
       toastError(parseError(err));
     }
 
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   if (isLoggedIn || account == null || followingInfo == null) {
@@ -72,7 +78,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
     ? followingInfo[eosname].followers.some((user) => {
         return user._id === account.name;
       })
-    : [];
+    : false;
 
   if (isFollowing) {
     return (
@@ -88,7 +94,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
               }}
             />
           ) : (
-            <YupButton
+            <ActionButton
               size="small"
               color="secondary"
               variant="outlined"
@@ -98,7 +104,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
               }}
             >
               Following
-            </YupButton>
+            </ActionButton>
           )}
         </Fragment>
       </ErrorBoundary>
@@ -117,7 +123,7 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
               }}
             />
           ) : (
-            <YupButton
+            <ActionButton
               size="small"
               color="secondary"
               variant="outlined"
@@ -127,13 +133,13 @@ const FollowButton = ({ eosname, isLoggedIn, account, followingInfo, dispatch })
               }}
             >
               Follow
-            </YupButton>
+            </ActionButton>
           )}
         </Fragment>
       </ErrorBoundary>
     );
   }
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state);

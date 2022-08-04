@@ -71,11 +71,13 @@ const TwitterOAuth = ({ classes }) => {
     if (username) {
       const customRedirect = localStorage.getItem('twitterRedirect');
       router.push({
-        pathname:customRedirect ? '/' + customRedirect : '/account/' + username,
+        pathname: customRedirect
+          ? '/' + customRedirect
+          : '/account/' + username,
         query: {
           openDialog: true
         }
-    });
+      });
     }
   }, [username]);
 

@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
-import { userLevelSelector} from '../redux/selectors';
-
+import { userLevelSelector } from '../redux/selectors';
 
 const useAccount = () => {
   const account = useSelector((state) => userLevelSelector(state));

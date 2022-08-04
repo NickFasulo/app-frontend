@@ -7,11 +7,9 @@ import {
   lightTheme,
   darkTheme
 } from '@rainbow-me/rainbowkit';
-import { WagmiConfig, chain, 
-  createClient,
-  configureChains, } from 'wagmi';
+import { WagmiConfig, chain, createClient, configureChains } from 'wagmi';
 
-import { alchemyApiKeys, ethereumConfig,polygonConfig } from '../../config';
+import { alchemyApiKeys, ethereumConfig, polygonConfig } from '../../config';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 
 import '@rainbow-me/rainbowkit/styles.css';
@@ -42,13 +40,12 @@ const { connectors } = getDefaultWallets({
   chains
 });
 
-
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider
-})
-  
+});
+
 const RKProvider = ({ children }) => {
   const { palette } = useTheme();
 

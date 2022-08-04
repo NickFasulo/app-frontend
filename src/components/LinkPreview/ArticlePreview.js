@@ -74,78 +74,81 @@ const styles = (theme) => ({
     bottom: 0,
     textAlign: 'left',
     zIndex: 5,
-    background: `linear-gradient(${theme.palette.M850}00, ${theme.palette.M850}46, ${theme.palette.M850}ae, ${theme.palette.M850}dd, ${theme.palette.M850}ed, ${theme.palette.M850}fe, ${theme.palette.M850}, ${theme.palette.M850})`,
     padding: '4% 3% 2% 3%',
     width: '100%',
-    backdropFilter: 'blur(2px)',
     boxShadow: `0px 2px ${theme.palette.M850}`
   }
 });
 
 const ArticlePreview = ({ title, description, url, classes }) => {
-  console.log({title})
+  console.log({ title });
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
   };
 
-    let faviconURL = null;
+  let faviconURL = null;
 
-    if (url != null) {
-      faviconURL = getFavicon(url);
-    }
-
-    return (
-      <ErrorBoundary>
-        <div className={classes.container} href={url} target="_blank">
-          <a
-            className={classes.link}
-            href={url}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <div className={classes.previewData}>
-              <Grid alignItems="center" container direction="row" spacing={2}>
-                <Grid item xs={2} sm={1}>
-                  <YupImage
-                    align="right"
-                    href={url}
-                    src={faviconURL}
-                    className={classes.linkImg}
-                    target="_blank"
-                  />
-                </Grid>
-                <Grid item xs={10} sm={11}>
-                  <TruncateText variant="h6" lines={2}>
-                    {title.split(/[|]|[—]+/g, 1)}
-                  </TruncateText>
-                </Grid>
-              </Grid>
-              <TruncateText variant="body2" 
-              className={classes.description}
-              lines={6}>
-                <ReactMarkdown    
-                  includeElementIndex    
-                  components={{
-                  a: ({node, ...props}) => <a style={{color: 'white', textDecoration: 'none'}} {...props} />,
-                  img: ({node, index, ...props }) => <> </>
-                }}        
-                 className={classes.reactMarkDown}
-                >
-                {description || url}
-
-                </ReactMarkdown>
-                  </TruncateText>
-              <Typography variant="body2" className={classes.url}>
-                {url && trimURL(url).split(/[/]+/g, 1)}
-              </Typography>
-            </div>
-          </a>
-        </div>
-      </ErrorBoundary>
-    );
+  if (url != null) {
+    faviconURL = getFavicon(url);
   }
 
+  return (
+    <ErrorBoundary>
+      <div className={classes.container} href={url} target="_blank">
+        <a
+          className={classes.link}
+          href={url}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <div className={classes.previewData}>
+            <Grid alignItems="center" container direction="row" spacing={2}>
+              <Grid item xs={2} sm={1}>
+                <YupImage
+                  align="right"
+                  href={url}
+                  src={faviconURL}
+                  className={classes.linkImg}
+                  target="_blank"
+                />
+              </Grid>
+              <Grid item xs={10} sm={11}>
+                <TruncateText variant="h6" lines={2}>
+                  {title.split(/[|]|[—]+/g, 1)}
+                </TruncateText>
+              </Grid>
+            </Grid>
+            <TruncateText
+              variant="body2"
+              className={classes.description}
+              lines={6}
+            >
+              <ReactMarkdown
+                includeElementIndex
+                components={{
+                  a: ({ node, ...props }) => (
+                    <a
+                      style={{ color: 'white', textDecoration: 'none' }}
+                      {...props}
+                    />
+                  ),
+                  img: ({ node, index, ...props }) => <> </>
+                }}
+                className={classes.reactMarkDown}
+              >
+                {description || url}
+              </ReactMarkdown>
+            </TruncateText>
+            <Typography variant="body2" className={classes.url}>
+              {url && trimURL(url).split(/[/]+/g, 1)}
+            </Typography>
+          </div>
+        </a>
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 ArticlePreview.propTypes = {
   url: PropTypes.string.isRequired,

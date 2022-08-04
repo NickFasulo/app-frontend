@@ -18,10 +18,7 @@ let middleware;
 if (NODE_ENV === 'development') {
   composeEnhancers =
     composeWithDevTools({ trace: true, traceLimit: 25 }) || compose;
-  middleware = applyMiddleware(
-    routerMiddleware(history),
-    thunkMiddleware
-  );
+  middleware = applyMiddleware(routerMiddleware(history), thunkMiddleware);
 } else if (NODE_ENV === 'production') {
   composeEnhancers = compose;
 

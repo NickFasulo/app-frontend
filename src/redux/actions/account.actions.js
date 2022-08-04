@@ -3,10 +3,9 @@ import scatter from '../../eos/scatter/scatter.wallet';
 import { editVote } from '../../apis';
 import axios from 'axios';
 import { apiGetAccount, editProfile } from '../../apis';
-import { AUTH_TYPE } from '../../constants/enum';
+import { AUTH_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
 import { apiBaseUrl } from '../../config';
-
-
+import { queryClient } from '../../config/react-query';
 
 export function deductBalance(username, amount, currency) {
   return { type: constants.DEDUCT_BALANCE, username, currency, amount };
@@ -14,6 +13,10 @@ export function deductBalance(username, amount, currency) {
 
 export function updateWeight(username, update) {
   return { type: constants.UPDATE_WEIGHT, username, ...update };
+}
+
+export function logout() {
+  return { type: constants.LOGOUT };
 }
 
 export function fetchAuthInfo(accountName) {
@@ -96,11 +99,18 @@ export function fetchAuthInfo(accountName) {
 export function updateAccountInfo(account, update, authInfo) {
   return async (dispatch) => {
     dispatch(request(account.name));
-    try {      
-      
-      await editProfile({
-        username: account.name, ...update , authInfo
+    try {
+      const updatedData = await editProfile({
+        username: account.name,
+        ...update,
+        authInfo
       });
+
+      queryClient.setQueryData(
+        [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, account.name],
+        updatedData
+      );
+
       dispatch(success(account.name, update));
     } catch (err) {
       dispatch(failure(account.name, err));

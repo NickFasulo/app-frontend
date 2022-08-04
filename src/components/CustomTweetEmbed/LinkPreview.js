@@ -2,14 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material/';
 
-const LinkPreview = ({
-  description,
-  image,
-  title,
-  url,
-  classes,
-  size
-}) => {
+const LinkPreview = ({ description, image, title, url, classes, size }) => {
   const getDomain = (str) => {
     let a = document.createElement('a');
     a.href = str;
@@ -73,7 +66,6 @@ LinkPreview.propTypes = {
   classes: PropTypes.object.isRequired,
   description: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  url: PropTypes.string,
   title: PropTypes.string,
   size: PropTypes.string,
   url: PropTypes.string

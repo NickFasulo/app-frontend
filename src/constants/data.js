@@ -7,11 +7,13 @@ import ImgFeedSafe from '../../public/images/feeds/safecover.png';
 import ImgFeedCrypto from '../../public/images/feeds/cryptocover.png';
 import ImgFeedNft from '../../public/images/feeds/nftcover.png';
 import ImgFeedMirror from '../../public/images/feeds/mirrorcover.png';
-import { Typography } from '@mui/material'
-import StyledTourResources from '../components/Tour/StyledTourResources'
-import React from 'react'
-import ReactPlayer from 'react-player/lazy'
-import { EXPLAINER_VIDEO } from './const'
+import ImgFeedFarcaster from '../../public/images/feeds/farcastercover.png';
+import ImgFeedLens from '../../public/images/feeds/lenscover.svg';
+import { Typography } from '@mui/material';
+import StyledTourResources from '../components/Tour/StyledTourResources';
+import React from 'react';
+import ReactPlayer from 'react-player/lazy';
+import { EXPLAINER_VIDEO } from './const';
 
 export const FEED_CATEGORIES = {
   DAILY_HIT: {
@@ -64,12 +66,26 @@ export const FEED_CATEGORIES = {
     metaTitle: 'Mirror Feed',
     description: 'Live feed of the best articles across all Mirror publications'
   },
-  NEW: {
-    id: 'new',
-    title: 'New',
+  RECENT: {
+    id: 'recent',
+    title: 'Recent',
     image: ImgFeedDailyHits,
-    metaTitle: 'New Feed',
-    description: 'New Feed'
+    metaTitle: 'Recent',
+    description: 'Recent content from all feeds'
+  },
+  FARCASTER: {
+    id: 'farcaster',
+    title: 'Farcaster',
+    image: ImgFeedFarcaster,
+    metaTitle: 'Farcaster Feed',
+    description: 'Farcaster Feed'
+  },
+  LENS: {
+    id: 'lens',
+    title: 'Lens',
+    image: ImgFeedLens,
+    metaTitle: 'Lens Feed',
+    description: 'Lens Feed'
   },
   DEFAULT: {
     // default category info
@@ -373,12 +389,9 @@ export const LEADERBOARD_TUTORIAL_STEPS = [
     content: (
       <div>
         <Typography className="tourHeader" variant="h4">
-          🤔 Rating
+          🤔 Liking
         </Typography>
-        <p className="tourText">
-          You can rate content out of 5 in different categories, such as like
-          ♥️, smart 💡, funny 😂, etc.
-        </p>
+        <p className="tourText">You can like content from any site.</p>
         <a
           href="https://docs.yup.io/basic/rating"
           target="_blank"
@@ -522,3 +535,12 @@ export const SEARCH_TUTORIAL_STEPS = [
     )
   }
 ];
+
+export const ETH_LINK_NOTIFICATION_TYPE = 'ethaddressmissing';
+export const ETH_LINK_NOTIFICATION_DATA = {
+  action: 'update',
+  type: ETH_LINK_NOTIFICATION_TYPE,
+  message:
+    'Link your Polygon Address to continue earning rewards! Eth wallet works too! Make sure to connect your main wallet so that your Yup Score is high',
+  image: '/images/notifications/linketh.jpg'
+};

@@ -30,19 +30,17 @@ const styles = (theme) => ({
     }
   },
   card: {
+    width: '100%',
     padding: theme.spacing(2),
-    background: `${theme.palette.M800}dd`,
-    backdropFilter: 'blur(10px)',
+    background: `${theme.palette.M850}AA`,
+    backdropFilter: 'blur(24px)',
     backgroundSize: 'cover',
     margin: 'auto',
     maxWidth: '100%',
     position: 'relative',
-    borderRadius: '0.5rem',
-    border: `0px solid ${theme.palette.M400}10`,
-    boxShadow: `0px 0px 40px ${theme.palette.M900}02`,
-    [theme.breakpoints.down('sm')]: {
-      width: '100%'
-    }
+    borderRadius: '0.75rem',
+    border: `1.5px solid ${theme.palette.M700}22`,
+    boxShadow: `0px 0px 40px ${theme.palette.M900}02`
   },
   chart: {
     margin: '0 0 0.75rem 0'
@@ -69,11 +67,19 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
   bar: {
     borderRadius: 0,
-    background: 'linear-gradient(45deg,#00e08e75,#00E08E)'
+    background:
+      'linear-gradient(270deg, #00E08E -2.12%, #A2CF7E 22.97%, #F0C909 49.29%, #FCA016 74.88%, #EB3650 100%)'
   }
 }))(LinearProgress);
 
-const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
+const BarChart = ({
+  classes,
+  chartData,
+  chartTitle,
+  color,
+  unit,
+  description
+}) => {
   if (chartData) {
     const chart = {
       series: [
@@ -184,6 +190,11 @@ const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
               />
             </div>
           </Grid>
+          {description && (
+            <Grid item>
+              <Typography>{description}</Typography>
+            </Grid>
+          )}
           <Grid item style={{ display: 'none' }}>
             <Chart
               options={chart}
@@ -222,6 +233,7 @@ BarChart.propTypes = {
   chartData: PropTypes.array.isRequired,
   chartTitle: PropTypes.string.isRequired,
   unit: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  description: PropTypes.string
 };
 export default withStyles(styles)(BarChart);

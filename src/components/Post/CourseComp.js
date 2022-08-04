@@ -100,8 +100,7 @@ class CourseComp extends Component {
   async fetchCourseInfo() {
     try {
       const { url } = this.props;
-      const courseInfo = (await axios.get(`${apiBaseUrl}/courses/${url}`))
-        .data;
+      const courseInfo = (await axios.get(`${apiBaseUrl}/courses/${url}`)).data;
       const name = courseInfo.name;
       const subject = courseInfo.subject.long_name;
       const courseId = courseInfo.courseId;

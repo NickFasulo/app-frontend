@@ -1,23 +1,37 @@
-import React, { useState } from 'react';
-import { FeedWrapper, PageContainer, ContainerRoot } from './styles';
+import React from 'react';
 import FeedHOC from '../Feed/FeedHOC';
 import FeedHeader from './FeedHeader';
+import { YupContainer, YupPageWrapper } from '../styles';
+import YupPageHeader from '../YupPageHeader';
+import { Typography } from '@mui/material';
+import { useAppUtils } from '../../contexts/AppUtilsContext';
+import GridLayout from '../GridLayout';
+import FeedCategoryList from './FeedCategoryList';
 
 const FeedContainer = ({ categoryData }) => {
-  const [isMinimize, setIsMinimize] = useState(false);
+  const { windowScrolled } = useAppUtils();
+
   return (
-    <ContainerRoot>
-      <PageContainer>
-        <FeedWrapper>
-          <FeedHeader isMinimize={isMinimize} categoryData={categoryData} />
-          <FeedHOC
-            isMinimize={isMinimize}
-            setIsMinimize={setIsMinimize}
-            feedType={categoryData.id}
-          />
-        </FeedWrapper>
-      </PageContainer>
-    </ContainerRoot>
+    <YupPageWrapper>
+      <YupPageHeader noborder>
+        <YupContainer>
+          <FeedHeader isMinimize={windowScrolled} categoryData={categoryData} />
+        </YupContainer>
+      </YupPageHeader>
+      <YupContainer sx={{ pt: 3 }}>
+        <GridLayout
+          contentLeft={<FeedHOC feedType={categoryData.id} />}
+          contentRight={
+            <>
+              <Typography variant="h5" sx={{ pb: 3 }}>
+                Recommended
+              </Typography>
+              <FeedCategoryList currentCategoryId={categoryData.id} />
+            </>
+          }
+        />
+      </YupContainer>
+    </YupPageWrapper>
   );
 };
 

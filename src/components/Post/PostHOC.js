@@ -11,35 +11,23 @@ import { accountInfoSelector } from '../../redux/selectors';
 const styles = (theme) => ({
   post: {
     background: 'transparent',
-    paddingTop: '0.25rem',
-    margin: '1rem 0',
-    width: 600,
-    maxWidth: '100%'
+    paddingBottom: '0.75rem',
+    width: '100%',
+    userSelect: 'none'
   },
   article: {
     border: `1.5px solid ${theme.palette.M700}22`,
     borderRadius: '12px',
     overflow: 'hidden',
-    backgroundColor: theme.palette.M850,
+    backgroundColor: `${theme.palette.M850}AA`,
+    backdropFilter: 'blur(24px)',
     boxShadow: `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
     backgroundSize: 'cover',
-    minWidth: 0,
-    [theme.breakpoints.down('lg')]: {
-      margin: 'auto',
-      maxWidth: '640px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      maxWidth: '100vw',
-      boxShadow: 'none'
-    },
-    [theme.breakpoints.up('1700')]: {
-      maxWidth: '640px',
-      maxHeight: '1500px'
-    }
+    minWidth: 0
   },
   postUrlHeader: {
     width: '100%',
-    padding: '0.1vh 0.8vw',
+    padding: '4px 16px 16px 16px',
     borderBottomLeftRadius: '10px',
     borderBottomRightRadius: '10px',
     [theme.breakpoints.down('md')]: {

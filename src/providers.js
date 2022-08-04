@@ -1,43 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SnackbarProvider } from 'notistack';
-import { makeStyles } from '@mui/styles';
-
 import RKProvider from './features/RKProvider';
 import { AuthModalContextProvider } from './contexts/AuthModalContext';
-import { StyledIndexPaper } from './components/StyledIndexPaper';
-
-// TODO: Convert to Mui v5 styling
-const useSnackbarStyles = makeStyles((theme) => ({
-  snackbar: {
-    backgroundColor: `${theme.palette.M100} !important`,
-    color: `${theme.palette.M900} !important`
-  }
-}));
+import { AppUtilsProvider } from './contexts/AppUtilsContext';
+import { AppLayoutProvider } from './contexts/AppLayoutContext';
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
+import { AuthProvider } from './contexts/AuthContext';
+import { ThemeModeProvider } from './contexts/ThemeModeContext';
+import SnackbarProvider from './providers/SnackbarProvider';
 
 const Providers = ({ children }) => {
-  const classes = useSnackbarStyles();
-
   return (
-    <SnackbarProvider
-      maxSnack={3}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right'
-      }}
-      classes={{
-        variantError: classes.snackbar,
-        variantSuccess: classes.snackbar,
-        variantInfo: classes.snackbar,
-        variantWarning: classes.snackbar
-      }}
-    >
-      <RKProvider>
-        <AuthModalContextProvider>
-          <StyledIndexPaper>{children}</StyledIndexPaper>
-        </AuthModalContextProvider>
-      </RKProvider>
-    </SnackbarProvider>
+    <Provider store={store}>
+      <ThemeModeProvider>
+        <SnackbarProvider>
+          <AuthProvider>
+            <RKProvider>
+              <AppUtilsProvider>
+                <AuthModalContextProvider>
+                  <AppLayoutProvider>{children}</AppLayoutProvider>
+                </AuthModalContextProvider>
+              </AppUtilsProvider>
+            </RKProvider>
+          </AuthProvider>
+        </SnackbarProvider>
+      </ThemeModeProvider>
+    </Provider>
   );
 };
 
