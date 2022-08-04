@@ -90,12 +90,6 @@ const LensPost = ({ postid, text, url, attachments }) => {
   return (
     <Grid
       item
-      sx={{
-        '& *> a': {
-          textDecoration: 'none',
-          color: 'white'
-        }
-      }}
       // Enable to style links
       //     sx={{ "& *> a": {
       //         backgroundImage: "linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)",
@@ -121,7 +115,8 @@ const LensPost = ({ postid, text, url, attachments }) => {
       ) : (
         <>
           {/*If text hasnt been changed for Linkpreviews */}
-          {isFullPost()? (
+          {/* disabled! */}
+          {isFullPost()||true? (
             <YupReactMarkdown>{text}</YupReactMarkdown>
           ) : (
             <SeeMore maxChars={attachments ? 150 : 400} postid={postid}>

@@ -169,6 +169,13 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           }
         }
       },
+      MuiLink:{
+        styleOverrides: {
+          root: {
+            color: palette.M100
+          }
+        }
+      },
       MuiAvatar: {
         styleOverrides: {
           root: {
@@ -690,13 +697,13 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       bodyS1: {
         fontWeight: 600,
         fontSize: '0.725rem',
-        lineHeight: '135%',
+        lineHeight: '125%',
         color: `${palette.M50}EE`
       },
       bodyS2: {
         fontWeight: 400,
         fontSize: '0.725rem',
-        lineHeight: '135%',
+        lineHeight: '125%',
         color: `${palette.M50}EE`
       },
       url: {
