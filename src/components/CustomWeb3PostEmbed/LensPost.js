@@ -121,10 +121,10 @@ const LensPost = ({ postid, text, url, attachments }) => {
       ) : (
         <>
           {/*If text hasnt been changed for Linkpreviews */}
-          {isFullPost() ? (
+          {isFullPost()? (
             <YupReactMarkdown>{text}</YupReactMarkdown>
           ) : (
-            <SeeMore lines={attachments ? 3 : 6} postid={postid}>
+            <SeeMore maxChars={attachments ? 150 : 400} postid={postid}>
               {text}
             </SeeMore>
           )}
