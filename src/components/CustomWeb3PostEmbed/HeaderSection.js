@@ -81,7 +81,7 @@ const HeaderSection = ({
       <Grid container alignItems={'center'} spacing={2}>
       <Grid item>
       <Typography
-              variant="body1"
+              variant="body2"
               className={classes.userHandle}
               sx={{marginBottom:'6px'}}
             >
