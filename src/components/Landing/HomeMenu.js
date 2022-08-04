@@ -262,13 +262,13 @@ const Home = ({ isUser, userCollections, theme }) => {
             </Grid>
             <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
               <Grid container direction="row">
-                {userCollections?.length && (
+                {userCollections?.length ? (
                   <Grid item xs={12}>
                     <Fade in timeout={2000}>
                       <Typography variant="h5">Your Collections</Typography>
                     </Fade>
                   </Grid>
-                )}
+                ) : null}
                 <Grid item xs={12}>
                   <Grid container spacing={3}>
                     {userCollections &&
