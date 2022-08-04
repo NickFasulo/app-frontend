@@ -81,11 +81,11 @@ const HeaderSection = ({
       <Grid container alignItems={'center'} spacing={2}>
       <Grid item>
       <Typography
-              variant="body2"
+              variant="body1"
               className={classes.userHandle}
               sx={{marginBottom:'6px'}}
             >
-              {'Posted ' + timeSince(new Date(createdAt)) + ' ago'}
+              { timeSince(new Date(createdAt)) }
             </Typography></Grid>
       <Grid item className={web3PostIcon}>
         <Link href={tweetLink} target="_blank" underline="none">
