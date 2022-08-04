@@ -205,7 +205,8 @@ export const AuthModalContextProvider = ({ children }) => {
       authType: AUTH_TYPE.ETH,
       address,
       signature,
-      eosname: account._id
+      eosname: account._id,
+      username: account.username
     });
 
     // Tract for analytics
