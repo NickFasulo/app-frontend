@@ -3,7 +3,7 @@
 export const AUTH_TYPE = {
   EXTENSION: 'extension',
   TWITTER: 'twitter',
-  ETH: 'eth',
+  ETH: 'ETH',
   USERNAME: 'username'
 };
 
