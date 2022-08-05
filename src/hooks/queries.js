@@ -129,14 +129,14 @@ export const useSearchPosts = (query) => {
   );
 };
 
-export const useSearchPeople = (query) => {
+export const useSearchPeople = (query, limit) => {
   const { data } = useQuery([REACT_QUERY_KEYS.SEARCH_PEOPLE, query], () =>
     callYupApi({
       method: 'GET',
       url: '/search/es/users',
       params: {
         searchText: query,
-        limit: DEFAULT_SEARCH_SIZE
+        limit: limit || DEFAULT_SEARCH_SIZE
       }
     })
   );
@@ -160,12 +160,16 @@ export const useSearchCollections = (query) => {
 };
 
 export const useUserCollections = (userId) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.USER_COLLECTIONS, userId], () =>
-    callYupApi({
-      method: 'GET',
-      url: `/accounts/${userId}/collections`
-    })
-  );
+  const { data } = useQuery([REACT_QUERY_KEYS.USER_COLLECTIONS, userId], async () => {
+    try {
+      return await callYupApi({
+        method: 'GET',
+        url: `/accounts/${userId}/collections`
+      });
+    } catch {
+      return [];
+    }
+  });
 
   return data;
 };

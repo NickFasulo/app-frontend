@@ -8,9 +8,8 @@ import { useState } from 'react';
 import { USER_COLLECTION_PAGE_SIZE } from '../../config';
 import CollectionPagination from './CollectionPagination';
 
-const UserCollectionsSection = ({ userId }) => {
+const UserCollectionsSection = ({ collections }) => {
   const [page, setPage] = useState(0);
-  const collections = useUserCollections(userId);
 
   const pageStartIndex = page * USER_COLLECTION_PAGE_SIZE;
   const pageCollections = collections.slice(
