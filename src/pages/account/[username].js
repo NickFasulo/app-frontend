@@ -7,7 +7,7 @@ import {
   YupContainer,
   YupPageWrapper
 } from '../../components/styles';
-import { useSocialLevel } from '../../hooks/queries';
+import { useSocialLevel, useUserCollections } from '../../hooks/queries';
 import { LOADER_TYPE } from '../../constants/enum';
 import withSuspense from '../../hoc/withSuspense';
 import { useEffect, useState } from 'react';
@@ -20,11 +20,13 @@ import UserCollectionsSection from '../../components/UserCollectionsSection/User
 import YupPageHeader from '../../components/YupPageHeader';
 import UserAnalytics from '../../components/UserAnalytics/UserAnalytics';
 import GridLayout from '../../components/GridLayout';
+import UserNewConnections from '../../components/UserNewConnections';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
   ANALYTICS: 'analytics',
-  COLLECTIONS: 'collections'
+  COLLECTIONS: 'collections',
+  PEOPLE: 'people'
 };
 
 const UserAccountPage = () => {
@@ -32,13 +34,17 @@ const UserAccountPage = () => {
   const { username } = query;
   const { isMobile } = useDevice();
   const profile = useSocialLevel(username);
+  const collections = useUserCollections(profile._id);
   const { windowScrolled } = useAppUtils();
 
   const [selectedTab, setSelectedTab] = useState(PROFILE_TAB_IDS.PROFILE);
 
   useEffect(() => {
-    // If `Collections` tab is selected in Desktop mode, switch it to `Profile` tab.
-    if (!isMobile && selectedTab === PROFILE_TAB_IDS.COLLECTIONS) {
+    // If `Collections` or `People` tab is selected in Desktop mode, switch it to `Profile` tab.
+    if (!isMobile && (
+      selectedTab === PROFILE_TAB_IDS.COLLECTIONS ||
+        selectedTab === PROFILE_TAB_IDS.PEOPLE
+    )) {
       setSelectedTab(PROFILE_TAB_IDS.PROFILE);
     }
   }, [isMobile, selectedTab]);
@@ -52,7 +58,11 @@ const UserAccountPage = () => {
   ];
 
   if (isMobile) {
-    tabs.push({ label: 'Collections', value: PROFILE_TAB_IDS.COLLECTIONS });
+    if (collections.length > 0) {
+      tabs.push({ label: 'Collections', value: PROFILE_TAB_IDS.COLLECTIONS });
+    } else {
+      tabs.push({ label: 'People', value: PROFILE_TAB_IDS.PEOPLE });
+    }
   }
 
   return (
@@ -85,13 +95,24 @@ const UserAccountPage = () => {
         <YupContainer>
           <GridLayout
             contentLeft={<UserPosts userId={profile._id} />}
-            contentRight={<UserCollectionsSection userId={profile._id} />}
+            contentRight={
+              collections.length > 0 ? (
+                <UserCollectionsSection collections={collections} />
+              ) : (
+                <UserNewConnections profile={profile} />
+              )
+            }
           />
         </YupContainer>
       )}
       {selectedTab === PROFILE_TAB_IDS.COLLECTIONS && (
         <YupContainer sx={{ pt: 3 }}>
-          <UserCollectionsSection userId={profile._id} />
+          <UserCollectionsSection collections={collections} />
+        </YupContainer>
+      )}
+      {selectedTab === PROFILE_TAB_IDS.PEOPLE && (
+        <YupContainer sx={{ pt: 3 }}>
+          <UserNewConnections profile={profile} />
         </YupContainer>
       )}
       {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (
