@@ -645,13 +645,13 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       },
       body1: {
         fontWeight: 600,
-        fontSize: '0.9375rem',
+        fontSize: '15px',
         lineHeight: '135%',
         color: `${palette.M50}EE`
       },
       capsized_body1: {
         fontWeight: 600,
-        fontSize: '0.9375rem',
+        fontSize: '15px',
         lineHeight: '100%',
         color: `${palette.M50}EE`,
         '&::before': {
@@ -667,13 +667,13 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       },
       body2: {
         fontWeight: 400,
-        fontSize: '0.9375rem',
+        fontSize: '15px',
         lineHeight: '135%',
         color: `${palette.M50}EE`
       },
       capsized_body2: {
         fontWeight: 400,
-        fontSize: '0.9375rem',
+        fontSize: '15px',
         lineHeight: '100%',
         color: `${palette.M50}DE`,
         '&::before': {
@@ -689,13 +689,13 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       },
       bodyS1: {
         fontWeight: 600,
-        fontSize: '0.725rem',
+        fontSize: '12px',
         lineHeight: '135%',
         color: `${palette.M50}EE`
       },
       bodyS2: {
         fontWeight: 400,
-        fontSize: '0.725rem',
+        fontSize: '12px',
         lineHeight: '135%',
         color: `${palette.M50}EE`
       },

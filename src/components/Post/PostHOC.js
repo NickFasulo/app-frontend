@@ -26,8 +26,9 @@ const styles = (theme) => ({
     minWidth: 0,
     [theme.breakpoints.down('sm')]: {
       border: '0px solid',
-    backgroundColor: `${theme.palette.M850}00`,
-    backdropFilter: 'blur(0px)'
+      backgroundColor: `${theme.palette.M850}00`,
+      backdropFilter: 'blur(0px)',
+      boxShadow: 'none'
     }
   },
   postUrlHeader: {
