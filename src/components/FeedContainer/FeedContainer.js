@@ -23,7 +23,7 @@ const FeedContainer = ({ categoryData }) => {
           contentLeft={<FeedHOC feedType={categoryData.id} />}
           contentRight={
             <>
-              <Typography variant="h5" sx={{ pb: 3 }}>
+              <Typography variant="h6" sx={{ pb: 1 }}>
                 Recommended
               </Typography>
               <FeedCategoryList currentCategoryId={categoryData.id} />

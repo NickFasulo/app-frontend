@@ -23,7 +23,13 @@ const styles = (theme) => ({
     backdropFilter: 'blur(24px)',
     boxShadow: `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
     backgroundSize: 'cover',
-    minWidth: 0
+    minWidth: 0,
+    [theme.breakpoints.down('sm')]: {
+      border: '0px solid',
+      backgroundColor: `${theme.palette.M850}00`,
+      backdropFilter: 'blur(0px)',
+      boxShadow: 'none'
+    }
   },
   postUrlHeader: {
     width: '100%',
@@ -87,12 +93,12 @@ class PostHOC extends PureComponent {
                   rating={rating}
                 />
               </Typography>
-              <Divider
-                className={classes.divider}
-                style={{ backgroundColor: '#ffffff05' }}
-                variant="fullWidth"
-              />
             </div>
+          <Divider
+            className={classes.divider}
+            style={{ backgroundColor: '#ffffff05' }}
+            variant="fullWidth"
+          />
           </div>
         </Fade>
       </ErrorBoundary>

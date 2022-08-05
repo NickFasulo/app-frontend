@@ -74,8 +74,9 @@ const styles = (theme) => ({
   },
   card: {
     padding: 20,
-    background: theme.palette.M900,
-    border: `1px solid ${theme.palette.M700}`
+    background: `${theme.palette.M900}55`,
+    border: `1.5px solid ${theme.palette.M700}`,
+    backdropFilter: 'blur(20px)'
   },
   counterSizeFixed: {
     width: '360px',

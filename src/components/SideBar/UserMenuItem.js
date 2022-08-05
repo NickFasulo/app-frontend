@@ -15,7 +15,7 @@ import { useAuth } from '../../contexts/AuthContext';
 const UserMenuItem = () => {
   const { open } = useSideBar();
   const { isDesktop } = useDevice();
-  const { name: username } = useAuth();
+  const { username } = useAuth();
   const profile = useSocialLevel(username);
 
   return (
