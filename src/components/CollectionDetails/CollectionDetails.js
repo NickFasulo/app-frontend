@@ -68,7 +68,7 @@ const CollectionDetails = ({ id }) => {
               contentLeft={<CollectionList collection={collection} />}
               contentRight={
                 <>
-                  <Typography variant="h5" sx={{ pb: 3 }}>
+                  <Typography variant="h6" sx={{ pb: 1 }}>
                     Recommended
                   </Typography>
                   <RecommendationList collection={collection} />

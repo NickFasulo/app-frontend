@@ -17,9 +17,9 @@ export const HeaderImageWrapper = styled('div')(({ theme, isMinimize }) => ({
 }));
 
 export const HeaderImage = styled(Image)(({ theme }) => ({
-  borderRadius: '15%'
+  borderRadius: '14%'
 }));
 
 export const CategoryImage = styled(Image)(({ theme }) => ({
-  borderRadius: 10
+  borderRadius: '0.5rem'
 }));
