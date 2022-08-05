@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, Typography, Grid } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { timeSince } from './Util/Util';
+import Link from '../Link';
 
 const HeaderSection = ({
   classes,
@@ -78,17 +79,19 @@ const HeaderSection = ({
         )}
       </Grid>
       <Grid item>
-      <Grid container alignItems={'center'} spacing={2}>
-      <Grid item>
+      <Grid container alignItems={'center'} spacing={1}>
+      <Grid item 
+      sx={{marginBottom: '0.09375rem'}}>
       <Typography
-              variant="body2"
+              variant="bodyS2"
               className={classes.userHandle}
-              sx={{marginBottom:'6px'}}
             >
               { timeSince(new Date(createdAt)) }
-            </Typography></Grid>
-      <Grid item className={web3PostIcon}>
-        <Link href={tweetLink} target="_blank" underline="none">
+            </Typography>
+            </Grid>
+      <Grid item className={web3PostIcon} 
+      >
+        <Link href={tweetLink} target="_blank" underline="none" sx={{display:'flex'}}>
           <img
             src={`/images/icons/${
               protocol === 'lens' ? 'lens' : 'farcaster'

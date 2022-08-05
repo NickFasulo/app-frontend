@@ -169,6 +169,13 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           }
         }
       },
+      MuiLink:{
+        styleOverrides: {
+          root: {
+            color: palette.M100
+          }
+        }
+      },
       MuiAvatar: {
         styleOverrides: {
           root: {

@@ -15,12 +15,6 @@ const FarCasterPost = ({ text, postid, attachments }) => {
     <>
       <Grid
         item
-        sx={{
-          '& *> a': {
-            textDecoration: 'none',
-            color: 'white'
-          }
-        }}
       >
         {/* <YupReactMarkdown> */}
         <SeeMore maxChars={attachments ? 150 : 400} postid={postid}>
