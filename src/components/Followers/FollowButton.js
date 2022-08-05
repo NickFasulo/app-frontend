@@ -17,13 +17,12 @@ const FollowButton = ({
   eosname,
   isLoggedIn,
   account,
-  followingInfo,
+  followers,
   dispatch
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toastError } = useToast();
   const classes = useStyles();
-
   const handleFollow = async (accountToFollow) => {
     try {
       if (account == null) {
@@ -70,13 +69,12 @@ const FollowButton = ({
     setIsLoading(false);
   };
 
-  if (isLoggedIn || account == null || followingInfo == null) {
+  if (isLoggedIn || account == null ) {
     return null;
   }
-
-  const isFollowing = followingInfo[eosname]
-    ? followingInfo[eosname].followers.some((user) => {
-        return user._id === account.name;
+  const isFollowing = followers
+    ? followers.some((user) => {
+        return user._id.account === account.name;
       })
     : false;
 
