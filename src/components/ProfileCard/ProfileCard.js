@@ -206,7 +206,6 @@ function ProfileCard(props) {
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0;
   const YUPBalanceError =
     (balanceInfo && balanceInfo.YUP && balanceInfo.YUP.error) || null;
-
   const formattedYUPBalance =
     YUPBalance && numeral(Number(YUPBalance)).format('0,0.00');
   const formattedScore = numeral(
