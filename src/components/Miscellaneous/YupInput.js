@@ -75,9 +75,7 @@ const YupInput = ({
           },
           maxLength
         }}
-        InputProps={{
-          endAdornment: endAdornment || arrowEndAdornment
-        }}
+        endAdornment={endAdornment || arrowEndAdornment}
         {...restProps}
       />
       <FormHelperText className={classes.helperText} error={error}>

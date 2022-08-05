@@ -4,7 +4,7 @@ import LineChart from '../../components/Charts/LineChart';
 import BarChart from '../../components/Charts/BarChart';
 import DonutChart from '../../components/Charts/DonutChart';
 import withStyles from '@mui/styles/withStyles';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Hidden, Typography } from '@mui/material';
 import axios from 'axios';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import { isSameDay } from 'date-fns';
@@ -443,11 +443,38 @@ class UserAnalytics extends Component {
       );
     }
 
+    const scores = (
+      <FlexBox flexDirection="column" rowGap={3}>
+        <BarChart
+          chartData={influence}
+          chartTitle="Yup Score"
+          color={socialLevelColor}
+          description="Yup Score is your web3 social score, considering various factors across web3 such as tokens owned, account age, voting participation, etc."
+        />
+        <BarChart
+          chartData={account?.score || 0}
+          chartTitle="Influence"
+          description="Influence determines the weight of your vote and is multiplied by how many likes you give a post. "
+        />
+        <BarChart
+          chartData={ratingPower}
+          chartTitle="Rating Power"
+          color=""
+          description="Rating Power indicates how many votes you have left today."
+        />
+      </FlexBox>
+    );
+
     return (
       <ErrorBoundary>
         <GridLayout
           contentLeft={
             <Grid container spacing={3}>
+              <Hidden mdUp>
+                <Grid item xs={12}>
+                  {scores}
+                </Grid>
+              </Hidden>
               <Grid item xs={12} md={6}>
                 <LineChart
                   headerNumber={totalClaimedRewards}
@@ -472,28 +499,7 @@ class UserAnalytics extends Component {
               </Grid>
             </Grid>
           }
-          contentRight={
-            <FlexBox flexDirection="column" rowGap={3}>
-              <BarChart
-                chartData={influence}
-                chartTitle="Yup Score"
-                color={socialLevelColor}
-                description="Yup Score is your web3 social score, considering various factors across web3 such as tokens owned, account age, voting participation, etc."
-              />
-              <BarChart
-                chartData={account?.score || 0}
-                chartTitle="Influence"
-                description="Influence determines the weight of your vote and is multiplied by how many likes you give a post. "
-              />
-              <BarChart
-                chartData={ratingPower}
-                chartTitle="Rating Power"
-                color=""
-                description="Rating Power indicates how many votes you have left today."
-              />
-            </FlexBox>
-          }
-          noHideRightContent
+          contentRight={scores}
         />
       </ErrorBoundary>
     );
