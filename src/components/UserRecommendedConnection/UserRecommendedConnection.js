@@ -4,19 +4,21 @@ import FollowButton from '../Followers/FollowButton';
 import Link from '../Link';
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  backgroundColor: `${theme.palette.M900}88`,
-  border: `solid 1px ${theme.palette.M750}`,
-  borderRadius: 16,
-  padding: theme.spacing(1.5)
+  backgroundColor: `${theme.palette.M800}A6`,
+  border: `solid 1.5px ${theme.palette.M700}22`,
+  borderRadius: 12,
+  padding: theme.spacing(1.5),
+  backdropFilter: 'blur(24px)',
 }));
 
 const UserRecommendedConnection = ({ user }) => {
   return (
     <StyledListItemButton
       component={Link}
+      alignItems='center'
       href={`/account/${user.username}`}
     >
-      <ListItemAvatar sx={{ mr: 2.5 }}>
+      <ListItemAvatar sx={{ mr: 1.5 }}>
         <ConnectionAvatar src={user.avatar} alt={user.fullname}>
           {user.username[0].toUpperCase()}
         </ConnectionAvatar>
