@@ -39,7 +39,7 @@ import { useAuth } from '../../contexts/AuthContext';
 const SideBar = () => {
   const dispatch = useDispatch();
   const { isDesktop } = useDevice();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout: logoutUser } = useAuth();
   const { isLightMode, toggleTheme } = useThemeMode();
   const [open, setOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -50,6 +50,10 @@ const SideBar = () => {
   const handleLogout = () => {
     localStorage.removeItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
     localStorage.removeItem(LOCAL_STORAGE_KEYS.TWITTER_INFO);
+
+    setSettingsOpen(false);
+
+    logoutUser();
 
     dispatch(logout());
   };

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import scatter from '../eos/scatter/scatter.wallet';
 import {
@@ -22,7 +22,8 @@ const AuthContext = createContext({
   name: null,
   username: null,
   authInfo: {},
-  updateAuthInfo: () => {}
+  updateAuthInfo: () => {},
+  logout: () => {}
 });
 
 export const AuthProvider = ({ children }) => {
@@ -152,6 +153,11 @@ export const AuthProvider = ({ children }) => {
     setIsCheckingAuth(false);
   }, [authInfo]);
 
+  const handleLogout = useCallback(() => {
+    setIsLoggedIn(false);
+    setAuthInfo({});
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -160,7 +166,8 @@ export const AuthProvider = ({ children }) => {
         name: authInfo.eosname,
         username: authInfo.username,
         authInfo,
-        updateAuthInfo: setAuthInfo
+        updateAuthInfo: setAuthInfo,
+        logout: handleLogout
       }}
     >
       {children}
