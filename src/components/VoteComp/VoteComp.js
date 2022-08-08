@@ -141,7 +141,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
         await createVote({
           postid,
           voter: name,
-          like: true,
+          like: like,
           rating,
           authInfo
         });
@@ -149,7 +149,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
         await createVote({
           url,
           voter: name,
-          like: true,
+          like: like,
           rating,
           authInfo
         });
