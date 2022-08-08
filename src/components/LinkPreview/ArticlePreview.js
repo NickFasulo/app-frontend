@@ -81,7 +81,6 @@ const styles = (theme) => ({
 });
 
 const ArticlePreview = ({ title, description, url, classes }) => {
-  console.log({ title });
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
@@ -129,7 +128,7 @@ const ArticlePreview = ({ title, description, url, classes }) => {
                 components={{
                   a: ({ node, ...props }) => (
                     <a
-                      style={{ color: 'white', textDecoration: 'none' }}
+                      style={{ fontWeight: 'bold', textDecoration: 'none', color: '#FEFEFE' }}
                       {...props}
                     />
                   ),
