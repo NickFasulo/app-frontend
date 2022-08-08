@@ -2,7 +2,9 @@ export function parseError(obj, action) {
   try {
     const resourceExhaustedExc = /resource_exhausted_exception/gm;
     const overdrawnBalanceExc = /overdrawn balance/gm;
-    const actionLimitExc = /Action limit exceeded/gm;
+    const tooManyRequests = /Too many requests, please try again later./gm;
+    const reachtedDailyVoteLimit = /You have reached the daily vote limit of/gm;
+    
     // TODO: check for additional Yup specific errors
 
     const jsonStr = typeof obj === 'string' ? obj : JSON.stringify(obj);
@@ -10,7 +12,10 @@ export function parseError(obj, action) {
       return 'Exceeded resource limits for account';
     } else if (jsonStr.match(overdrawnBalanceExc)) {
       return 'Account balance is overdrawn';
-    } else if (jsonStr.match(actionLimitExc)) {
+    }else if(jsonStr.match(tooManyRequests)){      
+      return 'Too many requests, please try again later.';
+    } 
+    else if (jsonStr.match(reachtedDailyVoteLimit)) {
       if (action === 'createcomment') {
         return "You've run out of comments for the day";
       }

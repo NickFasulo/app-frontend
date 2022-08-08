@@ -193,7 +193,7 @@ const VoteButton = ({
   totalVoters,
   handleOnclick,
   catWeight,
-  rating,
+  rating=0,
   isVoted,
   setLastClicked,
   web3Likes = 0
@@ -204,7 +204,7 @@ const VoteButton = ({
   const [isClicked, setIsClicked] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-
+  console.log({totalVoters, rating, web3Likes, type})
   useEffect(() => {
     let interval;
     if (mouseDown && (!account || !account.name)) {
@@ -339,7 +339,7 @@ const VoteButton = ({
       </Grid>
       <Grid xs={4} className={classes.postWeight} item>
         <StyledPostStats
-          totalVoters={totalVoters + web3Likes}
+          totalVoters={totalVoters + web3Likes+rating}
           weight={Number(formattedWeight)}
           isShown={isShown}
         />
