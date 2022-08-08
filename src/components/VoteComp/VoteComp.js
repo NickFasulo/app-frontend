@@ -206,7 +206,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
         await submitVote(prevRating, forcedVoteRating, true);
         return;
       }
-      toastError("You've run out of votes for the day");
+      toastError("You've run out of likes for the day");
     } catch (error) {
       toastError(parseError(error, 'vote'));
     }
