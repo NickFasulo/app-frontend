@@ -58,22 +58,28 @@ const getWeb3Dislikes = (postInfo) => {
 const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   const { authInfo, name } = useAuth();
   const votes = useInitialVotes(postid, name);
+  const vote = votes?.[0];
   const [newRating, setNewRating] = useState();
   const [lastClicked, setLastClicked] = useState();
   const [upvotes, setUpvotes] = useState(0);
   const [downvotes, setDownvotes] = useState(0);
   const [shouldSubmit, setShouldSubmit] = useState(false);
+  const [hasNewUpvote, setHasNewUpvote] = useState(false);
+  const [hasNewDownvote, setHasNewDownvote] = useState(false);
+  const [hasOldUpvote, setHasOldUpvote] = useState(vote?.like && vote.rating);
+  const [hasOldDownvote, setHasOldDownvote] = useState(vote && !vote.like && vote.rating);
+  const [hasOldUpvoteRemoved, setHasOldUpvoteRemoved] = useState();
+  const [hasOldDownvoteRemoved, setHasOldDownvoteRemoved] = useState();
   const { toastError } = useToast();
   const category = 'overall';
   const { post } = postInfo;
-  console.log({ postInfo });
-  const vote = votes?.[0];
+  console.log({ newRating, hasNewUpvote, hasNewDownvote, hasOldUpvote, hasOldDownvote, lastClicked ,downvotes, upvotes});
+  console.log({ vote });
   useEffect(() => {
     let timer1;
     if (newRating && lastClicked) {
-      timer1 = setTimeout(() => setShouldSubmit(true), 3 * 1000);
+      timer1 = setTimeout(() => setShouldSubmit(true), 1 * 1000);
     }
-
     return () => {
       setShouldSubmit(false);
       clearTimeout(timer1);
@@ -85,8 +91,34 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   }, [shouldSubmit]);
 
   useEffect(() => {
-    vote &&
-      setNewRating(vote.like ? likeRatingConversion[vote.rating] : vote.rating);
+    if (lastClicked){
+      if(lastClicked === 'like'){      
+        if(hasOldDownvote&&!hasOldDownvoteRemoved){
+          setHasOldDownvoteRemoved(true)
+          setDownvotes(prev=>prev-1) 
+        }  
+        if(hasOldUpvote&&hasOldUpvoteRemoved){
+          setHasOldUpvoteRemoved(true)
+          setUpvotes(prev=>prev+1)
+        }   
+        setHasNewUpvote(ratingConversion[newRating])
+        setHasNewDownvote(0)
+      } else {
+        if(hasOldUpvote&&!hasOldUpvoteRemoved){
+          setHasOldUpvoteRemoved(true)
+          setUpvotes(prev=>prev-1) 
+        }  
+        if(hasOldDownvote&&hasOldDownvoteRemoved){
+          setHasOldDownvoteRemoved(true)
+          setDownvotes(prev=>prev+1)
+        } 
+        setHasNewDownvote(ratingConversion[newRating])
+        setHasNewUpvote(0)
+      }
+    }    
+  }, [newRating, lastClicked]);
+
+  useEffect(() => {
     setUpvotes((post.catVotes.overall && post.catVotes.overall.up) || 0);
     setDownvotes((post.catVotes.overall && post.catVotes.overall.down) || 0);
   }, []);
@@ -224,6 +256,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
         await submitForcedVote(prevRating, newRating);
         return;
       }
+      console.log({error})
       toastError(parseError(error, 'vote'));
       rollbar.error(
         `WEB APP VoteButton handleVote() ${JSON.stringify(
@@ -252,13 +285,13 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
           setLastClicked={() => setLastClicked('like')}
           type="like"
           totalVoters={
-            upvotes +
-            (lastClicked === 'like' ? ratingConversion[newRating] : 0) -
-            (lastClicked && vote?.like ? vote.rating : 0)
+            upvotes 
+            // +
+            // (lastClicked === 'like' ? ratingConversion[newRating] : 0) -
+            // (lastClicked && vote?.like ? vote.rating : 0)
           }
           rating={
-            (lastClicked && lastClicked === 'like' && newRating) ||
-            (vote?.like && vote.rating)
+            lastClicked === 'like' ?(hasOldUpvote?(hasNewUpvote?hasNewUpvote-1:hasOldUpvote-1) :(hasNewUpvote?hasNewUpvote:hasOldUpvote)):0
           }
           postid={postid}
           listType={listType}
@@ -275,13 +308,13 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
           type="dislike"
           setLastClicked={() => setLastClicked('dislike')}
           totalVoters={
-            downvotes +
-            (lastClicked === 'dislike' ? ratingConversion[newRating] : 0) -
-            (lastClicked && vote && !vote.like ? vote.rating : 0)
+            downvotes 
+            // +
+            // (lastClicked === 'dislike' ? ratingConversion[newRating] : 0) -
+            // (lastClicked && vote && !vote.like ? vote.rating : 0)
           }
           rating={
-            (lastClicked && lastClicked === 'dislike' && newRating) ||
-            (vote && !vote.like && vote.rating)
+            lastClicked === 'dislike' ?( hasOldDownvote?(hasNewDownvote?hasNewDownvote-1:hasOldDownvote-1) :(hasNewDownvote?hasNewDownvote:hasOldDownvote)): 0
           }
           postid={postid}
           listType={listType}
