@@ -171,7 +171,7 @@ PostStats.propTypes = {
 
 const postStatStyles = (theme) => ({
   weight: {
-    marginRight: '3px',
+    width: '1rem',
     fontSize: '16px'
   },
   totalVoters: {
