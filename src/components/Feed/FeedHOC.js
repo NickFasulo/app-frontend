@@ -22,6 +22,7 @@ const FeedHOC = ({ feedType }) => {
     if (!feedInfo) {
       return;
     }
+    console.log('amlog', 'fetch posts');
 
     const { posts, limit } = feedInfo;
 
@@ -33,6 +34,7 @@ const FeedHOC = ({ feedType }) => {
   // Increases start value, to fetch next posts
   const fetchPostsScroll = () => {
     const { start, limit } = feedInfo;
+    console.log('amlog', 'fetching posts');
 
     // If start is zero, fetchPosts is called. Temporary solution.
     if (!start) {
