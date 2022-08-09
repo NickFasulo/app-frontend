@@ -85,7 +85,6 @@ const Home = ({ isUser, userCollections, theme }) => {
   }, []);
 
   useEffect(() => { 
-    console.log({scrollPosition, recommendedFloating}, feedRef.current.offsetTop);
     if (feedRef?.current) {
       if(feedRef.current.offsetTop<=scrollPosition){  
         !recommendedFloating&& setRecommendeFloating(true)
