@@ -296,7 +296,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                                 />
                               </Grid>
                               <Grid item xs={8} lg={8} xl={8} p={1}>
-                                <TruncateText variant="subtitle1" lines={2}>
+                                <TruncateText variant="h6" lines={1}>
                                   {coll.name}
                                 </TruncateText>
                                 <Typography variant="body2">
@@ -363,7 +363,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                                   />
                                 </Grid>
                                 <Grid item xs={8} lg={8} xl={8} p={1}>
-                                  <TruncateText variant="subtitle1" lines={2}>
+                                  <TruncateText variant="h6" lines={1}>
                                     {coll.name}
                                   </TruncateText>
                                   <Typography variant="body2">
