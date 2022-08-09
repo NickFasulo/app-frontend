@@ -109,7 +109,7 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction="row" spacing={2} alignItems="stretch">
                 <Grid item md={12} xs={12}>
-                  <Grow in style={{ transitionDelay: '50ms' }} timeout={200}>
+                  <Fade in style={{ transitionDelay: '50ms' }} timeout={200}>
                     <Card
                       elevation={0}
                       className={classes.bannerCard}
@@ -127,7 +127,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           alignItems="center"
                         >
                           <Grid item xs={isMobile ? 12 : 7}>
-                            <Zoom in style={{ transitionDelay: '900ms' }} timeout={500}>
+                            <Zoom in style={{ transitionDelay: '50ms' }} timeout={20}>
                               <Typography
                                 variant="h1"
                                 className={classes.titlePlain}
@@ -137,7 +137,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                                   : `Social Network for Curators`}
                               </Typography>
                             </Zoom>
-                            <Zoom in style={{ transitionDelay: '1100ms' }} timeout={500}>
+                            <Zoom in style={{ transitionDelay: '50ms' }} timeout={50}>
                             <Typography
                               variant="subtitle1"
                               className={classes.subtitle}
@@ -183,7 +183,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           </Link>
                         ) : (
                           <>
-                          <Grow in style={{ transitionDelay: '100ms' }} timeout={0}>
+                          <Fade in style={{ transitionDelay: '100ms' }} timeout={0}>
                             <a>
                               <YupButton
                                 size="large"
@@ -194,8 +194,8 @@ const Home = ({ isUser, userCollections, theme }) => {
                                 Start Now
                               </YupButton>
                                 </a>
-                          </Grow>
-                          <Grow in style={{ transitionDelay: '200ms' }} timeout={0}>
+                          </Fade>
+                          <Fade in style={{ transitionDelay: '200ms' }} timeout={0}>
                             <a
                               className={classes.link}
                               href={landingPageUrl}
@@ -210,12 +210,12 @@ const Home = ({ isUser, userCollections, theme }) => {
                                     Learn More
                                   </YupButton>
                               </a>
-                            </Grow>
+                            </Fade>
                           </>
                         )}
                       </CardActions>
                     </Card>
-                  </Grow>
+                  </Fade>
                 </Grid>
               </Grid>
             </Grid>
@@ -243,7 +243,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               alignItems="stretch"
                               spacing={1}
                             >
-                              <Grow in style={{ transitionDelay: `${100 + 100 * index}ms` }} timeout={200}>
+                              <Fade in style={{ transitionDelay: `${50 * index}ms` }} timeout={20}>
                                 <Grid item>
                                   <Tilt
                                     options={{
@@ -269,7 +269,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                                     </Card>
                                   </Tilt>
                                   </Grid>
-                                </Grow>
+                                </Fade>
                             </Grid>
                         </Link>
                       </Grid>
@@ -281,12 +281,12 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
                 <Grid container direction="row">
                   <Grid item xs={12}>
-                    <Grow in style={{ transitionDelay: '600ms' }} timeout={200}>
+                    <Fade in style={{ transitionDelay: '0ms' }} timeout={0}>
                       <Typography variant="h5">Your Collections</Typography>
-                    </Grow>
+                    </Fade>
                   </Grid>
                   <Grid item xs={12}>
-                    <Grow in style={{ transitionDelay: '700ms' }} timeout={200}>
+                    <Fade in style={{ transitionDelay: '10ms' }} timeout={0}>
                       <Grid container spacing={2}>
                         {userCollections.slice(0, 4).map((coll, idx) => (
                           <Grid
@@ -340,7 +340,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           </Grid>
                         ))}
                       </Grid>
-                    </Grow>
+                    </Fade>
                   </Grid>
                 </Grid>
               </Grid>
@@ -349,15 +349,15 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid container direction="column">
                 <Grid item xs={12}><Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <Grow in style={{ transitionDelay: '1000ms' }} timeout={100}>
+                      <Fade in style={{ transitionDelay: '500ms' }} timeout={100}>
                         <Typography variant="h5">Browse</Typography>
-                      </Grow>
+                      </Fade>
                     </Grid>
                     {recommendedCollections &&
                       recommendedCollections.map((coll) => {
                         if (!coll) return null;
                         return (
-                        <Grow in style={{ transitionDelay: `${1100}ms` }} timeout={100}>
+                        <Fade in style={{ transitionDelay: `${200}ms` }} timeout={100}>
                           <Grid
                             key={coll._id}
                             item
@@ -405,7 +405,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               </Grid>
                             </Link>
                           </Grid>
-                        </Grow>
+                        </Fade>
                         );
                       })}
                   </Grid>
@@ -415,17 +415,17 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction='row' spacing={2} >
                 <Grid item xs={12}>
-                  <Grow  in style={{ transitionDelay: '700ms' }} timeout={200}>
+                  <Fade  in style={{ transitionDelay: '700ms' }} timeout={200}>
                     <Typography variant="h5">Feed</Typography>
-                  </Grow>
+                  </Fade>
                 </Grid>
-                  <Grow  in style={{ transitionDelay: '800ms' }} timeout={200}
+                  <Fade  in style={{ transitionDelay: '800ms' }} timeout={200}
                    ref={feedRef}>
                     <Grid item xs={12} sm={7} md={8}>
                       <FeedHOC feedType='dailyhits' />
                     </Grid>
-                  </Grow>
-                  <Grow in style={{ transitionDelay: '850ms' }} timeout={200}
+                  </Fade>
+                  <Fade in style={{ transitionDelay: '850ms' }} timeout={200}
                    sx={recommendedFloating&&{position:'fixed', top:0, left:feedRef.current.clientWidth+feedRef.current.offsetLeft+'px' }} >
                     <Grid item xs={12} sm={5} md={4}>
                         <Typography variant="h6" sx={{ pb: 1 }}>
@@ -433,7 +433,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                         </Typography>
                         <FeedCategoryList currentCategoryId='dailyhits' />
                     </Grid>
-                  </Grow>
+                  </Fade>
               </Grid>
             </Grid>
           </Grid>
