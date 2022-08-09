@@ -29,7 +29,7 @@ const SearchUi = ({ onClose }) => {
   };
 
   return (
-    <SearchLayout onScroll={handleScroll}>
+    <SearchLayout onScroll={handleScroll} id="search-ui-container">
       <SearchUiHeader sx={{ zIndex: 1110 }} scrolled={scrolled} noborder>
         <YupContainer
           sx={{ paddingTop: searchQuery ? 3 : '25vh', paddingBottom: 3 }}
