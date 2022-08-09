@@ -17,13 +17,9 @@ const FarCasterPost = ({ text, postid, attachments }) => {
         item
       >
         {/* <YupReactMarkdown> */}
-        <SeeMore maxChars={attachments ? 150 : 400} postid={postid}>
-          {text}
-        </SeeMore>
-        {/* {attachments ? parseText(text) : text }
-        </YupReactMarkdown> */}
-      </Grid>
-      {attachments
+        <SeeMore text={text}maxChars={attachments ? 150 : 400} postid={postid}>
+          <>
+          {attachments
         ? attachments.map((attachment) => {
             return (
               <>
@@ -50,6 +46,12 @@ const FarCasterPost = ({ text, postid, attachments }) => {
             );
           })
         : null}
+          </>
+        </SeeMore>
+        {/* {attachments ? parseText(text) : text }
+        </YupReactMarkdown> */}
+      </Grid>
+      
     </>
   );
 };

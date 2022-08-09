@@ -8,10 +8,9 @@ import { TruncateText } from '../styles';
 import YupReactMarkdown from '../ReactMarkdown';
 import TruncateMarkup from 'react-truncate-markup';
 
-const SeeMore = ({ children, maxChars, postid }) => {
+const SeeMore = ({text, children, maxChars, postid }) => {
   // const [isTruncated, setIsTruncated] = React.useState();
   // const [wasHandled, setWasHandled] = React.useState();
-  const text = typeof children === 'string' ? children : children.props.children;
   text += " "
   const isTrimmed = text.length > maxChars;
   var trimmedString = text.substr(0, maxChars);
@@ -40,6 +39,7 @@ const SeeMore = ({ children, maxChars, postid }) => {
               <YupReactMarkdown>
                 {trimmedString}
               </YupReactMarkdown>
+              {children}
       {isTrimmed&&(
         <Link href={`/post/${postid}`}>
             <Typography variant="body2"  sx={{ cursor:"pointer", fontStyle:'italic', color: 'gray'}}>
