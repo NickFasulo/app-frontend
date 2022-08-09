@@ -4,11 +4,12 @@ import withTheme from '@mui/styles/withTheme';
 import {
   Grid,
   Typography,
-  Fade,
+  Zoom,
   Grow,
   Card,
   CardContent,
-  CardActions
+  CardActions,
+  Fade
 } from '@mui/material';
 import '../../components/Twitter/twitter.module.css';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
@@ -88,7 +89,7 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction="row" spacing={2} alignItems="stretch">
                 <Grid item md={12} xs={12}>
-                  <Fade in timeout={300}>
+                  <Zoom in timeout={600}>
                     <Card
                       elevation={0}
                       className={classes.bannerCard}
@@ -106,14 +107,17 @@ const Home = ({ isUser, userCollections, theme }) => {
                           alignItems="center"
                         >
                           <Grid item xs={isMobile ? 12 : 7}>
-                            <Typography
-                              variant="h1"
-                              className={classes.titlePlain}
-                            >
-                              {isUser
-                                ? `Farcaster Feed`
-                                : `Social Network for Curators`}
-                            </Typography>
+                            <Grow in timeout={1600}>
+                              <Typography
+                                variant="h1"
+                                className={classes.titlePlain}
+                              >
+                                {isUser
+                                  ? `Farcaster Feed`
+                                  : `Social Network for Curators`}
+                              </Typography>
+                            </Grow>
+                            <Grow in timeout={1800}>
                             <Typography
                               variant="subtitle1"
                               className={classes.subtitle}
@@ -121,7 +125,8 @@ const Home = ({ isUser, userCollections, theme }) => {
                               {isUser
                                 ? `Explore Farcaster content`
                                 : `Curate and share content across the web. Earn money and clout for your taste`}
-                            </Typography>
+                              </Typography>
+                            </Grow>
                           </Grid>
                           <Grid
                             item
@@ -158,6 +163,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           </Link>
                         ) : (
                           <>
+                          <Zoom in timeout={1500}>
                             <a>
                               <YupButton
                                 size="large"
@@ -167,26 +173,29 @@ const Home = ({ isUser, userCollections, theme }) => {
                               >
                                 Start Now
                               </YupButton>
-                            </a>
+                                </a>
+                          </Zoom>
+                          <Zoom in timeout={1800}>
                             <a
                               className={classes.link}
                               href={landingPageUrl}
                               target="_blank"
                               rel="noreferrer"
-                            >
-                              <YupButton
-                                size="large"
-                                variant="outlined"
-                                color="secondary"
                               >
-                                Learn More
-                              </YupButton>
-                            </a>
+                                  <YupButton
+                                    size="large"
+                                    variant="outlined"
+                                    color="secondary"
+                                  >
+                                    Learn More
+                                  </YupButton>
+                              </a>
+                            </Zoom>
                           </>
                         )}
                       </CardActions>
                     </Card>
-                  </Fade>
+                  </Zoom>
                 </Grid>
               </Grid>
             </Grid>
@@ -208,14 +217,13 @@ const Home = ({ isUser, userCollections, theme }) => {
                         className={classes.imageCardGrid}
                       >
                         <Link href={item.route} className={classes.link}>
-                          <Grow in timeout={500}>
                             <Grid
                               container
                               direction="column"
                               alignItems="stretch"
                               spacing={1}
                             >
-                              <Fade in timeout={1100}>
+                              <Zoom direction="up"  in timeout={500 + 400 * index}>
                                 <Grid item>
                                   <Tilt
                                     options={{
@@ -241,9 +249,8 @@ const Home = ({ isUser, userCollections, theme }) => {
                                     </Card>
                                   </Tilt>
                                   </Grid>
-                                </Fade>
+                                </Zoom>
                             </Grid>
-                          </Grow>
                         </Link>
                       </Grid>
                     );
@@ -254,12 +261,12 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
                 <Grid container direction="row">
                   <Grid item xs={12}>
-                    <Fade in timeout={1300}>
+                    <Zoom in timeout={1400}>
                       <Typography variant="h5">Your Collections</Typography>
-                    </Fade>
+                    </Zoom>
                   </Grid>
                   <Grid item xs={12}>
-                    <Fade in timeout={1500}>
+                    <Zoom direction="up"  in timeout='auto'>
                       <Grid container spacing={2}>
                         {userCollections.slice(0, 4).map((coll, idx) => (
                           <Grid
@@ -313,7 +320,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           </Grid>
                         ))}
                       </Grid>
-                    </Fade>
+                    </Zoom>
                   </Grid>
                 </Grid>
               </Grid>
@@ -322,7 +329,7 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid container direction="column">
                 <Grid item xs={12}><Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <Fade in timeout={1700}>
+                      <Fade in timeout={2400}>
                         <Typography variant="h5">Browse</Typography>
                       </Fade>
                     </Grid>
@@ -330,6 +337,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                       recommendedCollections.map((coll) => {
                         if (!coll) return null;
                         return (
+                        <Zoom in timeout={2800}>
                           <Grid
                             key={coll._id}
                             item
@@ -377,6 +385,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               </Grid>
                             </Link>
                           </Grid>
+                        </Zoom>
                         );
                       })}
                   </Grid>
@@ -386,23 +395,23 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={12}>
-                  <Fade in timeout={1700}>
+                  <Zoom  in timeout={3200}>
                     <Typography variant="h5">Feed</Typography>
-                  </Fade>
+                  </Zoom>
                 </Grid>
-                  <Fade in timeout={1800}>
+                  <Zoom  in timeout={3500}>
                     <Grid item xs={12} sm={7} md={8}>
                       <FeedHOC feedType='dailyhits' />
                     </Grid>
-                  </Fade>
-                  <Fade in timeout={2000}>
+                  </Zoom>
+                  <Zoom direction="up"  in timeout={4000}>
                     <Grid item xs={12} sm={5} md={4}>
                         <Typography variant="h6" sx={{ pb: 1 }}>
                           Recommended
                         </Typography>
                         <FeedCategoryList currentCategoryId='dailyhits' />
                     </Grid>
-                  </Fade>
+                  </Zoom>
               </Grid>
             </Grid>
           </Grid>
