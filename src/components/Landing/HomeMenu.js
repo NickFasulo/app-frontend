@@ -89,7 +89,7 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction="row" spacing={2} alignItems="stretch">
                 <Grid item md={12} xs={12}>
-                  <Zoom in timeout={600}>
+                  <Grow in style={{ transitionDelay: '50ms' }} timeout={200}>
                     <Card
                       elevation={0}
                       className={classes.bannerCard}
@@ -107,7 +107,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           alignItems="center"
                         >
                           <Grid item xs={isMobile ? 12 : 7}>
-                            <Grow in timeout={1600}>
+                            <Zoom in style={{ transitionDelay: '900ms' }} timeout={500}>
                               <Typography
                                 variant="h1"
                                 className={classes.titlePlain}
@@ -116,8 +116,8 @@ const Home = ({ isUser, userCollections, theme }) => {
                                   ? `Farcaster Feed`
                                   : `Social Network for Curators`}
                               </Typography>
-                            </Grow>
-                            <Grow in timeout={1800}>
+                            </Zoom>
+                            <Zoom in style={{ transitionDelay: '1100ms' }} timeout={500}>
                             <Typography
                               variant="subtitle1"
                               className={classes.subtitle}
@@ -126,7 +126,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                                 ? `Explore Farcaster content`
                                 : `Curate and share content across the web. Earn money and clout for your taste`}
                               </Typography>
-                            </Grow>
+                            </Zoom>
                           </Grid>
                           <Grid
                             item
@@ -163,7 +163,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           </Link>
                         ) : (
                           <>
-                          <Zoom in timeout={1500}>
+                          <Grow in style={{ transitionDelay: '100ms' }} timeout={0}>
                             <a>
                               <YupButton
                                 size="large"
@@ -174,8 +174,8 @@ const Home = ({ isUser, userCollections, theme }) => {
                                 Start Now
                               </YupButton>
                                 </a>
-                          </Zoom>
-                          <Zoom in timeout={1800}>
+                          </Grow>
+                          <Grow in style={{ transitionDelay: '200ms' }} timeout={0}>
                             <a
                               className={classes.link}
                               href={landingPageUrl}
@@ -190,12 +190,12 @@ const Home = ({ isUser, userCollections, theme }) => {
                                     Learn More
                                   </YupButton>
                               </a>
-                            </Zoom>
+                            </Grow>
                           </>
                         )}
                       </CardActions>
                     </Card>
-                  </Zoom>
+                  </Grow>
                 </Grid>
               </Grid>
             </Grid>
@@ -223,7 +223,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               alignItems="stretch"
                               spacing={1}
                             >
-                              <Zoom direction="up"  in timeout={500 + 400 * index}>
+                              <Grow in style={{ transitionDelay: `${100 + 100 * index}ms` }} timeout={200}>
                                 <Grid item>
                                   <Tilt
                                     options={{
@@ -249,7 +249,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                                     </Card>
                                   </Tilt>
                                   </Grid>
-                                </Zoom>
+                                </Grow>
                             </Grid>
                         </Link>
                       </Grid>
@@ -261,12 +261,12 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
                 <Grid container direction="row">
                   <Grid item xs={12}>
-                    <Zoom in timeout={1400}>
+                    <Grow in style={{ transitionDelay: '600ms' }} timeout={200}>
                       <Typography variant="h5">Your Collections</Typography>
-                    </Zoom>
+                    </Grow>
                   </Grid>
                   <Grid item xs={12}>
-                    <Zoom direction="up"  in timeout='auto'>
+                    <Grow in style={{ transitionDelay: '700ms' }} timeout={200}>
                       <Grid container spacing={2}>
                         {userCollections.slice(0, 4).map((coll, idx) => (
                           <Grid
@@ -320,7 +320,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           </Grid>
                         ))}
                       </Grid>
-                    </Zoom>
+                    </Grow>
                   </Grid>
                 </Grid>
               </Grid>
@@ -329,15 +329,15 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid container direction="column">
                 <Grid item xs={12}><Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <Fade in timeout={2400}>
+                      <Grow in style={{ transitionDelay: '1000ms' }} timeout={100}>
                         <Typography variant="h5">Browse</Typography>
-                      </Fade>
+                      </Grow>
                     </Grid>
                     {recommendedCollections &&
                       recommendedCollections.map((coll) => {
                         if (!coll) return null;
                         return (
-                        <Zoom in timeout={2800}>
+                        <Grow in style={{ transitionDelay: `${1100}ms` }} timeout={100}>
                           <Grid
                             key={coll._id}
                             item
@@ -385,7 +385,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               </Grid>
                             </Link>
                           </Grid>
-                        </Zoom>
+                        </Grow>
                         );
                       })}
                   </Grid>
@@ -395,23 +395,23 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={12}>
-                  <Zoom  in timeout={3200}>
+                  <Grow  in style={{ transitionDelay: '800ms' }} timeout={200}>
                     <Typography variant="h5">Feed</Typography>
-                  </Zoom>
+                  </Grow>
                 </Grid>
-                  <Zoom  in timeout={3500}>
+                  <Grow  in style={{ transitionDelay: '900ms' }} timeout={200}>
                     <Grid item xs={12} sm={7} md={8}>
                       <FeedHOC feedType='dailyhits' />
                     </Grid>
-                  </Zoom>
-                  <Zoom direction="up"  in timeout={4000}>
+                  </Grow>
+                  <Grow  in style={{ transitionDelay: '1000ms' }} timeout={200}>
                     <Grid item xs={12} sm={5} md={4}>
                         <Typography variant="h6" sx={{ pb: 1 }}>
                           Recommended
                         </Typography>
                         <FeedCategoryList currentCategoryId='dailyhits' />
                     </Grid>
-                  </Zoom>
+                  </Grow>
               </Grid>
             </Grid>
           </Grid>
