@@ -8,6 +8,7 @@ import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import ReactMarkdown from 'react-markdown';
+import Link from '../Link';
 
 const styles = (theme) => ({
   container: {
@@ -128,8 +129,8 @@ const ArticlePreview = ({ title, description, url, classes }) => {
                 includeElementIndex
                 components={{
                   a: ({ node, ...props }) => (
-                    <a
-                      style={{ color: 'white', textDecoration: 'none' }}
+                    <Link
+                      style={{ textDecoration: 'none', fontWeight: 600 }}
                       {...props}
                     />
                   ),
