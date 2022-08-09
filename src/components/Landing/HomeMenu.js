@@ -215,31 +215,33 @@ const Home = ({ isUser, userCollections, theme }) => {
                               alignItems="stretch"
                               spacing={1}
                             >
-                              <Grid item>
-                                <Tilt
-                                  options={{
-                                    max: 10,
-                                    scale: 1.1,
-                                    perspective: 2000
-                                  }}
-                                >
-                                  <Card
-                                    elevation={0}
-                                    style={{
-                                      backgroundImage: `url(${item.imgSrc})`
+                              <Fade in timeout={1100}>
+                                <Grid item>
+                                  <Tilt
+                                    options={{
+                                      max: 10,
+                                      scale: 1.1,
+                                      perspective: 2000
                                     }}
-                                    alt={item.title}
-                                    className={classes.imageCard}
                                   >
-                                    <Typography
-                                      variant="h6"
-                                      style={{ color: Mono.M50 }}
+                                    <Card
+                                      elevation={0}
+                                      style={{
+                                        backgroundImage: `url(${item.imgSrc})`
+                                      }}
+                                      alt={item.title}
+                                      className={classes.imageCard}
                                     >
-                                      {item.title}
-                                    </Typography>
-                                  </Card>
-                                </Tilt>
-                              </Grid>
+                                      <Typography
+                                        variant="h6"
+                                        style={{ color: Mono.M50 }}
+                                      >
+                                        {item.title}
+                                      </Typography>
+                                    </Card>
+                                  </Tilt>
+                                  </Grid>
+                                </Fade>
                             </Grid>
                           </Grow>
                         </Link>
@@ -252,64 +254,66 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
                 <Grid container direction="row">
                   <Grid item xs={12}>
-                    <Fade in timeout={2000}>
+                    <Fade in timeout={1300}>
                       <Typography variant="h5">Your Collections</Typography>
                     </Fade>
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid container spacing={2}>
-                      {userCollections.slice(0, 4).map((coll, idx) => (
-                        <Grid
-                          key={idx}
-                          item
-                          xs={6}
-                          sm={4}
-                          md={3}
-                          className={classes.linkItemContainer}
-                        >
-                          <Link
-                            href={generateCollectionUrl(coll.name, coll._id)}
-                            className={classes.link}
+                    <Fade in timeout={1500}>
+                      <Grid container spacing={2}>
+                        {userCollections.slice(0, 4).map((coll, idx) => (
+                          <Grid
+                            key={idx}
+                            item
+                            xs={6}
+                            sm={4}
+                            md={3}
+                            className={classes.linkItemContainer}
                           >
-                            <Grid
-                              container
-                              direction="row"
-                              justifyContent="flex-start"
-                              alignItems="center"
-                              className={classes.recommendedContainer}
+                            <Link
+                              href={generateCollectionUrl(coll.name, coll._id)}
+                              className={classes.link}
                             >
                               <Grid
-                                item
-                                xs={4}
-                                lg={4}
-                                xl={4}
-                                p={1}
-                                className={classes.recommendedImgContainer}
+                                container
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                                className={classes.recommendedContainer}
                               >
-                                <YupImage
-                                  src={[
-                                    coll.imgSrcUrl,
-                                    getRandomGradientImg()
-                                  ]}
-                                  alt="thumbnail"
-                                  className={classes.recommendedImg}
-                                />
+                                <Grid
+                                  item
+                                  xs={4}
+                                  lg={4}
+                                  xl={4}
+                                  p={1}
+                                  className={classes.recommendedImgContainer}
+                                >
+                                  <YupImage
+                                    src={[
+                                      coll.imgSrcUrl,
+                                      getRandomGradientImg()
+                                    ]}
+                                    alt="thumbnail"
+                                    className={classes.recommendedImg}
+                                  />
+                                </Grid>
+                                <Grid item xs={8} lg={8} xl={8} p={1}>
+                                  <TruncateText variant="h6" lines={1}>
+                                    {coll.name}
+                                  </TruncateText>
+                                  <Typography variant="body2">
+                                    {coll.postIds.length === 1
+                                      ? `1 post`
+                                      : `${coll.postIds.length} posts`}
+                                  </Typography>
+                                </Grid>
                               </Grid>
-                              <Grid item xs={8} lg={8} xl={8} p={1}>
-                                <TruncateText variant="h6" lines={1}>
-                                  {coll.name}
-                                </TruncateText>
-                                <Typography variant="body2">
-                                  {coll.postIds.length === 1
-                                    ? `1 post`
-                                    : `${coll.postIds.length} posts`}
-                                </Typography>
-                              </Grid>
-                            </Grid>
-                          </Link>
-                        </Grid>
-                      ))}
-                    </Grid>
+                            </Link>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Fade>
                   </Grid>
                 </Grid>
               </Grid>
@@ -318,7 +322,7 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid container direction="column">
                 <Grid item xs={12}><Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <Fade in timeout={2000}>
+                      <Fade in timeout={1700}>
                         <Typography variant="h5">Browse</Typography>
                       </Fade>
                     </Grid>
@@ -382,16 +386,16 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={12}>
-                  <Fade in timeout={2300}>
+                  <Fade in timeout={1900}>
                     <Typography variant="h5">Feed</Typography>
                   </Fade>
                 </Grid>
-                  <Fade in timeout={3000}>
+                  <Fade in timeout={2050}>
                     <Grid item xs={12} sm={7} md={8}>
                       <FeedHOC feedType='dailyhits' />
                     </Grid>
                   </Fade>
-                  <Fade in timeout={3000}>
+                  <Fade in timeout={2200}>
                     <Grid item xs={12} sm={5} md={4}>
                         <Typography variant="h6" sx={{ pb: 1 }}>
                           Recommended
