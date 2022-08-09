@@ -61,8 +61,6 @@ const styles = (theme) => ({
   },
   url: {
     position: 'relative',
-    fontSize: '10px',
-    fontWeight: 300,
     overflowWrap: 'break-word',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',

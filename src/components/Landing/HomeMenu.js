@@ -185,21 +185,6 @@ const Home = ({ isUser, userCollections, theme }) => {
                     </Card>
                   </Fade>
                 </Grid>
-                {linkItems &&
-                  linkItems.map(
-                    ({ title, link, onlyVisibleToLoggedUser }, idx) => {
-                      if (!isUser && onlyVisibleToLoggedUser) {
-                        return;
-                      }
-                      return (
-                        <HomeMenuLinkItem
-                          key={idx}
-                          title={title}
-                          link={link.replace('USER_PLACEHOLDER', isUser)}
-                        />
-                      );
-                    }
-                  )}
               </Grid>
             </Grid>
             <Grid item xs={12}>
