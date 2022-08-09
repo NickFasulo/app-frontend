@@ -386,16 +386,16 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={12}>
-                  <Fade in timeout={1900}>
+                  <Fade in timeout={1700}>
                     <Typography variant="h5">Feed</Typography>
                   </Fade>
                 </Grid>
-                  <Fade in timeout={2050}>
+                  <Fade in timeout={1800}>
                     <Grid item xs={12} sm={7} md={8}>
                       <FeedHOC feedType='dailyhits' />
                     </Grid>
                   </Fade>
-                  <Fade in timeout={2200}>
+                  <Fade in timeout={2000}>
                     <Grid item xs={12} sm={5} md={4}>
                         <Typography variant="h6" sx={{ pb: 1 }}>
                           Recommended
