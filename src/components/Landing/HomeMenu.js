@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import withTheme from '@mui/styles/withTheme';
 import {
@@ -55,7 +55,9 @@ const Home = ({ isUser, userCollections, theme }) => {
   const [linkItems, setLinkItems] = useState([]);
   const [cardItems, setCardItems] = useState([]);
   const [recommendedCollections, setRecommendedCollections] = useState([]);
-
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [recommendedFloating, setRecommendeFloating] = useState(false);
+  const feedRef = useRef();
   useEffect(() => {
     axios
       .get(`${apiBaseUrl}/home-config/v2`)
@@ -73,7 +75,26 @@ const Home = ({ isUser, userCollections, theme }) => {
       dispatch(fetchUserCollections(username));
     }
   }, []);
+  useEffect(() => {
+    const updatePosition = () => {
+      setScrollPosition(window.pageYOffset);
+    }
+    window.addEventListener("scroll", updatePosition);
+    updatePosition();
+    return () => window.removeEventListener("scroll", updatePosition);
+  }, []);
 
+  useEffect(() => { 
+    console.log({scrollPosition, recommendedFloating}, feedRef.current.offsetTop);
+    if (feedRef?.current) {
+      if(feedRef.current.offsetTop<=scrollPosition){  
+        !recommendedFloating&& setRecommendeFloating(true)
+      } else if(feedRef.current.offsetTop>scrollPosition){
+        recommendedFloating&& setRecommendeFloating(false)
+      }
+    }
+  },
+  [scrollPosition]);
   return (
     <ErrorBoundary>
       <div className={classes.container}>
@@ -393,18 +414,20 @@ const Home = ({ isUser, userCollections, theme }) => {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Grid container direction='row' spacing={2}>
+              <Grid container direction='row' spacing={2} >
                 <Grid item xs={12}>
                   <Grow  in style={{ transitionDelay: '800ms' }} timeout={200}>
                     <Typography variant="h5">Feed</Typography>
                   </Grow>
                 </Grid>
-                  <Grow  in style={{ transitionDelay: '900ms' }} timeout={200}>
+                  <Grow  in style={{ transitionDelay: '900ms' }} timeout={200}
+                   ref={feedRef}>
                     <Grid item xs={12} sm={7} md={8}>
                       <FeedHOC feedType='dailyhits' />
                     </Grid>
                   </Grow>
-                  <Grow  in style={{ transitionDelay: '1000ms' }} timeout={200}>
+                  <Grow in style={{ transitionDelay: '1000ms' }} timeout={200}
+                   sx={recommendedFloating&&{position:'fixed', top:0, left:feedRef.current.clientWidth+feedRef.current.offsetLeft+'px' }} >
                     <Grid item xs={12} sm={5} md={4}>
                         <Typography variant="h6" sx={{ pb: 1 }}>
                           Recommended
