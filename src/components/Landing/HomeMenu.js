@@ -415,17 +415,17 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction='row' spacing={2} >
                 <Grid item xs={12}>
-                  <Grow  in style={{ transitionDelay: '800ms' }} timeout={200}>
+                  <Grow  in style={{ transitionDelay: '700ms' }} timeout={200}>
                     <Typography variant="h5">Feed</Typography>
                   </Grow>
                 </Grid>
-                  <Grow  in style={{ transitionDelay: '900ms' }} timeout={200}
+                  <Grow  in style={{ transitionDelay: '800ms' }} timeout={200}
                    ref={feedRef}>
                     <Grid item xs={12} sm={7} md={8}>
                       <FeedHOC feedType='dailyhits' />
                     </Grid>
                   </Grow>
-                  <Grow in style={{ transitionDelay: '1000ms' }} timeout={200}
+                  <Grow in style={{ transitionDelay: '850ms' }} timeout={200}
                    sx={recommendedFloating&&{position:'fixed', top:0, left:feedRef.current.clientWidth+feedRef.current.offsetLeft+'px' }} >
                     <Grid item xs={12} sm={5} md={4}>
                         <Typography variant="h6" sx={{ pb: 1 }}>
