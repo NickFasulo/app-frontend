@@ -30,6 +30,9 @@ import { useAuthModal } from '../../contexts/AuthModalContext';
 import { generateCollectionUrl } from '../../utils/helpers';
 import { fetchUserCollections } from '../../redux/actions';
 import { useAuth } from '../../contexts/AuthContext';
+import FeedHOC from '../Feed/FeedHOC';
+import UserNewConnections from '../../components/UserNewConnections';
+import FeedCategoryList from '../../components/FeedContainer/FeedCategoryList';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
@@ -79,11 +82,11 @@ const Home = ({ isUser, userCollections, theme }) => {
             container
             direction="row"
             justifyContent="flex-start"
-            rowSpacing={5}
+            rowSpacing={2}
             alignItems="stretch"
           >
             <Grid item xs={12}>
-              <Grid container direction="row" spacing={3} alignItems="stretch">
+              <Grid container direction="row" spacing={2} alignItems="stretch">
                 <Grid item md={12} xs={12}>
                   <Fade in timeout={300}>
                     <Card
@@ -254,8 +257,8 @@ const Home = ({ isUser, userCollections, theme }) => {
                     </Fade>
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid container spacing={3}>
-                      {userCollections.slice(0, 8).map((coll, idx) => (
+                    <Grid container spacing={2}>
+                      {userCollections.slice(0, 4).map((coll, idx) => (
                         <Grid
                           key={idx}
                           item
@@ -313,8 +316,7 @@ const Home = ({ isUser, userCollections, theme }) => {
             )}
             <Grid item xs={12}>
               <Grid container direction="column">
-                <Grid item xs={12}>
-                  <Grid container spacing={3}>
+                <Grid item xs={12}><Grid container spacing={0}>
                     <Grid item xs={12}>
                       <Fade in timeout={2000}>
                         <Typography variant="h5">Browse</Typography>
@@ -375,6 +377,28 @@ const Home = ({ isUser, userCollections, theme }) => {
                       })}
                   </Grid>
                 </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container direction='row' spacing={2}>
+                <Grid item xs={12}>
+                  <Fade in timeout={2300}>
+                    <Typography variant="h5">Feed</Typography>
+                  </Fade>
+                </Grid>
+                  <Fade in timeout={3000}>
+                    <Grid item xs={12} sm={7} md={8}>
+                      <FeedHOC feedType='dailyhits' />
+                    </Grid>
+                  </Fade>
+                  <Fade in timeout={3000}>
+                    <Grid item xs={12} sm={5} md={4}>
+                        <Typography variant="h6" sx={{ pb: 1 }}>
+                          Recommended
+                        </Typography>
+                        <FeedCategoryList currentCategoryId='dailyhits' />
+                    </Grid>
+                  </Fade>
               </Grid>
             </Grid>
           </Grid>
