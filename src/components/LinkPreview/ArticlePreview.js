@@ -8,6 +8,7 @@ import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import ReactMarkdown from 'react-markdown';
+import removeMd from'remove-markdown';
 import Link from '../Link';
 
 const styles = (theme) => ({
@@ -27,13 +28,13 @@ const styles = (theme) => ({
     }
   },
   linkImg: {
-    width: '100%',
+    width: '16px',
     aspectRatio: '1 / 1',
     border: 'none',
     borderRadius: '0.5rem',
     [theme.breakpoints.down('sm')]: {
-      maxHeight: 30,
-      maxWidth: 30
+      maxHeight: 10,
+      maxWidth: 10
     }
   },
   previewContainer: {
@@ -55,9 +56,7 @@ const styles = (theme) => ({
   },
   description: {
     position: 'relative',
-    textShadow: `0px 0px 5px ${theme.palette.M900}88`,
-    lineHeight: '1.25rem',
-    margin: '0.5rem 0'
+    textShadow: `0px 0px 5px ${theme.palette.M900}88`
   },
   url: {
     position: 'relative',
@@ -73,17 +72,19 @@ const styles = (theme) => ({
     bottom: 0,
     textAlign: 'left',
     zIndex: 5,
-    padding: '4% 3% 2% 3%',
+    padding: '16px 16px 0 16px',
     width: '100%',
     boxShadow: `0px 2px ${theme.palette.M850}`
   }
 });
 
-const ArticlePreview = ({ title, description, url, classes }) => {
+const ArticlePreview = ({ title, description, url, classes, writerENS }) => {
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
   };
+
+  console.log({description})
 
   let faviconURL = null;
 
@@ -101,20 +102,33 @@ const ArticlePreview = ({ title, description, url, classes }) => {
           target="_blank"
         >
           <div className={classes.previewData}>
-            <Grid alignItems="center" container direction="row" spacing={2}>
-              <Grid item xs={2} sm={1}>
-                <YupImage
-                  align="right"
-                  href={url}
-                  src={faviconURL}
-                  className={classes.linkImg}
-                  target="_blank"
-                />
-              </Grid>
-              <Grid item xs={10} sm={11}>
-                <TruncateText variant="h6" lines={2}>
-                  {title.split(/[|]|[—]+/g, 1)}
-                </TruncateText>
+            <Grid container rowSpacing={1} >
+              <Grid item xs={12}>
+                <Grid alignItems="start" container direction="row" spacing={0}>
+                  <Grid item xs={10} sm={11}>
+                    <Grid container direction='row'>
+                      <Grid item xs={12}>
+                        <TruncateText variant="h6" lines={2}>
+                          {title.split(/[|]|[—]+/g, 1)}
+                        </TruncateText>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="body2" className={classes.url}>
+                          {writerENS === undefined ? trimURL(url).split(/[/]+/g, 1) : writerENS }
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={2} sm={1}>
+                    <YupImage
+                      align="right"
+                      href={url}
+                      src={faviconURL}
+                      className={classes.linkImg}
+                      target="_blank"
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
             <TruncateText
@@ -124,6 +138,7 @@ const ArticlePreview = ({ title, description, url, classes }) => {
             >
               <ReactMarkdown
                 includeElementIndex
+                disallowedElements={['Heading']}
                 components={{
                   a: ({ node, ...props }) => (
                     <Link
@@ -131,7 +146,10 @@ const ArticlePreview = ({ title, description, url, classes }) => {
                       {...props}
                     />
                   ),
-                  img: ({ node, index, ...props }) => <> </>
+                  img: ({ node, index, ...props }) => <> </>,
+                  h1: 'p',
+                  h2: 'p',
+                  h3: 'p'
                 }}
                 className={classes.reactMarkDown}
               >
@@ -151,8 +169,9 @@ const ArticlePreview = ({ title, description, url, classes }) => {
 ArticlePreview.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  writerENS: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 };
 
