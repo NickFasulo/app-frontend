@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
           setAuthInfo({
             authType: AUTH_TYPE.EXTENSION,
             eosname,
-            username: eosname,
+            username: account.username,
             address: account.ethInfo?.address,
             signature
           });
@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }) => {
             setAuthInfo({
               authType: AUTH_TYPE.TWITTER,
               eosname: name,
-              username: name,
+              username: account.username,
               address: account.ethInfo?.address,
               oauthToken: token
             });
