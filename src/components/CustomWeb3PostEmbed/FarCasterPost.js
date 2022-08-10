@@ -11,7 +11,9 @@ import YupReactMarkdown from '../ReactMarkdown';
 import { SeeMore } from '../Miscellaneous';
 import TextTruncate from 'react-text-truncate';
 
-const FarCasterPost = ({ text, postid, attachments }) => {
+const FarCasterPost = ({ text, postid, attachments }) => {  
+  let parsedText = parseText(text);
+
   return (
     <>
       <Grid
@@ -20,7 +22,7 @@ const FarCasterPost = ({ text, postid, attachments }) => {
         {/* <YupReactMarkdown> */}
         <TextTruncate 
         line={3}
-        text={text}
+        text={parsedText}
         textTruncateChild={ <Link href={`/post/${postid}`}>
         <Typography variant="body2"  sx={{ cursor:"pointer", fontStyle:'italic', color: 'gray'}}>
           See more</Typography>

@@ -23,11 +23,12 @@ import PhaverPost from '../PhaverPost';
  * @param {*} str text string to parse
  */
 export const parseText = (str) => {
-  const re = /http\S+/;
+  const re = /http\S+/g;
   const parsed = str
     .replace(re, '')
     .replace(/&amp;/g, '&')
     .replace(/&nbsp;/g, ' ');
+    console.log({ str, parsed }, 'MUUUUUH');
   return parsed;
 };
 
