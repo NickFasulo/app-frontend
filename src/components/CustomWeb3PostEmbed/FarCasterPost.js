@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
-import React from 'react';
+import React, {useState} from 'react';
 import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
@@ -11,6 +11,7 @@ import YupReactMarkdown from '../ReactMarkdown';
 import { SeeMore } from '../Miscellaneous';
 import TextTruncate from 'react-text-truncate';
 import { useRouter } from 'next/router';
+import { TruncateText } from '../styles';
 
 const FarCasterPost = ({ text, postid, attachments }) => {  
   const { pathname } = useRouter();
@@ -19,23 +20,23 @@ const FarCasterPost = ({ text, postid, attachments }) => {
     return pathname === '/post/[id]';
   };
 
-  console.log({parsedText, pathname}, isFullPost() )
-  return (
-    <>
+  return ( 
+  <Link href={`/post/${postid}`} >
       <Grid
         item
-      >
-        {/* <YupReactMarkdown> */}
+        sx={{cursor:'pointer'}}>
+      
+       {/* <TruncateText align="left" variant="h2" lines={4}>
+      {account.fullname || account.username || account._id}
+    </TruncateText> */}
         {!isFullPost() ? (
-        <TextTruncate 
-        line={4}
-        text={parsedText}
-        textTruncateChild={ 
-        <Link href={`/post/${postid}`}>
-        <Typography variant="body2"  sx={{ cursor:"pointer", fontStyle:'italic', color: 'gray'}}>
-          See more</Typography>
-    </Link>}
-        />):(<>{parsedText}</>)}
+        <TruncateText variant='body2' lines={4}>
+        <YupReactMarkdown>
+      {parsedText}
+      </YupReactMarkdown>
+    </TruncateText>):(
+        <YupReactMarkdown>{parsedText}
+        </YupReactMarkdown>)}
 
           <>     
           {attachments
@@ -70,7 +71,7 @@ const FarCasterPost = ({ text, postid, attachments }) => {
         </YupReactMarkdown> */}
       </Grid>
       
-    </>
+      </Link>
   );
 };
 
