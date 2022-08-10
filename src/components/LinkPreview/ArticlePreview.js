@@ -9,6 +9,7 @@ import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import ReactMarkdown from 'react-markdown';
 import removeMd from'remove-markdown';
+import Link from '../Link';
 
 const styles = (theme) => ({
   container: {
@@ -61,8 +62,6 @@ const styles = (theme) => ({
   },
   url: {
     position: 'relative',
-    fontSize: '10px',
-    fontWeight: 300,
     overflowWrap: 'break-word',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
@@ -130,8 +129,8 @@ const ArticlePreview = ({ title, description, url, classes }) => {
                 includeElementIndex
                 components={{
                   a: ({ node, ...props }) => (
-                    <a
-                      style={{ color: 'white', textDecoration: 'none' }}
+                    <Link
+                      style={{ textDecoration: 'none', fontWeight: 600 }}
                       {...props}
                     />
                   ),

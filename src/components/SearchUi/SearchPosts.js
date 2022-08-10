@@ -20,6 +20,7 @@ const SearchPosts = ({ searchQuery }) => {
       dataLength={posts.length}
       hasMore={hasNextPage}
       next={fetchNextPage}
+      scrollableTarget="search-ui-container"
     >
       {posts.map((post) => (
         <PostController key={post._id.postid} post={post} hideInteractions />

@@ -1,5 +1,5 @@
 import NotificationMedia from './NotificationMedia';
-import { ListItemAvatar, ListItemText } from '@mui/material';
+import { ListItemAvatar, ListItemText, Fade } from '@mui/material';
 import NotifText from '../Notification/NotifText';
 import { formatDate, isUrl } from '../../utils/helpers';
 import { NotificationItemRoot } from './styles';
@@ -26,30 +26,32 @@ const NotificationItem = ({ data }) => {
     : notificationLink;
 
   return (
-    <NotificationItemRoot
-      component={isUrl(link) ? 'a' : link ? Link : 'div'}
-      target={isUrl(link) && '_blank'}
-      href={link}
-    >
-      <ListItemAvatar>
-        <NotificationMedia url={image} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={
-          <NotifText
-            invoker={invokerName === recipient ? 'You' : invokerName}
-            notif={data}
-          />
-        }
-        secondary={formatDate(createdAt)}
-        secondaryTypographyProps={{
-          sx: {
-            color: (theme) => theme.palette.M400
+    <Fade in timeout={100}>
+      <NotificationItemRoot
+        component={isUrl(link) ? 'a' : link ? Link : 'div'}
+        target={isUrl(link) && '_blank'}
+        href={link}
+      >
+        <ListItemAvatar>
+          <NotificationMedia url={image} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={
+            <NotifText
+              invoker={invokerName === recipient ? 'You' : invokerName}
+              notif={data}
+            />
           }
-        }}
-        sx={{ ml: 2 }}
-      />
-    </NotificationItemRoot>
+          secondary={formatDate(createdAt)}
+          secondaryTypographyProps={{
+            sx: {
+              color: (theme) => theme.palette.M400
+            }
+          }}
+          sx={{ ml: 2 }}
+        />
+      </NotificationItemRoot>
+    </Fade>
   );
 };
 

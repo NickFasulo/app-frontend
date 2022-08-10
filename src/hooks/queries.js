@@ -113,7 +113,7 @@ export const useSearchPosts = (query) => {
         method: 'GET',
         url: '/search/es/posts',
         params: {
-          start: pageParam,
+          offset: pageParam,
           searchText: query,
           limit: DEFAULT_FEED_PAGE_SIZE
         }

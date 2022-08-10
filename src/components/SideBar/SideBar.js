@@ -89,7 +89,6 @@ const SideBar = () => {
           {isLoggedIn && (
             <MainLink icon={faBell} text="Notifications" to="/notifications" />
           )}
-          <MainLink icon={faTrophy} text="Leaderboards" to="/leaderboard" />
           <MainLink
             icon={faList}
             text="Collections"
