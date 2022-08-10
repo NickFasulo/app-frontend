@@ -109,7 +109,7 @@ const Home = ({ isUser, userCollections, theme }) => {
             <Grid item xs={12}>
               <Grid container direction="row" spacing={2} alignItems="stretch">
                 <Grid item md={12} xs={12}>
-                  <Fade in style={{ transitionDelay: '50ms' }} timeout={200}>
+                  <Fade in style={{ transitionDelay: '50ms' }} timeout={300}>
                     <Card
                       elevation={0}
                       className={classes.bannerCard}
@@ -127,7 +127,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           alignItems="center"
                         >
                           <Grid item xs={isMobile ? 12 : 7}>
-                            <Zoom in style={{ transitionDelay: '50ms' }} timeout={20}>
+                            <Zoom in style={{ transitionDelay: '50ms' }} timeout={100}>
                               <Typography
                                 variant="h1"
                                 className={classes.titlePlain}
@@ -137,7 +137,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                                   : `Social Network for Curators`}
                               </Typography>
                             </Zoom>
-                            <Zoom in style={{ transitionDelay: '50ms' }} timeout={50}>
+                            <Zoom in style={{ transitionDelay: '50ms' }} timeout={300}>
                             <Typography
                               variant="subtitle1"
                               className={classes.subtitle}
@@ -183,7 +183,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                           </Link>
                         ) : (
                           <>
-                          <Fade in style={{ transitionDelay: '100ms' }} timeout={0}>
+                          <Fade in style={{ transitionDelay: '100ms' }} timeout={100}>
                             <a>
                               <YupButton
                                 size="large"
@@ -195,7 +195,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               </YupButton>
                                 </a>
                           </Fade>
-                          <Fade in style={{ transitionDelay: '200ms' }} timeout={0}>
+                          <Fade in style={{ transitionDelay: '200ms' }} timeout={100}>
                             <a
                               className={classes.link}
                               href={landingPageUrl}
@@ -243,7 +243,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                               alignItems="stretch"
                               spacing={1}
                             >
-                              <Fade in style={{ transitionDelay: `${50 * index}ms` }} timeout={20}>
+                              <Fade in style={{ transitionDelay: `${50 * index - index}ms` }} timeout={200}>
                                 <Grid item>
                                   <Tilt
                                     options={{
@@ -281,12 +281,12 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
                 <Grid container direction="row">
                   <Grid item xs={12}>
-                    <Fade in style={{ transitionDelay: '0ms' }} timeout={0}>
+                    <Fade in style={{ transitionDelay: '50ms' }} timeout={300}>
                       <Typography variant="h5">Your Collections</Typography>
                     </Fade>
                   </Grid>
                   <Grid item xs={12}>
-                    <Fade in style={{ transitionDelay: '10ms' }} timeout={0}>
+                    <Fade in style={{ transitionDelay: '80ms' }} timeout={150}>
                       <Grid container spacing={2}>
                         {userCollections.slice(0, 4).map((coll, idx) => (
                           <Grid
@@ -349,7 +349,7 @@ const Home = ({ isUser, userCollections, theme }) => {
               <Grid container direction="column">
                 <Grid item xs={12}><Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <Fade in style={{ transitionDelay: '500ms' }} timeout={100}>
+                      <Fade in style={{ transitionDelay: '500ms' }} timeout={400}>
                         <Typography variant="h5">Browse</Typography>
                       </Fade>
                     </Grid>
@@ -357,7 +357,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                       recommendedCollections.map((coll) => {
                         if (!coll) return null;
                         return (
-                        <Fade in style={{ transitionDelay: `${200}ms` }} timeout={100}>
+                        <Fade in style={{ transitionDelay: `${200}ms` }} timeout={200}>
                           <Grid
                             key={coll._id}
                             item

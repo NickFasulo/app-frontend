@@ -78,7 +78,7 @@ const UserNotificationList = () => {
       }}
     >
       {notifications.map((notification) => (
-        <NotificationItem key={notification._id} data={notification} />
+          <NotificationItem key={notification._id} data={notification} />
       ))}
       {showEthLinkNotification && (
         <NotificationItem
