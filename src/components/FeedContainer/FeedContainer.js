@@ -10,7 +10,7 @@ import FeedCategoryList from './FeedCategoryList';
 
 const FeedContainer = ({ categoryData }) => {
   const { windowScrolled } = useAppUtils();
-
+  
   return (
     <YupPageWrapper>
       <YupPageHeader noborder>
