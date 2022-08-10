@@ -41,12 +41,17 @@ export const useInitialVotes = (postid, voter) => {
 };
 
 export const useSocialLevel = (voter) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, voter], () => {
+  const { data } = useQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, voter], async () => {
     if (!voter) return null;
-    return callYupApi({
-      url: `/levels/user/${voter}`,
-      method: 'GET'
-    });
+
+    try {
+      return await callYupApi({
+        url: `/levels/user/${voter}`,
+        method: 'GET'
+      });
+    } catch {
+      return null;
+    }
   });
 
   return data;
@@ -161,6 +166,8 @@ export const useSearchCollections = (query) => {
 
 export const useUserCollections = (userId) => {
   const { data } = useQuery([REACT_QUERY_KEYS.USER_COLLECTIONS, userId], async () => {
+    if (!userId) return [];
+
     try {
       return await callYupApi({
         method: 'GET',
