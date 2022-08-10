@@ -37,7 +37,8 @@ import {
   ERROR_TWITTER_AUTH,
   ERROR_WALLET_NOT_CONNECTED,
   INVITE_EMAIL_SUCCESS,
-  WAIT_FOR_ACCOUNT_CREATION
+  WAIT_FOR_ACCOUNT_CREATION,
+  ACCOUNT_CREATED
 } from '../../constants/messages';
 import { updateEthAuthInfo, fetchSocialLevel } from '../../redux/actions';
 import {
@@ -112,6 +113,7 @@ export const AuthModalContextProvider = ({ children }) => {
   }, [signature]);
 
   const handleCloseModal = () => {
+    console.log("CLOSING")
     setModalOpen(false);
     setOptions({});
   };
@@ -143,6 +145,7 @@ export const AuthModalContextProvider = ({ children }) => {
     }
   };
   const handleAuthWithWallet = async () => {
+    console.log("CLOSING2")
     if (!signature) {
       toastError(ERROR_SIGN_FAILED);
 
@@ -209,6 +212,7 @@ export const AuthModalContextProvider = ({ children }) => {
       username: account.username
     });
 
+    console.log("CLOSING1")
     // Tract for analytics
     trackLogin(account.username, address);
 
@@ -355,8 +359,9 @@ export const AuthModalContextProvider = ({ children }) => {
 
     try {
       await apiValidateUsername(username);
-    } catch {
-      toastError(ERROR_INVALID_USERNAME);
+    } catch (err){
+      console.log({err})
+      toastError(err?.response?.data?.message||ERROR_INVALID_USERNAME);
 
       return;
     }
@@ -371,8 +376,9 @@ export const AuthModalContextProvider = ({ children }) => {
         ethSignData.signature,
         username
       );
-    } catch {
-      toastError(ERROR_MIRROR_ACCOUNT);
+    } catch(err) {
+
+      toastError(err?.response?.data?.message||ERROR_MIRROR_ACCOUNT);
 
       return;
     }
@@ -392,17 +398,29 @@ export const AuthModalContextProvider = ({ children }) => {
       })
     );
 
+    updateAuthInfo({
+      authType: AUTH_TYPE.ETH,
+      ...ethSignData,
+      eosname: mirrorData.account._id,
+      username: mirrorData.account.username
+    });
+
     trackSignUp(ethSignData.address, username);
     trackSignUpAttempt(ANALYTICS_SIGN_UP_TYPES.ETH, mirrorData.account);
 
     if (!options.noRedirect) {
       // Redirect to user profile page with rewards if it exists.
       const rewards = localStorage.getItem(LOCAL_STORAGE_KEYS.YUP_REWARDS);
-
-      await router.push(
-        `/account/${username}${rewards ? `?rewards=${rewards}` : ''}`
-      );
+      if(rewards){
+        await router.push(
+          `/account/${username}${rewards ? `?rewards=${rewards}` : ''}`
+        );
+      } else {
+         await router.push("/")
+        }
     }
+    toastSuccess(ACCOUNT_CREATED);
+    handleCloseModal();
   };
 
   // Render helpers

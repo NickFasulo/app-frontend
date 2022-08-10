@@ -32,7 +32,7 @@ const ConnectButton = () => {
       openConnectModal();
       startEthAuth({ noRedirect: true });
     } else {
-      openAuthModal({ noRedirect: true });
+      openAuthModal({ noRedirect: false });
     }
   };
 

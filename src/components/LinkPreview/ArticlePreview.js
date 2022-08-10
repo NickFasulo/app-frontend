@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
@@ -8,6 +8,7 @@ import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import ReactMarkdown from 'react-markdown';
+import Link from '../Link';
 
 const styles = (theme) => ({
   container: {
@@ -60,8 +61,6 @@ const styles = (theme) => ({
   },
   url: {
     position: 'relative',
-    fontSize: '10px',
-    fontWeight: 300,
     overflowWrap: 'break-word',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
@@ -127,8 +126,8 @@ const ArticlePreview = ({ title, description, url, classes }) => {
                 includeElementIndex
                 components={{
                   a: ({ node, ...props }) => (
-                    <a
-                      style={{ fontWeight: 'bold', textDecoration: 'none', color: '#FEFEFE' }}
+                    <Link
+                      style={{ fontWeight: 600, textDecoration: 'none', color: '#FEFEFE' }}
                       {...props}
                     />
                   ),
