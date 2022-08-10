@@ -33,7 +33,7 @@ const TeaPartyLink = styled('a')(
 
 const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
   const { pathname } = useRouter();
-  const parsedText = markdownReplaceHashtags(text);
+  const parsedText = text //markdownReplaceHashtags(text);
 
   const multipleAttachments = () => {
     return attachments.length > 1 && attachments[0].images.length > 0;
@@ -54,7 +54,6 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
         if(matches){
             matches?.forEach((element,i) => {
               parsedText = reactStringReplace(parsedText, element, (match) => {
-                console.log({match}, "WURST")
                 const linkPreviewData = getLinkPreview(decodeURIComponent(match))
                 // const url = getAllLinks(match)?.[0]
                 // const name = getNameInBrackets(match)?.[0]
