@@ -8,6 +8,7 @@ import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import ReactMarkdown from 'react-markdown';
+import removeMd from'remove-markdown';
 
 const styles = (theme) => ({
   container: {
@@ -122,9 +123,10 @@ const ArticlePreview = ({ title, description, url, classes }) => {
             <TruncateText
               variant="body2"
               className={classes.description}
-              lines={6}
+              lines={5}
             >
-              <ReactMarkdown
+              {removeMd(description)}
+              {/* <ReactMarkdown
                 includeElementIndex
                 components={{
                   a: ({ node, ...props }) => (
@@ -138,7 +140,7 @@ const ArticlePreview = ({ title, description, url, classes }) => {
                 className={classes.reactMarkDown}
               >
                 {description || url}
-              </ReactMarkdown>
+              </ReactMarkdown> */}
             </TruncateText>
             <Typography variant="body2" className={classes.url}>
               {url && trimURL(url).split(/[/]+/g, 1)}

@@ -4,13 +4,13 @@ import ArticlePreview from '../LinkPreview/ArticlePreview';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 function ArticlePost(props) {
-  const { previewData, postHOC: PostHOC, quantiles, rankCategory, url } = props;
+  const { web3Preview, previewData, postHOC: PostHOC, quantiles, rankCategory, url } = props;
 
   const ArticleComp = (_props) => (
     <ArticlePreview
-      description={previewData && previewData.description}
+      description={web3Preview?.content}
       image={previewData?.img}
-      title={previewData && previewData.title}
+      title={previewData?.title}
       url={url}
       quantiles={quantiles}
       rankCategory={rankCategory}

@@ -437,6 +437,7 @@ class PostController extends Component {
             author={post.author}
             url={post.url}
             previewData={post.previewData}
+            web3Preview={post.web3Preview}
             quantiles={post.quantiles}
             votes={post.upvotes - post.downvotes}
             weights={post.weights}
