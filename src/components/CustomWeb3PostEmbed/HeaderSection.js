@@ -31,7 +31,9 @@ const HeaderSection = ({
     }
   }
 
-  const accountLink = `farcaster://profiles/${address}/posts`;
+  const accountLink = protocol === 'lens'
+    ? `https://lenster.xyz/u/${handle}`
+    : `farcaster://profiles/${address}/posts`;
   const isMobile = window.innerWidth <= 600;
 
   //const formattedVoteTime = moment(createdAt, 'x').fromNow(true);
