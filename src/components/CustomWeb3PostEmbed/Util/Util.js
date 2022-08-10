@@ -23,11 +23,12 @@ import PhaverPost from '../PhaverPost';
  * @param {*} str text string to parse
  */
 export const parseText = (str) => {
-  const re = /http\S+/;
+  const re = /http\S+/g;
   const parsed = str
     .replace(re, '')
     .replace(/&amp;/g, '&')
     .replace(/&nbsp;/g, ' ');
+    console.log({ str, parsed }, 'MUUUUUH');
   return parsed;
 };
 
@@ -100,7 +101,7 @@ export const getNameInBrackets = (text) => {
 };
 
 export const parseWeb3Post = (post, postid) => {
-  const { content, urls, attachments } = post;
+  const { content, urls, attachments, linkPreview } = post;
   let parsedPost;
   if (post.protocol === 'lens') {
     parsedPost = (
@@ -109,6 +110,7 @@ export const parseWeb3Post = (post, postid) => {
         url={urls[0]}
         attachments={attachments}
         postid={postid}
+        linkPreview={linkPreview}
       />
     );
     // switch (post?.meta?.metadata?.appId) {

@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -9,21 +9,28 @@ import LinkPreview from '../LinkPreview/LinkPreview';
 import { parseText } from './Util/Util';
 import YupReactMarkdown from '../ReactMarkdown';
 import { SeeMore } from '../Miscellaneous';
+import TextTruncate from 'react-text-truncate';
 
-const FarCasterPost = ({ text, postid, attachments }) => {
+const FarCasterPost = ({ text, postid, attachments }) => {  
+  let parsedText = parseText(text);
+
   return (
     <>
       <Grid
         item
       >
         {/* <YupReactMarkdown> */}
-        <SeeMore maxChars={attachments ? 150 : 400} postid={postid}>
-          {text}
-        </SeeMore>
-        {/* {attachments ? parseText(text) : text }
-        </YupReactMarkdown> */}
-      </Grid>
-      {attachments
+        <TextTruncate 
+        line={3}
+        text={parsedText}
+        textTruncateChild={ <Link href={`/post/${postid}`}>
+        <Typography variant="body2"  sx={{ cursor:"pointer", fontStyle:'italic', color: 'gray'}}>
+          See more</Typography>
+    </Link>}
+        />
+
+          <>     
+          {attachments
         ? attachments.map((attachment) => {
             return (
               <>
@@ -50,6 +57,11 @@ const FarCasterPost = ({ text, postid, attachments }) => {
             );
           })
         : null}
+          </>
+        {/* {attachments ? parseText(text) : text }
+        </YupReactMarkdown> */}
+      </Grid>
+      
     </>
   );
 };

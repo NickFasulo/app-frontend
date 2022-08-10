@@ -30,21 +30,15 @@ const TeaPartyLink = styled('a')(
     `
 );
 
-const LensPost = ({ postid, text, url, attachments }) => {
+const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
   const { pathname } = useRouter();
 
   const multipleAttachments = () => {
     return attachments.length > 1 && attachments[0].images.length > 0;
   };
-
-  const imageListHeight = () => {
-    if (attachments.length === 2) {
-      if (!attachments[0].images.length > 0) {
-        return 164;
-      }
-    }
-    return 450;
-  };
+  const getLinkPreview = (url) => {
+    return linkPreview.find(x => x.url === url);
+  }
   const isFullPost = () => {
     return pathname === '/post/[id]';
   };
@@ -52,41 +46,36 @@ const LensPost = ({ postid, text, url, attachments }) => {
   console.log({ pathname }, isFullPost());
   //Uncomment to get LinkPreviews
 
-  // const getLinkPreviews  = () => {
-  //   const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
-  //   console.log({text}, "WURST")
-  //     const matches = text.match(regexMdLinks)
-  //     if(attachments){
-  //         if(matches){
-  //             matches?.forEach((element,i) => {
-  //               text = reactStringReplace(text, element, (match) => {
-  //                 const url = getAllLinks(match)?.[0]
-  //                 const name = getNameInBrackets(match)?.[0]
+  const regexLinks = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
+    const matches = text.match(regexLinks)
+    if(linkPreview){
+        if(matches){
+            matches?.forEach((element,i) => {
+              text = reactStringReplace(text, element, (match) => {
+                console.log({match}, "WURST")
+                const linkPreviewData = getLinkPreview(decodeURIComponent(match))
+                // const url = getAllLinks(match)?.[0]
+                // const name = getNameInBrackets(match)?.[0]
 
-  //                console.log({match, text, matches},getNameInBrackets(match))
-  //                 // const data = await fetchLinkPreviewData(url)
-  //                 // console.log(url, data, "MATCHHH")
+              //  console.log({match, text, matches},getNameInBrackets(match))
+                // const data = await fetchLinkPreviewData(url)
+                // console.log(url, data, "MATCHHH")
+                if(linkPreviewData){
+                return <LinkPreview
+                size={'large'}
+                image={linkPreviewData.img}
+                title={linkPreviewData.title}
+                url={linkPreviewData.url}
+                description={linkPreviewData.description}
+                />
+                }
+            });
+            });
+        }
 
-  //                 return <LinkPreview
-  //                 size={'large'}
-  //                 image={text[1]}
-  //                 title={name}
-  //                 url={url}
-  //                 />
-  //             });
-  //             });
-  //         }
+    }
 
-  //     }
-  // }
-  //Parses md links like [link_name](link_url) and returns a Link preview for those
-
-  // getLinkPreviews()
-  // useEffect(() => {
-  //   console.log("RUNNING")
-  //   getLinkPreviews()
-  // }, [])
-
+    console.log({text,matches}, "WURST")
   return (
     <Grid
       item
