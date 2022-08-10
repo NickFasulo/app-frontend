@@ -33,7 +33,7 @@ const TeaPartyLink = styled('a')(
     `
 );
 
-const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
+const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post}) => {
   const { pathname } = useRouter();
   const parsedText = text //markdownReplaceHashtags(text);
 
@@ -85,8 +85,8 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
           <Grid item="item">
             <Avatar
               classes={classes}
-              url={web3Preview.creator.avatarUrl}
-              tweetLink={tweetLink}
+              url={post.creator.avatarUrl}
+              tweetLink={post.id}
             />
           </Grid>
           <Grid item="item" xs>
@@ -94,20 +94,19 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
               <Grid item="item" xs={12}>
                 <HeaderSection
                   classes={classes}
-                  name={web3Preview.creator.fullname}
-                  handle={web3Preview.creator.handle}
-                  address={web3Preview.creator.address}
-                  protocol={web3Preview.protocol}
+                  name={post.creator.fullname}
+                  handle={post.creator.handle}
+                  address={post.creator.address}
+                  protocol={post.protocol}
                   replyParentUsername={
-                    web3Preview.meta.replyParentUsername?.username
+                    post.meta.replyParentUsername?.username
                   }
-                  tweetLink={tweetLink}
-                  createdAt={web3Preview.createdAt}
+                  tweetLink={post.id}
+                  createdAt={post.createdAt}
                 />
               </Grid>
               <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
-                  {postid}
                   <Grid item="item" xs={12}>
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
                     <Typography variant="body2">

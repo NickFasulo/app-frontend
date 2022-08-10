@@ -70,7 +70,8 @@ const Original = ({ postid, web3Preview, classes }) => {
         attachments={attachments}
         postid={postid}
         linkPreview={linkPreview}
-        post={web3Preview}/>)}
+        post={web3Preview}
+        classes={classes}/>)}
      
     </Grid>
   );
