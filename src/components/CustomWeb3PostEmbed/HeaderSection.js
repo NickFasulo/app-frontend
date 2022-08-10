@@ -80,7 +80,7 @@ const HeaderSection = ({
       </Grid>
       <Grid item>
       <Grid container alignItems={'center'} spacing={1}>
-      <Grid item 
+      <Grid item
       sx={{marginBottom: '0.09375rem'}}>
       <Typography
               variant="bodyS2"
@@ -89,20 +89,23 @@ const HeaderSection = ({
               { timeSince(new Date(createdAt)) }
             </Typography>
             </Grid>
-      <Grid item className={web3PostIcon} 
+      <Grid
+        item
+        className={web3PostIcon}
+        sx={{
+          display: 'flex'
+        }}
       >
-        <Link href={tweetLink} target="_blank" underline="none" sx={{display:'flex'}}>
-          <img
-            src={`/images/icons/${
-              protocol === 'lens' ? 'lens' : 'farcaster'
-            }.svg`}
-            height={isMobile ? '12' : '16'}
-            alt="🖼️"
-          />
-        </Link>
+        <img
+          src={`/images/icons/${
+            protocol === 'lens' ? 'lens' : 'farcaster'
+          }.svg`}
+          height={isMobile ? '12' : '16'}
+          alt="🖼️"
+        />
       </Grid>
       </Grid>
-        
+
         </Grid>
     </Grid>
   );
