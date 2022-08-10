@@ -21,6 +21,8 @@ import YupPageHeader from '../../components/YupPageHeader';
 import UserAnalytics from '../../components/UserAnalytics/UserAnalytics';
 import GridLayout from '../../components/GridLayout';
 import UserNewConnections from '../../components/UserNewConnections';
+import { Box, Button, Typography } from '@mui/material';
+import Link from '../../components/Link';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
@@ -34,7 +36,7 @@ const UserAccountPage = () => {
   const { username } = query;
   const { isMobile } = useDevice();
   const profile = useSocialLevel(username);
-  const collections = useUserCollections(profile._id);
+  const collections = useUserCollections(profile?._id);
   const { windowScrolled } = useAppUtils();
 
   const [selectedTab, setSelectedTab] = useState(PROFILE_TAB_IDS.PROFILE);
@@ -50,6 +52,33 @@ const UserAccountPage = () => {
   }, [isMobile, selectedTab]);
 
   if (!username) return null;
+
+  // If profile doesn't exist, shows error message
+  if (!profile) {
+    return (
+      <FlexBox
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        height="100vh"
+        gap={2}
+      >
+        <Typography variant="h6">
+          Sorry, the profile does not exist.
+        </Typography>
+        <Button
+          variant="outlined"
+          component={Link}
+          href="/"
+          sx={{
+            width: 200
+          }}
+        >
+          Go to Home
+        </Button>
+      </FlexBox>
+    );
+  }
 
   const { avatar, quantile } = profile;
   const tabs = [
