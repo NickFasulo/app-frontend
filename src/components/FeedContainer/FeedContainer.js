@@ -18,7 +18,7 @@ const FeedContainer = ({ categoryData }) => {
           <FeedHeader isMinimize={windowScrolled} categoryData={categoryData} />
         </YupContainer>
       </YupPageHeader>
-        <Fade in timeout={3000}>
+        <Fade in timeout={500}>
           <YupContainer sx={{ pt: 3 }}>
               <GridLayout
                 contentLeft={<FeedHOC feedType={categoryData.id} />}

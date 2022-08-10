@@ -70,7 +70,7 @@ class PostHOC extends PureComponent {
 
     return (
       <ErrorBoundary>
-        <Fade in timeout={2000}>
+        <Fade in timeout={400}>
           <div className={classes.post}>
             <PostHeader
               postid={postid}
