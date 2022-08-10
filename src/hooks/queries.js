@@ -203,7 +203,7 @@ export const useFarcasterReplyParent = (merkleRoot) => {
     [REACT_QUERY_KEYS.FARCASTER_PARENT, merkleRoot],
     () => { 
       
-    return axios.get(`https://api.farcaster.xyz/indexer/threads/${merkleRoot}?viewer_address=0xB9f95cee37ED663C088a5B772FAe772DaEf6b130&include_deleted_casts=true&version=2`);
+    return fetch(`https://api.farcaster.xyz/indexer/threads/${merkleRoot}?viewer_address=0xB9f95cee37ED663C088a5B772FAe772DaEf6b130&include_deleted_casts=true&version=2`);
       
       // return callYupApi({
       //   method: 'GET',

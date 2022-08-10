@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
@@ -18,6 +18,8 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ReactPlayer from 'react-player';
 import { useRouter } from 'next/router';
 import YupReactMarkdown from '../ReactMarkdown';
+import Avatar from './Avatar';
+import HeaderSection from './HeaderSection';
 
 const TeaPartyLink = styled('a')(
   ({ theme }) => `
@@ -78,7 +80,38 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
 
     console.log({parsedText,matches}, "WURST")
   return (
-    <Grid
+    <Grid item="item" xs={12}>
+        <Grid container="container" direction="row" spacing={1}>
+          <Grid item="item">
+            <Avatar
+              classes={classes}
+              url={web3Preview.creator.avatarUrl}
+              tweetLink={tweetLink}
+            />
+          </Grid>
+          <Grid item="item" xs>
+            <Grid container="container" direction="row" spacing={0}>
+              <Grid item="item" xs={12}>
+                <HeaderSection
+                  classes={classes}
+                  name={web3Preview.creator.fullname}
+                  handle={web3Preview.creator.handle}
+                  address={web3Preview.creator.address}
+                  protocol={web3Preview.protocol}
+                  replyParentUsername={
+                    web3Preview.meta.replyParentUsername?.username
+                  }
+                  tweetLink={tweetLink}
+                  createdAt={web3Preview.createdAt}
+                />
+              </Grid>
+              <Grid item="item" xs={12}>
+                <Grid container="container" spacing={1}>
+                  {postid}
+                  <Grid item="item" xs={12}>
+                    {/* <Link href={tweetLink} target="_blank" underline="none"> */}
+                    <Typography variant="body2">
+                    <Grid
       item
       // Enable to style links
       //     sx={{ "& *> a": {
@@ -154,6 +187,16 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
         </>
       )}
     </Grid>
+                    </Typography>
+                    {/* </Link> */}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    
   );
 };
 

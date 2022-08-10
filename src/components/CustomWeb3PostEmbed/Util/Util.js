@@ -111,7 +111,7 @@ export const getNameInBrackets = (text) => {
   return matches;
 };
 
-export const parseWeb3Post = (post, postid) => {
+export const parseWeb3Post = (post, postid, classes) => {
   const { content, urls, attachments, linkPreview } = post;
   let parsedPost;
   if (post.protocol === 'lens') {
@@ -138,7 +138,7 @@ export const parseWeb3Post = (post, postid) => {
     // }
   } else {
     parsedPost = (
-      <FarCasterPost text={content} attachments={attachments} postid={postid} post={post}/>
+      <FarCasterPost text={content} attachments={attachments} postid={postid} post={post} classes={classes}/>
     );
   }
   console.log(parsedPost, 'parsedPost');

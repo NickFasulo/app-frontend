@@ -15,7 +15,7 @@ const HeaderSection = ({
   tweetLink,
   hideBird,
   replyParentUsername,
-  createdAt
+  createdAt,
 }) => {
   let web3PostIcon;
 
@@ -91,6 +91,7 @@ const HeaderSection = ({
               { timeSince(new Date(createdAt)) }
             </Typography>
             </Grid>
+            {!hideBird && (
       <Grid
         item
         className={web3PostIcon}
@@ -98,14 +99,14 @@ const HeaderSection = ({
           display: 'flex'
         }}
       >
-        <img
-          src={`/images/icons/${
-            protocol === 'lens' ? 'lens' : 'farcaster'
-          }.svg`}
-          height={isMobile ? '12' : '16'}
-          alt="🖼️"
-        />
-      </Grid>
+          <img
+            src={`/images/icons/${
+              protocol === 'lens' ? 'lens' : 'farcaster'
+            }.svg`}
+            height={isMobile ? '12' : '16'}
+            alt="🖼️"
+          />
+      </Grid>)}
       </Grid>
 
         </Grid>

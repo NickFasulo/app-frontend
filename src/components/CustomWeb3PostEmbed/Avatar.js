@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
-const Avatar = ({ classes, user, tweetType, tweetLink, hideBird, url }) => {
+const Avatar = ({ classes, user, tweetType,  hideBird, url }) => {
   let userAvatar;
   if (tweetType === 'retweet') {
     userAvatar = classes.retweetUserAvatar;
@@ -33,7 +33,6 @@ Avatar.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   tweetType: PropTypes.string.isRequired,
-  tweetLink: PropTypes.string.isRequired,
   hideBird: PropTypes.bool.isRequired
 };
 
