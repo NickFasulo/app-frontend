@@ -10,24 +10,32 @@ import { parseText } from './Util/Util';
 import YupReactMarkdown from '../ReactMarkdown';
 import { SeeMore } from '../Miscellaneous';
 import TextTruncate from 'react-text-truncate';
+import { useRouter } from 'next/router';
 
 const FarCasterPost = ({ text, postid, attachments }) => {  
+  const { pathname } = useRouter();
   let parsedText = parseText(text);
+  const isFullPost = () => {
+    return pathname === '/post/[id]';
+  };
 
+  console.log({parsedText, pathname}, isFullPost() )
   return (
     <>
       <Grid
         item
       >
         {/* <YupReactMarkdown> */}
+        {!isFullPost() ? (
         <TextTruncate 
-        line={3}
+        line={4}
         text={parsedText}
-        textTruncateChild={ <Link href={`/post/${postid}`}>
+        textTruncateChild={ 
+        <Link href={`/post/${postid}`}>
         <Typography variant="body2"  sx={{ cursor:"pointer", fontStyle:'italic', color: 'gray'}}>
           See more</Typography>
     </Link>}
-        />
+        />):(<>{parsedText}</>)}
 
           <>     
           {attachments
