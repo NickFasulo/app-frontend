@@ -1,8 +1,9 @@
 import { Typography } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
+import { markdownReplaceHashtags } from './CustomWeb3PostEmbed/Util/Util';
 import Link from './Link';
-
 const YupReactMarkdown = ({ props, children }) => {
+  const parsed = markdownReplaceHashtags(children);
   return (
     <ReactMarkdown
       // components={{

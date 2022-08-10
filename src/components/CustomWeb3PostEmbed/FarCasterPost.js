@@ -12,9 +12,12 @@ import { SeeMore } from '../Miscellaneous';
 import TextTruncate from 'react-text-truncate';
 import { useRouter } from 'next/router';
 import { TruncateText } from '../styles';
+import { useFarcasterReplyParent } from '../../hooks/queries';
+import withSuspense from '../../hoc/withSuspense';
 
-const FarCasterPost = ({ text, postid, attachments }) => {  
+const FarCasterPost = ({ post, text, postid, attachments }) => {  
   const { pathname } = useRouter();
+  const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
   let parsedText = parseText(text);
   const isFullPost = () => {
     return pathname === '/post/[id]';
@@ -75,4 +78,4 @@ const FarCasterPost = ({ text, postid, attachments }) => {
   );
 };
 
-export default FarCasterPost;
+export default withSuspense()(FarCasterPost);

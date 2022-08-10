@@ -8,7 +8,8 @@ import {
   fetchLinkPreviewData,
   getAllLinks,
   getNameInBrackets,
-  linkMentions
+  linkMentions,
+  markdownReplaceHashtags
 } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { SeeMore } from '../Miscellaneous';
@@ -32,6 +33,7 @@ const TeaPartyLink = styled('a')(
 
 const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
   const { pathname } = useRouter();
+  const parsedText = markdownReplaceHashtags(text);
 
   const multipleAttachments = () => {
     return attachments.length > 1 && attachments[0].images.length > 0;
@@ -47,11 +49,11 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
   //Uncomment to get LinkPreviews
 
   const regexLinks = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
-    const matches = text.match(regexLinks)
+    const matches = parsedText.match(regexLinks)
     if(linkPreview){
         if(matches){
             matches?.forEach((element,i) => {
-              text = reactStringReplace(text, element, (match) => {
+              parsedText = reactStringReplace(parsedText, element, (match) => {
                 console.log({match}, "WURST")
                 const linkPreviewData = getLinkPreview(decodeURIComponent(match))
                 // const url = getAllLinks(match)?.[0]
@@ -75,7 +77,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
 
     }
 
-    console.log({text,matches}, "WURST")
+    console.log({parsedText,matches}, "WURST")
   return (
     <Grid
       item
@@ -91,9 +93,9 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
       // }  }}
     >
       {/*If text has been changed for Linkpreviews */}
-      {Array.isArray(text) ? (
+      {Array.isArray(parsedText) ? (
         <>
-          {text.map((element, i) => {
+          {parsedText.map((element, i) => {
             return typeof element === 'string' ? (
               <YupReactMarkdown key={i}>{element}</YupReactMarkdown>
             ) : (
@@ -106,10 +108,10 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
           {/*If text hasnt been changed for Linkpreviews */}
           {/* disabled! */}
           {isFullPost()||true? (
-            <YupReactMarkdown>{text}</YupReactMarkdown>
+            <YupReactMarkdown>{parsedText}</YupReactMarkdown>
           ) : (
             <SeeMore maxChars={attachments ? 150 : 400} postid={postid}>
-              {text}
+              {parsedText}
             </SeeMore>
           )}
 

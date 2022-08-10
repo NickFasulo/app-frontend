@@ -4,7 +4,7 @@ import withStyles from '@mui/styles/withStyles';
 import ReactPlayer from 'react-player/lazy';
 import Link from '@mui/material/Link';
 import axios from 'axios';
-import _ from 'lodash';
+import _, { matches } from 'lodash';
 import { apiBaseUrl } from '../../../config';
 import LinkPreview from '../../LinkPreview/LinkPreview';
 import reactStringReplace from 'react-string-replace';
@@ -28,7 +28,6 @@ export const parseText = (str) => {
     .replace(re, '')
     .replace(/&amp;/g, '&')
     .replace(/&nbsp;/g, ' ');
-    console.log({ str, parsed }, 'MUUUUUH');
   return parsed;
 };
 
@@ -37,6 +36,18 @@ export const parseTags = (str) => {
   const re = /[:-]/;
   const parsed = str.replace(re, '');
   return parsed;
+};
+
+// Replaces #tag with [yuphashtag#tag](url)
+export const markdownReplaceHashtags = (str) => {
+  const re = /\B(\#[a-zA-Z]+\b)(?!;)/gm;
+  const matches = str.match(re);
+  matches?.forEach((match,i) => {
+   str= str.replace(match, `[${match}](${match})`);
+  })
+  return str
+  // const parsed = str.replace(re, '');
+  // return parsed;
 };
 
 // Converts http://www.example.com/page1/resource1 into --> example.com
@@ -111,6 +122,7 @@ export const parseWeb3Post = (post, postid) => {
         attachments={attachments}
         postid={postid}
         linkPreview={linkPreview}
+        post={post}
       />
     );
     // switch (post?.meta?.metadata?.appId) {
@@ -126,7 +138,7 @@ export const parseWeb3Post = (post, postid) => {
     // }
   } else {
     parsedPost = (
-      <FarCasterPost text={content} attachments={attachments} postid={postid} />
+      <FarCasterPost text={content} attachments={attachments} postid={postid} post={post}/>
     );
   }
   console.log(parsedPost, 'parsedPost');
