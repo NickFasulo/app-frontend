@@ -84,7 +84,7 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
         {!isFullPost() ? (
         <TruncateText variant='body2' lines={4}>
         <YupReactMarkdown>
-      {parsedText}
+          {parsedText}
       </YupReactMarkdown>
     </TruncateText>):(
         <YupReactMarkdown>{parsedText}

@@ -1,28 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
-import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
+import { parseText, linkMentions, fetchLinkPreviewData, urlIsImg } from './Util/Util';
 import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
+import YupReactMarkdown from '../ReactMarkdown';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
 const Reply = ({ post,  classes }) => {
+
+
   const parents = post.meta.parents;
   const userName = post.creator.fullname;
   const userHandle = post.creator.handle;
   const userAvatar = post.meta.avatar;
   const userPostText = parseText(post.content);
   const userPostLink = `farcaster://profiles/${post.creator.address}/posts`;
+  const userAttachments = post.attachments;
 
   const directParent = parents[0];
+  const directParentAttachments = directParent.attachments.openGraph;
   const directParentName = directParent.meta.displayName;
   const directParentHandle = directParent.body.username;
   const directParentAvatar = directParent.meta.avatar;
   const directParentPostText = parseText(directParent.body.data.text);
   const directParentPostLink = `farcaster://profiles/${directParent.body.address}/posts`;
+
+  
+  const imgRef = useRef(null);
 console.log({directParentPostLink,userPostLink})
   // const { url } = tweetData;
   // const [previewData, setPreviewData] = useState(null);
@@ -94,6 +102,26 @@ console.log({directParentPostLink,userPostLink})
     e.target.src = DEFAULT_TWITTER_PROF;
   };
 
+  const handleLoad = () => {
+    const imgElement = imgRef.current;
+
+    if (!imgElement) return;
+
+    const width = imgElement.naturalWidth;
+    const height = imgElement.naturalHeight;
+
+    if (width >= height) {
+      // Ratio >= 1
+      imgElement.style.width = '100%';
+      imgElement.style.objectFit = 'cover';
+      imgElement.style.minHeight = '200px';
+      imgElement.style.maxHeight = '500px';
+    } else {
+      // Ratio < 1
+      imgElement.style.maxHeight = '400px';
+      imgElement.style.objectFit = 'fit-content';
+    }
+  };
   return (
     <Grid
       container
@@ -155,9 +183,42 @@ console.log({directParentPostLink,userPostLink})
                 className={classes.replyContent}
               >
                 {/* <Link  target="_blank" underline="none"> */}
-                  <Typography variant="body2">{directParentPostText}</Typography>
+                <YupReactMarkdown>
+                  {directParentPostText}
+                </YupReactMarkdown>
                 {/* </Link> */}
               </Grid>
+              
+          {directParentAttachments
+        ? directParentAttachments.map((attachment) => {
+            return (
+              <>
+                {urlIsImg(attachment.url) ? (
+                  <img
+                  ref={imgRef}
+                  className={classes.tweetImg}
+                    style={{ width: '100%', borderRadius: '12px' }}
+                    src={attachment.url}
+                    alt={attachment.title}
+                    onLoad={handleLoad}
+                  />
+                ) : (
+                  <LinkPreview
+                    size={'large'}
+                    description={attachment.description || ''}
+                    image={
+                      attachment.images[0]
+                        ? attachment.images[0]
+                        : attachment.url
+                    }
+                    title={attachment.title}
+                    url={attachment.url}
+                  />
+                )}
+              </>
+            );
+          })
+        : null}
               {/* {replyHasPhoto && replyMediaURL ? (
                 <Grid item className={classes.replyImageContainer}>
                   <img
@@ -199,14 +260,41 @@ console.log({directParentPostLink,userPostLink})
                   </Grid>
                   <Grid item="item" xs={12}>
                     {/* <Link  target="_blank" underline="none"> */}
-                      <Typography
-                        variant="body2"
-                        className={classes.tweetText}
-                      >
+                      <YupReactMarkdown   className={classes.tweetText}>
                         {userPostText}
-                      </Typography>
+                      </YupReactMarkdown>
                     {/* </Link> */}
                   </Grid>
+          {userAttachments
+        ? userAttachments.map((attachment) => {
+            return (
+              <>
+                {urlIsImg(attachment.url) ? (
+                  <img
+                  ref={imgRef}
+                  className={classes.tweetImg}
+                    style={{ width: '100%', borderRadius: '12px' }}
+                    src={attachment.url}
+                    alt={attachment.title}
+                    onLoad={handleLoad}
+                  />
+                ) : (
+                  <LinkPreview
+                    size={'large'}
+                    description={attachment.description || ''}
+                    image={
+                      attachment.images[0]
+                        ? attachment.images[0]
+                        : attachment.url
+                    }
+                    title={attachment.title}
+                    url={attachment.url}
+                  />
+                )}
+              </>
+            );
+          })
+        : null}
                   {/* <Grid item>
                     {previewData && !replyHasMedia && !mediaURL && (
                       <Grid>
