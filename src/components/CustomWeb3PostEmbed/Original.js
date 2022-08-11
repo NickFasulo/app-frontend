@@ -8,12 +8,15 @@ import { parseWeb3Post, fetchLinkPreviewData } from './Util/Util';
 // components
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
+import FarCasterPost from './FarCasterPost';
+import LensPost from './LensPost';
 
 const Original = ({ postid, web3Preview, classes }) => {
   const extendedEntities = false;
   const [linkPreviewData, setPreviewData] = useState(null);
   const entities = false;
   const entitiesURLS = entities && entities.urls.length > 0;
+  const { content, urls, attachments, linkPreview, protocol } = web3Preview;
 
   useEffect(() => {
     if (entitiesURLS) {
@@ -59,47 +62,17 @@ const Original = ({ postid, web3Preview, classes }) => {
 
   return (
     <Grid container="container" className={classes.container}>
-      <Grid item="item" xs={12}>
-        <Grid container="container" direction="row" spacing={1}>
-          <Grid item="item">
-            <Avatar
-              classes={classes}
-              url={web3Preview.creator.avatarUrl}
-              tweetLink={tweetLink}
-            />
-          </Grid>
-          <Grid item="item" xs>
-            <Grid container="container" direction="row" spacing={0}>
-              <Grid item="item" xs={12}>
-                <HeaderSection
-                  classes={classes}
-                  name={web3Preview.creator.fullname}
-                  handle={web3Preview.creator.handle}
-                  address={web3Preview.creator.address}
-                  protocol={web3Preview.protocol}
-                  replyParentUsername={
-                    web3Preview.meta.replyParentUsername?.username
-                  }
-                  tweetLink={tweetLink}
-                  createdAt={web3Preview.createdAt}
-                />
-              </Grid>
-              <Grid item="item" xs={12}>
-                <Grid container="container" spacing={1}>
-                  {/* {postid} */}
-                  <Grid item="item" xs={12}>
-                    {/* <Link href={tweetLink} target="_blank" underline="none"> */}
-                    <Typography variant="body2">
-                      {parseWeb3Post(web3Preview, postid)}
-                    </Typography>
-                    {/* </Link> */}
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+      {protocol==='farcaster' ?
+      (<FarCasterPost text={content} attachments={attachments} postid={postid} post={web3Preview} classes={classes}/>
+      ):(<LensPost 
+        text={content}
+        url={urls[0]}
+        attachments={attachments}
+        postid={postid}
+        linkPreview={linkPreview}
+        post={web3Preview}
+        classes={classes}/>)}
+     
     </Grid>
   );
 };

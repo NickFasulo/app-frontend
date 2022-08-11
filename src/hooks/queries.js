@@ -3,6 +3,7 @@ import sum from 'lodash/sum';
 import { REACT_QUERY_KEYS } from '../constants/enum';
 import callYupApi from '../apis/base_api';
 import { DEFAULT_FEED_PAGE_SIZE, DEFAULT_SEARCH_SIZE } from '../config';
+import axios from 'axios';
 
 export const useCollection = (id) => {
   const { data } = useQuery([REACT_QUERY_KEYS.YUP_COLLECTION, id], () =>
@@ -191,6 +192,23 @@ export const useUserNotifications = (username) => {
         method: 'GET',
         url: `/notifications/${username}`
       });
+    }
+  );
+
+  return data;
+};
+
+export const useFarcasterReplyParent = (merkleRoot) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.FARCASTER_PARENT, merkleRoot],
+    () => { 
+      
+    return fetch(`https://api.farcaster.xyz/indexer/threads/${merkleRoot}?viewer_address=0xB9f95cee37ED663C088a5B772FAe772DaEf6b130&include_deleted_casts=true&version=2`);
+      
+      // return callYupApi({
+      //   method: 'GET',
+      //   url: `/notifications/${username}`
+      // });
     }
   );
 

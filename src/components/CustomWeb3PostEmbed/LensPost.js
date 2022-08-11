@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
@@ -8,7 +8,8 @@ import {
   fetchLinkPreviewData,
   getAllLinks,
   getNameInBrackets,
-  linkMentions
+  linkMentions,
+  markdownReplaceHashtags
 } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { SeeMore } from '../Miscellaneous';
@@ -17,6 +18,8 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ReactPlayer from 'react-player';
 import { useRouter } from 'next/router';
 import YupReactMarkdown from '../ReactMarkdown';
+import Avatar from './Avatar';
+import HeaderSection from './HeaderSection';
 
 const TeaPartyLink = styled('a')(
   ({ theme }) => `
@@ -30,8 +33,9 @@ const TeaPartyLink = styled('a')(
     `
 );
 
-const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
+const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post}) => {
   const { pathname } = useRouter();
+  const parsedText = text //markdownReplaceHashtags(text);
 
   const multipleAttachments = () => {
     return attachments.length > 1 && attachments[0].images.length > 0;
@@ -47,12 +51,11 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
   //Uncomment to get LinkPreviews
 
   const regexLinks = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
-    const matches = text.match(regexLinks)
+    const matches = parsedText.match(regexLinks)
     if(linkPreview){
         if(matches){
             matches?.forEach((element,i) => {
-              text = reactStringReplace(text, element, (match) => {
-                console.log({match}, "WURST")
+              parsedText = reactStringReplace(parsedText, element, (match) => {
                 const linkPreviewData = getLinkPreview(decodeURIComponent(match))
                 // const url = getAllLinks(match)?.[0]
                 // const name = getNameInBrackets(match)?.[0]
@@ -75,9 +78,39 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
 
     }
 
-    console.log({text,matches}, "WURST")
+    console.log({parsedText,matches}, "WURST")
   return (
-    <Grid
+    <Grid item="item" xs={12}>
+        <Grid container="container" direction="row" spacing={1}>
+          <Grid item="item">
+            <Avatar
+              classes={classes}
+              url={post.creator.avatarUrl}
+              tweetLink={post.id}
+            />
+          </Grid>
+          <Grid item="item" xs>
+            <Grid container="container" direction="row" spacing={0}>
+              <Grid item="item" xs={12}>
+                <HeaderSection
+                  classes={classes}
+                  name={post.creator.fullname}
+                  handle={post.creator.handle}
+                  address={post.creator.address}
+                  protocol={post.protocol}
+                  replyParentUsername={
+                    post.meta.replyParentUsername?.username
+                  }
+                  tweetLink={post.id}
+                  createdAt={post.createdAt}
+                />
+              </Grid>
+              <Grid item="item" xs={12}>
+                <Grid container="container" spacing={1}>
+                  <Grid item="item" xs={12}>
+                    {/* <Link href={tweetLink} target="_blank" underline="none"> */}
+                    <Typography variant="body2">
+                    <Grid
       item
       // Enable to style links
       //     sx={{ "& *> a": {
@@ -91,9 +124,9 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
       // }  }}
     >
       {/*If text has been changed for Linkpreviews */}
-      {Array.isArray(text) ? (
+      {Array.isArray(parsedText) ? (
         <>
-          {text.map((element, i) => {
+          {parsedText.map((element, i) => {
             return typeof element === 'string' ? (
               <YupReactMarkdown key={i}>{element}</YupReactMarkdown>
             ) : (
@@ -106,10 +139,10 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
           {/*If text hasnt been changed for Linkpreviews */}
           {/* disabled! */}
           {isFullPost()||true? (
-            <YupReactMarkdown>{text}</YupReactMarkdown>
+            <YupReactMarkdown>{parsedText}</YupReactMarkdown>
           ) : (
             <SeeMore maxChars={attachments ? 150 : 400} postid={postid}>
-              {text}
+              {parsedText}
             </SeeMore>
           )}
 
@@ -153,6 +186,16 @@ const LensPost = ({ postid, text, url, attachments, linkPreview }) => {
         </>
       )}
     </Grid>
+                    </Typography>
+                    {/* </Link> */}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    
   );
 };
 

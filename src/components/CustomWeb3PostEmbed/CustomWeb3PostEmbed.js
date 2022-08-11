@@ -46,11 +46,12 @@ const styles = (theme) => ({
   userAvatar: {
     width: '2.5rem',
     aspectRatio: 1 / 1,
-    borderRadius: '50%'
+    borderRadius: '50%',
+    overflow: 'visible'
   },
   retweetContainer: {
     border: `solid 1px ${theme.palette.M500}`,
-    borderRadius: '12px',
+    borderRadius: '2px',
     overflow: 'hidden',
     padding: '8px'
   },
@@ -77,17 +78,17 @@ const styles = (theme) => ({
     marginRight: '10px'
   },
   barDiv: {
-    border: `1.2px solid ${theme.palette.M600}`,
+    border: `1.2px solid ${theme.palette.M700}`,
+    boxShadow: `0px -6px 0px 0px ${theme.palette.M700}, 0px 12px 0px 0px ${theme.palette.M700}`,
+    borderRadius: '12px',
+    zIndex: '-2',
     content: " '' ",
-    top: 0,
-    left: -35,
     fontSize: 0,
-    bottom: 2,
     width: 0,
     zIndex: 1,
-    height: '92%',
+    height: 'calc(100% + 4px)',
     margin: 'auto',
-    background: '#AAAAAA'
+    background: theme.palette.M700
   },
   replyLine: {
     backgroundColor: 'gray',
@@ -96,11 +97,9 @@ const styles = (theme) => ({
     height: 100
   },
   mainReplyContainer: {
-    padding: '16px',
     borderBottomLeftRadius: '12px',
     borderBottomRightRadius: '12px',
-    textAlign: 'left',
-    width: '100%'
+    textAlign: 'left'
   },
   replyContainer: {
     borderTopLeftRadius: '10px',
