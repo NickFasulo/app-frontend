@@ -1,4 +1,10 @@
-import { Box, ListItemAvatar, ListItemButton, ListItemText, styled } from '@mui/material';
+import {
+  Box,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  styled
+} from '@mui/material';
 import { ConnectionAvatar } from '../styles';
 import FollowButton from '../Followers/FollowButton';
 import Link from '../Link';
@@ -8,14 +14,14 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   border: `solid 1.5px ${theme.palette.M700}22`,
   borderRadius: 12,
   padding: theme.spacing(1.5),
-  backdropFilter: 'blur(24px)',
+  backdropFilter: 'blur(24px)'
 }));
 
 const UserRecommendedConnection = ({ user }) => {
   return (
     <StyledListItemButton
       component={Link}
-      alignItems='center'
+      alignItems="center"
       href={`/account/${user.username}`}
     >
       <ListItemAvatar sx={{ mr: 1.5 }}>
@@ -23,14 +29,9 @@ const UserRecommendedConnection = ({ user }) => {
           {user.username[0].toUpperCase()}
         </ConnectionAvatar>
       </ListItemAvatar>
-      <ListItemText
-        primary={user.fullname || user.username}
-      />
+      <ListItemText primary={user.fullname || user.username} />
       <Box flexGrow={0}>
-        <FollowButton
-          eosname={user.eosname}
-          isLoggedIn={false}
-        />
+        <FollowButton eosname={user.eosname} isLoggedIn={false} />
       </Box>
     </StyledListItemButton>
   );

@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
@@ -18,32 +18,32 @@ import Reply from './Reply';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
 
-const FarCasterPost = ({ post, text, postid, attachments, classes }) => {  
+const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
   const { pathname } = useRouter();
-  const web3Preview = post
-  const {id} = post
- // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
+  const web3Preview = post;
+  const { id } = post;
+  // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
   let parsedText = parseText(text);
-  const parents = post.meta.parents
-  const isReply = parents?.length  > 0
+  const parents = post.meta.parents;
+  const isReply = parents?.length > 0;
   // const isReplyToReply = parents.length > 1
-  
+
   const isFullPost = () => {
     return pathname === '/post/[id]';
   };
-  if(isReply){
+  if (isReply) {
     return (
       <Grid item="item" xs={12}>
-        <Reply classes={classes} post={post}>
-          </Reply>
-          </Grid>)
+        <Reply classes={classes} post={post}></Reply>
+      </Grid>
+    );
   }
   // else if(isReplyToReply){
   //   return <Reply></ReplyToReply>
-  // } 
+  // }
   else {
-  return ( 
-    <Grid item="item" xs={12}>
+    return (
+      <Grid item="item" xs={12}>
         <Grid container="container" direction="row" spacing={1}>
           <Grid item="item">
             <Avatar
@@ -53,8 +53,7 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
             />
           </Grid>
           <Grid item="item" xs>
-            <Grid container="container" direction="row" spacing={1} 
-               >
+            <Grid container="container" direction="row" spacing={1}>
               <Grid item="item" xs={12}>
                 <HeaderSection
                   classes={classes}
@@ -68,61 +67,66 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
               </Grid>
               <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
-                  <Grid item="item" xs={12}
-                sx={{margin:'1em 0'}}>
+                  <Grid item="item" xs={12} sx={{ margin: '1em 0' }}>
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
-                  
-              <Link href={`/post/${postid}`} >
-      
-              <Grid container="container" direction="row" spacing={1}  sx={{cursor:'pointer'}}>
-      
-       {/* <TruncateText align="left" variant="h2" lines={4}>
+
+                    <Link href={`/post/${postid}`}>
+                      <Grid
+                        container="container"
+                        direction="row"
+                        spacing={1}
+                        sx={{ cursor: 'pointer' }}
+                      >
+                        {/* <TruncateText align="left" variant="h2" lines={4}>
       {account.fullname || account.username || account._id}
     </TruncateText> */}
-    
-    <Grid item="item" xs={12}>
-        {!isFullPost() ? (
-        <TruncateText variant='body2' lines={7} >
-          {parsedText}
-    </TruncateText>):(
-        <Typography variant="body2">
-          {parsedText}
-        </Typography>)}
-          </Grid>
 
-          
-        <Grid item="item" xs={12}>   
-          {attachments
-        ? attachments.map((attachment) => {
-          if(attachment.images[0]){
-            return(
-              <LinkPreview
-                size={'large'}
-                description={attachment.description || ''}
-                image={
-                  attachment.images[0]
-                    ? attachment.images[0]
-                    : attachment.url
-                }
-                title={attachment.title}
-                url={attachment.url}
-                classes={classes}
-              />)
-          } else if(urlIsImg(attachment.url)){
-            return(<CldImg
-              style={{ borderRadius: '12px' }}
-              src={attachment.url}
-              alt={attachment.title}
-            />)
-          }
-          })
-        : null}
-          </Grid>
-        {/* {attachments ? parseText(text) : text }
+                        <Grid item="item" xs={12}>
+                          {!isFullPost() ? (
+                            <TruncateText variant="body2" lines={7}>
+                              {parsedText}
+                            </TruncateText>
+                          ) : (
+                            <Typography variant="body2">
+                              {parsedText}
+                            </Typography>
+                          )}
+                        </Grid>
+
+                        <Grid item="item" xs={12}>
+                          {attachments
+                            ? attachments.map((attachment) => {
+                                if (attachment.images[0]) {
+                                  return (
+                                    <LinkPreview
+                                      size={'large'}
+                                      description={attachment.description || ''}
+                                      image={
+                                        attachment.images[0]
+                                          ? attachment.images[0]
+                                          : attachment.url
+                                      }
+                                      title={attachment.title}
+                                      url={attachment.url}
+                                      classes={classes}
+                                    />
+                                  );
+                                } else if (urlIsImg(attachment.url)) {
+                                  return (
+                                    <CldImg
+                                      style={{ borderRadius: '12px' }}
+                                      src={attachment.url}
+                                      alt={attachment.title}
+                                    />
+                                  );
+                                }
+                              })
+                            : null}
+                        </Grid>
+                        {/* {attachments ? parseText(text) : text }
         </YupReactMarkdown> */}
-      
-      </Grid>
-      </Link>
+                      </Grid>
+                    </Link>
                     {/* </Link> */}
                   </Grid>
                 </Grid>
@@ -131,10 +135,8 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
           </Grid>
         </Grid>
       </Grid>
-  
-  );
-    
-}
+    );
+  }
 };
 
 export default withSuspense()(FarCasterPost);

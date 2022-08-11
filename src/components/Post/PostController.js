@@ -105,10 +105,7 @@ function isTwitchPost(url) {
 }
 
 function isArticlePost(url) {
-  const atPattern = genRegEx([
-    'forum.yup.io/*/*',
-    '.*.mirror.xyz/*'
-  ]);
+  const atPattern = genRegEx(['forum.yup.io/*/*', '.*.mirror.xyz/*']);
   return atPattern.test(url);
 }
 

@@ -82,7 +82,12 @@ const ProfileHeader = ({ profile, hidden }) => {
                 </ActionButton>
               )}
               {isLoggedIn && !isMyProfile && (
-                <FollowButton eosname={id} isLoggedIn={false} followings={followings} followers={followers} />
+                <FollowButton
+                  eosname={id}
+                  isLoggedIn={false}
+                  followings={followings}
+                  followers={followers}
+                />
               )}
             </FlexBox>
           </FlexBox>

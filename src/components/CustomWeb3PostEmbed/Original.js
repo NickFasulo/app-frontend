@@ -63,17 +63,25 @@ const Original = ({ postid, web3Preview, classes }) => {
   return (
     <Grid container="container" className={classes.container}>
       {/* {postid} */}
-      {protocol==='farcaster' ?
-      (<FarCasterPost text={content} attachments={attachments} postid={postid} post={web3Preview} classes={classes}/>
-      ):(<LensPost 
-        text={content}
-        url={urls[0]}
-        attachments={attachments}
-        postid={postid}
-        linkPreview={linkPreview}
-        post={web3Preview}
-        classes={classes}/>)}
-     
+      {protocol === 'farcaster' ? (
+        <FarCasterPost
+          text={content}
+          attachments={attachments}
+          postid={postid}
+          post={web3Preview}
+          classes={classes}
+        />
+      ) : (
+        <LensPost
+          text={content}
+          url={urls[0]}
+          attachments={attachments}
+          postid={postid}
+          linkPreview={linkPreview}
+          post={web3Preview}
+          classes={classes}
+        />
+      )}
     </Grid>
   );
 };

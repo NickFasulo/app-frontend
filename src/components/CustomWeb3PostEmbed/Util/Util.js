@@ -42,10 +42,10 @@ export const parseTags = (str) => {
 export const markdownReplaceHashtags = (str) => {
   const re = /\B(\#[a-zA-Z]+\b)(?!;)/gm;
   const matches = str.match(re);
-  matches?.forEach((match,i) => {
-   str= str.replace(match, `[${match}](${match})`);
-  })
-  return str
+  matches?.forEach((match, i) => {
+    str = str.replace(match, `[${match}](${match})`);
+  });
+  return str;
   // const parsed = str.replace(re, '');
   // return parsed;
 };
@@ -138,7 +138,13 @@ export const parseWeb3Post = (post, postid, classes) => {
     // }
   } else {
     parsedPost = (
-      <FarCasterPost text={content} attachments={attachments} postid={postid} post={post} classes={classes}/>
+      <FarCasterPost
+        text={content}
+        attachments={attachments}
+        postid={postid}
+        post={post}
+        classes={classes}
+      />
     );
   }
   console.log(parsedPost, 'parsedPost');
@@ -173,30 +179,29 @@ export const parsePhaverPost = (text, url, attachments) => {
   }
 };
 
-export const timeSince =(date) => {
+export const timeSince = (date) => {
+  var seconds = Math.floor((new Date() - date) / 1000);
 
-    var seconds = Math.floor((new Date() - date) / 1000);
-  
-    var interval = seconds / 31536000;
-  
-    if (interval > 1) {
-      return Math.floor(interval) + "y";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-      return Math.floor(interval) + "m";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-      return Math.floor(interval) + "d";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return Math.floor(interval) + "h";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return Math.floor(interval) + "min";
-    }
-    return Math.floor(seconds) + "s";  
-}
+  var interval = seconds / 31536000;
+
+  if (interval > 1) {
+    return Math.floor(interval) + 'y';
+  }
+  interval = seconds / 2592000;
+  if (interval > 1) {
+    return Math.floor(interval) + 'm';
+  }
+  interval = seconds / 86400;
+  if (interval > 1) {
+    return Math.floor(interval) + 'd';
+  }
+  interval = seconds / 3600;
+  if (interval > 1) {
+    return Math.floor(interval) + 'h';
+  }
+  interval = seconds / 60;
+  if (interval > 1) {
+    return Math.floor(interval) + 'min';
+  }
+  return Math.floor(seconds) + 's';
+};

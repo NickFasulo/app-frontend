@@ -113,7 +113,7 @@ export const AuthModalContextProvider = ({ children }) => {
   }, [signature]);
 
   const handleCloseModal = () => {
-    console.log("CLOSING")
+    console.log('CLOSING');
     setModalOpen(false);
     setOptions({});
   };
@@ -145,7 +145,7 @@ export const AuthModalContextProvider = ({ children }) => {
     }
   };
   const handleAuthWithWallet = async () => {
-    console.log("CLOSING2")
+    console.log('CLOSING2');
     if (!signature) {
       toastError(ERROR_SIGN_FAILED);
 
@@ -212,7 +212,7 @@ export const AuthModalContextProvider = ({ children }) => {
       username: account.username
     });
 
-    console.log("CLOSING1")
+    console.log('CLOSING1');
     // Tract for analytics
     trackLogin(account.username, address);
 
@@ -359,9 +359,9 @@ export const AuthModalContextProvider = ({ children }) => {
 
     try {
       await apiValidateUsername(username);
-    } catch (err){
-      console.log({err})
-      toastError(err?.response?.data?.message||ERROR_INVALID_USERNAME);
+    } catch (err) {
+      console.log({ err });
+      toastError(err?.response?.data?.message || ERROR_INVALID_USERNAME);
 
       return;
     }
@@ -376,9 +376,8 @@ export const AuthModalContextProvider = ({ children }) => {
         ethSignData.signature,
         username
       );
-    } catch(err) {
-
-      toastError(err?.response?.data?.message||ERROR_MIRROR_ACCOUNT);
+    } catch (err) {
+      toastError(err?.response?.data?.message || ERROR_MIRROR_ACCOUNT);
 
       return;
     }
@@ -411,13 +410,13 @@ export const AuthModalContextProvider = ({ children }) => {
     if (!options.noRedirect) {
       // Redirect to user profile page with rewards if it exists.
       const rewards = localStorage.getItem(LOCAL_STORAGE_KEYS.YUP_REWARDS);
-      if(rewards){
+      if (rewards) {
         await router.push(
           `/account/${username}${rewards ? `?rewards=${rewards}` : ''}`
         );
       } else {
-         await router.push("/")
-        }
+        await router.push('/');
+      }
     }
     toastSuccess(ACCOUNT_CREATED);
     handleCloseModal();

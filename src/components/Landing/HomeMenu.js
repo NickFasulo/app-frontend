@@ -78,22 +78,21 @@ const Home = ({ isUser, userCollections, theme }) => {
   useEffect(() => {
     const updatePosition = () => {
       setScrollPosition(window.pageYOffset);
-    }
-    window.addEventListener("scroll", updatePosition);
+    };
+    window.addEventListener('scroll', updatePosition);
     updatePosition();
-    return () => window.removeEventListener("scroll", updatePosition);
+    return () => window.removeEventListener('scroll', updatePosition);
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (feedRef?.current) {
-      if(feedRef.current.offsetTop<=scrollPosition){  
-        !recommendedFloating&& setRecommendeFloating(true)
-      } else if(feedRef.current.offsetTop>scrollPosition){
-        recommendedFloating&& setRecommendeFloating(false)
+      if (feedRef.current.offsetTop <= scrollPosition) {
+        !recommendedFloating && setRecommendeFloating(true);
+      } else if (feedRef.current.offsetTop > scrollPosition) {
+        recommendedFloating && setRecommendeFloating(false);
       }
     }
-  },
-  [scrollPosition]);
+  }, [scrollPosition]);
   return (
     <ErrorBoundary>
       <div className={classes.container}>
@@ -127,7 +126,11 @@ const Home = ({ isUser, userCollections, theme }) => {
                           alignItems="center"
                         >
                           <Grid item xs={isMobile ? 12 : 7}>
-                            <Zoom in style={{ transitionDelay: '50ms' }} timeout={100}>
+                            <Zoom
+                              in
+                              style={{ transitionDelay: '50ms' }}
+                              timeout={100}
+                            >
                               <Typography
                                 variant="h1"
                                 className={classes.titlePlain}
@@ -137,14 +140,18 @@ const Home = ({ isUser, userCollections, theme }) => {
                                   : `Social Network for Curators`}
                               </Typography>
                             </Zoom>
-                            <Zoom in style={{ transitionDelay: '50ms' }} timeout={300}>
-                            <Typography
-                              variant="subtitle1"
-                              className={classes.subtitle}
+                            <Zoom
+                              in
+                              style={{ transitionDelay: '50ms' }}
+                              timeout={300}
                             >
-                              {isUser
-                                ? `Explore Farcaster content`
-                                : `Curate and share content across the web. Earn money and clout for your taste`}
+                              <Typography
+                                variant="subtitle1"
+                                className={classes.subtitle}
+                              >
+                                {isUser
+                                  ? `Explore Farcaster content`
+                                  : `Curate and share content across the web. Earn money and clout for your taste`}
                               </Typography>
                             </Zoom>
                           </Grid>
@@ -183,32 +190,40 @@ const Home = ({ isUser, userCollections, theme }) => {
                           </Link>
                         ) : (
                           <>
-                          <Fade in style={{ transitionDelay: '100ms' }} timeout={100}>
-                            <a>
-                              <YupButton
-                                size="large"
-                                variant="contained"
-                                color="primary"
-                                onClick={openAuthModal}
+                            <Fade
+                              in
+                              style={{ transitionDelay: '100ms' }}
+                              timeout={100}
+                            >
+                              <a>
+                                <YupButton
+                                  size="large"
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={openAuthModal}
+                                >
+                                  Start Now
+                                </YupButton>
+                              </a>
+                            </Fade>
+                            <Fade
+                              in
+                              style={{ transitionDelay: '200ms' }}
+                              timeout={100}
+                            >
+                              <a
+                                className={classes.link}
+                                href={landingPageUrl}
+                                target="_blank"
+                                rel="noreferrer"
                               >
-                                Start Now
-                              </YupButton>
-                                </a>
-                          </Fade>
-                          <Fade in style={{ transitionDelay: '200ms' }} timeout={100}>
-                            <a
-                              className={classes.link}
-                              href={landingPageUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              >
-                                  <YupButton
-                                    size="large"
-                                    variant="outlined"
-                                    color="secondary"
-                                  >
-                                    Learn More
-                                  </YupButton>
+                                <YupButton
+                                  size="large"
+                                  variant="outlined"
+                                  color="secondary"
+                                >
+                                  Learn More
+                                </YupButton>
                               </a>
                             </Fade>
                           </>
@@ -237,40 +252,46 @@ const Home = ({ isUser, userCollections, theme }) => {
                         className={classes.imageCardGrid}
                       >
                         <Link href={item.route} className={classes.link}>
-                            <Grid
-                              container
-                              direction="column"
-                              alignItems="stretch"
-                              spacing={1}
+                          <Grid
+                            container
+                            direction="column"
+                            alignItems="stretch"
+                            spacing={1}
+                          >
+                            <Fade
+                              in
+                              style={{
+                                transitionDelay: `${50 * index - index}ms`
+                              }}
+                              timeout={200}
                             >
-                              <Fade in style={{ transitionDelay: `${50 * index - index}ms` }} timeout={200}>
-                                <Grid item>
-                                  <Tilt
-                                    options={{
-                                      max: 10,
-                                      scale: 1.1,
-                                      perspective: 2000
+                              <Grid item>
+                                <Tilt
+                                  options={{
+                                    max: 10,
+                                    scale: 1.1,
+                                    perspective: 2000
+                                  }}
+                                >
+                                  <Card
+                                    elevation={0}
+                                    style={{
+                                      backgroundImage: `url(${item.imgSrc})`
                                     }}
+                                    alt={item.title}
+                                    className={classes.imageCard}
                                   >
-                                    <Card
-                                      elevation={0}
-                                      style={{
-                                        backgroundImage: `url(${item.imgSrc})`
-                                      }}
-                                      alt={item.title}
-                                      className={classes.imageCard}
+                                    <Typography
+                                      variant="h6"
+                                      style={{ color: Mono.M50 }}
                                     >
-                                      <Typography
-                                        variant="h6"
-                                        style={{ color: Mono.M50 }}
-                                      >
-                                        {item.title}
-                                      </Typography>
-                                    </Card>
-                                  </Tilt>
-                                  </Grid>
-                                </Fade>
-                            </Grid>
+                                      {item.title}
+                                    </Typography>
+                                  </Card>
+                                </Tilt>
+                              </Grid>
+                            </Fade>
+                          </Grid>
                         </Link>
                       </Grid>
                     );
@@ -278,7 +299,11 @@ const Home = ({ isUser, userCollections, theme }) => {
               </Grid>
             </Grid>
             {userCollections?.length > 0 && (
-              <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
+              <Grid
+                item
+                xs={12}
+                style={{ display: isUser ? 'inherit' : 'none' }}
+              >
                 <Grid container direction="row">
                   <Grid item xs={12}>
                     <Fade in style={{ transitionDelay: '50ms' }} timeout={300}>
@@ -347,9 +372,14 @@ const Home = ({ isUser, userCollections, theme }) => {
             )}
             <Grid item xs={12}>
               <Grid container direction="column">
-                <Grid item xs={12}><Grid container spacing={0}>
+                <Grid item xs={12}>
+                  <Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <Fade in style={{ transitionDelay: '500ms' }} timeout={400}>
+                      <Fade
+                        in
+                        style={{ transitionDelay: '500ms' }}
+                        timeout={400}
+                      >
                         <Typography variant="h5">Browse</Typography>
                       </Fade>
                     </Grid>
@@ -357,55 +387,62 @@ const Home = ({ isUser, userCollections, theme }) => {
                       recommendedCollections.map((coll) => {
                         if (!coll) return null;
                         return (
-                        <Fade in style={{ transitionDelay: `${200}ms` }} timeout={200}>
-                          <Grid
-                            key={coll._id}
-                            item
-                            xs={6}
-                            sm={4}
-                            md={3}
-                            className={classes.linkItemContainer}
+                          <Fade
+                            in
+                            style={{ transitionDelay: `${200}ms` }}
+                            timeout={200}
                           >
-                            <Link
-                              href={generateCollectionUrl(coll.name, coll._id)}
-                              className={classes.link}
+                            <Grid
+                              key={coll._id}
+                              item
+                              xs={6}
+                              sm={4}
+                              md={3}
+                              className={classes.linkItemContainer}
                             >
-                              <Grid
-                                container
-                                direction="row"
-                                justifyContent="flex-start"
-                                alignItems="center"
-                                className={classes.recommendedContainer}
+                              <Link
+                                href={generateCollectionUrl(
+                                  coll.name,
+                                  coll._id
+                                )}
+                                className={classes.link}
                               >
                                 <Grid
-                                  item
-                                  xs={4}
-                                  lg={4}
-                                  xl={4}
-                                  p={1}
-                                  className={classes.recommendedImgContainer}
+                                  container
+                                  direction="row"
+                                  justifyContent="flex-start"
+                                  alignItems="center"
+                                  className={classes.recommendedContainer}
                                 >
-                                  <YupImage
-                                    src={[
-                                      coll.imgSrcUrl,
-                                      getRandomGradientImg()
-                                    ]}
-                                    alt="thumbnail"
-                                    className={classes.recommendedImg}
-                                  />
+                                  <Grid
+                                    item
+                                    xs={4}
+                                    lg={4}
+                                    xl={4}
+                                    p={1}
+                                    className={classes.recommendedImgContainer}
+                                  >
+                                    <YupImage
+                                      src={[
+                                        coll.imgSrcUrl,
+                                        getRandomGradientImg()
+                                      ]}
+                                      alt="thumbnail"
+                                      className={classes.recommendedImg}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={8} lg={8} xl={8} p={1}>
+                                    <TruncateText variant="h6" lines={1}>
+                                      {coll.name}
+                                    </TruncateText>
+                                    <Typography variant="body2">
+                                      {coll.owner}
+                                    </Typography>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={8} lg={8} xl={8} p={1}>
-                                  <TruncateText variant="h6" lines={1}>
-                                    {coll.name}
-                                  </TruncateText>
-                                  <Typography variant="body2">
-                                    {coll.owner}
-                                  </Typography>
-                                </Grid>
-                              </Grid>
-                            </Link>
-                          </Grid>
-                        </Fade>
+                              </Link>
+                            </Grid>
+                          </Fade>
                         );
                       })}
                   </Grid>
@@ -413,27 +450,44 @@ const Home = ({ isUser, userCollections, theme }) => {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Grid container direction='row' spacing={2} >
+              <Grid container direction="row" spacing={2}>
                 <Grid item xs={12}>
-                  <Fade  in style={{ transitionDelay: '700ms' }} timeout={200}>
+                  <Fade in style={{ transitionDelay: '700ms' }} timeout={200}>
                     <Typography variant="h5">Feed</Typography>
                   </Fade>
                 </Grid>
-                  <Fade  in style={{ transitionDelay: '800ms' }} timeout={200}
-                   ref={feedRef}>
-                    <Grid item xs={12} sm={7} md={8}>
-                      <FeedHOC feedType='dailyhits' />
-                    </Grid>
-                  </Fade>
-                  <Fade in style={{ transitionDelay: '850ms' }} timeout={200}
-                   sx={recommendedFloating&&{position:'fixed', top:0, left:feedRef.current.clientWidth+feedRef.current.offsetLeft+'px' }} >
-                    <Grid item xs={12} sm={5} md={4}>
-                        <Typography variant="h6" sx={{ pb: 1 }}>
-                          Recommended
-                        </Typography>
-                        <FeedCategoryList currentCategoryId='dailyhits' />
-                    </Grid>
-                  </Fade>
+                <Fade
+                  in
+                  style={{ transitionDelay: '800ms' }}
+                  timeout={200}
+                  ref={feedRef}
+                >
+                  <Grid item xs={12} sm={7} md={8}>
+                    <FeedHOC feedType="dailyhits" />
+                  </Grid>
+                </Fade>
+                <Fade
+                  in
+                  style={{ transitionDelay: '850ms' }}
+                  timeout={200}
+                  sx={
+                    recommendedFloating && {
+                      position: 'fixed',
+                      top: 0,
+                      left:
+                        feedRef.current.clientWidth +
+                        feedRef.current.offsetLeft +
+                        'px'
+                    }
+                  }
+                >
+                  <Grid item xs={12} sm={5} md={4}>
+                    <Typography variant="h6" sx={{ pb: 1 }}>
+                      Recommended
+                    </Typography>
+                    <FeedCategoryList currentCategoryId="dailyhits" />
+                  </Grid>
+                </Fade>
               </Grid>
             </Grid>
           </Grid>

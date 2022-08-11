@@ -30,9 +30,9 @@ const FeedCategoryList = ({ currentCategoryId }) => {
             <CategoryImage
               src={category.image}
               alt={category.title}
-              height='40rem'
-              width='40rem'
-              aspectRatio='1 / 1'
+              height="40rem"
+              width="40rem"
+              aspectRatio="1 / 1"
             />
             <Typography variant="body" sx={{ ml: 2 }}>
               {category.title}

@@ -43,10 +43,11 @@ const UserAccountPage = () => {
 
   useEffect(() => {
     // If `Collections` or `People` tab is selected in Desktop mode, switch it to `Profile` tab.
-    if (!isMobile && (
-      selectedTab === PROFILE_TAB_IDS.COLLECTIONS ||
-        selectedTab === PROFILE_TAB_IDS.PEOPLE
-    )) {
+    if (
+      !isMobile &&
+      (selectedTab === PROFILE_TAB_IDS.COLLECTIONS ||
+        selectedTab === PROFILE_TAB_IDS.PEOPLE)
+    ) {
       setSelectedTab(PROFILE_TAB_IDS.PROFILE);
     }
   }, [isMobile, selectedTab]);
@@ -63,9 +64,7 @@ const UserAccountPage = () => {
         height="100vh"
         gap={2}
       >
-        <Typography variant="h6">
-          Sorry, the profile does not exist.
-        </Typography>
+        <Typography variant="h6">Sorry, the profile does not exist.</Typography>
         <Button
           variant="outlined"
           component={Link}
