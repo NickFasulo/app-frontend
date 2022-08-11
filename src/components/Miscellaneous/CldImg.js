@@ -1,4 +1,4 @@
-import React, { memo, useRef } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -8,6 +8,7 @@ import {
 } from 'cloudinary-react';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { cloudinaryName } from '../../config';
+import { Grid } from '@mui/material';
 
 const ROOT_CLOUDINARY_URL = `https://res.cloudinary.com/yup-io/image/upload/`;
 const FOUNDATION_IMG_URI = `https://f8n`;
@@ -22,7 +23,7 @@ const foundationOptimizeParams = {
 
 const CldImg = ({ postid, src, alt, ...restProps }) => {
   const imgRef = useRef(null);
-
+  const [isHigherRatio, setIsHigherRatio] = useState(false);
   const isUploadedToCloud = src && src.startsWith(ROOT_CLOUDINARY_URL);
   const isFoundationImg = src && src.split('-')[0] === FOUNDATION_IMG_URI;
 
@@ -41,6 +42,7 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
       imgElement.style.minHeight = '200px';
       imgElement.style.maxHeight = '500px';
     } else {
+      setIsHigherRatio(true);
       // Ratio < 1
       imgElement.style.maxHeight = '400px';
       imgElement.style.objectFit = 'fit-content';
@@ -64,6 +66,12 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
   return (
     <ErrorBoundary>
       <CloudinaryContext cloudName={cloudinaryName}>
+        <Grid container  
+        justifyContent={isHigherRatio?'center':'start'} 
+        sx={isHigherRatio&&{borderRadius:'12px', 
+        backgroundColor: (theme)=>`${theme.palette.M900}AA`,
+        padding:(theme)=>theme.spacing(2)}}>
+          <Grid item>
         <Image
           innerRef={imgRef}
           publicId={isUploadedToCloud ? postid : src}
@@ -78,7 +86,9 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
         >
           <Placeholder type="vectorize" />
           <Transformation quality="auto" fetchFormat="auto" />
-        </Image>
+        </Image>           
+        </Grid>
+        </Grid>
       </CloudinaryContext>
     </ErrorBoundary>
   );

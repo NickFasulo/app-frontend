@@ -190,6 +190,7 @@ console.log({directParentPostLink,userPostLink})
                 {/* </Link> */}
               </Grid>
               
+              <Grid item="item" xs={12}>
           {directParentAttachments  ? directParentAttachments.map((attachment) => {
           if( attachment.image){
             return (
@@ -214,6 +215,7 @@ console.log({directParentPostLink,userPostLink})
         })
           
         : null}
+        </Grid>
               {/* {replyHasPhoto && replyMediaURL ? (
                 <Grid item className={classes.replyImageContainer}>
                   <img
@@ -260,6 +262,7 @@ console.log({directParentPostLink,userPostLink})
                       </Typography>
                     {/* </Link> */}
                   </Grid>
+                  <Grid item="item" xs={12}>
           {userAttachments
         ? userAttachments.map((attachment) => {
           if( attachment.images?.[0]){
@@ -288,6 +291,7 @@ console.log({directParentPostLink,userPostLink})
                   })
 
         : null}
+        </Grid>
                   {/* <Grid item>
                     {previewData && !replyHasMedia && !mediaURL && (
                       <Grid>
