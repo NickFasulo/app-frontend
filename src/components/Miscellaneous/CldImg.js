@@ -69,7 +69,7 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
         <Grid container  
         justifyContent={isHigherRatio?'center':'start'} 
         sx={isHigherRatio&&{borderRadius:'12px', 
-        backgroundColor: (theme)=>`${theme.palette.M900}AA`,
+        backgroundColor: (theme)=>`${theme.palette.M900}50`,
         padding:(theme)=>theme.spacing(2)}}>
           <Grid item>
         <Image
