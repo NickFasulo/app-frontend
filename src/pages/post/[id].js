@@ -3,15 +3,25 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { apiBaseUrl } from '../../config';
 import { PageBody } from '../../_pages/pageLayouts';
-import Grid from '@mui/material/Grid';
+import { Grid, Typography } from '@mui/material';
 import PostDisplay from '../../components/Post/PostDisplay';
 import { CreateCollectionFab } from '../../components/Miscellaneous';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import YupPageHeader from '../../components/YupPageHeader';
+import { useAppUtils } from '../../contexts/AppUtilsContext';
+import FeedCategoryList from '../../components/FeedContainer/FeedCategoryList';
+import {
+  YupPageWrapper,
+  YupContainer
+} from '../../components/styles';
+import GridLayout from '../../components/GridLayout';
+
 
 const PostDetails = () => {
   const router = useRouter();
   const [post, setPost] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { windowScrolled } = useAppUtils();
 
   const { id } = router.query;
 
@@ -33,19 +43,35 @@ const PostDetails = () => {
 
   return (
     <ErrorBoundary>
-      <PageBody>
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            height: '100vh'
-          }}
-        >
-          <PostDisplay isLoading={isLoading} post={post} />
-        </Grid>
-        <CreateCollectionFab />
-      </PageBody>
+      <YupPageWrapper>
+        <YupPageHeader scrolled={windowScrolled} noborder>
+          <YupContainer>
+            <Typography variant='h5'>
+                Post
+              </Typography>
+          </YupContainer>
+        </YupPageHeader>
+        <YupContainer>
+          <GridLayout
+            contentLeft={
+              <Grid
+                container
+                justifyContent="center"
+                alignItems="start
+                "
+                sx={{
+                  height: '100vh'
+                }}
+              >
+                <PostDisplay isLoading={isLoading} post={post} />
+              </Grid>
+            }
+            contentRight={
+                      <FeedCategoryList/>}
+          />
+          <CreateCollectionFab />
+        </YupContainer>
+      </YupPageWrapper>
     </ErrorBoundary>
   );
 };

@@ -99,7 +99,7 @@ console.log({directParentPostLink,userPostLink})
       container
       direction="row"
       className={classes.mainReplyContainer}
-      rowSpacing={1}
+      rowSpacing={2}
     >
       <Grid item xs={12}>
         <Grid
@@ -126,7 +126,6 @@ console.log({directParentPostLink,userPostLink})
                   <Grid item xs />
                   <Grid
                     item
-                    style={{ height: '100%' }}
                     xs="1.5px"
                     className={classes.barDiv}
                   />
