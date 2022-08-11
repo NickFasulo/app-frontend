@@ -8,7 +8,7 @@ import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import ReactMarkdown from 'react-markdown';
-import removeMd from 'remove-markdown';
+import removeMd from'remove-markdown';
 import Link from '../Link';
 
 const styles = (theme) => ({
@@ -100,11 +100,11 @@ const ArticlePreview = ({ title, description, url, classes, writerENS }) => {
           target="_blank"
         >
           <div className={classes.previewData}>
-            <Grid container rowSpacing={1}>
+            <Grid container rowSpacing={1} >
               <Grid item xs={12}>
                 <Grid alignItems="start" container direction="row" spacing={0}>
                   <Grid item xs={10} sm={11}>
-                    <Grid container direction="row">
+                    <Grid container direction='row'>
                       <Grid item xs={12}>
                         <TruncateText variant="h6" lines={2}>
                           {title.split(/[|]|[—]+/g, 1)}
@@ -112,9 +112,7 @@ const ArticlePreview = ({ title, description, url, classes, writerENS }) => {
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2" className={classes.url}>
-                          {writerENS === undefined
-                            ? trimURL(url).split(/[/]+/g, 1)
-                            : writerENS}
+                          {writerENS === undefined ? trimURL(url).split(/[/]+/g, 1) : writerENS }
                         </Typography>
                       </Grid>
                     </Grid>

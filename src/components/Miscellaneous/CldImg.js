@@ -71,34 +71,28 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
   return (
     <ErrorBoundary>
       <CloudinaryContext cloudName={cloudinaryName}>
-        <Grid
-          container
-          justifyContent={isHigherRatio ? 'center' : 'start'}
-          sx={
-            isHigherRatio && {
-              borderRadius: '12px',
-              backgroundColor: (theme) => `${theme.palette.M900}50`,
-              padding: (theme) => theme.spacing(2)
-            }
-          }
-        >
+        <Grid container  
+        justifyContent={isHigherRatio?'center':'start'} 
+        sx={isHigherRatio&&{borderRadius:'12px', 
+        backgroundColor: (theme)=>`${theme.palette.M900}50`,
+        padding:(theme)=>theme.spacing(2)}}>
           <Grid item xs={12}>
-            <Image
-              innerRef={imgRef}
-              publicId={isUploadedToCloud ? postid : src}
-              type={isUploadedToCloud ? undefined : 'fetch'}
-              secure="true"
-              dpr="auto"
-              responsive
-              height="auto"
-              onLoad={handleLoad}
-              alt={alt}
-              {...restProps}
-            >
-              <Placeholder type="vectorize" />
-              <Transformation quality="auto" fetchFormat="auto" />
-            </Image>
-          </Grid>
+        <Image
+          innerRef={imgRef}
+          publicId={isUploadedToCloud ? postid : src}
+          type={isUploadedToCloud ? undefined : 'fetch'}
+          secure="true"
+          dpr="auto"
+          responsive
+          height="auto"
+          onLoad={handleLoad}
+          alt={alt}
+          {...restProps}
+        >
+          <Placeholder type="vectorize" />
+          <Transformation quality="auto" fetchFormat="auto" />
+        </Image>           
+        </Grid>
         </Grid>
       </CloudinaryContext>
     </ErrorBoundary>

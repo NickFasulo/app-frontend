@@ -169,7 +169,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           }
         }
       },
-      MuiLink: {
+      MuiLink:{
         styleOverrides: {
           root: {
             color: palette.M100

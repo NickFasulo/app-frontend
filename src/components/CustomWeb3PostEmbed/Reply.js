@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
-import {
-  parseText,
-  linkMentions,
-  fetchLinkPreviewData,
-  urlIsImg
-} from './Util/Util';
+import { parseText, linkMentions, fetchLinkPreviewData, urlIsImg } from './Util/Util';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import YupReactMarkdown from '../ReactMarkdown';
@@ -16,7 +11,9 @@ import { CldImg } from '../Miscellaneous';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
-const Reply = ({ post, classes }) => {
+const Reply = ({ post,  classes }) => {
+
+
   const parents = post.meta.parents;
   const userName = post.creator.fullname;
   const userHandle = post.creator.handle;
@@ -33,10 +30,12 @@ const Reply = ({ post, classes }) => {
   const directParentPostText = parseText(directParent.body.data.text);
   const directParentPostLink = `farcaster://profiles/${directParent.body.address}/posts`;
 
+  
   const imgRef = useRef(null);
-  console.log({ directParentPostLink, userPostLink });
+console.log({directParentPostLink,userPostLink})
   // const { url } = tweetData;
   // const [previewData, setPreviewData] = useState(null);
+
 
   // REPLYS
   // let replyExtendedEntities =
@@ -150,12 +149,16 @@ const Reply = ({ post, classes }) => {
               spacing={1}
             >
               <Grid item>
-                <Avatar classes={classes} url={directParentAvatar} />
+                <Avatar classes={classes} url={directParentAvatar}  />
               </Grid>
               <Grid item xs>
                 <Grid container direction="row" style={{ height: '100%' }}>
                   <Grid item xs />
-                  <Grid item xs="1.5px" className={classes.barDiv} />
+                  <Grid
+                    item
+                    xs="1.5px"
+                    className={classes.barDiv}
+                  />
                   <Grid item xs />
                 </Grid>
               </Grid>
@@ -165,48 +168,54 @@ const Reply = ({ post, classes }) => {
             <Grid container direction="row" rowSpacing={0.5}>
               <Grid item xs={12}>
                 <HeaderSection
-                  classes={classes}
-                  name={directParentName}
-                  handle={directParentHandle}
-                  address={directParent.body.address}
-                  protocol={post.protocol}
-                  //WRONG, NEEDS TO BE PARENTS POST ID; NOT REPLY ID
-                  tweetLink={post.id}
-                  createdAt={directParent.body.publishedAt}
-                  noBird
-                />
+                      classes={classes}
+                      name={directParentName}
+                      handle={directParentHandle}
+                      address={directParent.body.address}
+                      protocol={post.protocol}
+                      //WRONG, NEEDS TO BE PARENTS POST ID; NOT REPLY ID
+                      tweetLink={post.id}
+                      createdAt={directParent.body.publishedAt}
+                      noBird
+                    />
               </Grid>
-              <Grid item xs={12}>
+              <Grid
+                item
+                xs={12}
+              >
                 {/* <Link  target="_blank" underline="none"> */}
-                <Typography variant="body2">{directParentPostText}</Typography>
+                    <Typography variant="body2">
+                  {directParentPostText}
+                  </Typography>
                 {/* </Link> */}
               </Grid>
-
+              
               <Grid item="item" xs={12}>
-                {directParentAttachments
-                  ? directParentAttachments.map((attachment) => {
-                      if (attachment.image) {
-                        return (
-                          <LinkPreview
-                            description={attachment.description || ''}
-                            image={attachment.image}
-                            title={attachment.title}
-                            url={attachment.url}
-                            classes={classes}
-                          />
-                        );
-                      } else if (urlIsImg(attachment.url)) {
-                        return (
-                          <CldImg
-                            style={{ borderRadius: '12px' }}
-                            src={attachment.url}
-                            alt={attachment.title}
-                          />
-                        );
-                      }
-                    })
-                  : null}
-              </Grid>
+          {directParentAttachments  ? directParentAttachments.map((attachment) => {
+          if( attachment.image){
+            return (
+                  <LinkPreview
+                    description={attachment.description || ''}
+                    image={
+                      attachment.image
+                    }
+                    title={attachment.title}
+                    url={attachment.url}
+                    classes={classes}
+                  />
+                )}
+           else if(urlIsImg(attachment.url)){
+                  return (
+                    <CldImg
+                    style={{ borderRadius: '12px' }}
+                      src={attachment.url}
+                      alt={attachment.title}
+                      />
+                  )}
+        })
+          
+        : null}
+        </Grid>
               {/* {replyHasPhoto && replyMediaURL ? (
                 <Grid item className={classes.replyImageContainer}>
                   <img
@@ -234,65 +243,56 @@ const Reply = ({ post, classes }) => {
       </Grid>
       {/* REPLY POST */}
       <Grid item xs={12}>
-        <Grid
-          container="container"
-          direction="row"
-          spacing={1}
-          className={classes.replyOriginalContainer}
-        >
-          <Grid item="item">
-            <Avatar classes={classes} url={userAvatar} />
-          </Grid>
-          <Grid item="item" xs>
-            <Grid container="container" direction="row" spacing={1}>
-              <Grid item="item" xs={12}>
-                <HeaderSection
-                  classes={classes}
-                  name={userName}
-                  handle={userHandle}
-                  address={post.creator.address}
+            <Grid container="container" direction="row" spacing={1} className={classes.replyOriginalContainer}>
+              <Grid item="item">
+                <Avatar classes={classes} url={userAvatar}  />
+              </Grid>
+              <Grid item="item" xs>
+                <Grid container="container" direction="row" spacing={1}>
+                  <Grid item="item" xs={12}>
+                    <HeaderSection classes={classes} name={userName} handle={userHandle} address={post.creator.address} 
                   tweetLink={post.id}
                   createdAt={post.createdAt}
-                  hideBird
-                />
-              </Grid>
-              <Grid item="item" xs={12}>
-                {/* <Link  target="_blank" underline="none"> */}
-                <Typography className={classes.tweetText} variant="body2">
-                  {userPostText}
-                </Typography>
-                {/* </Link> */}
-              </Grid>
-              <Grid item="item" xs={12}>
-                {userAttachments
-                  ? userAttachments.map((attachment) => {
-                      if (attachment.images?.[0]) {
-                        return (
-                          <LinkPreview
-                            description={attachment.description || ''}
-                            image={
-                              attachment.images?.[0]
-                                ? attachment.images[0]
-                                : attachment.url
-                            }
-                            title={attachment.title}
-                            url={attachment.url}
-                            classes={classes}
-                          />
-                        );
-                      } else if (urlIsImg(attachment.url)) {
-                        return (
-                          <CldImg
-                            style={{ borderRadius: '12px' }}
-                            src={attachment.url}
-                            alt={attachment.title}
-                          />
-                        );
-                      }
-                    })
-                  : null}
-              </Grid>
-              {/* <Grid item>
+                  hideBird />
+                  </Grid>
+                  <Grid item="item" xs={12}>
+                    {/* <Link  target="_blank" underline="none"> */}
+                    <Typography  className={classes.tweetText} variant="body2">
+                        {userPostText}
+                      </Typography>
+                    {/* </Link> */}
+                  </Grid>
+                  <Grid item="item" xs={12}>
+          {userAttachments
+        ? userAttachments.map((attachment) => {
+          if( attachment.images?.[0]){
+            return (
+                  <LinkPreview
+                    description={attachment.description || ''}
+                    image={
+                      attachment.images?.[0]
+                        ? attachment.images[0]
+                        : attachment.url
+                    }
+                    title={attachment.title}
+                    url={attachment.url}
+                    classes={classes}
+                  />
+                )
+                  }
+                  else if(urlIsImg(attachment.url) ) {
+                    return(
+                      <CldImg
+                        style={{ borderRadius: '12px' }}
+                        src={attachment.url}
+                        alt={attachment.title}
+                      />)
+                    }
+                  })
+
+        : null}
+        </Grid>
+                  {/* <Grid item>
                     {previewData && !replyHasMedia && !mediaURL && (
                       <Grid>
                         <LinkPreview
@@ -321,8 +321,8 @@ const Reply = ({ post, classes }) => {
                       hasVideo && mediaURL && <TweetVidPlayer url={mediaURL} />
                     )}
                   </Grid> */}
-            </Grid>
-          </Grid>
+                </Grid>
+              </Grid>
         </Grid>
       </Grid>
     </Grid>

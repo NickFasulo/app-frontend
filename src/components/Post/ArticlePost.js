@@ -5,15 +5,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { createRouteLoader } from 'next/dist/client/route-loader';
 
 function ArticlePost(props) {
-  const {
-    web3Preview,
-    previewData,
-    postHOC: PostHOC,
-    quantiles,
-    rankCategory,
-    url,
-    createdAt
-  } = props;
+  const { web3Preview, previewData, postHOC: PostHOC, quantiles, rankCategory, url, createdAt } = props;
 
   const ArticleComp = (_props) => (
     <ArticlePreview

@@ -162,14 +162,14 @@ class LinkPreview extends Component {
                   </Grid>
                   <Grid direction="row" spacing={1}>
                     <Grid item xs>
-                      <TruncateText lines={4}>
-                        <Typography
-                          variant="body2"
-                          className={classes.description}
-                        >
-                          {description || url}
-                        </Typography>
-                      </TruncateText>
+                        <TruncateText lines={4}>
+                          <Typography
+                            variant="body2"
+                            className={classes.description}
+                          >
+                              {description || url}
+                          </Typography>
+                        </TruncateText>
                     </Grid>
                     <Grid item xs>
                       <Typography variant="bodyS2" className={classes.url}>

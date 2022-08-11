@@ -10,12 +10,12 @@ const YupReactMarkdown = ({ props, children }) => {
       //    img: ({node, ...props}) => <img  height="100px" style={{maxHeight:'200px'}}{...props} />
       // }}
       components={{
-        a: ({ node, ...props }) => (
-          <Typography display="inline">
+         a: ({node, ...props}) => 
+         (<Typography  display="inline">
             <Link {...props} />
-          </Typography>
-        )
+         </Typography>)
       }}
+      
       {...props}
     >
       {children}

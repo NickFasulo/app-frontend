@@ -15,7 +15,7 @@ const HeaderSection = ({
   tweetLink,
   hideBird,
   replyParentUsername,
-  createdAt
+  createdAt,
 }) => {
   let web3PostIcon;
 
@@ -31,10 +31,9 @@ const HeaderSection = ({
     }
   }
 
-  const accountLink =
-    protocol === 'lens'
-      ? `https://lenster.xyz/u/${handle}`
-      : `farcaster://profiles/${address}/posts`;
+  const accountLink = protocol === 'lens'
+    ? `https://lenster.xyz/u/${handle}`
+    : `farcaster://profiles/${address}/posts`;
   const isMobile = window.innerWidth <= 600;
 
   //const formattedVoteTime = moment(createdAt, 'x').fromNow(true);
@@ -83,30 +82,34 @@ const HeaderSection = ({
       </Grid>
       <Grid item>
         <Grid container alignItems={'center'} spacing={1}>
-          <Grid item sx={{ marginBottom: '0.09375rem' }}>
-            <Typography variant="bodyS2" className={classes.userHandle}>
-              {timeSince(new Date(createdAt))}
+          <Grid item
+            sx={{marginBottom: '0.09375rem'}}>
+            <Typography
+                    variant="bodyS2"
+                    className={classes.userHandle}
+                  >
+                    { timeSince(new Date(createdAt)) }
             </Typography>
           </Grid>
-          {!hideBird && (
-            <Grid
-              item
-              className={web3PostIcon}
-              sx={{
-                display: 'flex'
-              }}
-            >
-              <img
-                src={`/images/icons/${
-                  protocol === 'lens' ? 'lens' : 'farcaster'
-                }.svg`}
-                height={isMobile ? '12' : '16'}
-                alt="🖼️"
-              />
-            </Grid>
-          )}
-        </Grid>
+              {!hideBird && (
+        <Grid
+          item
+          className={web3PostIcon}
+          sx={{
+            display: 'flex'
+          }}
+        >
+        <img
+          src={`/images/icons/${
+            protocol === 'lens' ? 'lens' : 'farcaster'
+          }.svg`}
+          height={isMobile ? '12' : '16'}
+          alt="🖼️"
+        />
+      </Grid>)}
       </Grid>
+
+        </Grid>
     </Grid>
   );
 };

@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState
-} from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import scatter from '../eos/scatter/scatter.wallet';
 import {

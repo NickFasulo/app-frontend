@@ -10,8 +10,12 @@ import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import YupPageHeader from '../../components/YupPageHeader';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
 import FeedCategoryList from '../../components/FeedContainer/FeedCategoryList';
-import { YupPageWrapper, YupContainer } from '../../components/styles';
+import {
+  YupPageWrapper,
+  YupContainer
+} from '../../components/styles';
 import GridLayout from '../../components/GridLayout';
+
 
 const PostDetails = () => {
   const router = useRouter();
@@ -42,7 +46,9 @@ const PostDetails = () => {
       <YupPageWrapper>
         <YupPageHeader scrolled={windowScrolled} noborder>
           <YupContainer>
-            <Typography variant="h5">Post</Typography>
+            <Typography variant='h5'>
+                Post
+              </Typography>
           </YupContainer>
         </YupPageHeader>
         <YupContainer>
@@ -60,7 +66,8 @@ const PostDetails = () => {
                 <PostDisplay isLoading={isLoading} post={post} />
               </Grid>
             }
-            contentRight={<FeedCategoryList />}
+            contentRight={
+                      <FeedCategoryList/>}
           />
           <CreateCollectionFab />
         </YupContainer>

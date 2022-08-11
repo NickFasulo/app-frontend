@@ -93,6 +93,7 @@ const CollectionDialog = ({
 
   return (
     <>
+
       <YupDialog
         headline="New Collection"
         description=" Start here to make a new collection. You can add any content, person, URL, address, NFT or anything else."

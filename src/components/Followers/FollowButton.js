@@ -69,7 +69,7 @@ const FollowButton = ({
     setIsLoading(false);
   };
 
-  if (isLoggedIn || account == null) {
+  if (isLoggedIn || account == null ) {
     return null;
   }
   const isFollowing = followers
