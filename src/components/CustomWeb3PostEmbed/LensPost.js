@@ -70,6 +70,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                 title={linkPreviewData.title}
                 url={linkPreviewData.url}
                 description={linkPreviewData.description}
+                classes={classes}
                 />
                 }
             });
