@@ -184,9 +184,10 @@ console.log({directParentPostLink,userPostLink})
                 className={classes.replyContent}
               >
                 {/* <Link  target="_blank" underline="none"> */}
+                    <Typography variant="body2">
                 <YupReactMarkdown>
                   {directParentPostText}
-                </YupReactMarkdown>
+                </YupReactMarkdown></Typography>
                 {/* </Link> */}
               </Grid>
               
@@ -260,9 +261,12 @@ console.log({directParentPostLink,userPostLink})
                   </Grid>
                   <Grid item="item" xs={12}>
                     {/* <Link  target="_blank" underline="none"> */}
+                    <Typography variant="body2">
                       <YupReactMarkdown   className={classes.tweetText}>
+
                         {userPostText}
                       </YupReactMarkdown>
+                      </Typography>
                     {/* </Link> */}
                   </Grid>
           {userAttachments

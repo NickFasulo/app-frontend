@@ -11,7 +11,7 @@ const YupReactMarkdown = ({ props, children }) => {
       // }}
       components={{
          a: ({node, ...props}) => 
-         (<Typography display="inline">
+         (<Typography  display="inline">
             <Link {...props} />
          </Typography>)
       }}
