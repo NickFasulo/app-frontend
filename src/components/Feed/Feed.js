@@ -5,7 +5,6 @@ import withStyles from '@mui/styles/withStyles';
 import { Typography } from '@mui/material';
 import FeedLoader from '../FeedLoader/FeedLoader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import clsx from 'clsx'
 
 const styles = (theme) => ({
   feedContainer: {
@@ -97,11 +96,7 @@ function Feed(props) {
         className={classes.feedContainer}
         style={{ marginBottom: !hasMore ? '10%' : '' }}
       >
-        <div
-          id="profilefeed"
-          align="center"
-          className={classes.feedPage}
-        >
+        <div id="profilefeed" align="center" className={classes.feedPage}>
           {formatPosts.map((post, index) => (
             <PostController
               key={index}

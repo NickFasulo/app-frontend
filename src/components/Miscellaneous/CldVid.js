@@ -17,7 +17,7 @@ const styles = (theme) => ({
     background: 'linear-gradient(0deg,#1b1b1b,#ffffff00,#ffffff00)',
     objectPosition: '50% 50%',
     alignItems: 'center',
-    borderRadius: '0.5rem 0.5rem 0px 0px',
+    borderRadius: '0.75rem',
     position: 'relative',
     [theme.breakpoints.up('1700')]: {
       maxHeight: '25rem',

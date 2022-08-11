@@ -12,31 +12,34 @@ import YupDialog from '../Miscellaneous/YupDialog';
 import { YupButton, YupInput } from '../Miscellaneous';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import { updateAccountInfo, updateEthAuthInfo } from '../../redux/actions';
-import { apiGetChallenge, apiSetETHAddress, apiUploadProfileImage, apiVerifyChallenge } from '../../apis';
+import {
+  apiGetChallenge,
+  apiSetETHAddress,
+  apiUploadProfileImage,
+  apiVerifyChallenge
+} from '../../apis';
 import useToast from '../../hooks/useToast';
 import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
 import useStyles from './styles';
-import {  useAccount, useDisconnect } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 import { useAuthModal } from '../../contexts/AuthModalContext';
-import useAuth from '../../hooks/useAuth'
 import { useRouter } from 'next/router';
 import useEthAuth from '../../hooks/useEthAuth';
-import useYupAccount  from '../../hooks/useAccount';
-import {
-  useConnectModal
-} from '@rainbow-me/rainbowkit';
+import useYupAccount from '../../hooks/useAccount';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import withSuspense from '../../hoc/withSuspense';
 import { useSocialLevel } from '../../hooks/queries';
 import { fetchSocialLevel } from '../../redux/actions';
+import { useAuth } from '../../contexts/AuthContext';
 // TODO: Refactor styling to Mui v5
-const EditProfile = () => {
+const EditProfile = ({ open: modalOpen, onClose }) => {
   const router = useRouter();
   const { openConnectModal } = useConnectModal();
-  const {  isConnected } = useAccount();
-  const { disconnect } = useDisconnect()
-  const {dialogOpen} = router.query;
-  const {authInfo} = useAuth();
-  const {account} = useYupAccount()
+  const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { dialogOpen } = router.query;
+  const { authInfo } = useAuth();
+  const { account } = useYupAccount();
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -47,8 +50,7 @@ const EditProfile = () => {
   const [files, setFiles] = useState([]);
   const [avatar, setAvatar] = useState();
   const [fullName, setFullName] = useState();
-  const [ethAddress, setEthAddress] = useState(
-  );
+  const [ethAddress, setEthAddress] = useState();
   const [bio, setBio] = useState();
   const [crop, setCrop] = useState({
     unit: '%',
@@ -62,54 +64,61 @@ const EditProfile = () => {
   const [cropTime, setCropTime] = useState(false);
   const [imageRef, setImageRef] = useState(null);
   const [connectModalIsOpen, setConnectModalIsOpen] = useState(false);
-  
+
   const filePreview = files.length > 0 ? files[0].preview : '';
   const filename = files.length > 0 ? files[0].name : '';
 
   useEffect(() => {
-    if(account){
-      setAvatar(account.avatar)
-      setFullName(account.fullname)
-      setBio(account.bio)
+    if (account) {
+      setAvatar(account.avatar);
+      setFullName(account.fullname);
+      setBio(account.bio);
     }
-      if(account?.ethInfo?.address !== ethAddress){
-        setEthAddress(account?.ethInfo?.address)
-      } 
-    
-      
+    if (account?.ethInfo?.address !== ethAddress) {
+      setEthAddress(account?.ethInfo?.address);
+    }
   }, [account]);
-  
+
   useEffect(() => {
     if (dialogOpen) {
-      setOpen(true)   
+      setOpen(true);
     }
   }, []);
 
-//Disconnect user if dialogOpen -> openConnectModal returns undefined if already connected
-  useEffect(()=>{     
+  useEffect(() => {
+    setOpen(modalOpen);
+  }, [modalOpen]);
 
-    if(isConnected && dialogOpen && !connectModalIsOpen){
-      disconnect()
+  //Disconnect user if dialogOpen -> openConnectModal returns undefined if already connected
+  useEffect(() => {
+    if (isConnected && dialogOpen && !connectModalIsOpen) {
+      disconnect();
     }
-  }, [isConnected])
+  }, [isConnected]);
 
   useEffect(() => {
-    console.log({account, ethAddress})
-    if (account&&  !account.ethInfo?.address &&openConnectModal && dialogOpen && !connectModalIsOpen && !isConnected ) {
-      handleOpenModalDynamicly() 
-      setConnectModalIsOpen(true) 
+    console.log({ account, ethAddress });
+    if (
+      account &&
+      !account.ethInfo?.address &&
+      openConnectModal &&
+      dialogOpen &&
+      !connectModalIsOpen &&
+      !isConnected
+    ) {
+      handleOpenModalDynamicly();
+      setConnectModalIsOpen(true);
     }
   }, [openConnectModal, isConnected, account]);
 
   const handleOpenModalDynamicly = () => {
-    openConnectModal()
-    handleLinkEthAddress()
-  }
+    openConnectModal();
+    handleLinkEthAddress();
+  };
 
   const handleLinkEthAddress = async () => {
-     linkEthAddress({ noRedirect: true });
-
-  }
+    linkEthAddress({ noRedirect: true });
+  };
 
   const handleDialogClose = () => {
     files.forEach((file) => {
@@ -118,7 +127,7 @@ const EditProfile = () => {
       }
     });
 
-    setOpen(false);
+    onClose();
     setFiles([]);
   };
 
@@ -272,19 +281,6 @@ const EditProfile = () => {
     setCropTime(false);
   };
 
-  // Rendering Helpers
-  const EditButton = () => (
-    <YupButton
-      className={classes.editButton}
-      onClick={() => setOpen(true)}
-      variant="outlined"
-      color="secondary"
-      size="small"
-    >
-      Edit
-    </YupButton>
-  );
-
   const CropIcon = () => {
     if (!cropTime) {
       return null;
@@ -314,165 +310,154 @@ const EditProfile = () => {
 
   return (
     <ErrorBoundary>
-      <>
-        <EditButton />
-        <YupDialog
-          headline="Edit Profile"
-          buttonPosition="right"
-          open={open}
-          onClose={handleDialogClose}
-          className={classes.dialog}
-          aria-labelledby="form-dialog-title"
-          firstButton={
-            <YupButton
-              onClick={handleAccountInfoSubmit}
-              variant="contained"
-              color="primary"
-              size="medium"
-            >
-              Update
-            </YupButton>
-          }
-          secondButton={
-            <YupButton
-              onClick={handleDialogClose}
-              variant="outlined"
-              color="primary"
-              size="medium"
-            >
-              Cancel
-            </YupButton>
-          }
-        >
-          <Grid container direction="row" style={{ justifyContent: 'center' }}>
-            <Grid item>
-              {!cropTime ? (
-                <div className={classes.dropzoneContainer}>
-                  <Dropzone
-                    accept="image/*"
-                    className={classes.dropzone}
-                    maxSize={70000000}
-                    onDrop={handleDrop}
-                  >
-                    {files.length > 0 ? (
-                      <UserAvatar
-                        align="center"
-                        alt="Preview"
-                        className={classes.previewStyle}
-                        height="auto"
-                        key={filename}
-                        src={filePreview}
-                        width="100%"
-                      />
-                    ) : (
-                      <UserAvatar
-                        align="center"
-                        alt="Add"
-                        username={account?.username}
-                        className={classes.dropzoneImg}
-                        style={{ fontSize: '100px' }}
-                        height="auto"
-                        src={avatar}
-                        width="100%"
-                      />
-                    )}
-                  </Dropzone>
-                </div>
-              ) : (
-                <ReactCrop
-                  crop={crop}
-                  imageStyle={{
-                    width: '100%',
-                    height: 'auto',
-                    objectFit: 'contain',
-                    marginTop: 0,
-                    maxWidth: '100%',
-                    maxHeight: '400px'
-                  }}
-                  onChange={handleCropChange}
-                  onImageLoaded={handleImageLoaded}
-                  src={filePreview}
-                />
-              )}
-              <CropIcon />
-              <RemovePhoto />
-            </Grid>
-            <Grid
-              item
-              container
-              direction="column"
-              spacing={2}
-            >
-              <Grid item>
-                <YupInput
-                  defaultValue={fullName}
-                  fullWidth
-                  id="name"
-                  maxLength={17}
-                  label="Name"
-                  onChange={(e) => setFullName(e.target.value)}
-                  type="text"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item>
-                <YupInput
-                  defaultValue={bio}
-                  fullWidth
-                  id="bio"
-                  maxLength={140}
-                  label="Bio"
-                  multiline
-                  rows={2}
-                  onChange={(e) => setBio(e.target.value)}
-                  type="text"
-                  variant="outlined"
-                />
-              </Grid>
-              {ethAddress ? (
-                <Grid item>
-                  <YupInput
-                    autoFocus
-                    defaultValue={ethAddress}
-                    fullWidth
-                    disabled
-                    id="name"
-                    maxLength={250}
-                    label="ETH Address"
-                    multiline
-                    type="text"
-                    variant="outlined"
-                  />
-                </Grid>
-              ): (
-                <Grid item>
-                  <ConnectButton.Custom>
-                    {({ openConnectModal }) => (
-                      <>
-                      <YupButton
-                        fullWidth
-                        onClick={() => {
-                         openConnectModal();
-                         handleLinkEthAddress()
-                        }}
-                        variant="outlined"
-                        color="secondary"
-                      >
-                       {!ethAddress?"Connect Eth":"Change Eth"} 
-                      </YupButton>
-                      </>
-                    )}
-                  </ConnectButton.Custom>
-                </Grid>)}
-             
-            </Grid>
+      <YupDialog
+        headline="Edit Profile"
+        buttonPosition="right"
+        open={open}
+        onClose={handleDialogClose}
+        className={classes.dialog}
+        aria-labelledby="form-dialog-title"
+        firstButton={
+          <YupButton
+            onClick={handleAccountInfoSubmit}
+            variant="contained"
+            color="primary"
+            size="medium"
+          >
+            Update
+          </YupButton>
+        }
+        secondButton={
+          <YupButton
+            onClick={handleDialogClose}
+            variant="outlined"
+            color="primary"
+            size="medium"
+          >
+            Cancel
+          </YupButton>
+        }
+      >
+        <Grid container direction="row" style={{ justifyContent: 'center' }}>
+          <Grid item>
+            {!cropTime ? (
+              <div className={classes.dropzoneContainer}>
+                <Dropzone
+                  accept="image/*"
+                  className={classes.dropzone}
+                  maxSize={70000000}
+                  onDrop={handleDrop}
+                >
+                  {files.length > 0 ? (
+                    <UserAvatar
+                      align="center"
+                      alt="Preview"
+                      className={classes.previewStyle}
+                      height="auto"
+                      key={filename}
+                      src={filePreview}
+                      width="100%"
+                    />
+                  ) : (
+                    <UserAvatar
+                      align="center"
+                      alt="Add"
+                      username={account?.username}
+                      className={classes.dropzoneImg}
+                      style={{ fontSize: '100px' }}
+                      height="auto"
+                      src={avatar}
+                      width="100%"
+                    />
+                  )}
+                </Dropzone>
+              </div>
+            ) : (
+              <ReactCrop
+                crop={crop}
+                imageStyle={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'contain',
+                  marginTop: 0,
+                  maxWidth: '100%',
+                  maxHeight: '400px'
+                }}
+                onChange={handleCropChange}
+                onImageLoaded={handleImageLoaded}
+                src={filePreview}
+              />
+            )}
+            <CropIcon />
+            <RemovePhoto />
           </Grid>
-        </YupDialog>
-      </>
+          <Grid item container direction="column" spacing={2}>
+            <Grid item>
+              <YupInput
+                defaultValue={fullName}
+                fullWidth
+                id="name"
+                maxLength={17}
+                label="Name"
+                onChange={(e) => setFullName(e.target.value)}
+                type="text"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item>
+              <YupInput
+                defaultValue={bio}
+                fullWidth
+                id="bio"
+                maxLength={140}
+                label="Bio"
+                multiline
+                rows={2}
+                onChange={(e) => setBio(e.target.value)}
+                type="text"
+                variant="outlined"
+              />
+            </Grid>
+            {ethAddress ? (
+              <Grid item>
+                <YupInput
+                  autoFocus
+                  defaultValue={ethAddress}
+                  fullWidth
+                  disabled
+                  id="name"
+                  maxLength={250}
+                  label="ETH Address"
+                  multiline
+                  type="text"
+                  variant="outlined"
+                />
+              </Grid>
+            ) : (
+              <Grid item>
+                <ConnectButton.Custom>
+                  {({ openConnectModal }) => (
+                    <YupButton
+                      fullWidth
+                      onClick={() => {
+                        openConnectModal();
+                        handleLinkEthAddress();
+                      }}
+                      variant="outlined"
+                      color="secondary"
+                    >
+                      {!ethAddress ? 'Connect Eth' : 'Change Eth'}
+                    </YupButton>
+                  )}
+                </ConnectButton.Custom>
+              </Grid>
+            )}
+          </Grid>
+        </Grid>
+      </YupDialog>
     </ErrorBoundary>
   );
 };
-
 
 // TODO: Move to `useSelector`
 

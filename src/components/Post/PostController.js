@@ -7,6 +7,7 @@ import ArticlePost from './ArticlePost';
 import CoursePost from '../Post/CoursePost';
 import ProfPost from '../Post/ProfPost';
 import TweetPost from './TweetPost';
+import Web3Post from './Web3Post';
 import VideoPost from './VideoPost';
 import SoundPost from './SoundPost';
 import SpotifyPost from './SpotifyPost';
@@ -18,8 +19,6 @@ import TwitchPost from './TwitchPost';
 import InstagramPost from './InstagramPost';
 import AudiusPost from './AudiusPost';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { setPostInfo } from '../../redux/actions';
 import isEqual from 'lodash/isEqual';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
@@ -108,7 +107,6 @@ function isTwitchPost(url) {
 function isArticlePost(url) {
   const atPattern = genRegEx([
     'forum.yup.io/*/*',
-    'yup.canny.io/*/*',
     '.*.mirror.xyz/*'
   ]);
   return atPattern.test(url);
@@ -135,6 +133,11 @@ function isNFTPost(url) {
     'knownorigin.io/gallery/*'
   ]);
   return nftPattern.test(url);
+}
+
+function isWeb3Post(url) {
+  const web3Pattern = genRegEx(['farcaster', 'lens', 'view.yup.io']);
+  return web3Pattern.test(url);
 }
 
 // TODO: Refactor
@@ -238,6 +241,27 @@ class PostController extends Component {
             postid={post._id.postid}
             quantiles={post.quantiles}
             previewData={post.previewData}
+            tweetObject={post}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            rating={post.rating}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </ErrorBoundary>
+      );
+    } else if (isWeb3Post(post.url)) {
+      return (
+        <ErrorBoundary>
+          <Web3Post
+            post={post}
+            url={post.url}
+            comment={post.comment}
+            author={post.author}
+            postid={post._id.postid}
+            quantiles={post.quantiles}
+            web3Preview={post.web3Preview}
             tweetObject={post}
             votes={post.upvotes - post.downvotes}
             weights={post.weights}
@@ -401,9 +425,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (
-      isArticlePost(post.url)
-    ) {
+    } else if (isArticlePost(post.url)) {
       return (
         <ErrorBoundary>
           <ArticlePost
@@ -414,6 +436,7 @@ class PostController extends Component {
             author={post.author}
             url={post.url}
             previewData={post.previewData}
+            web3Preview={post.web3Preview}
             quantiles={post.quantiles}
             votes={post.upvotes - post.downvotes}
             weights={post.weights}
@@ -546,7 +569,4 @@ PostController.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = () => {
-  return {};
-};
-export default memo(connect(mapStateToProps)(PostController));
+export default memo(PostController);

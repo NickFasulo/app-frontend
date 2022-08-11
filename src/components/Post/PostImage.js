@@ -11,7 +11,7 @@ const styles = (theme) => ({
     maxHeight: '600px',
     maxWidth: '600px',
     marginBottom: '15px',
-    borderRadius: '0.5rem 0.5rem 0px 0px',
+    borderRadius: '0.75rem',
     [theme.breakpoints.down('lg')]: {
       marginLeft: '0%',
       marginRight: '0%'

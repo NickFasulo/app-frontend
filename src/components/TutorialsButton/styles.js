@@ -1,4 +1,4 @@
-import { Fab, styled } from '@mui/material'
+import { Fab, styled } from '@mui/material';
 
 export const TutorialsFab = styled(Fab)(({ theme }) => ({
   position: 'fixed',

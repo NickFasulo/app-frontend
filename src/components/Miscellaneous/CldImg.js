@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -20,17 +20,43 @@ const foundationOptimizeParams = {
   fm: 'png'
 };
 
-const CldImg = ({ postid, src, ...restProps }) => {
+const CldImg = ({ postid, src, alt, ...restProps }) => {
+  const imgRef = useRef(null);
+
   const isUploadedToCloud = src && src.startsWith(ROOT_CLOUDINARY_URL);
   const isFoundationImg = src && src.split('-')[0] === FOUNDATION_IMG_URI;
 
+  const handleLoad = () => {
+    const imgElement = imgRef.current;
+
+    if (!imgElement) return;
+
+    const width = imgElement.naturalWidth;
+    const height = imgElement.naturalHeight;
+
+    if (width >= height) {
+      // Ratio >= 1
+      imgElement.style.width = '100%';
+      imgElement.style.objectFit = 'cover';
+      imgElement.style.minHeight = '200px';
+      imgElement.style.maxHeight = '500px';
+    } else {
+      // Ratio < 1
+      imgElement.style.maxHeight = '400px';
+      imgElement.style.objectFit = 'fit-content';
+    }
+  };
+
   if (isFoundationImg) {
-    // use foundation optimization params to save cloudianry credits
     return (
       <img
+        ref={imgRef}
         src={`${src}?${new URLSearchParams(
           foundationOptimizeParams
         ).toString()}`}
+        alt={alt}
+        onLoad={handleLoad}
+        {...restProps}
       />
     );
   }
@@ -39,12 +65,15 @@ const CldImg = ({ postid, src, ...restProps }) => {
     <ErrorBoundary>
       <CloudinaryContext cloudName={cloudinaryName}>
         <Image
+          innerRef={imgRef}
           publicId={isUploadedToCloud ? postid : src}
           type={isUploadedToCloud ? undefined : 'fetch'}
           secure="true"
           dpr="auto"
           responsive
-          width="auto"
+          height="auto"
+          onLoad={handleLoad}
+          alt={alt}
           {...restProps}
         >
           <Placeholder type="vectorize" />

@@ -68,8 +68,8 @@ const AuthModal = ({ open, onClose, noRedirect }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  const {address, isConnected} = useAccount();
-  const {signMessage } = useSignMessage();
+  const { address, isConnected } = useAccount();
+  const { signMessage } = useSignMessage();
   const router = useRouter();
 
   const [stage, setStage] = useState(AUTH_MODAL_STAGE.SIGN_IN);
@@ -282,7 +282,9 @@ const AuthModal = ({ open, onClose, noRedirect }) => {
     if (!noRedirect) {
       // Redirect to user profile page with rewards if it exists.
       const rewards = localStorage.getItem(LOCAL_STORAGE_KEYS.YUP_REWARDS);
-      router.push(`/account/${username}${rewards ? `?rewards=${rewards}` : ''}`);
+      router.push(
+        `/account/${username}${rewards ? `?rewards=${rewards}` : ''}`
+      );
     }
   };
 

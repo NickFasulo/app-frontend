@@ -272,6 +272,7 @@ export default class InfiniteScroll extends Component {
   render() {
     const style = {
       height: this.props.height || 'auto',
+      width: '100%',
       overflowY: 'auto',
       overflowX: 'hidden',
       margin: '0 auto',

@@ -4,14 +4,12 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
   createTheme({
     palette: {
       ...palette,
-      ...restPalette
+      ...restPalette,
+      background: {
+        default: `${palette.M850} !important`
+      }
     },
     components: {
-      body: {
-        styleOverrides: {
-          backgroundColor: palette.M500
-        }
-      },
       MuiButton: {
         styleOverrides: {
           root: {
@@ -171,10 +169,17 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           }
         }
       },
+      MuiLink:{
+        styleOverrides: {
+          root: {
+            color: palette.M100
+          }
+        }
+      },
       MuiAvatar: {
         styleOverrides: {
-          colorDefault: {
-            color: palette.M100
+          root: {
+            color: `${palette.M100} !important`
           }
         }
       },
@@ -186,6 +191,14 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
             '&.Mui-selected': {
               color: palette.M100
             }
+          }
+        }
+      },
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            background:
+              'linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)'
           }
         }
       },
@@ -204,6 +217,16 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
             overflow: 'visible',
             textAlign: 'center',
             justifyContent: 'center'
+          }
+        }
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            '&:hover': {
+              backgroundColor: `${palette.M500}10`
+            },
+            borderRadius: 10
           }
         }
       },
@@ -316,7 +339,8 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       MuiDrawer: {
         styleOverrides: {
           paper: {
-            background: palette.M800
+            background: palette.M800,
+            userSelect: 'none'
           }
         }
       },
@@ -410,37 +434,23 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           }
         }
       },
-      MuiContainer: {
-        styleOverrides: {
-          root: ({ theme }) => ({
-            [theme.breakpoints.down('xl')]: {
-              maxWidth: 1200
-            },
-            [theme.breakpoints.down('lg')]: {
-              maxWidth: 850
-            },
-            [theme.breakpoints.down('md')]: {
-              maxWidth: 550
-            }
-          })
-        }
-      },
       MuiChip: {
         styleOverrides: {
           root: {
-            color: palette.M50,
-            backgroundColor: palette.M800,
-            padding: '0 0.5rem',
+            color: palette.M400,
+            backgroundColor: `${palette.M800}DD`,
+            height: 24,
+            fontSize: '0.725rem',
+            fontWeight: 400,
+            padding: '0 8px',
             '&&:hover': {
               boxShadow: `0 0 0 2px ${palette.M700}`,
               backgroundColor: palette.M700
             }
           },
           icon: {
-            height: 'minContent',
             color: palette.M100,
-            fontSize: 'small !important',
-            opacity: 0.4
+            fontSize: '0.725rem'
           }
         }
       }
@@ -458,13 +468,15 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 600,
         fontSize: '4.5rem',
         lineHeight: '125%',
-        color: `${palette.M50}EE`
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
-       capsized_h1: {
+      capsized_h1: {
         fontWeight: 600,
         fontSize: '4.5rem',
         lineHeight: '100%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.1665em',
@@ -479,14 +491,16 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       h2: {
         fontWeight: 700,
         fontSize: '3.4375rem',
-        lineHeight: '125%',
-        color: `${palette.M50}EE`
+        lineHeight: '120%',
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
       capsized_h2: {
         fontWeight: 700,
         fontSize: '3.4375rem',
         lineHeight: '100%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.45em',
@@ -502,13 +516,15 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 600,
         fontSize: '2.75rem',
         lineHeight: '125%',
-        color: `${palette.M50}EE`
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
       capsized_h3: {
         fontWeight: 600,
         fontSize: '2.75rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.45em',
@@ -524,13 +540,15 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 400,
         fontSize: '2.125rem',
         lineHeight: '125%',
-        color: `${palette.M50}EE`
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
       capsized_h4: {
         fontWeight: 400,
         fontSize: '2.125rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.212em',
@@ -546,13 +564,15 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 700,
         fontSize: '1.5rem',
         lineHeight: '125%',
-        color: `${palette.M50}EE`
+        color: `${palette.M50}EE`,
+        userSelect: 'none'
       },
       capsized_h5: {
         fontWeight: 700,
         fontSize: '1.5rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
+        userSelect: 'none',
         '&::before': {
           content: '""',
           marginBottom: '-0.214em',
@@ -597,7 +617,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontSize: '1.25rem',
         lineHeight: '125%',
         color: `${palette.M50}DD`,
-         '&::before': {
+        '&::before': {
           content: '""',
           marginBottom: '-0.2155em',
           display: 'table'
@@ -632,13 +652,13 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       },
       body1: {
         fontWeight: 600,
-        fontSize: '0.9375rem',
+        fontSize: '15px',
         lineHeight: '135%',
         color: `${palette.M50}EE`
       },
       capsized_body1: {
         fontWeight: 600,
-        fontSize: '0.9375rem',
+        fontSize: '15px',
         lineHeight: '100%',
         color: `${palette.M50}EE`,
         '&::before': {
@@ -654,13 +674,13 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       },
       body2: {
         fontWeight: 400,
-        fontSize: '0.9375rem',
+        fontSize: '15px',
         lineHeight: '135%',
-        color: `${palette.M50}DE`
+        color: `${palette.M50}EE`
       },
       capsized_body2: {
         fontWeight: 400,
-        fontSize: '0.9375rem',
+        fontSize: '15px',
         lineHeight: '100%',
         color: `${palette.M50}DE`,
         '&::before': {
@@ -673,6 +693,18 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           marginTop: '-0.3em',
           display: 'table'
         }
+      },
+      bodyS1: {
+        fontWeight: 600,
+        fontSize: '12px',
+        lineHeight: '135%',
+        color: `${palette.M50}EE`
+      },
+      bodyS2: {
+        fontWeight: 400,
+        fontSize: '12px',
+        lineHeight: '135%',
+        color: `${palette.M50}EE`
       },
       url: {
         fontStyle: 600,

@@ -5,7 +5,15 @@ import withStyles from '@mui/styles/withStyles';
 import { Grid, Typography, Card, Tabs, Tab } from '@mui/material';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Helmet } from 'react-helmet';
-import { useAccount, useContractRead, useContractWrite, useNetwork, useSigner, useSwitchNetwork, usePrepareContractWrite } from 'wagmi';
+import {
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  useNetwork,
+  useSigner,
+  useSwitchNetwork,
+  usePrepareContractWrite
+} from 'wagmi';
 
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import {
@@ -66,8 +74,9 @@ const styles = (theme) => ({
   },
   card: {
     padding: 20,
-    background: theme.palette.M900,
-    border: `1px solid ${theme.palette.M700}`
+    background: `${theme.palette.M900}55`,
+    border: `1.5px solid ${theme.palette.M700}`,
+    backdropFilter: 'blur(20px)'
   },
   counterSizeFixed: {
     width: '360px',
@@ -95,7 +104,6 @@ const StakingPage = ({ classes }) => {
   const [polyApr, setPolyApr] = useState(0);
   const [ethApr, setEthApr] = useState(0);
 
-
   const [earnings, setEarnings] = useState(null);
   const [predictedRewardRate, setPredictedRewardRate] = useState(null);
   const [predictedRewards, setPredictedRewards] = useState({ prev: 0, new: 0 });
@@ -103,136 +111,187 @@ const StakingPage = ({ classes }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { address, isConnected } = useAccount();
-  const { chain } = useNetwork()
+  const { chain } = useNetwork();
 
-  const  {config:approveEthConfig }  = usePrepareContractWrite({
+  const { config: approveEthConfig } = usePrepareContractWrite({
     addressOrName: ETH_UNI_LP_TOKEN,
     contractInterface: YUPETH_ABI,
-    functionName: 'approve', 
-    args:[ETH_LIQUIDITY_REWARDS,
-      !isInvalidStakeAmt(ethStakeInput)&&ethers.utils
-      .parseEther(ethStakeInput.toString())
-      .toString()],
-      enabled:  !isInvalidStakeAmt(ethStakeInput),
-  })
-  
-  const {config:stakeEthConfig}  = usePrepareContractWrite({
+    functionName: 'approve',
+    args: [
+      ETH_LIQUIDITY_REWARDS,
+      !isInvalidStakeAmt(ethStakeInput) &&
+        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+    ],
+    enabled: !isInvalidStakeAmt(ethStakeInput)
+  });
+
+  const { config: stakeEthConfig } = usePrepareContractWrite({
     addressOrName: ETH_LIQUIDITY_REWARDS,
     contractInterface: LIQUIDITY_ABI,
-    functionName: 'stake', args:[!isInvalidStakeAmt(ethStakeInput)&&ethers.utils
-      .parseEther(ethStakeInput.toString())
-      .toString()],
-      enabled:  !isInvalidStakeAmt(ethStakeInput),
-  })  
+    functionName: 'stake',
+    args: [
+      !isInvalidStakeAmt(ethStakeInput) &&
+        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+    ],
+    enabled: !isInvalidStakeAmt(ethStakeInput)
+  });
 
-  const {config:unstakeEthConfig}  = usePrepareContractWrite({
+  const { config: unstakeEthConfig } = usePrepareContractWrite({
     addressOrName: ETH_LIQUIDITY_REWARDS,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'unstake',
-    args:[!isInvalidStakeAmt(ethStakeInput)&&ethers.utils
-      .parseEther(ethStakeInput.toString())
-      .toString()],
-      enabled:  !isInvalidStakeAmt(ethStakeInput),
-  })
-  const {config: getRewardEthConfig}  = usePrepareContractWrite({
+    args: [
+      !isInvalidStakeAmt(ethStakeInput) &&
+        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+    ],
+    enabled: !isInvalidStakeAmt(ethStakeInput)
+  });
+  const { config: getRewardEthConfig } = usePrepareContractWrite({
     addressOrName: ETH_LIQUIDITY_REWARDS,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'getReward'
-  })
+  });
 
-  const {config:approvePolyConfig, error}  = usePrepareContractWrite({
+  const { config: approvePolyConfig, error } = usePrepareContractWrite({
     addressOrName: POLY_UNI_LP_TOKEN,
     contractInterface: YUPETH_ABI,
     functionName: 'approve',
-    args:[POLY_LIQUIDITY_REWARDS,
-      !isInvalidStakeAmt(polyStakeInput)&&ethers.utils
-      .parseEther(polyStakeInput.toString())
-      .toString()],
-      enabled:  !isInvalidStakeAmt(polyStakeInput),
-  })
-  
-  const {config:stakePolyConfig}  = usePrepareContractWrite({
+    args: [
+      POLY_LIQUIDITY_REWARDS,
+      !isInvalidStakeAmt(polyStakeInput) &&
+        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+    ],
+    enabled: !isInvalidStakeAmt(polyStakeInput)
+  });
+
+  const { config: stakePolyConfig } = usePrepareContractWrite({
     addressOrName: POLY_LIQUIDITY_REWARDS,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'stake',
-    args:[!isInvalidStakeAmt(polyStakeInput)&&ethers.utils
-      .parseEther(polyStakeInput.toString())
-      .toString()],
-      enabled:  !isInvalidStakeAmt(polyStakeInput),
-  })  
+    args: [
+      !isInvalidStakeAmt(polyStakeInput) &&
+        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+    ],
+    enabled: !isInvalidStakeAmt(polyStakeInput)
+  });
 
-  const {config:unstakePolyConfig}  = usePrepareContractWrite({
+  const { config: unstakePolyConfig } = usePrepareContractWrite({
     addressOrName: POLY_LIQUIDITY_REWARDS,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'unstake',
-    args:[!isInvalidStakeAmt(polyStakeInput)&&ethers.utils
-      .parseEther(polyStakeInput.toString())
-      .toString()],
-      enabled:  !isInvalidStakeAmt(polyStakeInput),
-  })
+    args: [
+      !isInvalidStakeAmt(polyStakeInput) &&
+        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+    ],
+    enabled: !isInvalidStakeAmt(polyStakeInput)
+  });
 
-  const {config: getRewardPolyConfig}  = usePrepareContractWrite({
+  const { config: getRewardPolyConfig } = usePrepareContractWrite({
     addressOrName: POLY_LIQUIDITY_REWARDS,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'getReward'
-  })
+  });
 
-  const { data: approveEthData, isLoading: approveEthLoading, write: approveEth,  } = useContractWrite(approveEthConfig)
-  const { data: stakeEthDate, isLoading: stakeEthLoading,write: stakeEth } = useContractWrite({...stakeEthConfig, 
-    onSuccess: () => {    
-    toastInfo('You have succesfully staked your YUP-ETH LP tokens!');
-    setIsLoading(false);
-  },
-  onError: (error) => {
-    toastError(error.message);
-    setIsLoading(false);
-  }})
-  const { data: unstakeEthData,  isLoading: unstakeEthLoading, write: unstakeEth } = useContractWrite({...unstakeEthConfig, 
-    onSuccess: () => {    
+  const {
+    data: approveEthData,
+    isLoading: approveEthLoading,
+    write: approveEth
+  } = useContractWrite(approveEthConfig);
+  const {
+    data: stakeEthDate,
+    isLoading: stakeEthLoading,
+    write: stakeEth
+  } = useContractWrite({
+    ...stakeEthConfig,
+    onSuccess: () => {
       toastInfo('You have succesfully staked your YUP-ETH LP tokens!');
       setIsLoading(false);
-  },
-  onError: (error) => {
-    toastError(error.message);
-    setIsLoading(false);
-  }})
-  const { data: getRewardEthData, isLoading: getRewardEthLoading, write: getRewardEth } = useContractWrite({...getRewardEthConfig, 
-    onSuccess: () => {    
-    toastInfo('You have succesfully collected your Eth rewards!');
-    setIsLoading(false);
-  },
-  onError: (error) => {
-    toastError(error.message);
-    setIsLoading(false);
-  }})
-  const { data: approvePolyData, isLoading: approvePolyLoading,write: approvePoly } = useContractWrite(approvePolyConfig)
-  const { data: stakePolyDate, isLoading: stakePolyLoading,write: stakePoly } = useContractWrite({...stakePolyConfig, 
-    onSuccess: () => {    
-    toastInfo('You have succesfully staked your YUP-WETH LP tokens!');
-    setIsLoading(false);
-  },
-  onError: (error) => {
-    toastError(error.message);
-    setIsLoading(false);
-  }})
-  const { data: unstakePolyData, isLoading: unstakePolyLoading, write: unstakePoly } = useContractWrite({...unstakePolyConfig, 
-    onSuccess: () => {    
-    toastInfo('You have succesfully unstaked your YUP-WETH LP Tokens!');
-    setIsLoading(false);
-  },
-  onError: (error) => {
-    toastError(error.message);
-    setIsLoading(false);
-  }})
-  const { data: getRewardPolyData, isLoading: getRewardPolyLoading,  write: getRewardPoly } = useContractWrite({...getRewardPolyConfig, 
-    onSuccess: () => {    
-    toastInfo('You have succesfully collected your Poly rewards!');
-    setIsLoading(false);
-  },
-  onError: (error) => {
-    toastError(error.message);
-    setIsLoading(false);
-  }})
+    },
+    onError: (error) => {
+      toastError(error.message);
+      setIsLoading(false);
+    }
+  });
+  const {
+    data: unstakeEthData,
+    isLoading: unstakeEthLoading,
+    write: unstakeEth
+  } = useContractWrite({
+    ...unstakeEthConfig,
+    onSuccess: () => {
+      toastInfo('You have succesfully staked your YUP-ETH LP tokens!');
+      setIsLoading(false);
+    },
+    onError: (error) => {
+      toastError(error.message);
+      setIsLoading(false);
+    }
+  });
+  const {
+    data: getRewardEthData,
+    isLoading: getRewardEthLoading,
+    write: getRewardEth
+  } = useContractWrite({
+    ...getRewardEthConfig,
+    onSuccess: () => {
+      toastInfo('You have succesfully collected your Eth rewards!');
+      setIsLoading(false);
+    },
+    onError: (error) => {
+      toastError(error.message);
+      setIsLoading(false);
+    }
+  });
+  const {
+    data: approvePolyData,
+    isLoading: approvePolyLoading,
+    write: approvePoly
+  } = useContractWrite(approvePolyConfig);
+  const {
+    data: stakePolyDate,
+    isLoading: stakePolyLoading,
+    write: stakePoly
+  } = useContractWrite({
+    ...stakePolyConfig,
+    onSuccess: () => {
+      toastInfo('You have succesfully staked your YUP-WETH LP tokens!');
+      setIsLoading(false);
+    },
+    onError: (error) => {
+      toastError(error.message);
+      setIsLoading(false);
+    }
+  });
+  const {
+    data: unstakePolyData,
+    isLoading: unstakePolyLoading,
+    write: unstakePoly
+  } = useContractWrite({
+    ...unstakePolyConfig,
+    onSuccess: () => {
+      toastInfo('You have succesfully unstaked your YUP-WETH LP Tokens!');
+      setIsLoading(false);
+    },
+    onError: (error) => {
+      toastError(error.message);
+      setIsLoading(false);
+    }
+  });
+  const {
+    data: getRewardPolyData,
+    isLoading: getRewardPolyLoading,
+    write: getRewardPoly
+  } = useContractWrite({
+    ...getRewardPolyConfig,
+    onSuccess: () => {
+      toastInfo('You have succesfully collected your Poly rewards!');
+      setIsLoading(false);
+    },
+    onError: (error) => {
+      toastError(error.message);
+      setIsLoading(false);
+    }
+  });
 
   const { data: currentStakePoly } = useContractRead({
     addressOrName: POLY_LIQUIDITY_REWARDS,
@@ -240,22 +299,22 @@ const StakingPage = ({ classes }) => {
     functionName: 'balanceOf',
     args: [address],
     watch: true,
-    enabled: !!address,
-  })
+    enabled: !!address
+  });
 
   const { data: currentTotalStakePoly } = useContractRead({
     addressOrName: POLY_UNI_LP_TOKEN,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'balanceOf',
     args: [POLY_LIQUIDITY_REWARDS],
-    watch: true,
-  })
+    watch: true
+  });
 
   const { data: polyRR } = useContractRead({
     addressOrName: POLY_LIQUIDITY_REWARDS,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'rewardRate'
-  })
+  });
 
   const { data: currentStakeEth } = useContractRead({
     addressOrName: ETH_LIQUIDITY_REWARDS,
@@ -263,36 +322,36 @@ const StakingPage = ({ classes }) => {
     functionName: 'balanceOf',
     args: [address],
     watch: true,
-    enabled: !!address,
-  })
+    enabled: !!address
+  });
   const { data: currentTotalStakeEth } = useContractRead({
     addressOrName: ETH_UNI_LP_TOKEN,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'balanceOf',
     args: [ETH_LIQUIDITY_REWARDS],
-    watch: true,
-  })
+    watch: true
+  });
   const { data: ethRR } = useContractRead({
     addressOrName: ETH_LIQUIDITY_REWARDS,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'rewardRate'
-  })
+  });
   const { data: polyLpBal } = useContractRead({
     addressOrName: POLY_UNI_LP_TOKEN,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'balanceOf',
     args: [address],
     watch: true,
-    enabled: !!address,
-  })
+    enabled: !!address
+  });
   const { data: ethLpBal } = useContractRead({
     addressOrName: ETH_UNI_LP_TOKEN,
     contractInterface: LIQUIDITY_ABI,
     functionName: 'balanceOf',
     args: [address],
     watch: true,
-    enabled: !!address,
-  })
+    enabled: !!address
+  });
 
   const { data: polyRwrdAmt } = useContractRead({
     addressOrName: POLY_LIQUIDITY_REWARDS,
@@ -300,8 +359,8 @@ const StakingPage = ({ classes }) => {
     functionName: 'earned',
     args: [address],
     watch: true,
-    enabled: !!address,
-  })
+    enabled: !!address
+  });
 
   const { data: ethRwrdAmt } = useContractRead({
     addressOrName: ETH_LIQUIDITY_REWARDS,
@@ -309,9 +368,9 @@ const StakingPage = ({ classes }) => {
     functionName: 'earned',
     args: [address],
     watch: true,
-    enabled: !!address,
-  })
-  console.log({isLoading }, error)
+    enabled: !!address
+  });
+  console.log({ isLoading }, error);
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab);
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab);
@@ -341,12 +400,18 @@ const StakingPage = ({ classes }) => {
   }, [address, earnings]);
 
   useEffect(() => {
-    console.log(predictedRewardRate)
-    if (!ethLpBal || !polyLpBal || !currentTotalStakePoly || !currentTotalStakeEth, predictedRewardRate) {
+    console.log(predictedRewardRate);
+    if (
+      (!ethLpBal ||
+        !polyLpBal ||
+        !currentTotalStakePoly ||
+        !currentTotalStakeEth,
+      predictedRewardRate)
+    ) {
       return;
     }
     getPredictedRewardRate();
-  }, [currentTotalStakePoly, currentTotalStakeEth,ethLpBal, polyLpBal]);
+  }, [currentTotalStakePoly, currentTotalStakeEth, ethLpBal, polyLpBal]);
 
   useEffect(() => {
     if (!predictedRewardRate) {
@@ -354,7 +419,7 @@ const StakingPage = ({ classes }) => {
     }
     updateRewardStream();
   }, [predictedRewardRate]);
-  
+
   useEffect(() => {
     if (!isConnected) {
       toastInfo(
@@ -363,9 +428,9 @@ const StakingPage = ({ classes }) => {
       return;
     }
 
-// Poly is default chain now, and users are triggerd a network change by rainbow automatically
-// Is a bug in my opinion, but we'll see if it's fixed
-// Github issue for tracking:  https://github.com/rainbow-me/rainbowkit/issues/563
+    // Poly is default chain now, and users are triggerd a network change by rainbow automatically
+    // Is a bug in my opinion, but we'll see if it's fixed
+    // Github issue for tracking:  https://github.com/rainbow-me/rainbowkit/issues/563
 
     // if (chain.id !== polygonConfig.chainId && switchNetwork) {
     //   toastInfo('Please switch network to Polygon to stake.');
@@ -386,7 +451,6 @@ const StakingPage = ({ classes }) => {
       updateRewardStream();
     }, 1000);
   };
-
 
   const getTotalRewards = async () => {
     try {
@@ -439,13 +503,14 @@ const StakingPage = ({ classes }) => {
     }
   };
 
-
   const getPredictedRewardRate = async () => {
-      const ethPredictedRR =
-        (toBaseNum(currentStakeEth) * toBaseNum(ethRR)) / toBaseNum(currentTotalStakeEth);
-      const polyPredictedRR =
-        (toBaseNum(currentStakePoly) * toBaseNum(polyRR)) / toBaseNum(currentTotalStakePoly);
-      setPredictedRewardRate(ethPredictedRR + polyPredictedRR);
+    const ethPredictedRR =
+      (toBaseNum(currentStakeEth) * toBaseNum(ethRR)) /
+      toBaseNum(currentTotalStakeEth);
+    const polyPredictedRR =
+      (toBaseNum(currentStakePoly) * toBaseNum(polyRR)) /
+      toBaseNum(currentTotalStakePoly);
+    setPredictedRewardRate(ethPredictedRR + polyPredictedRR);
   };
 
   const getAprs = async () => {
@@ -461,12 +526,11 @@ const StakingPage = ({ classes }) => {
 
   const handleStakingAction = async (lpToken) => {
     if (lpToken === 'eth') {
-       startEthStakeAction();
+      startEthStakeAction();
     } else if (lpToken === 'poly') {
-       startPolyStakeAction();
+      startPolyStakeAction();
     }
   };
-
 
   const startEthStakeAction = async () => {
     if (isInvalidStakeAmt(ethStakeInput)) {
@@ -474,22 +538,22 @@ const StakingPage = ({ classes }) => {
       return;
     }
 
-      setIsLoading(true)
-      const isStake = !activeEthTab;
-      const stakeAmt = ethers.utils
-        .parseEther(ethStakeInput.toString())
-        .toString();
-       approveEth(ETH_LIQUIDITY_REWARDS,stakeAmt);
-      if (isStake) {
-        stakeEth({
-          args: [stakeAmt]});
-      } else {
-        console.log(stakeAmt)
-        unstakeEth({
-          args: [stakeAmt]});
-      }
-
-    
+    setIsLoading(true);
+    const isStake = !activeEthTab;
+    const stakeAmt = ethers.utils
+      .parseEther(ethStakeInput.toString())
+      .toString();
+    approveEth(ETH_LIQUIDITY_REWARDS, stakeAmt);
+    if (isStake) {
+      stakeEth({
+        args: [stakeAmt]
+      });
+    } else {
+      console.log(stakeAmt);
+      unstakeEth({
+        args: [stakeAmt]
+      });
+    }
   };
 
   const startPolyStakeAction = async () => {
@@ -498,34 +562,34 @@ const StakingPage = ({ classes }) => {
       return;
     }
 
-      setIsLoading(true)
-      const isStake = !activePolyTab;
-      const stakeAmt = ethers.utils
-        .parseEther(polyStakeInput.toString())
-        .toString();
-       approvePoly(POLY_LIQUIDITY_REWARDS, stakeAmt);
-      if (isStake) {
-        stakePoly({
-          args: [stakeAmt]});
-      } else {
-        unstakePoly({
-          args: [stakeAmt]});
-      }
-   
+    setIsLoading(true);
+    const isStake = !activePolyTab;
+    const stakeAmt = ethers.utils
+      .parseEther(polyStakeInput.toString())
+      .toString();
+    approvePoly(POLY_LIQUIDITY_REWARDS, stakeAmt);
+    if (isStake) {
+      stakePoly({
+        args: [stakeAmt]
+      });
+    } else {
+      unstakePoly({
+        args: [stakeAmt]
+      });
+    }
   };
 
   const collectRewards = async () => {
-      setIsLoading(true);
-      toastInfo(
-        'Sign the transactions to collect you rewards. There will be one transaction for each pool you are in.'
-      );
-      if (ethRwrdAmt > 0) {
-        getRewardEth()
-      }
-      if (polyRwrdAmt > 0) {
-        getRewardPoly()
-      }
-    
+    setIsLoading(true);
+    toastInfo(
+      'Sign the transactions to collect you rewards. There will be one transaction for each pool you are in.'
+    );
+    if (ethRwrdAmt > 0) {
+      getRewardEth();
+    }
+    if (polyRwrdAmt > 0) {
+      getRewardPoly();
+    }
   };
   return (
     <ErrorBoundary>

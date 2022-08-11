@@ -6,10 +6,12 @@ import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
 import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
+import useDevice from '../../hooks/useDevice';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
 const Reply = ({ tweetData, classes }) => {
+  const { isMobile } = useDevice();
   const { user } = tweetData.tweetInfo;
   const { url } = tweetData;
   const [previewData, setPreviewData] = useState(null);
@@ -142,12 +144,7 @@ const Reply = ({ tweetData, classes }) => {
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      className={classes.mainReplyContainer}
-      spacing={1}
-    >
+    <Grid container direction="column" className={classes.mainReplyContainer}>
       <Grid item xs={12}>
         <Grid
           container
@@ -234,7 +231,7 @@ const Reply = ({ tweetData, classes }) => {
                     <Link href={tweetLink} target="_blank" underline="none">
                       <img
                         src="/images/icons/twitter.svg"
-                        height="24"
+                        height={isMobile ? '12' : '16'}
                         alt="twitter"
                       />
                     </Link>

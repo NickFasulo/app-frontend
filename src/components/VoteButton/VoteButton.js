@@ -36,7 +36,7 @@ import {
 } from '@react-spring/web';
 import { styled } from '@mui/material/styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
-import useAuth from '../../hooks/useAuth';
+import { useAuth } from '../../contexts/AuthContext';
 
 const styles = (theme) => ({
   greenArrow: {
@@ -108,17 +108,6 @@ const styles = (theme) => ({
   }
 });
 
-const dislikeRatingConversion = {
-  1: 2,
-  2: 1
-};
-
-const likeRatingConversion = {
-  1: 3,
-  2: 4,
-  3: 5
-};
-
 const StyledTooltip = memo(
   withStyles({
     popper: {
@@ -182,7 +171,7 @@ PostStats.propTypes = {
 
 const postStatStyles = (theme) => ({
   weight: {
-    marginRight: '3px',
+    width: '1rem',
     fontSize: '16px'
   },
   totalVoters: {
@@ -204,9 +193,10 @@ const VoteButton = ({
   totalVoters,
   handleOnclick,
   catWeight,
-  rating,
+  rating=0,
   isVoted,
-  setLastClicked
+  setLastClicked,
+  web3Likes = 0
 }) => {
   const account = useAuth();
   const { open: openAuthModal } = useAuthModal();
@@ -214,7 +204,7 @@ const VoteButton = ({
   const [isClicked, setIsClicked] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-
+  console.log({totalVoters, rating, web3Likes, type})
   useEffect(() => {
     let interval;
     if (mouseDown && (!account || !account.name)) {
@@ -325,7 +315,7 @@ const VoteButton = ({
           </Grid>
         </animated.div>
       ))}
-      <Grid item sx={{ zIndex: '1000', marginBottom: '4px' }}>
+      <Grid item sx={{ zIndex: '1000' }}>
         <div
           style={{ width: '18px', cursor: 'pointer' }}
           onMouseEnter={() => setIsHovered(true)}
@@ -349,7 +339,7 @@ const VoteButton = ({
       </Grid>
       <Grid xs={4} className={classes.postWeight} item>
         <StyledPostStats
-          totalVoters={totalVoters}
+          totalVoters={totalVoters + web3Likes+rating}
           weight={Number(formattedWeight)}
           isShown={isShown}
         />

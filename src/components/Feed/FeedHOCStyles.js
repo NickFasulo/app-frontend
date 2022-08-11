@@ -29,7 +29,8 @@ export default makeStyles((theme) => ({
   infiniteScroll: {
     display: 'inherit',
     [theme.breakpoints.down('sm')]: {
-      display: 'inline-block'
+      display: 'inline-block',
+      width: '100%'
     }
   },
   container: {

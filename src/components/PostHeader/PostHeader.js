@@ -19,14 +19,11 @@ import YupLink from '../YupLink';
 
 const styles = (theme) => ({
   interactionBar: {
-    padding: '1% 1% 0% 0%',
     opacity: '0.7',
-    minHeight: '40px',
-    height: '40px',
-    marginBottom: -5,
-    marginTop: 10,
+    padding: '0 0 4px 0',
+    marginTop: 0,
     [theme.breakpoints.down('sm')]: {
-      padding: '0px 3%'
+      padding: '4px 0'
     }
   },
   keyUser: {
@@ -64,18 +61,19 @@ class PostHeader extends Component {
   };
 
   componentDidMount() {
-    try{
-    axios.post(`${apiBaseUrl}/posts/interactions/${this.props.postid}`).then(
-      (res) => {
-        this.setState({
-          postInteractions: res.data,
-          isLoading: false
+    try {
+      axios
+        .post(`${apiBaseUrl}/posts/interactions/${this.props.postid}`)
+        .then((res) => {
+          this.setState({
+            postInteractions: res.data,
+            isLoading: false
+          });
+        })
+        .catch((_) => {
+          this.setState({ isLoading: false });
         });
-      }
-    ).catch((_) => {
-      this.setState({ isLoading: false });
-    })
-    } catch(_) {
+    } catch (_) {
       this.setState({ isLoading: false });
     }
   }
@@ -87,7 +85,7 @@ class PostHeader extends Component {
     const { query } = router;
 
     if (!isLoading && !postInteractions.length) {
-      return <div style={{ height: '25px' }} />;
+      return <div />;
     }
 
     if (isLoading || !postInteractions.length) {
@@ -164,7 +162,7 @@ class PostHeader extends Component {
             <img
               src="/images/icons/twitter.svg"
               style={{
-                height: '0.5rem',
+                height: '0.8rem',
                 paddingLeft: '8px',
                 paddingRight: '8px',
                 display: 'grid'
@@ -182,7 +180,12 @@ class PostHeader extends Component {
           className={classes.interactionBar}
           style={hideInteractions ? { marginBottom: '-9px' } : {}}
         >
-          <Grid container direction="row" alignItems="center" justifyContent="space-between">
+          <Grid
+            container
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Grid item>
               <Grid
                 container

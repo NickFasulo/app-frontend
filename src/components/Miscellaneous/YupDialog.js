@@ -68,27 +68,29 @@ function YupDialog(props) {
   return (
     <Dialog {...restProps}>
       <DialogTitle style={{ paddingBottom: '10px' }}>
-        <Typography variant='h5'>{headline}</Typography>
+        <Typography variant="h5">{headline}</Typography>
         {restProps.onClose ? (
           <IconButton
-            aria-label='close'
+            aria-label="close"
             onClick={restProps.onClose}
             sx={{
               position: 'absolute',
               right: 24,
               top: 20,
+              width: 35,
+              height: 35,
               color: (theme) => theme.palette.M150
             }}
-            size='medium'
+            size="medium"
           >
             <FontAwesomeIcon icon={faXmark} />
           </IconButton>
         ) : null}
       </DialogTitle>
       <DialogContent>
-        <Grid container direction='column' spacing={2}>
+        <Grid container direction="column" spacing={2}>
           <Grid item>
-            <Typography variant='b2'>{description}</Typography>
+            <Typography variant="b2">{description}</Typography>
           </Grid>
           <Grid item>{children}</Grid>
           <Grid item>
@@ -96,7 +98,7 @@ function YupDialog(props) {
               container
               xs={12}
               direction={reverse ? 'row-reverse' : 'row'}
-              alignItems='stretch'
+              alignItems="stretch"
             >
               {firstButton && (
                 <Grid item className={clsx(full && classes.firstButton)}>

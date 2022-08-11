@@ -79,7 +79,6 @@ const Original = ({ tweetData, classes }) => {
 
   let tweetText = text.split(' ').map((string) => linkMentions(string));
 
-
   return (
     <Grid container="container" className={classes.container}>
       <Grid item="item" xs={12}>

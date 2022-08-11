@@ -1,11 +1,10 @@
-import { FlexBox } from '../styles';
+import { FlexBox, YupContainer } from '../styles';
 import { HeaderRoot, Logo } from './styles';
 import { DEFAULT_IMAGE_PATH } from '../../utils/helpers';
 import { Container, Menu, MenuItem, Typography } from '@mui/material';
 import { faShare, faCopy, faBars } from '@fortawesome/pro-solid-svg-icons';
 import YupLink from '../YupLink';
 import ActionIcon from '../ActionIcon';
-import useAuth from '../../hooks/useAuth';
 import useToast from '../../hooks/useToast';
 import React, { useState } from 'react';
 import {
@@ -13,6 +12,7 @@ import {
   CollectionEditDialog,
   CollectionReorderDialog
 } from '../Collections';
+import { useAuth } from '../../contexts/AuthContext';
 
 // TODO: Implement Tour
 const CollectionHeader = ({ collection, minimized }) => {
@@ -23,7 +23,7 @@ const CollectionHeader = ({ collection, minimized }) => {
   const [reorderModalOpen, setReorderModalOpen] = useState(false);
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
-  const { isLoggedIn, name: username } = account;
+  const { isLoggedIn, username } = account;
 
   const handleShare = async () => {
     // eslint-disable-next-line no-restricted-globals
@@ -36,7 +36,7 @@ const CollectionHeader = ({ collection, minimized }) => {
   const isMyCollection = username === ownerId;
 
   return (
-    <>
+    <YupContainer sx={{ pb: 3 }}>
       <HeaderRoot>
         <Logo
           src={[logoPath, DEFAULT_IMAGE_PATH]}
@@ -117,7 +117,7 @@ const CollectionHeader = ({ collection, minimized }) => {
         collection={collection}
         dialogOpen={reorderModalOpen}
       />
-    </>
+    </YupContainer>
   );
 };
 

@@ -1,48 +1,10 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import Image from 'next/image';
-import { PageBody } from '../../_pages/pageLayouts';
 
-export const ContainerRoot = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  minHeight: '100vh',
-  maxWidth: '100vw',
-  overflowY: 'hidden'
-}));
-
-export const PageContainer = styled(PageBody)(({ theme }) => ({
-  width: '100%',
-  overflowX: 'hidden',
+export const HeaderRoot = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 0, 3, 0),
   [theme.breakpoints.down('md')]: {
-    backgroundSize: 'contain'
-  }
-}));
-
-export const FeedWrapper = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  width: '100%',
-  [theme.breakpoints.down('md')]: {
-    maxWidth: '100%',
-    marginLeft: '0%',
-    padding: '0%'
-  }
-}));
-
-export const HeaderRoot = styled('div')(({ theme, isMinimize }) => ({
-  background: 'transparent',
-  zIndex: 100,
-  width: '600px',
-  margin: '0 auto',
-  position: 'relative',
-  padding: '80px 0px 35px 0px',
-  paddingBottom: `${isMinimize ? 20 : 0}px;`,
-  [theme.breakpoints.down('md')]: {
-    marginLeft: 0,
-    padding: '70px 0px 25px 15px',
-    paddingBottom: `${isMinimize ? 20 : 0}px;`,
-    width: '100vw'
+    paddingLeft: theme.spacing(3)
   }
 }));
 
@@ -55,5 +17,9 @@ export const HeaderImageWrapper = styled('div')(({ theme, isMinimize }) => ({
 }));
 
 export const HeaderImage = styled(Image)(({ theme }) => ({
-  borderRadius: '15%'
+  borderRadius: '14%'
+}));
+
+export const CategoryImage = styled(Image)(({ theme }) => ({
+  borderRadius: '0.5rem'
 }));

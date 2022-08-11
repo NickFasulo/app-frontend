@@ -12,7 +12,7 @@ import VoteComp from '../VoteComp/VoteComp';
 import CollectionThumbnail from './CollectionThumbnail';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import useDevice from '../../hooks/useDevice';
-import PageLoader from '../PageLoader';
+import PageLoadingBar from '../PageLoadingBar';
 
 const LeaderboardItem = ({ data, rank }) => {
   const { isDesktop } = useDevice();

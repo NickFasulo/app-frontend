@@ -37,7 +37,8 @@ import {
   ERROR_TWITTER_AUTH,
   ERROR_WALLET_NOT_CONNECTED,
   INVITE_EMAIL_SUCCESS,
-  WAIT_FOR_ACCOUNT_CREATION
+  WAIT_FOR_ACCOUNT_CREATION,
+  ACCOUNT_CREATED
 } from '../../constants/messages';
 import { updateEthAuthInfo, fetchSocialLevel } from '../../redux/actions';
 import {
@@ -52,9 +53,10 @@ import AuthMethodButton from '../../components/AuthMethodButton';
 import AuthInput from '../../components/AuthInput/AuthInput';
 import useStyles from './AuthModalStyles';
 import useToast from '../../hooks/useToast';
-import useYupAccount  from '../../hooks/useAccount';
-import { useDisconnect } from 'wagmi'
+import useYupAccount from '../../hooks/useAccount';
+import { useDisconnect } from 'wagmi';
 import { YupDialog } from '../../components/Miscellaneous';
+import { useAuth } from '../AuthContext';
 
 const defaultContext = {
   open: () => {},
@@ -72,12 +74,13 @@ const AUTH_MODAL_STAGE = {
 export const AuthModalContextProvider = ({ children }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { updateAuthInfo } = useAuth();
   const { toastError, toastSuccess } = useToast();
-  const { address, isConnected } = useAccount();  
-  const { disconnect } = useDisconnect()
-  const {data: signature, isSuccess, signMessage} = useSignMessage();
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { data: signature, isSuccess, signMessage } = useSignMessage();
   const router = useRouter();
-  const {account} = useYupAccount()
+  const { account } = useYupAccount();
   const [modalOpen, setModalOpen] = useState(false);
   const [options, setOptions] = useState({});
   const [stage, setStage] = useState(AUTH_MODAL_STAGE.SIGN_IN);
@@ -86,33 +89,31 @@ export const AuthModalContextProvider = ({ children }) => {
   const [username, setUsername] = useState('');
   const [linkEth, setLinkEth] = useState(false);
   const [currAuthMethod, setCurrAuthMethod] = useState(null);
-console.log(account, 'account')
 
   useEffect(() => {
     // If `Connect Wallet` button is clicked and wallet is connect, start auth with ETH.
-    if(isConnected){
+    if (isConnected) {
       if (currAuthMethod === AUTH_TYPE.ETH || linkEth) {
-        getSignature()
-      } 
+        getSignature();
+      }
     }
   }, [isConnected, currAuthMethod, linkEth]);
 
   useEffect(() => {
     // If `Connect Wallet` button is clicked and wallet is connect, start auth with ETH.
-    if (signature && isSuccess) { 
-      if(currAuthMethod === AUTH_TYPE.ETH ){
-        setCurrAuthMethod(null)
-        handleAuthWithWallet()
-      } else if(linkEth){
+    if (signature && isSuccess) {
+      if (currAuthMethod === AUTH_TYPE.ETH) {
+        setCurrAuthMethod(null);
+        handleAuthWithWallet();
+      } else if (linkEth) {
         setLinkEth(null);
         handleLinkEthAddress();
       }
     }
   }, [signature]);
 
-  
-
   const handleCloseModal = () => {
+    console.log("CLOSING")
     setModalOpen(false);
     setOptions({});
   };
@@ -134,17 +135,17 @@ console.log(account, 'account')
 
   const getSignature = async () => {
     try {
-    const rspChallenge = await apiGetChallenge({ address });
-    signMessage({ message: rspChallenge.data });} 
-    catch (err) {
+      const rspChallenge = await apiGetChallenge({ address });
+      signMessage({ message: rspChallenge.data });
+    } catch (err) {
       // Failed to sign the challenge, should try again.
       // Most cases are when the user rejects to sign.
       toastError(err.message || ERROR_SIGN_FAILED);
       return;
     }
-  }
+  };
   const handleAuthWithWallet = async () => {
-    
+    console.log("CLOSING2")
     if (!signature) {
       toastError(ERROR_SIGN_FAILED);
 
@@ -203,6 +204,15 @@ console.log(account, 'account')
       })
     );
 
+    updateAuthInfo({
+      authType: AUTH_TYPE.ETH,
+      address,
+      signature,
+      eosname: account._id,
+      username: account.username
+    });
+
+    console.log("CLOSING1")
     // Tract for analytics
     trackLogin(account.username, address);
 
@@ -215,7 +225,6 @@ console.log(account, 'account')
     }
   };
   const handleLinkEthAddress = async () => {
-
     if (!signature) {
       toastError(ERROR_SIGN_FAILED);
 
@@ -233,11 +242,12 @@ console.log(account, 'account')
       return;
     }
     try {
-
-    await apiSetETHAddress(address, {eosname: account._id, authType:'ETH', signature});
-    dispatch(
-      fetchSocialLevel(account._id)
-    );
+      await apiSetETHAddress(address, {
+        eosname: account._id,
+        authType: 'ETH',
+        signature
+      });
+      dispatch(fetchSocialLevel(account._id));
     } catch (err) {
       toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
 
@@ -252,7 +262,6 @@ console.log(account, 'account')
     };
 
     localStorage.setItem(LOCAL_STORAGE_KEYS.ETH_AUTH, JSON.stringify(ethAuth));
-
 
     // Update redux state
     dispatch(
@@ -350,8 +359,9 @@ console.log(account, 'account')
 
     try {
       await apiValidateUsername(username);
-    } catch {
-      toastError(ERROR_INVALID_USERNAME);
+    } catch (err){
+      console.log({err})
+      toastError(err?.response?.data?.message||ERROR_INVALID_USERNAME);
 
       return;
     }
@@ -366,8 +376,9 @@ console.log(account, 'account')
         ethSignData.signature,
         username
       );
-    } catch {
-      toastError(ERROR_MIRROR_ACCOUNT);
+    } catch(err) {
+
+      toastError(err?.response?.data?.message||ERROR_MIRROR_ACCOUNT);
 
       return;
     }
@@ -387,17 +398,29 @@ console.log(account, 'account')
       })
     );
 
+    updateAuthInfo({
+      authType: AUTH_TYPE.ETH,
+      ...ethSignData,
+      eosname: mirrorData.account._id,
+      username: mirrorData.account.username
+    });
+
     trackSignUp(ethSignData.address, username);
     trackSignUpAttempt(ANALYTICS_SIGN_UP_TYPES.ETH, mirrorData.account);
 
     if (!options.noRedirect) {
       // Redirect to user profile page with rewards if it exists.
       const rewards = localStorage.getItem(LOCAL_STORAGE_KEYS.YUP_REWARDS);
-
-      await router.push(
-        `/account/${username}${rewards ? `?rewards=${rewards}` : ''}`
-      );
+      if(rewards){
+        await router.push(
+          `/account/${username}${rewards ? `?rewards=${rewards}` : ''}`
+        );
+      } else {
+         await router.push("/")
+        }
     }
+    toastSuccess(ACCOUNT_CREATED);
+    handleCloseModal();
   };
 
   // Render helpers
@@ -501,11 +524,13 @@ console.log(account, 'account')
 
       <YupDialog
         headline="Sign Up / Login"
-        description={<Hidden lgDown>
-          {stage === AUTH_MODAL_STAGE.SIGN_IN
-            ? 'Earn money & clout for liking content anywhere on the internet. Get extra rewards for joining today.'
-            : "Please sign up with an 'active' wallet, one that has held some ETH or YUP before. Fresh unused wallets will not be whitelisted and will need to be approved."}
-          </Hidden>}
+        description={
+          <Hidden lgDown>
+            {stage === AUTH_MODAL_STAGE.SIGN_IN
+              ? 'Earn money & clout for liking content anywhere on the internet. Get extra rewards for joining today.'
+              : "Please sign up with an 'active' wallet, one that has held some ETH or YUP before. Fresh unused wallets will not be whitelisted and will need to be approved."}
+          </Hidden>
+        }
         open={modalOpen}
         onClose={handleCloseModal}
       >

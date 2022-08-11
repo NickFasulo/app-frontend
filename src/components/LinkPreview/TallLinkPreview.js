@@ -154,9 +154,7 @@ class LinkPreview extends Component {
                   </Grid>
                 </Grid>
                 <div className={classes.description}>
-                  <TruncateText lines={2}>
-                    {description || url}
-                  </TruncateText>
+                  <TruncateText lines={2}>{description || url}</TruncateText>
                 </div>
                 <p className={classes.url}>{url && trimURL(url)}</p>
               </div>
