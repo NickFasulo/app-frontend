@@ -97,7 +97,7 @@ console.log({directParentPostLink,userPostLink})
   return (
     <Grid
       container
-      direction="column"
+      direction="row"
       className={classes.mainReplyContainer}
       rowSpacing={1}
     >
@@ -136,8 +136,8 @@ console.log({directParentPostLink,userPostLink})
             </Grid>
           </Grid>
           <Grid item xs>
-            <Grid container direction="column" rowSpacing={0.5}>
-              <Grid item>
+            <Grid container direction="row" rowSpacing={0.5}>
+              <Grid item xs={12}>
                 <HeaderSection
                       classes={classes}
                       name={directParentName}
@@ -152,6 +152,7 @@ console.log({directParentPostLink,userPostLink})
               </Grid>
               <Grid
                 item
+                xs={12}
                 className={classes.replyContent}
               >
                 {/* <Link  target="_blank" underline="none"> */}
@@ -184,10 +185,8 @@ console.log({directParentPostLink,userPostLink})
         </Grid>
       </Grid>
       {/* REPLY POST */}
-      <Grid item>
-        <Grid container className={classes.replyOriginalContainer}>
-          <Grid item="item" xs={12}>
-            <Grid container="container" direction="row" spacing={1}>
+      <Grid item xs={12}>
+            <Grid container="container" direction="row" spacing={1} className={classes.replyOriginalContainer}>
               <Grid item="item">
                 <Avatar classes={classes} url={userAvatar}  />
               </Grid>
@@ -199,7 +198,7 @@ console.log({directParentPostLink,userPostLink})
                   createdAt={post.createdAt}
                   hideBird />
                   </Grid>
-                  <Grid item>
+                  <Grid item="item" xs={12}>
                     {/* <Link  target="_blank" underline="none"> */}
                       <Typography
                         variant="body2"
@@ -240,8 +239,6 @@ console.log({directParentPostLink,userPostLink})
                   </Grid> */}
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
     </Grid>

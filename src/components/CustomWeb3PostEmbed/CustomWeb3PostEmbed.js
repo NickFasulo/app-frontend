@@ -35,8 +35,7 @@ const styles = (theme) => ({
   tweetText: {
     whiteSpace: 'pre-wrap',
     textAlign: 'left',
-    wordWrap: 'break-word',
-    maxWidth: '75vw'
+    wordWrap: 'break-word'
   },
   twitterName: {
     margin: 0
