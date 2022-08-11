@@ -7,6 +7,7 @@ import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import YupReactMarkdown from '../ReactMarkdown';
+import { CldImg } from '../Miscellaneous';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
@@ -196,12 +197,10 @@ console.log({directParentPostLink,userPostLink})
             return (
               <>
                 {urlIsImg(attachment.url) ? (
-                  <img
-                    ref={imgRef}
-                    style={{ borderRadius: '12px' }}
+                  <CldImg
+                  style={{ borderRadius: '12px' }}
                     src={attachment.url}
                     alt={attachment.title}
-                    onLoad={handleLoad}
                   />
                 ) : (
                   <LinkPreview
@@ -274,12 +273,10 @@ console.log({directParentPostLink,userPostLink})
             return (
               <>
                 {urlIsImg(attachment.url) ? (
-                  <img
-                    ref={imgRef}
+                  <CldImg
                     style={{ borderRadius: '12px' }}
                     src={attachment.url}
                     alt={attachment.title}
-                    onLoad={handleLoad}
                   />
                 ) : (
                   <LinkPreview
