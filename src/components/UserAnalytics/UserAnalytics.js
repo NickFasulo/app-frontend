@@ -446,13 +446,13 @@ class UserAnalytics extends Component {
     const scores = (
       <FlexBox flexDirection="column" rowGap={3}>
         <BarChart
-          chartData={influence}
+          chartData={Math.floor(account?.score || 1)}
           chartTitle="Yup Score"
           color={socialLevelColor}
           description="Yup Score is your web3 social score, considering various factors across web3 such as tokens owned, account age, voting participation, etc."
         />
         <BarChart
-          chartData={account?.score || 0}
+          chartData={influence}
           chartTitle="Influence"
           description="Influence determines the weight of your vote and is multiplied by how many likes you give a post. "
         />
