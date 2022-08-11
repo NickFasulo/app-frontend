@@ -70,7 +70,8 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
               </Grid>
               <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
-                  <Grid item="item" xs={12}>
+                  <Grid item="item" xs={12}
+                sx={{margin:'1em 0'}}>
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
                     <Typography variant="body2">
                     <Link href={`/post/${postid}`} >
@@ -82,13 +83,12 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
       {account.fullname || account.username || account._id}
     </TruncateText> */}
         {!isFullPost() ? (
-        <TruncateText variant='body2' lines={4}>
-        <YupReactMarkdown>
+        <TruncateText variant='body2' lines={7}>
           {parsedText}
-      </YupReactMarkdown>
     </TruncateText>):(
-        <YupReactMarkdown>{parsedText}
-        </YupReactMarkdown>)}
+        <Typography variant="body2">
+          {parsedText}
+        </Typography>)}
 
           <>     
           {attachments
@@ -112,6 +112,7 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
                     }
                     title={attachment.title}
                     url={attachment.url}
+                    classes={classes}
                   />
                 )}
               </>

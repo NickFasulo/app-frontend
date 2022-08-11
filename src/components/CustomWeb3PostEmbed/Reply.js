@@ -182,13 +182,11 @@ console.log({directParentPostLink,userPostLink})
               <Grid
                 item
                 xs={12}
-                className={classes.replyContent}
               >
                 {/* <Link  target="_blank" underline="none"> */}
                     <Typography variant="body2">
-                <YupReactMarkdown>
                   {directParentPostText}
-                </YupReactMarkdown></Typography>
+                  </Typography>
                 {/* </Link> */}
               </Grid>
               
@@ -207,12 +205,13 @@ console.log({directParentPostLink,userPostLink})
                     size={'large'}
                     description={attachment.description || ''}
                     image={
-                      attachment.images[0]
+                      attachment.images?.[0]
                         ? attachment.images[0]
                         : attachment.url
                     }
                     title={attachment.title}
                     url={attachment.url}
+                    classes={classes}
                   />
                 )}
               </>
@@ -260,11 +259,8 @@ console.log({directParentPostLink,userPostLink})
                   </Grid>
                   <Grid item="item" xs={12}>
                     {/* <Link  target="_blank" underline="none"> */}
-                    <Typography variant="body2">
-                      <YupReactMarkdown   className={classes.tweetText}>
-
+                    <Typography  className={classes.tweetText} variant="body2">
                         {userPostText}
-                      </YupReactMarkdown>
                       </Typography>
                     {/* </Link> */}
                   </Grid>
@@ -283,12 +279,13 @@ console.log({directParentPostLink,userPostLink})
                     size={'large'}
                     description={attachment.description || ''}
                     image={
-                      attachment.images[0]
+                      attachment.images?.[0]
                         ? attachment.images[0]
                         : attachment.url
                     }
                     title={attachment.title}
                     url={attachment.url}
+                    classes={classes}
                   />
                 )}
               </>
