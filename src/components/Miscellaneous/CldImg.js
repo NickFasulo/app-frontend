@@ -28,7 +28,7 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
   if (src.startsWith('ipfs://')) {
     src = `https://ipfs.io/ipfs/${src.substring(7)}`;
   }
-  
+
   const isUploadedToCloud = src && src.startsWith(ROOT_CLOUDINARY_URL);
   const isFoundationImg = src && src.split('-')[0] === FOUNDATION_IMG_URI;
 
@@ -76,7 +76,7 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
         sx={isHigherRatio&&{borderRadius:'12px', 
         backgroundColor: (theme)=>`${theme.palette.M900}50`,
         padding:(theme)=>theme.spacing(2)}}>
-          <Grid item>
+          <Grid item xs={12}>
         <Image
           innerRef={imgRef}
           publicId={isUploadedToCloud ? postid : src}
