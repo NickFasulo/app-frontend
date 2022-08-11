@@ -24,6 +24,11 @@ const foundationOptimizeParams = {
 const CldImg = ({ postid, src, alt, ...restProps }) => {
   const imgRef = useRef(null);
   const [isHigherRatio, setIsHigherRatio] = useState(false);
+
+  if (src.startsWith('ipfs://')) {
+    src = `https://ipfs.io/ipfs/${src.substring(7)}`;
+  }
+  
   const isUploadedToCloud = src && src.startsWith(ROOT_CLOUDINARY_URL);
   const isFoundationImg = src && src.split('-')[0] === FOUNDATION_IMG_URI;
 

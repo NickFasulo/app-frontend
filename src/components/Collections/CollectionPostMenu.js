@@ -149,7 +149,6 @@ const CollectionPostMenu = ({ postid }) => {
         })}
       </YupMenu>
       <CollectionDialog
-        account={account}
         dialogOpen={dialogOpen}
         postid={postid}
         handleDialogClose={() => setDialogOpen(false)}

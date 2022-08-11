@@ -27,7 +27,7 @@ export function userCollections(state = {}, action) {
       case constants.ADD_USER_COLLECTION:
         const prevCollections = draft[action.eosname].collections;
         prevCollections.push(action.collection);
-        return prevCollections;
+        return draft;
       case constants.ADD_POST_TO_COLLECTION:
         const targetCollAdd = draft[action.eosname].collections.find(
           ({ _id }) => _id === action.collection._id
