@@ -93,30 +93,27 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
           <>     
           {attachments
         ? attachments.map((attachment) => {
-            return (
-              <>
-                {urlIsImg(attachment.url) ? (
-                  <img
-                    style={{ width: '100%', borderRadius: '12px' }}
-                    src={attachment.url}
-                    alt={attachment.title}
-                  />
-                ) : (
-                  <LinkPreview
-                    size={'large'}
-                    description={attachment.description || ''}
-                    image={
-                      attachment.images[0]
-                        ? attachment.images[0]
-                        : attachment.url
-                    }
-                    title={attachment.title}
-                    url={attachment.url}
-                    classes={classes}
-                  />
-                )}
-              </>
-            );
+          if(attachment.images[0]){
+            return(
+              <LinkPreview
+                size={'large'}
+                description={attachment.description || ''}
+                image={
+                  attachment.images[0]
+                    ? attachment.images[0]
+                    : attachment.url
+                }
+                title={attachment.title}
+                url={attachment.url}
+                classes={classes}
+              />)
+          } else if(urlIsImg(attachment.url)){
+            return(<img
+              style={{ width: '100%', borderRadius: '12px' }}
+              src={attachment.url}
+              alt={attachment.title}
+            />)
+          }
           })
         : null}
           </>

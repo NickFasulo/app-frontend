@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import LinkPreview from '../LinkPreview/LinkPreview';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
 import { parseText, linkMentions, fetchLinkPreviewData, urlIsImg } from './Util/Util';
-import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import YupReactMarkdown from '../ReactMarkdown';
@@ -190,33 +190,29 @@ console.log({directParentPostLink,userPostLink})
                 {/* </Link> */}
               </Grid>
               
-          {directParentAttachments
-        ? directParentAttachments.map((attachment) => {
+          {directParentAttachments  ? directParentAttachments.map((attachment) => {
+          if( attachment.image){
             return (
-              <>
-                {urlIsImg(attachment.url) ? (
-                  <CldImg
-                  style={{ borderRadius: '12px' }}
-                    src={attachment.url}
-                    alt={attachment.title}
-                  />
-                ) : (
                   <LinkPreview
-                    size={'large'}
                     description={attachment.description || ''}
                     image={
-                      attachment.images?.[0]
-                        ? attachment.images[0]
-                        : attachment.url
+                      attachment.image
                     }
                     title={attachment.title}
                     url={attachment.url}
                     classes={classes}
                   />
                 )}
-              </>
-            );
-          })
+           else if(urlIsImg(attachment.url)){
+                  return (
+                    <CldImg
+                    style={{ borderRadius: '12px' }}
+                      src={attachment.url}
+                      alt={attachment.title}
+                      />
+                  )}
+        })
+          
         : null}
               {/* {replyHasPhoto && replyMediaURL ? (
                 <Grid item className={classes.replyImageContainer}>
@@ -266,17 +262,9 @@ console.log({directParentPostLink,userPostLink})
                   </Grid>
           {userAttachments
         ? userAttachments.map((attachment) => {
+          if( attachment.images?.[0]){
             return (
-              <>
-                {urlIsImg(attachment.url) ? (
-                  <CldImg
-                    style={{ borderRadius: '12px' }}
-                    src={attachment.url}
-                    alt={attachment.title}
-                  />
-                ) : (
                   <LinkPreview
-                    size={'large'}
                     description={attachment.description || ''}
                     image={
                       attachment.images?.[0]
@@ -287,10 +275,18 @@ console.log({directParentPostLink,userPostLink})
                     url={attachment.url}
                     classes={classes}
                   />
-                )}
-              </>
-            );
-          })
+                )
+                  }
+                  else if(urlIsImg(attachment.url) ) {
+                    return(
+                      <CldImg
+                        style={{ borderRadius: '12px' }}
+                        src={attachment.url}
+                        alt={attachment.title}
+                      />)
+                    }
+                  })
+
         : null}
                   {/* <Grid item>
                     {previewData && !replyHasMedia && !mediaURL && (
