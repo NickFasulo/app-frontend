@@ -81,31 +81,31 @@ const HeaderSection = ({
         )}
       </Grid>
       <Grid item>
-      <Grid container alignItems={'center'} spacing={1}>
-      <Grid item
-      sx={{marginBottom: '0.09375rem'}}>
-      <Typography
-              variant="bodyS2"
-              className={classes.userHandle}
-            >
-              { timeSince(new Date(createdAt)) }
+        <Grid container alignItems={'center'} spacing={1}>
+          <Grid item
+            sx={{marginBottom: '0.09375rem'}}>
+            <Typography
+                    variant="bodyS2"
+                    className={classes.userHandle}
+                  >
+                    { timeSince(new Date(createdAt)) }
             </Typography>
-            </Grid>
-            {!hideBird && (
-      <Grid
-        item
-        className={web3PostIcon}
-        sx={{
-          display: 'flex'
-        }}
-      >
-          <img
-            src={`/images/icons/${
-              protocol === 'lens' ? 'lens' : 'farcaster'
-            }.svg`}
-            height={isMobile ? '12' : '16'}
-            alt="🖼️"
-          />
+          </Grid>
+              {!hideBird && (
+        <Grid
+          item
+          className={web3PostIcon}
+          sx={{
+            display: 'flex'
+          }}
+        >
+        <img
+          src={`/images/icons/${
+            protocol === 'lens' ? 'lens' : 'farcaster'
+          }.svg`}
+          height={isMobile ? '12' : '16'}
+          alt="🖼️"
+        />
       </Grid>)}
       </Grid>
 

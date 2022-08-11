@@ -37,10 +37,10 @@ const styles = (theme) => ({
     borderBottomLeftRadius: '10px',
     borderBottomRightRadius: '10px',
     [theme.breakpoints.down('md')]: {
-      padding: '0.1vh 2vw'
+      padding: '4px 8px 8px 4px',
     },
     [theme.breakpoints.down('sm')]: {
-      zoom: '80%'
+      zoom: '100%'
     }
   },
   divider: {

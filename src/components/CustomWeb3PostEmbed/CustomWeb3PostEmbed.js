@@ -35,7 +35,8 @@ const styles = (theme) => ({
   tweetText: {
     whiteSpace: 'pre-wrap',
     textAlign: 'left',
-    wordWrap: 'break-word'
+    wordWrap: 'break-word',
+    maxWidth: '75vw'
   },
   twitterName: {
     margin: 0
@@ -96,11 +97,9 @@ const styles = (theme) => ({
     height: 100
   },
   mainReplyContainer: {
-    padding: '16px',
     borderBottomLeftRadius: '12px',
     borderBottomRightRadius: '12px',
-    textAlign: 'left',
-    width: '100%'
+    textAlign: 'left'
   },
   replyContainer: {
     borderTopLeftRadius: '10px',

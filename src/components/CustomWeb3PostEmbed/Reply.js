@@ -99,7 +99,7 @@ console.log({directParentPostLink,userPostLink})
       container
       direction="column"
       className={classes.mainReplyContainer}
-      spacing={1}
+      rowSpacing={1}
     >
       <Grid item xs={12}>
         <Grid
@@ -119,7 +119,7 @@ console.log({directParentPostLink,userPostLink})
               spacing={1}
             >
               <Grid item>
-              <Avatar classes={classes} url={directParentAvatar}  />
+                <Avatar classes={classes} url={directParentAvatar}  />
               </Grid>
               <Grid item xs>
                 <Grid container direction="row" style={{ height: '100%' }}>
@@ -136,23 +136,23 @@ console.log({directParentPostLink,userPostLink})
             </Grid>
           </Grid>
           <Grid item xs>
-            <Grid container direction="column" spacing={1}>
-            <HeaderSection
-                  classes={classes}
-                  name={directParentName}
-                  handle={directParentHandle}
-                  address={directParent.body.address}
-                  protocol={post.protocol}
-                  //WRONG, NEEDS TO BE PARENTS POST ID; NOT REPLY ID
-                  tweetLink={post.id}
-                  createdAt={directParent.body.publishedAt}
-                  noBird
-                />
-           
+            <Grid container direction="column" rowSpacing={0.5}>
+              <Grid item>
+                <HeaderSection
+                      classes={classes}
+                      name={directParentName}
+                      handle={directParentHandle}
+                      address={directParent.body.address}
+                      protocol={post.protocol}
+                      //WRONG, NEEDS TO BE PARENTS POST ID; NOT REPLY ID
+                      tweetLink={post.id}
+                      createdAt={directParent.body.publishedAt}
+                      noBird
+                    />
+              </Grid>
               <Grid
                 item
                 className={classes.replyContent}
-                style={{ paddingBottom: '8px' }}
               >
                 {/* <Link  target="_blank" underline="none"> */}
                   <Typography variant="body2">{directParentPostText}</Typography>
@@ -183,7 +183,7 @@ console.log({directParentPostLink,userPostLink})
           </Grid>
         </Grid>
       </Grid>
-      {/* REPLY TWEET */}
+      {/* REPLY POST */}
       <Grid item>
         <Grid container className={classes.replyOriginalContainer}>
           <Grid item="item" xs={12}>
@@ -192,8 +192,8 @@ console.log({directParentPostLink,userPostLink})
                 <Avatar classes={classes} url={userAvatar}  />
               </Grid>
               <Grid item="item" xs>
-                <Grid container="container" direction="column" spacing={1}>
-                  <Grid item="item">
+                <Grid container="container" direction="row" spacing={1}>
+                  <Grid item="item" xs={12}>
                     <HeaderSection classes={classes} name={userName} handle={userHandle} address={post.creator.address} 
                   tweetLink={post.id}
                   createdAt={post.createdAt}
@@ -202,7 +202,7 @@ console.log({directParentPostLink,userPostLink})
                   <Grid item>
                     {/* <Link  target="_blank" underline="none"> */}
                       <Typography
-                        variant="subtitle2"
+                        variant="body2"
                         className={classes.tweetText}
                       >
                         {userPostText}

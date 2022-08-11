@@ -15,13 +15,7 @@ const styles = (theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '32px',
-    [theme.breakpoints.down('sm')]: {
-      padding: '0 0 3vh 1vh'
-    },
-    [theme.breakpoints.down('md')]: {
-      padding: '2vh 1vw 2vh 1vw'
-    }
+    height: '32px'
   },
   listVoteComp: {
     height: '100px',
