@@ -122,6 +122,7 @@ console.log({directParentPostLink,userPostLink})
       imgElement.style.objectFit = 'fit-content';
     }
   };
+
   return (
     <Grid
       container
@@ -195,9 +196,8 @@ console.log({directParentPostLink,userPostLink})
               <>
                 {urlIsImg(attachment.url) ? (
                   <img
-                  ref={imgRef}
-                  className={classes.tweetImg}
-                    style={{ width: '100%', borderRadius: '12px' }}
+                    ref={imgRef}
+                    style={{ borderRadius: '12px' }}
                     src={attachment.url}
                     alt={attachment.title}
                     onLoad={handleLoad}
@@ -271,9 +271,8 @@ console.log({directParentPostLink,userPostLink})
               <>
                 {urlIsImg(attachment.url) ? (
                   <img
-                  ref={imgRef}
-                  className={classes.tweetImg}
-                    style={{ width: '100%', borderRadius: '12px' }}
+                    ref={imgRef}
+                    style={{ borderRadius: '12px' }}
                     src={attachment.url}
                     alt={attachment.title}
                     onLoad={handleLoad}
