@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { timeSince } from './Util/Util';
 import Link from '../Link';
+import ThumbnailIcon from './ThumbnailIcon';
 
 const HeaderSection = ({
   classes,
@@ -16,6 +17,7 @@ const HeaderSection = ({
   hideBird,
   replyParentUsername,
   createdAt,
+  meta
 }) => {
   let web3PostIcon;
 
@@ -29,6 +31,12 @@ const HeaderSection = ({
     } else {
       web3PostIcon = classes.web3PostIcon;
     }
+  }
+
+  let thumbnailLink;
+
+  if (protocol === 'farcaster' && meta?.merkleRoot) {
+    thumbnailLink = `farcaster://casts/${meta.merkleRoot}/${meta.merkleRoot}`;
   }
 
   const accountLink = protocol === 'lens'
@@ -99,13 +107,13 @@ const HeaderSection = ({
             display: 'flex'
           }}
         >
-        <img
-          src={`/images/icons/${
-            protocol === 'lens' ? 'lens' : 'farcaster'
-          }.svg`}
-          height={isMobile ? '12' : '16'}
-          alt="🖼️"
-        />
+          {thumbnailLink ? (
+            <Link href={thumbnailLink} target="_blank" style={{ display: 'flex' }}>
+              <ThumbnailIcon protocol={protocol} />
+            </Link>
+          ) : (
+            <ThumbnailIcon protocol={protocol} />
+          )}
       </Grid>)}
       </Grid>
 
