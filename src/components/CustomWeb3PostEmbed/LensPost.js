@@ -12,7 +12,7 @@ import {
   markdownReplaceHashtags
 } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
-import { SeeMore } from '../Miscellaneous';
+import { CldImg, SeeMore } from '../Miscellaneous';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ReactPlayer from 'react-player';
@@ -70,6 +70,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                 title={linkPreviewData.title}
                 url={linkPreviewData.url}
                 description={linkPreviewData.description}
+                classes={classes}
                 />
                 }
             });
@@ -162,8 +163,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                   key={attachment.images[0]}
                 >
                   {attachment.images[0] ? (
-                    <img
-                      // height={multipleAttachments()?164:450}
+                    <CldImg
                       src={attachment.images[0]}
                       alt={attachment.images[0]}
                     />
@@ -195,7 +195,6 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
           </Grid>
         </Grid>
       </Grid>
-    
   );
 };
 

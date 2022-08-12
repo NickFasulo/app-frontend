@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { useDispatch } from 'react-redux';
 import scatter from '../eos/scatter/scatter.wallet';
 import {
+  fetchUserCollections,
   loginScatter,
   signalConnection,
   updateEthAuthInfo
@@ -147,6 +148,7 @@ export const AuthProvider = ({ children }) => {
       type: accountConstants.FETCH_AUTH_TOKEN_SUCCESS,
       ...authInfo
     });
+    dispatch(fetchUserCollections(authInfo.eosname));
 
     // Set as authenticated
     setIsLoggedIn(true);

@@ -1,28 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import LinkPreview from '../LinkPreview/LinkPreview';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
-import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
-import LinkPreview from './LinkPreview';
+import { parseText, linkMentions, fetchLinkPreviewData, urlIsImg } from './Util/Util';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
+import YupReactMarkdown from '../ReactMarkdown';
+import { CldImg } from '../Miscellaneous';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
 const Reply = ({ post,  classes }) => {
+
+
   const parents = post.meta.parents;
   const userName = post.creator.fullname;
   const userHandle = post.creator.handle;
   const userAvatar = post.meta.avatar;
   const userPostText = parseText(post.content);
   const userPostLink = `farcaster://profiles/${post.creator.address}/posts`;
+  const userAttachments = post.attachments;
 
   const directParent = parents[0];
+  const directParentAttachments = directParent.attachments.openGraph;
   const directParentName = directParent.meta.displayName;
   const directParentHandle = directParent.body.username;
   const directParentAvatar = directParent.meta.avatar;
   const directParentPostText = parseText(directParent.body.data.text);
   const directParentPostLink = `farcaster://profiles/${directParent.body.address}/posts`;
+
+  
+  const imgRef = useRef(null);
 console.log({directParentPostLink,userPostLink})
   // const { url } = tweetData;
   // const [previewData, setPreviewData] = useState(null);
@@ -94,6 +103,27 @@ console.log({directParentPostLink,userPostLink})
     e.target.src = DEFAULT_TWITTER_PROF;
   };
 
+  const handleLoad = () => {
+    const imgElement = imgRef.current;
+
+    if (!imgElement) return;
+
+    const width = imgElement.naturalWidth;
+    const height = imgElement.naturalHeight;
+
+    if (width >= height) {
+      // Ratio >= 1
+      imgElement.style.width = '100%';
+      imgElement.style.objectFit = 'cover';
+      imgElement.style.minHeight = '200px';
+      imgElement.style.maxHeight = '500px';
+    } else {
+      // Ratio < 1
+      imgElement.style.maxHeight = '400px';
+      imgElement.style.objectFit = 'fit-content';
+    }
+  };
+
   return (
     <Grid
       container
@@ -152,12 +182,40 @@ console.log({directParentPostLink,userPostLink})
               <Grid
                 item
                 xs={12}
-                className={classes.replyContent}
               >
                 {/* <Link  target="_blank" underline="none"> */}
-                  <Typography variant="body2">{directParentPostText}</Typography>
+                    <Typography variant="body2">
+                  {directParentPostText}
+                  </Typography>
                 {/* </Link> */}
               </Grid>
+              
+              <Grid item="item" xs={12}>
+          {directParentAttachments  ? directParentAttachments.map((attachment) => {
+          if( attachment.image){
+            return (
+                  <LinkPreview
+                    description={attachment.description || ''}
+                    image={
+                      attachment.image
+                    }
+                    title={attachment.title}
+                    url={attachment.url}
+                    classes={classes}
+                  />
+                )}
+           else if(urlIsImg(attachment.url)){
+                  return (
+                    <CldImg
+                    style={{ borderRadius: '12px' }}
+                      src={attachment.url}
+                      alt={attachment.title}
+                      />
+                  )}
+        })
+          
+        : null}
+        </Grid>
               {/* {replyHasPhoto && replyMediaURL ? (
                 <Grid item className={classes.replyImageContainer}>
                   <img
@@ -199,14 +257,41 @@ console.log({directParentPostLink,userPostLink})
                   </Grid>
                   <Grid item="item" xs={12}>
                     {/* <Link  target="_blank" underline="none"> */}
-                      <Typography
-                        variant="body2"
-                        className={classes.tweetText}
-                      >
+                    <Typography  className={classes.tweetText} variant="body2">
                         {userPostText}
                       </Typography>
                     {/* </Link> */}
                   </Grid>
+                  <Grid item="item" xs={12}>
+          {userAttachments
+        ? userAttachments.map((attachment) => {
+          if( attachment.images?.[0]){
+            return (
+                  <LinkPreview
+                    description={attachment.description || ''}
+                    image={
+                      attachment.images?.[0]
+                        ? attachment.images[0]
+                        : attachment.url
+                    }
+                    title={attachment.title}
+                    url={attachment.url}
+                    classes={classes}
+                  />
+                )
+                  }
+                  else if(urlIsImg(attachment.url) ) {
+                    return(
+                      <CldImg
+                        style={{ borderRadius: '12px' }}
+                        src={attachment.url}
+                        alt={attachment.title}
+                      />)
+                    }
+                  })
+
+        : null}
+        </Grid>
                   {/* <Grid item>
                     {previewData && !replyHasMedia && !mediaURL && (
                       <Grid>
