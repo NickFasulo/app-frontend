@@ -30,13 +30,13 @@ export const PageLayout = styled('div')(({ theme }) => ({
   rowGap: theme.spacing(2)
 }));
 
-export const TruncateText = styled(Typography)(({ lines }) => ({
+export const TruncateText = styled(Typography)(({ lines }) => (lines?{
   overflow: 'hidden',
   display: '-webkit-box',
   textOverflow: 'ellipsis',
   '-webkit-box-orient': 'vertical',
   '-webkit-line-clamp': `${lines || 1}`
-}));
+}:null));
 
 export const YupMenu = styled(Menu)(({ theme }) => ({
   '& svg': {

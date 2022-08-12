@@ -43,7 +43,30 @@ export const markdownReplaceHashtags = (str) => {
   const re = /\B(\#[a-zA-Z]+\b)(?!;)/gm;
   const matches = str.match(re);
   matches?.forEach((match,i) => {
-   str= str.replace(match, `[${match}](${match})`);
+   str= str.replace(match, `[hashtagyupreplace${match}](${match})`);
+  })
+  return str
+  // const parsed = str.replace(re, '');
+  // return parsed;
+};
+
+export const markdownReplaceLinks = (str) => {
+  const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
+  const singleMatch = /\[([^\[]+)\]\((.*)\)/
+  const mdLinkMatches = str.match(regexMdLinks)
+  mdLinkMatches?.forEach((match) => {
+    var text = singleMatch.exec(match)
+    var url = text[2]
+    url = decodeURIComponent(url)
+    url = url.replace(/(\r\n|\n|\r)/gm,"");
+    str= str.replace(match, url);
+  })
+  const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
+  const matches = str.match(re);
+  matches?.forEach((match) => {
+    match = decodeURIComponent(match)
+    match = match.replace(/(\r\n|\n|\r)/gm,"");
+    str= str.replace(match, `[linkyupreplace${match}](${match})`);
   })
   return str
   // const parsed = str.replace(re, '');
