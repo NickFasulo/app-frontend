@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import YupReactMarkdown from '../ReactMarkdown';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
+import { TruncateText } from '../styles';
 
 const TeaPartyLink = styled('a')(
   ({ theme }) => `
@@ -47,39 +48,39 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
     return pathname === '/post/[id]';
   };
 
-  console.log({ pathname }, isFullPost());
+  console.log({ pathname,text }, isFullPost());
   //Uncomment to get LinkPreviews
 
-  const regexLinks = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
-    const matches = parsedText.match(regexLinks)
-    if(linkPreview){
-        if(matches){
-            matches?.forEach((element,i) => {
-              parsedText = reactStringReplace(parsedText, element, (match) => {
-                const linkPreviewData = getLinkPreview(decodeURIComponent(match))
-                // const url = getAllLinks(match)?.[0]
-                // const name = getNameInBrackets(match)?.[0]
+  // const regexLinks = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
+  //   const matches = parsedText.match(regexLinks)
+  //   if(linkPreview){
+  //       if(matches){
+  //           matches?.forEach((element,i) => {
+  //             parsedText = reactStringReplace(parsedText, element, (match) => {
+  //               const linkPreviewData = getLinkPreview(decodeURIComponent(match))
+  //               // const url = getAllLinks(match)?.[0]
+  //               // const name = getNameInBrackets(match)?.[0]
 
-              //  console.log({match, text, matches},getNameInBrackets(match))
-                // const data = await fetchLinkPreviewData(url)
-                // console.log(url, data, "MATCHHH")
-                if(linkPreviewData){
-                return <LinkPreview
-                size={'large'}
-                image={linkPreviewData.img}
-                title={linkPreviewData.title}
-                url={linkPreviewData.url}
-                description={linkPreviewData.description}
-                classes={classes}
-                />
-                }
-            });
-            });
-        }
+  //             //  console.log({match, text, matches},getNameInBrackets(match))
+  //               // const data = await fetchLinkPreviewData(url)
+  //               // console.log(url, data, "MATCHHH")
+  //               if(linkPreviewData){
+  //               return <LinkPreview
+  //               size={'large'}
+  //               image={linkPreviewData.img}
+  //               title={linkPreviewData.title}
+  //               url={linkPreviewData.url}
+  //               description={linkPreviewData.description}
+  //               classes={classes}
+  //               />
+  //               }
+  //           });
+  //           });
+  //       }
 
-    }
+  //   }
 
-    console.log({parsedText,matches}, "WURST")
+    console.log({parsedText}, "WURST")
   return (
     <Grid item="item" xs={12}>
         <Grid container="container" direction="row" spacing={1}>
@@ -125,30 +126,27 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
       // }  }}
     >
       {/*If text has been changed for Linkpreviews */}
-      {Array.isArray(parsedText) ? (
+      {/* {Array.isArray(parsedText) ? (
         <>
           {parsedText.map((element, i) => {
-            return typeof element === 'string' ? (
-              <YupReactMarkdown key={i}>{element}</YupReactMarkdown>
-            ) : (
+            return typeof element === 'string' ? ( */}
+              {/* <YupReactMarkdown lines={!isFullPost()&&7}  key={i}>
+                {parsedText}
+              </YupReactMarkdown> */}
+            {/* ) : (
               element
             );
-          })}
-        </>
+          })} 
+          </>
       ) : (
-        <>
+        <>*/}
           {/*If text hasnt been changed for Linkpreviews */}
           {/* disabled! */}
-          {isFullPost()||true? (
-            <YupReactMarkdown>{parsedText}</YupReactMarkdown>
-          ) : (
-            <SeeMore maxChars={attachments ? 150 : 400} postid={postid}>
-              {parsedText}
-            </SeeMore>
-          )}
+            <YupReactMarkdown linkPreview={linkPreview}lines={!isFullPost()&&7} classes={classes}>{parsedText}</YupReactMarkdown>
+          
 
           {/*If post has Attachments */}
-          {attachments?.length > 0 && (
+          {attachments?.length > 0 &&  post.meta.metadata?.appId !=='phaver'&& (
             <ImageList
               sx={{
                 borderRadius: '12px',
@@ -182,9 +180,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                 </ImageListItem>
               ))}
             </ImageList>
-          )}
-        </>
-      )}
+          )}      
     </Grid>
                     </Typography>
                     {/* </Link> */}
