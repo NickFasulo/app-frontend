@@ -195,7 +195,6 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
           </Grid>
         </Grid>
       </Grid>
-
   );
 };
 
