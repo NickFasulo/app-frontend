@@ -76,7 +76,6 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
         sx={isHigherRatio&&{borderRadius:'12px', 
         backgroundColor: (theme)=>`${theme.palette.M900}50`,
         padding:(theme)=>theme.spacing(2)}}>
-          <Grid item xs={12}>
         <Image
           innerRef={imgRef}
           publicId={isUploadedToCloud ? postid : src}
@@ -91,8 +90,7 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
         >
           <Placeholder type="vectorize" />
           <Transformation quality="auto" fetchFormat="auto" />
-        </Image>           
-        </Grid>
+        </Image>      
         </Grid>
       </CloudinaryContext>
     </ErrorBoundary>
