@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { MenuItem, IconButton, Divider } from '@mui/material';
+import { MenuItem, IconButton, Divider, Box } from '@mui/material';
 import axios from 'axios';
 import CollectionDialog from './CollectionDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -119,34 +119,41 @@ const CollectionPostMenu = ({ postid }) => {
           New Collection...
         </MenuItem>
         <Divider />
-        {collections?.map((collection) => {
-          if (
-            !collection.postIds.includes(postid) &&
-            collectionsPageId !== collection._id
-          ) {
-            return (
-              <MenuItem
-                dense
-                key={collection._id}
-                onClick={() => addToCollection(collection)}
-              >
-                <FontAwesomeIcon icon={faRectangleHistory} />
-                Add to {collection.name}
-              </MenuItem>
-            );
-          } else {
-            return (
-              <MenuItem
-                dense
-                key={collection._id}
-                onClick={() => removeFromCollection(collection)}
-              >
-                <FontAwesomeIcon icon={faTrash} />
-                Remove from {collection.name}
-              </MenuItem>
-            );
-          }
-        })}
+        <Box
+          sx={{
+            maxHeight: 175,
+            overflow: 'auto'
+          }}
+        >
+          {collections?.map((collection) => {
+            if (
+              !collection.postIds.includes(postid) &&
+              collectionsPageId !== collection._id
+            ) {
+              return (
+                <MenuItem
+                  dense
+                  key={collection._id}
+                  onClick={() => addToCollection(collection)}
+                >
+                  <FontAwesomeIcon icon={faRectangleHistory} />
+                  Add to {collection.name}
+                </MenuItem>
+              );
+            } else {
+              return (
+                <MenuItem
+                  dense
+                  key={collection._id}
+                  onClick={() => removeFromCollection(collection)}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                  Remove from {collection.name}
+                </MenuItem>
+              );
+            }
+          })}
+        </Box>
       </YupMenu>
       <CollectionDialog
         dialogOpen={dialogOpen}
