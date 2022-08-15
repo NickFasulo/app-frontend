@@ -34,11 +34,6 @@ const CollectionDetails = ({ id }) => {
         title={`${collection.name} | ${collection.owner}`}
         description={collection.description}
         image={collection.coverImgSrc}
-        meta={{
-          'twitter:title': `${collection.name} | ${collection.owner}`,
-          'twitter:image': collection.coverImgSrc,
-          'twitter:description': collection.description
-        }}
       />
       <YupPageWrapper>
         <YupPageHeader>

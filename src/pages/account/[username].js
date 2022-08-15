@@ -23,6 +23,7 @@ import GridLayout from '../../components/GridLayout';
 import UserNewConnections from '../../components/UserNewConnections';
 import { Box, Button, Typography } from '@mui/material';
 import Link from '../../components/Link';
+import YupHead from '../../components/YupHead';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
@@ -95,61 +96,69 @@ const UserAccountPage = () => {
   }
 
   return (
-    <YupPageWrapper>
-      <YupPageHeader scrolled={windowScrolled}>
-        <ProfileHeader profile={profile} hidden={isMobile && windowScrolled} />
-        <YupPageTabs
-          tabs={tabs}
-          value={selectedTab}
-          onChange={setSelectedTab}
-          hidden={!isMobile && windowScrolled}
-          endComponent={
-            windowScrolled && (
-              <FlexBox gap={1} alignItems="center" mr={3}>
-                <ProfilePicture
-                  src={avatar}
-                  alt={username}
-                  size="md"
-                  border={levelColors[quantile || 'none']}
-                />
-                <GradientTypography variant="h6">
-                  {profile.fullname}
-                </GradientTypography>
-              </FlexBox>
-            )
-          }
+    (
+      <>
+        <YupHead
+          title={`${profile.username} | Yup`}
+          description={`${profile.fullname || profile.username}'s Profile`}
         />
-      </YupPageHeader>
-      {selectedTab === PROFILE_TAB_IDS.PROFILE && (
-        <YupContainer>
-          <GridLayout
-            contentLeft={<UserPosts userId={profile._id} />}
-            contentRight={
-              collections.length > 0 ? (
-                <UserCollectionsSection collections={collections} />
-              ) : (
-                <UserNewConnections profile={profile} />
-              )
-            }
-          />
-        </YupContainer>
-      )}
-      {selectedTab === PROFILE_TAB_IDS.COLLECTIONS && (
-        <YupContainer sx={{ pt: 3 }}>
-          <UserCollectionsSection collections={collections} />
-        </YupContainer>
-      )}
-      {selectedTab === PROFILE_TAB_IDS.PEOPLE && (
-        <YupContainer sx={{ pt: 3 }}>
-          <UserNewConnections profile={profile} />
-        </YupContainer>
-      )}
-      {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (
-        <YupContainer sx={{ py: 3 }}>
-          <UserAnalytics username={username} />
-        </YupContainer>
-      )}
-    </YupPageWrapper>
+        <YupPageWrapper>
+          <YupPageHeader scrolled={windowScrolled}>
+            <ProfileHeader profile={profile} hidden={isMobile && windowScrolled} />
+            <YupPageTabs
+              tabs={tabs}
+              value={selectedTab}
+              onChange={setSelectedTab}
+              hidden={!isMobile && windowScrolled}
+              endComponent={
+                windowScrolled && (
+                  <FlexBox gap={1} alignItems="center" mr={3}>
+                    <ProfilePicture
+                      src={avatar}
+                      alt={username}
+                      size="md"
+                      border={levelColors[quantile || 'none']}
+                    />
+                    <GradientTypography variant="h6">
+                      {profile.fullname}
+                    </GradientTypography>
+                  </FlexBox>
+                )
+              }
+            />
+          </YupPageHeader>
+          {selectedTab === PROFILE_TAB_IDS.PROFILE && (
+            <YupContainer>
+              <GridLayout
+                contentLeft={<UserPosts userId={profile._id} />}
+                contentRight={
+                  collections.length > 0 ? (
+                    <UserCollectionsSection collections={collections} />
+                  ) : (
+                    <UserNewConnections profile={profile} />
+                  )
+                }
+              />
+            </YupContainer>
+          )}
+          {selectedTab === PROFILE_TAB_IDS.COLLECTIONS && (
+            <YupContainer sx={{ pt: 3 }}>
+              <UserCollectionsSection collections={collections} />
+            </YupContainer>
+          )}
+          {selectedTab === PROFILE_TAB_IDS.PEOPLE && (
+            <YupContainer sx={{ pt: 3 }}>
+              <UserNewConnections profile={profile} />
+            </YupContainer>
+          )}
+          {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (
+            <YupContainer sx={{ py: 3 }}>
+              <UserAnalytics username={username} />
+            </YupContainer>
+          )}
+        </YupPageWrapper>
+      </>
+    )
   );
 };
 
