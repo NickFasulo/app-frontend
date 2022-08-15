@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Typography, Grid, Skeleton } from '@mui/material';
@@ -6,6 +6,7 @@ import withStyles from '@mui/styles/withStyles';
 import { styled } from '@mui/material/styles';
 import YupImage from '../YupImage';
 import { generateCollectionUrl } from '../../utils/helpers';
+import { useSideBar } from '../SideBar/SideBarContext';
 
 const AWS_DEFAULT_COLLECTION_IMG_URLS = [...Array(5)].map(
   (_, i) => `https://app-gradients.s3.amazonaws.com/gradient${i + 1}.png`
@@ -54,6 +55,7 @@ const styles = (theme) => ({
 
 const RecommendedCollections = ({ classes, collection }) => {
   const [hasLoaded, setHasLoaded] = useState(false);
+  const { closeSearch } = useSideBar();
   const fmtCollectionName =
     collection &&
     collection.name &&
@@ -66,6 +68,7 @@ const RecommendedCollections = ({ classes, collection }) => {
     <Link
       href={collectionHref}
       style={{ textDecoration: 'none', color: '#fff' }}
+      onClick={() => closeSearch()}
     >
       <Grid
         container
