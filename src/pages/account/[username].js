@@ -101,7 +101,6 @@ const UserAccountPage = () => {
         <YupHead
           title={`${profile.username} | Yup`}
           description={`${profile.fullname || profile.username}'s Profile`}
-          image={'/images/metaImages/main-meta.jpg'}
         />
         <YupPageWrapper>
           <YupPageHeader scrolled={windowScrolled}>
