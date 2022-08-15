@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
@@ -84,6 +84,8 @@ const ArticlePreview = ({ title, description, url, classes, writerENS }) => {
     e.target.src = defaultPostImageUrl;
   };
 
+  console.log({description})
+
   let faviconURL = null;
 
   if (url != null) {
@@ -128,31 +130,35 @@ const ArticlePreview = ({ title, description, url, classes, writerENS }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TruncateText
-                  variant="body2"
-                  className={classes.description}
-                  lines={5}
-                >
-                  {removeMd(description)}
-                  {/* <ReactMarkdown
-                    includeElementIndex
-                    components={{
-                      a: ({ node, ...props }) => (
-                        <Link
-                          style={{ textDecoration: 'none', fontWeight: 600 }}
-                          {...props}
-                        />
-                      ),
-                      img: ({ node, index, ...props }) => <> </>
-                    }}
-                    className={classes.reactMarkDown}
-                  >
-                    {description || url}
-                  </ReactMarkdown> */}
-                </TruncateText>
-              </Grid>
             </Grid>
+            <TruncateText
+              variant="body2"
+              className={classes.description}
+              lines={6}
+            >
+              <ReactMarkdown
+                includeElementIndex
+                disallowedElements={['Heading']}
+                components={{
+                  a: ({ node, ...props }) => (
+                    <Link
+                      style={{ fontWeight: 600, textDecoration: 'none', color: '#FEFEFE' }}
+                      {...props}
+                    />
+                  ),
+                  img: ({ node, index, ...props }) => <> </>,
+                  h1: 'p',
+                  h2: 'p',
+                  h3: 'p'
+                }}
+                className={classes.reactMarkDown}
+              >
+                {description || url}
+              </ReactMarkdown>
+            </TruncateText>
+            <Typography variant="body2" className={classes.url}>
+              {url && trimURL(url).split(/[/]+/g, 1)}
+            </Typography>
           </div>
         </a>
       </div>
