@@ -12,6 +12,7 @@ import VideoPost from './VideoPost';
 import SoundPost from './SoundPost';
 import SpotifyPost from './SpotifyPost';
 import MusicPost from './MusicPost';
+import EventPost from './EventPost';
 import TallPreviewPost from './TallPreviewPost';
 import ObjectPost from './ObjectPost';
 import NFTPost from './NFTPost';
@@ -140,6 +141,11 @@ function isWeb3Post(url) {
   return web3Pattern.test(url);
 }
 
+function isEventPost(tag) {
+  const eventPattern = genRegEx(['poap']);
+  return eventPattern.test(tag);
+}
+
 // TODO: Refactor
 class PostController extends Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -255,6 +261,27 @@ class PostController extends Component {
       return (
         <ErrorBoundary>
           <Web3Post
+            post={post}
+            url={post.url}
+            comment={post.comment}
+            author={post.author}
+            postid={post._id.postid}
+            quantiles={post.quantiles}
+            web3Preview={post.web3Preview}
+            tweetObject={post}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            rating={post.rating}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </ErrorBoundary>
+      );
+    } else if (isEventPost(post.tag)) {
+      return (
+        <ErrorBoundary>
+          <EventPost
             post={post}
             url={post.url}
             comment={post.comment}
