@@ -16,9 +16,12 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
     <TruncateText variant='body2' lines={lines} >
     <ReactMarkdown
       // components={{
-      //    img: ({node, ...props}) => <img  height="100px" style={{maxHeight:'200px'}}{...props} />
+      //    ul: ({node, ...props}) => <img  height="100px" style={{maxHeight:'200px'}}{...props} />
       // }}
+      
       components={{
+        ul: ({node, ...props}) => <ul   style={{listStylePosition: "inside",
+          paddingLeft: 0}}{...props} />,
          a: ({node, ...props}) => 
          {
           const originalText = node?.children?.[0]?.value
