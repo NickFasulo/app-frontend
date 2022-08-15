@@ -16,6 +16,7 @@ import {
 } from '../apis';
 import { accountConstants } from '../redux/constants';
 import useToast from '../hooks/useToast';
+import { useRouter } from 'next/router';
 
 const AuthContext = createContext({
   isLoggedIn: false,
@@ -29,6 +30,7 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { toastError } = useToast();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -154,6 +156,13 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(true);
     setIsCheckingAuth(false);
   }, [authInfo]);
+
+  useEffect(() => {
+    // Only show loading bar on home page.
+    if (router.pathname !== '/') {
+      setIsCheckingAuth(false);
+    }
+  }, []);
 
   const handleLogout = useCallback(() => {
     setIsLoggedIn(false);
