@@ -21,6 +21,7 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
       components={{
          a: ({node, ...props}) => 
          {
+          const originalText = node?.children?.[0]?.value
           const [yupTag, text] = node?.children?.[0]?.value?.split("yupreplace")
           console.log(node?.children?.[0]?.value,{...props, yupTag, text})
           let elem = 
@@ -36,8 +37,8 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
                       </Link>
                   </Typography>
               break;
-            case 'link': {
-                          
+              
+            case 'link': {                          
                   const linkPreviewData = getLinkPreview(text)
                   if(linkPreviewData){
                     ( elem=<LinkPreview
@@ -59,7 +60,13 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
               
               break;
             default: {
-
+              if(originalText.includes('hyperlinkyupreplace')){
+                elem = <Typography  display="inline">
+                <Link href={props.href} >
+                  {originalText.replace("hyperlinkyupreplace", '')} 
+                </Link>
+                </Typography>
+              }             
             } 
               break;
           }

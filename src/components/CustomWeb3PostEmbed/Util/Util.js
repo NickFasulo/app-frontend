@@ -49,25 +49,42 @@ export const markdownReplaceHashtags = (str) => {
   // const parsed = str.replace(re, '');
   // return parsed;
 };
+//Replacesprotocol from url so markdownReplaceLinks doenst replace it twice
+export const splitMarkDownUrl = (str) => {   
+  const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
+  const matches = str.match(re);
+  matches?.forEach((match, i) => {
+    match = decodeURIComponent(match)
+    match = match.replace(/(\r\n|\n|\r)/gm,"");
+    const urlObject = new URL(match)
+    str = str.replace(urlObject.protocol,urlObject.protocol+'hyperlinkyupreplace')
+    // url= str.replace(match, `[linkyupreplace${match}](${match})`);
+  })
+  return str
 
+}
 export const markdownReplaceLinks = (str) => {
   const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
   const singleMatch = /\[([^\[]+)\]\((.*)\)/
   const mdLinkMatches = str.match(regexMdLinks)
   mdLinkMatches?.forEach((match) => {
-    var text = singleMatch.exec(match)
-    var url = text[2]
+    var markdownMatches = singleMatch.exec(match)
+    var text = markdownMatches[1]
+    var url = markdownMatches[2]
     url = decodeURIComponent(url)
     url = url.replace(/(\r\n|\n|\r)/gm,"");
-    str= str.replace(match, url);
+
+    str= str.replace(match, `[${text}](${splitMarkDownUrl(url)})`);
   })
   const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
   const matches = str.match(re);
-  matches?.forEach((match) => {
+  matches?.forEach((match, i) => {
     match = decodeURIComponent(match)
     match = match.replace(/(\r\n|\n|\r)/gm,"");
+    console.log({str}, 'BEFORE')
     str= str.replace(match, `[linkyupreplace${match}](${match})`);
   })
+  console.log({str, matches}, 'AFTER')
   return str
   // const parsed = str.replace(re, '');
   // return parsed;

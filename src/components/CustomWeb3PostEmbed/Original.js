@@ -62,7 +62,7 @@ const Original = ({ postid, web3Preview, classes }) => {
 
   return (
     <Grid container="container" className={classes.container}>
-      {/* {postid} */}
+      {postid}
       {protocol==='farcaster' ?
       (<FarCasterPost text={content} attachments={attachments} postid={postid} post={web3Preview} classes={classes}/>
       ):(<LensPost 
