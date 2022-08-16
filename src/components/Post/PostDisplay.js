@@ -5,6 +5,7 @@ import withStyles from '@mui/styles/withStyles';
 import PostController from './PostController';
 import CircularProgress from '@mui/material/CircularProgress';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import RecommendedPosts from '../RecommendedPosts';
 
 const styles = (theme) => ({
   progress: {
@@ -56,6 +57,10 @@ function PostDisplay({ post, classes, isLoading }) {
       <div align="center" className={classes.container}>
         <PostController post={post} />
       </div>
+      <Typography variant="h6" sx={{ my: 2, width: '100%' }}>
+        Recommended
+      </Typography>
+      <RecommendedPosts query={post.previewData?.title || post.previewData?.description} />
     </ErrorBoundary>
   );
 }

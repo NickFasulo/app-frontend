@@ -54,20 +54,9 @@ const PostDetails = () => {
         <YupContainer>
           <GridLayout
             contentLeft={
-              <Grid
-                container
-                justifyContent="center"
-                alignItems="start
-                "
-                sx={{
-                  height: '100vh'
-                }}
-              >
-                <PostDisplay isLoading={isLoading} post={post} />
-              </Grid>
+              <PostDisplay isLoading={isLoading} post={post} />
             }
-            contentRight={
-                      <FeedCategoryList/>}
+            contentRight={<FeedCategoryList/>}
           />
           <CreateCollectionFab />
         </YupContainer>

@@ -112,6 +112,8 @@ export const useUserPosts = (userId) => {
 };
 
 export const useSearchPosts = (query) => {
+  const searchQuery = query.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+
   return useInfiniteQuery(
     [REACT_QUERY_KEYS.SEARCH_POSTS, query],
     ({ pageParam = 0 }) => {
@@ -120,7 +122,7 @@ export const useSearchPosts = (query) => {
         url: '/search/es/posts',
         params: {
           offset: pageParam,
-          searchText: query,
+          searchText: searchQuery,
           limit: DEFAULT_FEED_PAGE_SIZE
         }
       });
