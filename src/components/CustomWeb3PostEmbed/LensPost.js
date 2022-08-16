@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
 import {
+  convertIPFSSrcToHttps,
   fetchLinkPreviewData,
   getAllLinks,
   getNameInBrackets,
@@ -21,6 +22,8 @@ import YupReactMarkdown from '../ReactMarkdown';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
 import { TruncateText } from '../styles';
+import YupImage from '../YupImage';
+import useDevice from '../../hooks/useDevice';
 
 const TeaPartyLink = styled('a')(
   ({ theme }) => `
@@ -35,6 +38,7 @@ const TeaPartyLink = styled('a')(
 );
 
 const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post}) => {
+  const { isTiny } = useDevice();
   const { pathname } = useRouter();
   const parsedText = text //markdownReplaceHashtags(text);
 
@@ -134,10 +138,10 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
             <ImageList
               sx={{
                 borderRadius: '12px',
-                height: multipleAttachments()?400:300,
+                height: 350,
                 overflow: 'hidden'
               }}
-              cols={multipleAttachments() ? 2 : 1}
+              cols={isTiny? 1: multipleAttachments()? 2 : 1}
             >
               {attachments.map((attachment, index) => (
                 <ImageListItem
@@ -145,9 +149,9 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                   key={attachment.images[0]}
                 >
                   {attachment.images[0] ? (
-                    <img
-                      height={multipleAttachments() ? 200 : 300}
-                      src={attachment.images[0]}
+                    <YupImage
+                      height={350}
+                      src={convertIPFSSrcToHttps(attachment.images[0])}
                       alt={attachment.images[0]}
                     />
                   ) : (

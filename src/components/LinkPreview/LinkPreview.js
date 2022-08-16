@@ -69,11 +69,6 @@ const styles = (theme) => ({
     position: 'relative',
     fontSize: '0.625rem',
     fontWeight: 100,
-    overflowWrap: 'break-word',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    width: '70%',
     marginTop: 0,
     opacity: '0.5'
   },
@@ -172,9 +167,11 @@ class LinkPreview extends Component {
                         </TruncateText>
                     </Grid>
                     <Grid item xs>
-                      <Typography variant="bodyS2" className={classes.url}>
+                        <TruncateText lines={1} className={classes.url}>
+                      <Typography variant="bodyS2" >
                         {url && trimURL(url)}
                       </Typography>
+                        </TruncateText>
                     </Grid>
                   </Grid>
                 </div>

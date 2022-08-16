@@ -30,6 +30,12 @@ export const parseText = (str) => {
     .replace(/&nbsp;/g, ' ');
   return parsed;
 };
+export const convertIPFSSrcToHttps = (src) => {
+  if (src.startsWith('ipfs://')) {
+    src = `https://ipfs.io/ipfs/${src.substring(7)}`;
+  }
+  return src
+}
 
 // Removes : and - after @tag (if someone types @myusername: it changes it to @myusername
 export const parseTags = (str) => {

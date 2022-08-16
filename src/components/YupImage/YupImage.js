@@ -2,6 +2,7 @@ import { DEFAULT_IMAGE_PATH } from '../../utils/helpers';
 import { useState } from 'react';
 
 const YupImage = ({ src, alt, ...restProps }) => {
+ 
   const [imageIndex, setImageIndex] = useState(0);
   const srcList = Array.isArray(src)
     ? src.filter((item) => Boolean(item))
