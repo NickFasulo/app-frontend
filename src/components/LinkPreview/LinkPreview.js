@@ -93,13 +93,8 @@ const styles = (theme) => ({
   }
 });
 
-class LinkPreview extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { image, title, description, url, classes } = this.props;
+const LinkPreview=({image, title, description, url, classes})=>{
+  
     let faviconURL = null;
     console.log(image, 'WURST');
 
@@ -182,7 +177,6 @@ class LinkPreview extends Component {
       </ErrorBoundary>
     );
   }
-}
 
 LinkPreview.propTypes = {
   image: PropTypes.string.isRequired,

@@ -150,7 +150,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                 >
                   {attachment.images[0] ? (
                     <YupImage
-                      height={350}
+                      height={ multipleAttachments()&&350}
                       src={convertIPFSSrcToHttps(attachment.images[0])}
                       alt={attachment.images[0]}
                     />
