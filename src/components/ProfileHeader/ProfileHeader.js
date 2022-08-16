@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEthereum, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { levelColors } from '../../utils/colors';
-import { useFollowers, useFollowings } from '../../hooks/queries';
+import { useFollowers, useFollowings, useUserLikes } from '../../hooks/queries';
 import FollowerSection from './FollowerSection';
 import { Chip, Typography } from '@mui/material';
 import {
@@ -34,7 +34,6 @@ const ProfileHeader = ({ profile, hidden }) => {
     username,
     fullname,
     _id: id,
-    total_vote_value: rating,
     ethInfo,
     twitterInfo,
     weight: influence,
@@ -43,6 +42,7 @@ const ProfileHeader = ({ profile, hidden }) => {
   const { isLoggedIn, name: authName } = useAuth();
   const followings = useFollowings(id);
   const followers = useFollowers(id);
+  const likeCount = useUserLikes(id);
 
   const [editModalOpen, setEditModalOpen] = useState(false);
 
@@ -71,7 +71,7 @@ const ProfileHeader = ({ profile, hidden }) => {
             <FlexBox alignItems="center" columnGap={3}>
               {isDesktop && (
                 <FollowerSection
-                  rating={rating}
+                  rating={likeCount}
                   followers={followers}
                   followings={followings}
                 />
