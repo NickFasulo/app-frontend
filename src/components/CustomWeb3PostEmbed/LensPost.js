@@ -134,7 +134,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
             <ImageList
               sx={{
                 borderRadius: '12px',
-                height: isFullPost() ? 450 : 300,
+                height: multipleAttachments()?400:300,
                 overflow: 'hidden'
               }}
               cols={multipleAttachments() ? 2 : 1}
@@ -145,7 +145,8 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                   key={attachment.images[0]}
                 >
                   {attachment.images[0] ? (
-                    <CldImg
+                    <img
+                      height={multipleAttachments() ? 200 : 300}
                       src={attachment.images[0]}
                       alt={attachment.images[0]}
                     />
