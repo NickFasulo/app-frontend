@@ -69,11 +69,6 @@ const styles = (theme) => ({
     position: 'relative',
     fontSize: '0.625rem',
     fontWeight: 100,
-    overflowWrap: 'break-word',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    width: '70%',
     marginTop: 0,
     opacity: '0.5'
   },
@@ -98,13 +93,8 @@ const styles = (theme) => ({
   }
 });
 
-class LinkPreview extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { image, title, description, url, classes } = this.props;
+const LinkPreview=({image, title, description, url, classes})=>{
+  
     let faviconURL = null;
     console.log(image, 'WURST');
 
@@ -172,9 +162,11 @@ class LinkPreview extends Component {
                         </TruncateText>
                     </Grid>
                     <Grid item xs>
-                      <Typography variant="bodyS2" className={classes.url}>
+                        <TruncateText lines={1} className={classes.url}>
+                      <Typography variant="bodyS2" >
                         {url && trimURL(url)}
                       </Typography>
+                        </TruncateText>
                     </Grid>
                   </Grid>
                 </div>
@@ -185,7 +177,6 @@ class LinkPreview extends Component {
       </ErrorBoundary>
     );
   }
-}
 
 LinkPreview.propTypes = {
   image: PropTypes.string.isRequired,

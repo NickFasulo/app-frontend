@@ -1,13 +1,12 @@
 import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import React, {useState} from 'react';
-import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
 import { linkMentions, urlIsImg } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { parseText } from './Util/Util';
-import YupReactMarkdown from '../ReactMarkdown';
+import YupReactMarkdown from '../YupReactMarkdown';
 import { CldImg, SeeMore } from '../Miscellaneous';
 import TextTruncate from 'react-text-truncate';
 import { useRouter } from 'next/router';
