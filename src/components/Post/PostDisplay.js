@@ -60,7 +60,10 @@ function PostDisplay({ post, classes, isLoading }) {
       <Typography variant="h6" sx={{ my: 2, width: '100%' }}>
         Recommended
       </Typography>
-      <RecommendedPosts query={post.previewData?.title || post.previewData?.description} />
+      <RecommendedPosts
+        query={post.previewData?.title || post.previewData?.description}
+        excludeIds={[post._id.postid]}
+      />
     </ErrorBoundary>
   );
 }

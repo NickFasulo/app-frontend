@@ -6,7 +6,7 @@ import withSuspense from '../../hoc/withSuspense';
 import { LOADER_TYPE } from '../../constants/enum';
 import FeedLoader from '../FeedLoader/FeedLoader';
 
-const RecommendedPosts = ({ query }) => {
+const RecommendedPosts = ({ query, excludeIds }) => {
   const { hasNextPage, fetchNextPage, data } = useSearchPosts(query);
 
   const posts = useMemo(() => {
@@ -22,6 +22,7 @@ const RecommendedPosts = ({ query }) => {
       next={fetchNextPage}
     >
       {posts.map((post) => (
+        (excludeIds || []).includes(post._id.postid) ? null :
         <PostController key={post._id.postid} post={post} hideInteractions />
       ))}
     </InfiniteScroll>
