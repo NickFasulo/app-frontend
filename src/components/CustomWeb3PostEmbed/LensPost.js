@@ -10,7 +10,8 @@ import {
   getAllLinks,
   getNameInBrackets,
   linkMentions,
-  markdownReplaceHashtags
+  markdownReplaceHashtags,
+  parsePhaverText
 } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { CldImg, SeeMore } from '../Miscellaneous';
@@ -18,29 +19,16 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ReactPlayer from 'react-player';
 import { useRouter } from 'next/router';
-import YupReactMarkdown from '../ReactMarkdown';
+import YupReactMarkdown from '../YupReactMarkdown';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import useDevice from '../../hooks/useDevice';
 
-const TeaPartyLink = styled('a')(
-  ({ theme }) => `
-    background-image: linear-gradient(90deg,#12c2e9,#c471ed,#12c2e9,#f64f59,#c471ed,#ebed71);
-    font-weight: 700;
-    position: relative;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    background-size: 300% 100%;
-    `
-);
-
 const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post}) => {
   const { isTiny } = useDevice();
   const { pathname } = useRouter();
-  const parsedText = text //markdownReplaceHashtags(text);
 
   const multipleAttachments = () => {
     return attachments.length > 1 && attachments[0].images.length > 0;
@@ -52,39 +40,10 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
     return pathname === '/post/[id]';
   };
 
-  console.log({ pathname,text }, isFullPost());
-  //Uncomment to get LinkPreviews
+  if(post.meta.metadata?.appId ==='phaver' && linkPreview?.[0]){
+    text = parsePhaverText(text, linkPreview?.[0]);
+  }
 
-  // const regexLinks = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
-  //   const matches = parsedText.match(regexLinks)
-  //   if(linkPreview){
-  //       if(matches){
-  //           matches?.forEach((element,i) => {
-  //             parsedText = reactStringReplace(parsedText, element, (match) => {
-  //               const linkPreviewData = getLinkPreview(decodeURIComponent(match))
-  //               // const url = getAllLinks(match)?.[0]
-  //               // const name = getNameInBrackets(match)?.[0]
-
-  //             //  console.log({match, text, matches},getNameInBrackets(match))
-  //               // const data = await fetchLinkPreviewData(url)
-  //               // console.log(url, data, "MATCHHH")
-  //               if(linkPreviewData){
-  //               return <LinkPreview
-  //               size={'large'}
-  //               image={linkPreviewData.img}
-  //               title={linkPreviewData.title}
-  //               url={linkPreviewData.url}
-  //               description={linkPreviewData.description}
-  //               classes={classes}
-  //               />
-  //               }
-  //           });
-  //           });
-  //       }
-
-  //   }
-
-    console.log({parsedText}, "WURST")
   return (
     <Grid item="item" xs={12}>
         <Grid container="container" direction="row" spacing={1}>
@@ -130,7 +89,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
     >
           {/*If text hasnt been changed for Linkpreviews */}
           {/* disabled! */}
-            <YupReactMarkdown linkPreview={linkPreview}lines={!isFullPost()&&7} classes={classes}>{parsedText}</YupReactMarkdown>
+            <YupReactMarkdown linkPreview={linkPreview}lines={!isFullPost()&&7} classes={classes}>{text}</YupReactMarkdown>
           
 
           {/*If post has Attachments */}

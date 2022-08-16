@@ -6,21 +6,31 @@ import Link from './Link';
 import LinkPreview from './LinkPreview/LinkPreview';
 import { TruncateText } from './styles';
 
-const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
-  const linkRef = useRef();
-  console.log({linkRef}, window.pageYOffset )
-  const [open, setOpen] = useState(false);
+// const TeaPartyLink = styled('a')(
+//   ({ theme }) => `
+//     background-image: linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)
+//     font-weight: 700;
+//     position: relative;
+//     color: transparent;
+//     -webkit-background-clip: text;
+//     background-clip: text;
+//     background-size: 300% 100%;
+//     `
+// );
+const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }) => {
+
+  //Related to on hover LinkPreview
+  // const linkRef = useRef();
+  // const [open, setOpen] = useState(false);
 
 
-  const handlePopoverOpen = (event) => {
-    setOpen(true)
-    console.log( window.pageYOffset, linkRef.current.getBoundingClientRect().top, 'CALC')
-  };
+  // const handlePopoverOpen = (event) => {
+  //   setOpen(true)
+  // };
 
-  const handlePopoverClose = () => {
-    setOpen(false)
-  };
-
+  // const handlePopoverClose = () => {
+  //   setOpen(false)
+  // };
   const parsed = markdownReplaceLinks(children);
  // const parsed2 = markdownReplaceHashtags(parsed);
   const getLinkPreview = (url) => {
@@ -70,7 +80,7 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
                       classes={classes}
                       />)
                   } else {
-                    elem = <Typography  display="inline">
+                    elem = <Typography  variant="body3" display="inline">
                     <Link href={props.href} >
                       {text} 
                     </Link>
@@ -82,7 +92,8 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
             default: {
               if(props.href.includes('hyperlinkyupreplace')){
                 const linkPreviewData = getLinkPreview(props.href.replace("hyperlinkyupreplace", ''))
-                if(linkPreviewData){
+                {/* Shows linkpreview on hover for hyperlinks */}
+               {/* if(linkPreviewData){
                   elem = 
                   <>
                   <Typography  display="inline" 
@@ -94,7 +105,8 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
                       {originalText.replace("hyperlinkyupreplace", '')} 
                     </Link>
                 </Typography>
-                {linkRef?.current&&(
+
+                 {linkRef?.current&&open&&(
                 <Popover 
                 id="mouse-over-popover"
                 sx={{
@@ -115,6 +127,7 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
                   disableRestoreFocus
                   PaperProps={{
                     sx:{        
+                      maxWidth: '500px',
                       background:"none",                      
                     }
                   }
@@ -130,16 +143,16 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
                     classes={classes}
                     />
               </Popover>
-              )}
+              )} 
               </>
                 }
-                else {
-                  elem = <Typography  display="inline">
+                else {*/}
+                  elem = <Typography variant="body3" display="inline">
                 <Link href={props.href.replace("hyperlinkyupreplace", '')} >
                   {originalText.replace("hyperlinkyupreplace", '')} 
                 </Link>
                 </Typography>
-                }
+                {/* } */}
               }             
             } 
               break;

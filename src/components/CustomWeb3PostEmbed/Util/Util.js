@@ -70,6 +70,7 @@ export const splitMarkDownUrl = (str) => {
 
 }
 export const markdownReplaceLinks = (str) => {
+  // replaces markdown hyperlinks and adds hyperlinkyupreplace 
   const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
   const singleMatch = /\[([^\[]+)\]\((.*)\)/
   const mdLinkMatches = str.match(regexMdLinks)
@@ -79,9 +80,10 @@ export const markdownReplaceLinks = (str) => {
     var url = markdownMatches[2]
     url = decodeURIComponent(url)
     url = url.replace(/(\r\n|\n|\r)/gm,"");
-
     str= str.replace(match, `[${text}](${splitMarkDownUrl(url)})`);
   })
+
+  //replaces markdown links and adds linkyupreplace to handle it later
   const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
   const matches = str.match(re);
   matches?.forEach((match, i) => {
@@ -90,12 +92,24 @@ export const markdownReplaceLinks = (str) => {
     console.log({str}, 'BEFORE')
     str= str.replace(match, `[linkyupreplace${match}](${match})`);
   })
-  console.log({str, matches}, 'AFTER')
   return str
-  // const parsed = str.replace(re, '');
-  // return parsed;
 };
-
+export const parsePhaverText = (str, linkPreview) => {
+  const { description, title, image } = linkPreview
+  const re =/\[([^\[]+)\](\(.*\))/gm;
+  const matches = str.match(re);
+  str= str.replace(description, '')
+  matches?.forEach((match, i) => {
+    // match = decodeURIComponent(match)
+    // match = match.replace(/(\r\n|\n|\r)/gm,"");
+    // console.log({str}, 'BEFORE')
+    if(match.includes(title)){
+    str= str.replace(match, '');
+  }
+  })
+    console.log({str, description}, 'WURST')
+  return str
+}
 // Converts http://www.example.com/page1/resource1 into --> example.com
 export const linkMentions = (word) => {
   const { palette } = useTheme();

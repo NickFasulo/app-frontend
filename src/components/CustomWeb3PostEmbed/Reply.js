@@ -6,7 +6,7 @@ import TweetVidPlayer from './TweetVidPlayer';
 import { parseText, linkMentions, fetchLinkPreviewData, urlIsImg } from './Util/Util';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
-import YupReactMarkdown from '../ReactMarkdown';
+import YupReactMarkdown from '../YupReactMarkdown';
 import { CldImg } from '../Miscellaneous';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
