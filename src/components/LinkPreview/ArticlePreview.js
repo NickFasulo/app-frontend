@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
@@ -7,9 +7,7 @@ import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
-import ReactMarkdown from 'react-markdown';
 import removeMd from'remove-markdown';
-import Link from '../Link';
 
 const styles = (theme) => ({
   container: {
@@ -128,30 +126,15 @@ const ArticlePreview = ({ title, description, url, classes, writerENS }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TruncateText
-                  variant="body2"
-                  className={classes.description}
-                  lines={5}
-                >
-                  {removeMd(description)}
-                  {/* <ReactMarkdown
-                    includeElementIndex
-                    components={{
-                      a: ({ node, ...props }) => (
-                        <Link
-                          style={{ textDecoration: 'none', fontWeight: 600 }}
-                          {...props}
-                        />
-                      ),
-                      img: ({ node, index, ...props }) => <> </>
-                    }}
-                    className={classes.reactMarkDown}
-                  >
-                    {description || url}
-                  </ReactMarkdown> */}
-                </TruncateText>
-              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <TruncateText
+                variant="body2"
+                className={classes.description}
+                lines={5}
+              >
+                {removeMd(description)}
+              </TruncateText>
             </Grid>
           </div>
         </a>

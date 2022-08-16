@@ -30,7 +30,7 @@ const Reply = ({ post,  classes }) => {
   const directParentPostText = parseText(directParent.body.data.text);
   const directParentPostLink = `farcaster://profiles/${directParent.body.address}/posts`;
 
-  
+
   const imgRef = useRef(null);
 console.log({directParentPostLink,userPostLink})
   // const { url } = tweetData;
@@ -177,6 +177,7 @@ console.log({directParentPostLink,userPostLink})
                       tweetLink={post.id}
                       createdAt={directParent.body.publishedAt}
                       noBird
+                      meta={post.meta}
                     />
               </Grid>
               <Grid
@@ -189,7 +190,7 @@ console.log({directParentPostLink,userPostLink})
                   </Typography>
                 {/* </Link> */}
               </Grid>
-              
+
               <Grid item="item" xs={12}>
           {directParentAttachments  ? directParentAttachments.map((attachment) => {
           if( attachment.image){
@@ -213,7 +214,7 @@ console.log({directParentPostLink,userPostLink})
                       />
                   )}
         })
-          
+
         : null}
         </Grid>
               {/* {replyHasPhoto && replyMediaURL ? (
@@ -250,7 +251,7 @@ console.log({directParentPostLink,userPostLink})
               <Grid item="item" xs>
                 <Grid container="container" direction="row" spacing={1}>
                   <Grid item="item" xs={12}>
-                    <HeaderSection classes={classes} name={userName} handle={userHandle} address={post.creator.address} 
+                    <HeaderSection classes={classes} name={userName} handle={userHandle} address={post.creator.address}
                   tweetLink={post.id}
                   createdAt={post.createdAt}
                   hideBird />

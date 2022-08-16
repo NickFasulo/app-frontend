@@ -137,7 +137,7 @@ const SideBar = () => {
                 {feedOpen && (
                   <>
                     {isLoggedIn && (
-                      <FeedLink text="Your Daily Hits" category="dailyhits" />
+                      <FeedLink text="Daily Hits" category="dailyhits" />
                     )}
                     <FeedLink text="Crypto" category="crypto" />
                     <FeedLink text="NFTs" category="nfts" />

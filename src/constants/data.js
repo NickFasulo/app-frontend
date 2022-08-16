@@ -18,7 +18,7 @@ import { EXPLAINER_VIDEO } from './const';
 export const FEED_CATEGORIES = {
   DAILY_HIT: {
     id: 'dailyhits',
-    title: 'Your Daily Hits',
+    title: 'Daily Hits',
     image: ImgFeedDailyHits,
     metaTitle: 'Daily Hits • Yup',
     description: 'Top content of the day based on general influence'

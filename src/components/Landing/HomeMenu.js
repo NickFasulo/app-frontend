@@ -277,8 +277,9 @@ const Home = ({ isUser, userCollections, theme }) => {
                   })}
               </Grid>
             </Grid>
+            {/* HIDDEN TO FOCUS ON FEED
             {userCollections?.length > 0 && (
-              <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
+            <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
                 <Grid container direction="row">
                   <Grid item xs={12}>
                     <Fade in style={{ transitionDelay: '50ms' }} timeout={300}>
@@ -411,7 +412,7 @@ const Home = ({ isUser, userCollections, theme }) => {
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            </Grid>*/}
             <Grid item xs={12}>
               <Grid container direction='row' spacing={2} >
                 <Grid item xs={12}>

@@ -18,7 +18,7 @@ import Reply from './Reply';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
 
-const FarCasterPost = ({ post, text, postid, attachments, classes }) => {  
+const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
   const { pathname } = useRouter();
   const web3Preview = post
   const {id} = post
@@ -27,7 +27,7 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
   const parents = post.meta.parents
   const isReply = parents?.length  > 0
   // const isReplyToReply = parents.length > 1
-  
+
   const isFullPost = () => {
     return pathname === '/post/[id]';
   };
@@ -40,9 +40,9 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
   }
   // else if(isReplyToReply){
   //   return <Reply></ReplyToReply>
-  // } 
+  // }
   else {
-  return ( 
+  return (
     <Grid item="item" xs={12}>
         <Grid container="container" direction="row" spacing={1}>
           <Grid item="item">
@@ -53,11 +53,12 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
             />
           </Grid>
           <Grid item="item" xs>
-            <Grid container="container" direction="row" spacing={1} 
+            <Grid container="container" direction="row" spacing={1}
                >
               <Grid item="item" xs={12}>
                 <HeaderSection
                   classes={classes}
+                  meta={web3Preview.meta}
                   name={web3Preview.creator.fullname}
                   handle={web3Preview.creator.handle}
                   address={web3Preview.creator.address}
@@ -71,15 +72,15 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
                   <Grid item="item" xs={12}
                 sx={{margin:'1em 0'}}>
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
-                  
+
               <Link href={`/post/${postid}`} >
-      
+
               <Grid container="container" direction="row" spacing={1}  sx={{cursor:'pointer'}}>
-      
+
        {/* <TruncateText align="left" variant="h2" lines={4}>
       {account.fullname || account.username || account._id}
     </TruncateText> */}
-    
+
     <Grid item="item" xs={12}>
         {!isFullPost() ? (
         <TruncateText variant='body2' lines={7} >
@@ -90,8 +91,8 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
         </Typography>)}
           </Grid>
 
-          
-        <Grid item="item" xs={12}>   
+
+        <Grid item="item" xs={12}>
           {attachments
         ? attachments.map((attachment) => {
           if(attachment.images[0]){
@@ -120,7 +121,7 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
           </Grid>
         {/* {attachments ? parseText(text) : text }
         </YupReactMarkdown> */}
-      
+
       </Grid>
       </Link>
                     {/* </Link> */}
@@ -131,9 +132,9 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
           </Grid>
         </Grid>
       </Grid>
-  
+
   );
-    
+
 }
 };
 

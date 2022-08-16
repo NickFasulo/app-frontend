@@ -19,11 +19,6 @@ const Feeds = () => {
         title={categoryData.metaTitle}
         description={categoryData.description}
         image={metaImage}
-        meta={{
-          'og:title': categoryData.metaTitle,
-          'og:description': categoryData.description,
-          'og:image': metaImage
-        }}
       />
       <FeedContainer categoryData={categoryData} />
     </>
