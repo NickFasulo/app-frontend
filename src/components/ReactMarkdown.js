@@ -22,6 +22,8 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes }) => {
       components={{
         ul: ({node, ...props}) => <ul   style={{listStylePosition: "inside",
           paddingLeft: 0}}{...props} />,
+        ol: ({node, ...props}) => <ol   style={{listStylePosition: "inside",
+        paddingLeft: 0}}{...props} />,
          a: ({node, ...props}) => 
          {
           const originalText = node?.children?.[0]?.value

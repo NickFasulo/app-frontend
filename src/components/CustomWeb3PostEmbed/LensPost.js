@@ -112,8 +112,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                   <Grid item="item" xs={12}>
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
                     <Typography variant="body2">
-                    <Grid
-      item
+                    <Grid item
       // Enable to style links
       //     sx={{ "& *> a": {
       //         backgroundImage: "linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)",
@@ -125,21 +124,6 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
       //         backgroundSize: "300% 100%",
       // }  }}
     >
-      {/*If text has been changed for Linkpreviews */}
-      {/* {Array.isArray(parsedText) ? (
-        <>
-          {parsedText.map((element, i) => {
-            return typeof element === 'string' ? ( */}
-              {/* <YupReactMarkdown lines={!isFullPost()&&7}  key={i}>
-                {parsedText}
-              </YupReactMarkdown> */}
-            {/* ) : (
-              element
-            );
-          })} 
-          </>
-      ) : (
-        <>*/}
           {/*If text hasnt been changed for Linkpreviews */}
           {/* disabled! */}
             <YupReactMarkdown linkPreview={linkPreview}lines={!isFullPost()&&7} classes={classes}>{parsedText}</YupReactMarkdown>
