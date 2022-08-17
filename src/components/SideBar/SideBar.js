@@ -146,7 +146,7 @@ const SideBar = () => {
                     <FeedLink text="Farcaster" category="farcaster" />
                     <FeedLink text="Lens" category="lens" />
                     <FeedLink text="Politics" category="politics" />
-                    <FeedLink text="Safe Space" category="non-corona" />
+                    <FeedLink text="Safe Space" category="safespace" />
                   </>
                 )}
               </List>
