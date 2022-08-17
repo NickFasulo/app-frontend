@@ -18,14 +18,13 @@ import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
 
 const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
-  const parsed= markdownReplaceHashtags(text);
   const { pathname } = useRouter();
   const web3Preview = post
   const {id} = post
  // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
   let parsedText = parseText(text);
   let parsedTextWithMentions = parsedText.split(' ').map((string) => linkMentions(string, 'farcaster://profiles/'));
-
+console.log({parsedTextWithMentions, parsedText})
   const parents = post.meta.parents
   const isReply = parents?.length  > 0
   // const isReplyToReply = parents.length > 1
