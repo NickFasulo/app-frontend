@@ -8,7 +8,7 @@ import _, { matches } from 'lodash';
 import { apiBaseUrl } from '../../../config';
 import LinkPreview from '../../LinkPreview/LinkPreview';
 import reactStringReplace from 'react-string-replace';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import TeaPartyPost from '../TeaPartyPost';
 import FarCasterPost from '../FarCasterPost';
@@ -111,31 +111,34 @@ export const parsePhaverText = (str, linkPreview) => {
   return str
 }
 // Converts http://www.example.com/page1/resource1 into --> example.com
-export const linkMentions = (word) => {
+export const linkMentions = (word, url) => {
   const { palette } = useTheme();
   const re = /\B\@([\w\-]+)/gim;
+  const hashtagRe = /\B(\#[a-zA-Z]+\b)(?!;)/gm;
+  const matchHastag = hashtagRe.test(word);
   const match = re.test(word);
+  const userLink = url + word;
   if (match) {
     word = parseTags(word);
-    const userLink = `https://twitter.com/${word}`;
     return (
       <>
-        <a
-          style={{
-            color: palette.M100,
-            textDecoration: 'none',
-            fontWeight: 600
-          }}
-          href={userLink}
-          target="_blank"
-          rel="noreferrer"
-        >
+      <Typography  variant="body3" display="inline">
           {word}
-        </a>
+        </Typography>
         <i> </i>
       </>
     );
-  } else {
+  }  else if(matchHastag){
+    return (
+      <>
+        <Typography  variant="body3" display="inline">
+          {word}
+        </Typography>
+        <i> </i>
+      </>
+    );
+  }
+  else{
     return <>{word} </>;
   }
 };

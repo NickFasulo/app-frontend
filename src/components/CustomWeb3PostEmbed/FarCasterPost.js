@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, {useState} from 'react';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
-import { linkMentions, urlIsImg } from './Util/Util';
+import { linkMentions, markdownReplaceHashtags, urlIsImg } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { parseText } from './Util/Util';
 import YupReactMarkdown from '../YupReactMarkdown';
@@ -23,6 +23,8 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
   const {id} = post
  // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
   let parsedText = parseText(text);
+  let parsedTextWithMentions = parsedText.split(' ').map((string) => linkMentions(string, 'farcaster://profiles/'));
+console.log({parsedTextWithMentions, parsedText})
   const parents = post.meta.parents
   const isReply = parents?.length  > 0
   // const isReplyToReply = parents.length > 1
@@ -83,10 +85,10 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
     <Grid item="item" xs={12}>
         {!isFullPost() ? (
         <TruncateText variant='body2' lines={7} >
-          {parsedText}
-    </TruncateText>):(
+          {parsedTextWithMentions}
+        </TruncateText>):(
         <Typography variant="body2">
-          {parsedText}
+          {parsedTextWithMentions}
         </Typography>)}
           </Grid>
 
