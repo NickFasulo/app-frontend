@@ -202,7 +202,7 @@ console.log({directParentPostLink,userPostLink})
                     }
                     title={attachment.title}
                     url={attachment.url}
-                    classes={classes}
+                    // classes={classes}
                   />
                 )}
            else if(urlIsImg(attachment.url)){
@@ -277,7 +277,7 @@ console.log({directParentPostLink,userPostLink})
                     }
                     title={attachment.title}
                     url={attachment.url}
-                    classes={classes}
+                    // classes={classes}
                   />
                 )
                   }

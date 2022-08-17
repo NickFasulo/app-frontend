@@ -106,7 +106,7 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
                 }
                 title={attachment.title}
                 url={attachment.url}
-                classes={classes}
+                // classes={classes}
               />)
           } else if(urlIsImg(attachment.url)){
             return(<CldImg

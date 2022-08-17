@@ -43,32 +43,32 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
       // components={{
       //    ul: ({node, ...props}) => <img  height="100px" style={{maxHeight:'200px'}}{...props} />
       // }}
-      
+
       components={{
         ul: ({node, ...props}) => <ul   style={{listStylePosition: "inside",
           paddingLeft: 0}}{...props} />,
         ol: ({node, ...props}) => <ol   style={{listStylePosition: "inside",
         paddingLeft: 0}}{...props} />,
-         a: ({node, ...props}) => 
+         a: ({node, ...props}) =>
          {
           const originalText = node?.children?.[0]?.value
           const [yupTag, text] = node?.children?.[0]?.value?.split("yupreplace")
           console.log(node?.children?.[0]?.value,{...props, yupTag, text})
-          let elem = 
+          let elem =
           <Typography  display="inline">
               <Link {...props} />
             </Typography>
-            
+
           switch (yupTag) {
             case 'hashtag':
              elem = <Typography  display="inline">
                       <Link href={props.href} >
-                        {text} 
+                        {text}
                       </Link>
                   </Typography>
               break;
-              
-            case 'link': {                          
+
+            case 'link': {
                   const linkPreviewData = getLinkPreview(text)
                   if(linkPreviewData){
                     ( elem=<LinkPreview
@@ -77,37 +77,37 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
                       title={linkPreviewData.title}
                       url={linkPreviewData.url}
                       description={linkPreviewData.description}
-                      classes={classes}
+                      // classes={classes}
                       />)
                   } else {
                     elem = <Typography  variant="body3" display="inline">
                     <Link href={props.href} >
-                      {text} 
+                      {text}
                     </Link>
                     </Typography>
                   }
               }
-              
+
               break;
             default: {
               if(props.href.includes('hyperlinkyupreplace')){
                 const linkPreviewData = getLinkPreview(props.href.replace("hyperlinkyupreplace", ''))
                 {/* Shows linkpreview on hover for hyperlinks */}
                {/* if(linkPreviewData){
-                  elem = 
+                  elem =
                   <>
-                  <Typography  display="inline" 
+                  <Typography  display="inline"
                   onMouseEnter={handlePopoverOpen}
                   onMouseLeave={handlePopoverClose}
                   ref={linkRef}>
-                    <Link href={props.href.replace("hyperlinkyupreplace", '')} >                        
-                     
-                      {originalText.replace("hyperlinkyupreplace", '')} 
+                    <Link href={props.href.replace("hyperlinkyupreplace", '')} >
+
+                      {originalText.replace("hyperlinkyupreplace", '')}
                     </Link>
                 </Typography>
 
                  {linkRef?.current&&open&&(
-                <Popover 
+                <Popover
                 id="mouse-over-popover"
                 sx={{
                   pointerEvents: 'none',
@@ -126,14 +126,14 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
                   onClose={handlePopoverClose}
                   disableRestoreFocus
                   PaperProps={{
-                    sx:{        
+                    sx:{
                       maxWidth: '500px',
-                      background:"none",                      
+                      background:"none",
                     }
                   }
                   }
                 >
-                    
+
                     <LinkPreview
                     size={'large'}
                     image={linkPreviewData.img}
@@ -143,30 +143,30 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
                     classes={classes}
                     />
               </Popover>
-              )} 
+              )}
               </>
                 }
                 else {*/}
                   elem = <Typography variant="body3" display="inline">
                 <Link href={props.href.replace("hyperlinkyupreplace", '')} >
-                  {originalText.replace("hyperlinkyupreplace", '')} 
+                  {originalText.replace("hyperlinkyupreplace", '')}
                 </Link>
                 </Typography>
                 {/* } */}
-              }             
-            } 
+              }
+            }
               break;
           }
           return elem
         //  <Typography  display="inline">
         //     <Link {...props} />
         //  </Typography>
-         
+
       }
       }}
-      
+
       {...props}
-    > 
+    >
       {parsed}
     </ReactMarkdown>
     </TruncateText>
