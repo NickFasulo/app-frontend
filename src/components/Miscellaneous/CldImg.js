@@ -67,7 +67,7 @@ const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
     );
   }
 
-  if (isWeb3Post ) {
+  if (isWeb3Post) {
     return (
       <img
         ref={imgRef}
