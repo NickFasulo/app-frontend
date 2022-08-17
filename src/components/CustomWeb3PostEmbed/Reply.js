@@ -6,7 +6,7 @@ import TweetVidPlayer from './TweetVidPlayer';
 import { parseText, linkMentions, fetchLinkPreviewData, urlIsImg } from './Util/Util';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
-import YupReactMarkdown from '../ReactMarkdown';
+import YupReactMarkdown from '../YupReactMarkdown';
 import { CldImg } from '../Miscellaneous';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
@@ -23,7 +23,7 @@ const Reply = ({ post,  classes }) => {
   const userAttachments = post.attachments;
 
   const directParent = parents[0];
-  const directParentAttachments = directParent.attachments.openGraph;
+  const directParentAttachments = directParent.attachments?.openGraph;
   const directParentName = directParent.meta.displayName;
   const directParentHandle = directParent.body.username;
   const directParentAvatar = directParent.meta.avatar;
@@ -202,7 +202,7 @@ console.log({directParentPostLink,userPostLink})
                     }
                     title={attachment.title}
                     url={attachment.url}
-                    classes={classes}
+                    // classes={classes}
                   />
                 )}
            else if(urlIsImg(attachment.url)){
@@ -277,7 +277,7 @@ console.log({directParentPostLink,userPostLink})
                     }
                     title={attachment.title}
                     url={attachment.url}
-                    classes={classes}
+                    // classes={classes}
                   />
                 )
                   }

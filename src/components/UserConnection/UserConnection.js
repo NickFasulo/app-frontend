@@ -2,15 +2,18 @@ import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
 import { ConnectionAvatar, FlexBox } from '../styles';
+import { useSideBar } from '../SideBar/SideBarContext';
 
 const UserConnection = ({ user }) => {
+  const { closeSearch } = useSideBar();
   return (
     <Link
       key={user._id}
       href={`/account/${user.username || user._id}`}
       style={{ textDecoration: 'none' }}
     >
-      <FlexBox my={2} alignItems="center" sx={{ cursor: 'pointer' }}>
+      <FlexBox my={2} alignItems="center" sx={{ cursor: 'pointer' }}
+      onClick={() => closeSearch()}>
         <ConnectionAvatar src={user.avatar} alt="avatar">
           {user.username[0].toUpperCase()}
         </ConnectionAvatar>
