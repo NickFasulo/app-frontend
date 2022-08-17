@@ -5,7 +5,7 @@ import { webAppUrl } from '../../config';
 import ReactMarkdown from 'react-markdown';
 import { Typography } from '@mui/material';
 import { TruncateText } from '../styles';
-import YupReactMarkdown from '../ReactMarkdown';
+import YupReactMarkdown from '../YupReactMarkdown';
 import TruncateMarkup from 'react-truncate-markup';
 
 const SeeMore = ({ children, maxChars, postid }) => {
