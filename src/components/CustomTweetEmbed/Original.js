@@ -10,6 +10,8 @@ import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
 import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
+import YupImage from '../YupImage';
+import YupTweetImg from '../YupImage/YupTweetImg';
 
 const Original = ({ tweetData, classes }) => {
   const { url } = tweetData;
@@ -121,7 +123,7 @@ const Original = ({ tweetData, classes }) => {
 
                     {hasPhoto && mediaURL ? (
                       <Typography className={classes.tweetText}>
-                        <img
+                        <YupTweetImg
                           className={classes.tweetImg}
                           src={
                             tweetData.excludeTweet

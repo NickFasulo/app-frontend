@@ -113,6 +113,7 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
               style={{ borderRadius: '12px' }}
               src={attachment.url}
               alt={attachment.title}
+              isWeb3Post
             />)
           }
           })
