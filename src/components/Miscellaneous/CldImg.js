@@ -21,7 +21,7 @@ const foundationOptimizeParams = {
   fm: 'png'
 };
 
-const CldImg = ({ postid, src, alt, ...restProps }) => {
+const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
   const imgRef = useRef(null);
   const [isHigherRatio, setIsHigherRatio] = useState(false);
 
@@ -53,7 +53,6 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
       imgElement.style.objectFit = 'fit-content';
     }
   };
-
   if (isFoundationImg) {
     return (
       <img
@@ -68,14 +67,22 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
     );
   }
 
+  if (isWeb3Post ) {
+    return (
+      <img
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        onLoad={handleLoad}
+        {...restProps}
+      />
+    );
+  }
+
   return (
     <ErrorBoundary>
       <CloudinaryContext cloudName={cloudinaryName}>
-        <Grid container  
-        justifyContent={isHigherRatio?'center':'start'} 
-        sx={isHigherRatio&&{borderRadius:'12px', 
-        backgroundColor: (theme)=>`${theme.palette.M900}50`,
-        padding:(theme)=>theme.spacing(2)}}>
+       
         <Image
           innerRef={imgRef}
           publicId={isUploadedToCloud ? postid : src}
@@ -90,8 +97,7 @@ const CldImg = ({ postid, src, alt, ...restProps }) => {
         >
           <Placeholder type="vectorize" />
           <Transformation quality="auto" fetchFormat="auto" />
-        </Image>      
-        </Grid>
+        </Image>     
       </CloudinaryContext>
     </ErrorBoundary>
   );
