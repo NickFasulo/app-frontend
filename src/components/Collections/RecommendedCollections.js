@@ -68,7 +68,6 @@ const RecommendedCollections = ({ classes, collection }) => {
     <Link
       href={collectionHref}
       style={{ textDecoration: 'none', color: '#fff' }}
-      onClick={() => closeSearch()}
     >
       <Grid
         container
@@ -76,6 +75,7 @@ const RecommendedCollections = ({ classes, collection }) => {
         justifyContent="flex-start"
         alignItems="center"
         className={classes.recommendedContainer}
+        onClick={() => closeSearch()}
       >
         <Grid
           item

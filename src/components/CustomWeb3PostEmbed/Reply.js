@@ -23,7 +23,7 @@ const Reply = ({ post,  classes }) => {
   const userAttachments = post.attachments;
 
   const directParent = parents[0];
-  const directParentAttachments = directParent.attachments.openGraph;
+  const directParentAttachments = directParent.attachments?.openGraph;
   const directParentName = directParent.meta.displayName;
   const directParentHandle = directParent.body.username;
   const directParentAvatar = directParent.meta.avatar;
