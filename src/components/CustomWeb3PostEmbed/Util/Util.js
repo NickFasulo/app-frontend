@@ -111,13 +111,13 @@ export const parsePhaverText = (str, linkPreview) => {
   return str
 }
 // Converts http://www.example.com/page1/resource1 into --> example.com
-export const linkMentions = (word) => {
+export const linkMentions = (word, url) => {
   const { palette } = useTheme();
   const re = /\B\@([\w\-]+)/gim;
   const match = re.test(word);
   if (match) {
     word = parseTags(word);
-    const userLink = `https://twitter.com/${word}`;
+    const userLink = url + word;
     return (
       <>
         <a
