@@ -112,7 +112,8 @@ export const useUserPosts = (userId) => {
 };
 
 export const useSearchPosts = (query) => {
-  const searchQuery = query.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+  const searchQuery = query.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')
+    .replace(/[^a-zA-Z'@ ]/g, '');
 
   return useInfiniteQuery(
     [REACT_QUERY_KEYS.SEARCH_POSTS, query],
