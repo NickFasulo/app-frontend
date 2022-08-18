@@ -30,7 +30,7 @@ const FeedLink = ({ category, text }) => {
         primary={text}
         primaryTypographyProps={{
           variant: 'bodyS2',
-          color: (theme) => theme.palette.M500
+          color: (theme) => isMobile ? theme.palette.M50 : theme.palette.M500
         }}
       />
     </MenuItemButton>
