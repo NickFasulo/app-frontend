@@ -23,6 +23,7 @@ function EventPost(props) {
         eventSite={web3Preview && web3Preview.meta.event.event_url}
         creator={web3Preview.creator && web3Preview.creator.address}
         url={url}
+        createdAt={web3Preview.createdAt}
       />
     </div>
   );

@@ -8,6 +8,7 @@ import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import removeMd from'remove-markdown';
+import { timeSince } from './Util/Util';
 
 const styles = (theme) => ({
   container: {
@@ -71,7 +72,7 @@ const styles = (theme) => ({
   }
 });
 
-const EventPreview = ({ title, description, url, classes, creator, eventImg, eventSite }) => {
+const EventPreview = ({ title, description, url, classes, creator, eventImg, eventSite, createdAt }) => {
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
@@ -107,13 +108,26 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
                     </Grid>
                   </Grid>
                   <Grid item xs={2} sm={1}>
-                    <YupImage
-                      align="right"
-                      href={url}
-                      src={faviconURL}
-                      className={classes.linkImg}
-                      target="_blank"
-                    />
+                    <Grid container direction='row' center>
+                      <Grid item>
+                        <YupImage
+                          align="right"
+                          href={url}
+                          src={faviconURL}
+                          className={classes.linkImg}
+                          target="_blank"
+                        />
+                      </Grid>
+                      <Grid item
+                        sx={{marginBottom: '0.09375rem'}}>
+                        <Typography
+                                variant="bodyS2"
+                                className={classes.userHandle}
+                              >
+                                { timeSince(new Date(createdAt)) }
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
