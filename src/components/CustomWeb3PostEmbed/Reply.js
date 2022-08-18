@@ -112,9 +112,9 @@ const Reply = ({ post, classes, postid }) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                {/* <Link  target="_blank" underline="none"> */}
+               <Link href={`/post/${postid}`}>
                 <Typography variant="body2">{directParentPostText}</Typography>
-                {/* </Link> */}
+               </Link>
               </Grid>
 
               <Grid item="item" xs={12}>
