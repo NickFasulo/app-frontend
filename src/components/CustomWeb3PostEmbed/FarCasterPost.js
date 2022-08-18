@@ -35,7 +35,7 @@ console.log({parsedTextWithMentions, parsedText})
   if(isReply){
     return (
       <Grid item="item" xs={12}>
-        <Reply classes={classes} post={post}>
+        <Reply classes={classes} post={post} postid={postid}>
           </Reply>
           </Grid>)
   }
@@ -71,7 +71,7 @@ console.log({parsedTextWithMentions, parsedText})
               <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
                   <Grid item="item" xs={12}
-                sx={{margin:'1em 0'}}>
+                sx={{margin:'1em 0'}}>awa
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
 
               <Link href={`/post/${postid}`} >
