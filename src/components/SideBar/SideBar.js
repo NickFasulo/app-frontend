@@ -148,8 +148,6 @@ const SideBar = () => {
                     <FeedLink text="Recent" category="recent" />
                     <FeedLink text="Farcaster" category="farcaster" />
                     <FeedLink text="Lens" category="lens" />
-                    <FeedLink text="Politics" category="politics" />
-                    <FeedLink text="Safe Space" category="safespace" />
                   </>
                 )}
               </List>
