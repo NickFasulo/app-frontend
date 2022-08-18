@@ -2,7 +2,6 @@ import { Drawer, ExternalLinkList } from './styles';
 import { Grow, List, ListItemButton, ListItemText } from '@mui/material';
 import {
   faHome,
-  faTrophy,
   faList,
   faCoins,
   faGear,
@@ -59,8 +58,12 @@ const SideBar = () => {
   };
 
   useEffect(() => {
-    document.body.style.overflowY = searchOpen ? 'hidden' : 'auto';
-  }, [searchOpen]);
+    if (searchOpen || (open && !isDesktop)) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'auto';
+    }
+  }, [searchOpen, isDesktop, open]);
 
   return (
     <SideBarContext.Provider
