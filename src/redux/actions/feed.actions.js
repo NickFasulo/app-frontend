@@ -56,22 +56,6 @@ export async function fetchRecentFeed(start, limit) {
   ).data;
 }
 
-export async function fetchPoliticsFeed(start, limit) {
-  return (
-    await axios.get(
-      `${apiBaseUrl}/feed/politics/?start=${start}&limit=${limit}`
-    )
-  ).data;
-}
-
-export async function fetchSafeFeed(start, limit) {
-  return (
-    await axios.get(
-      `${apiBaseUrl}/feed/safespace?start=${start}&limit=${limit}`
-    )
-  ).data;
-}
-
 export async function fetchFarcasterFeed(start, limit) {
   return (
     await axios.get(
@@ -101,10 +85,6 @@ export function fetchFeed(feedType, start, limit) {
         res = await fetchRecentFeed(start, limit);
       } else if (feedType === 'mirror') {
         res = await fetchMirrorFeed(start, limit);
-      } else if (feedType === 'politics') {
-        res = await fetchPoliticsFeed(start, limit);
-      } else if (feedType === 'safespace') {
-        res = await fetchSafeFeed(start, limit);
       } else if (feedType === 'farcaster') {
         res = await fetchFarcasterFeed(start, limit);
       } else if (feedType === 'lens') {
