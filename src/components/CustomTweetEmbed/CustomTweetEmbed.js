@@ -37,7 +37,6 @@ const styles = (theme) => ({
     }
   },
   tweetText: {
-    whiteSpace: 'pre-wrap',
     textAlign: 'left',
     wordWrap: 'break-word'
   },

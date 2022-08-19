@@ -172,7 +172,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       MuiLink:{
         styleOverrides: {
           root: {
-            color: palette.M100
+            color: palette.M50
           }
         }
       },
@@ -680,6 +680,28 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       },
       capsized_body2: {
         fontWeight: 400,
+        fontSize: '15px',
+        lineHeight: '100%',
+        color: `${palette.M50}DE`,
+        '&::before': {
+          content: '""',
+          marginBottom: '-0.6em',
+          display: 'table'
+        },
+        '&::after': {
+          content: '""',
+          marginTop: '-0.3em',
+          display: 'table'
+        }
+      },
+      body3: {
+        fontWeight: 800,
+        fontSize: '15px',
+        lineHeight: '135%',
+        color: `${palette.M50}EE`
+      },
+      capsized_body3: {
+        fontWeight: 800,
         fontSize: '15px',
         lineHeight: '100%',
         color: `${palette.M50}DE`,

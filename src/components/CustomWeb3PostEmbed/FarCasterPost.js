@@ -1,11 +1,10 @@
 import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import React, {useState} from 'react';
-import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
 import LinkPreview from '../LinkPreview/LinkPreview';
-import YupReactMarkdown from '../ReactMarkdown';
+import YupReactMarkdown from '../YupReactMarkdown';
 import { CldImg, SeeMore } from '../Miscellaneous';
 import TextTruncate from 'react-text-truncate';
 import { useRouter } from 'next/router';
@@ -23,6 +22,8 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
   const {id} = post
  // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
   let parsedText = parseText(text);
+  let parsedTextWithMentions = parsedText.split(' ').map((string) => linkMentions(string, 'farcaster://profiles/'));
+console.log({parsedTextWithMentions, parsedText})
   const parents = post.meta.parents
   const isReply = parents?.length  > 0
   // const isReplyToReply = parents.length > 1
@@ -33,7 +34,7 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
   if(isReply){
     return (
       <Grid item="item" xs={12}>
-        <Reply classes={classes} post={post}>
+        <Reply classes={classes} post={post} postid={postid}>
           </Reply>
           </Grid>)
   }
@@ -70,9 +71,7 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
                 <Grid container="container" spacing={1}>
                   <Grid item="item" xs={12}
                 sx={{margin:'1em 0'}}>
-                    {/* <Link href={tweetLink} target="_blank" underline="none"> */}
 
-              <Link href={`/post/${postid}`} >
 
               <Grid container="container" direction="row" spacing={1}  sx={{cursor:'pointer'}}>
 
@@ -80,16 +79,17 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
       {account.fullname || account.username || account._id}
     </TruncateText> */}
 
+  <Link href={`/post/${postid}`} >
     <Grid item="item" xs={12}>
         {!isFullPost() ? (
         <TruncateText variant='body2' lines={7} >
-          {parsedText}
-    </TruncateText>):(
+          {parsedTextWithMentions}
+        </TruncateText>):(
         <Typography variant="body2">
-          {parsedText}
+          {parsedTextWithMentions}
         </Typography>)}
           </Grid>
-
+    </Link>
 
         <Grid item="item" xs={12}>
           {attachments
@@ -106,24 +106,21 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
                 }
                 title={attachment.title}
                 url={attachment.url}
-                classes={classes}
+                // classes={classes}
               />)
           } else if(urlIsImg(attachment.url)){
             return(<CldImg
               style={{ borderRadius: '12px' }}
               src={attachment.url}
               alt={attachment.title}
+              isWeb3Post
             />)
           }
           })
         : null}
           </Grid>
-        {/* {attachments ? parseText(text) : text }
-        </YupReactMarkdown> */}
 
-      </Grid>
-      </Link>
-                    {/* </Link> */}
+            </Grid>
                   </Grid>
                 </Grid>
               </Grid>

@@ -7,6 +7,7 @@ import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
+import Link from '../Link/Link';
 
 const styles = (theme) => ({
   container: {
@@ -69,11 +70,6 @@ const styles = (theme) => ({
     position: 'relative',
     fontSize: '0.625rem',
     fontWeight: 100,
-    overflowWrap: 'break-word',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    width: '70%',
     marginTop: 0,
     opacity: '0.5'
   },
@@ -98,15 +94,10 @@ const styles = (theme) => ({
   }
 });
 
-class LinkPreview extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { image, title, description, url, classes } = this.props;
+const LinkPreview=({image, title, description, url, classes})=>{
+  
     let faviconURL = null;
-    console.log(image, 'WURST');
+    console.log(url, 'WURST');
 
     if (url != null) {
       faviconURL = getFavicon(url);
@@ -114,10 +105,9 @@ class LinkPreview extends Component {
 
     return (
       <ErrorBoundary>
-        <div className={classes.container} href={url} target="_blank">
+        <Link className={classes.container} href={url}>
           <a
             className={classes.link}
-            href={url}
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -172,20 +162,21 @@ class LinkPreview extends Component {
                         </TruncateText>
                     </Grid>
                     <Grid item xs>
-                      <Typography variant="bodyS2" className={classes.url}>
+                        <TruncateText lines={1} className={classes.url}>
+                      <Typography variant="bodyS2" >
                         {url && trimURL(url)}
                       </Typography>
+                        </TruncateText>
                     </Grid>
                   </Grid>
                 </div>
               </div>
             </div>
           </a>
-        </div>
+        </Link>
       </ErrorBoundary>
     );
   }
-}
 
 LinkPreview.propTypes = {
   image: PropTypes.string.isRequired,

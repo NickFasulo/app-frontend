@@ -7,6 +7,7 @@ import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import useDevice from '../../hooks/useDevice';
+import YupTweetImg from '../YupImage/YupTweetImg';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
@@ -249,7 +250,7 @@ const Reply = ({ tweetData, classes }) => {
               </Grid>
               {replyHasPhoto && replyMediaURL ? (
                 <Grid item className={classes.replyImageContainer}>
-                  <img
+                  <YupTweetImg
                     className={classes.tweetImg}
                     style={BothHaveMedia ? smallImage : bigImage}
                     src={
@@ -310,7 +311,7 @@ const Reply = ({ tweetData, classes }) => {
                     )}
                     {hasPhoto && mediaURL ? (
                       <Typography className={classes.tweetText}>
-                        <img
+                        <YupTweetImg
                           className={classes.tweetImg}
                           src={
                             tweetData.excludeTweet

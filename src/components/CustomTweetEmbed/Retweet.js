@@ -10,6 +10,7 @@ import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
 import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
+import YupTweetImg from '../YupImage/YupTweetImg';
 
 const Retweet = ({ tweetData, classes }) => {
   const { user, retweeted_status: retweetedStatus } = tweetData.tweetInfo;
@@ -156,7 +157,7 @@ const Retweet = ({ tweetData, classes }) => {
                                         <Typography
                                           className={classes.tweetText}
                                         >
-                                          <img
+                                          <YupTweetImg
                                             className={classes.tweetImg}
                                             src={
                                               tweetData.excludeTweet

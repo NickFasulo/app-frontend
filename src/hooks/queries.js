@@ -112,6 +112,9 @@ export const useUserPosts = (userId) => {
 };
 
 export const useSearchPosts = (query) => {
+  const searchQuery = query.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')
+    .replace(/[^a-zA-Z'@ ]/g, '');
+
   return useInfiniteQuery(
     [REACT_QUERY_KEYS.SEARCH_POSTS, query],
     ({ pageParam = 0 }) => {
@@ -120,7 +123,7 @@ export const useSearchPosts = (query) => {
         url: '/search/es/posts',
         params: {
           offset: pageParam,
-          searchText: query,
+          searchText: searchQuery,
           limit: DEFAULT_FEED_PAGE_SIZE
         }
       });
@@ -201,14 +204,29 @@ export const useUserNotifications = (username) => {
 export const useFarcasterReplyParent = (merkleRoot) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.FARCASTER_PARENT, merkleRoot],
-    () => { 
-      
+    () => {
+
     return fetch(`https://api.farcaster.xyz/indexer/threads/${merkleRoot}?viewer_address=0xB9f95cee37ED663C088a5B772FAe772DaEf6b130&include_deleted_casts=true&version=2`);
-      
+
       // return callYupApi({
       //   method: 'GET',
       //   url: `/notifications/${username}`
       // });
+    }
+  );
+
+  return data;
+};
+
+export const useUserLikes = (userId) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.USER_LIKES, userId],
+    async () => {
+      const res = await callYupApi({
+        url: `/feed/account/${userId}`
+      });
+
+      return res.totalCount;
     }
   );
 

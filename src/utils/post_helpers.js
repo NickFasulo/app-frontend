@@ -8,7 +8,7 @@ import _, { matches } from 'lodash';
 import { apiBaseUrl } from '../config';
 import LinkPreview from '../components/LinkPreview/LinkPreview';
 import reactStringReplace from 'react-string-replace';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import TeaPartyPost from '../components/CustomWeb3PostEmbed/TeaPartyPost';
 import FarCasterPost from '../components/CustomWeb3PostEmbed/FarCasterPost';
@@ -29,6 +29,12 @@ export const parseText = (str) => {
     .replace(/&nbsp;/g, ' ');
   return parsed;
 };
+export const convertIPFSSrcToHttps = (src) => {
+  if (src.startsWith('ipfs://')) {
+    src = `https://ipfs.io/ipfs/${src.substring(7)}`;
+  }
+  return src
+}
 
 // Removes : and - after @tag (if someone types @myusername: it changes it to @myusername
 export const parseTags = (str) => {
@@ -48,56 +54,90 @@ export const markdownReplaceHashtags = (str) => {
   // const parsed = str.replace(re, '');
   // return parsed;
 };
+//Replacesprotocol from url so markdownReplaceLinks doenst replace it twice
+export const splitMarkDownUrl = (str) => {   
+  const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
+  const matches = str.match(re);
+  matches?.forEach((match, i) => {
+    match = decodeURIComponent(match)
+    match = match.replace(/(\r\n|\n|\r)/gm,"");
+    const urlObject = new URL(match)
+    str = str.replace(urlObject.protocol,urlObject.protocol+'hyperlinkyupreplace')
+    // url= str.replace(match, `[linkyupreplace${match}](${match})`);
+  })
+  return str
 
+}
 export const markdownReplaceLinks = (str) => {
+  // replaces markdown hyperlinks and adds hyperlinkyupreplace 
   const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
   const singleMatch = /\[([^\[]+)\]\((.*)\)/
   const mdLinkMatches = str.match(regexMdLinks)
   mdLinkMatches?.forEach((match) => {
-    var text = singleMatch.exec(match)
-    var url = text[2]
+    var markdownMatches = singleMatch.exec(match)
+    var text = markdownMatches[1]
+    var url = markdownMatches[2]
     url = decodeURIComponent(url)
     url = url.replace(/(\r\n|\n|\r)/gm,"");
-    str= str.replace(match, url);
+    str= str.replace(match, `[${text}](${splitMarkDownUrl(url)})`);
   })
+
+  //replaces markdown links and adds linkyupreplace to handle it later
   const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
   const matches = str.match(re);
-  matches?.forEach((match) => {
+  matches?.forEach((match, i) => {
     match = decodeURIComponent(match)
     match = match.replace(/(\r\n|\n|\r)/gm,"");
+    console.log({str}, 'BEFORE')
     str= str.replace(match, `[linkyupreplace${match}](${match})`);
   })
   return str
-  // const parsed = str.replace(re, '');
-  // return parsed;
 };
-
+export const parsePhaverText = (str, linkPreview) => {
+  const { description, title, image } = linkPreview
+  const re =/\[([^\[]+)\](\(.*\))/gm;
+  const matches = str.match(re);
+  str= str.replace(description, '')
+  matches?.forEach((match, i) => {
+    // match = decodeURIComponent(match)
+    // match = match.replace(/(\r\n|\n|\r)/gm,"");
+    // console.log({str}, 'BEFORE')
+    if(match.includes(title)){
+    str= str.replace(match, '');
+  }
+  })
+    console.log({str, description}, 'WURST')
+  return str
+}
 // Converts http://www.example.com/page1/resource1 into --> example.com
-export const linkMentions = (word) => {
+export const linkMentions = (word, url) => {
   const { palette } = useTheme();
   const re = /\B\@([\w\-]+)/gim;
+  const hashtagRe = /\B(\#[a-zA-Z]+\b)(?!;)/gm;
+  const matchHastag = hashtagRe.test(word);
   const match = re.test(word);
+  const userLink = url + word;
   if (match) {
     word = parseTags(word);
-    const userLink = `https://twitter.com/${word}`;
     return (
       <>
-        <a
-          style={{
-            color: palette.M100,
-            textDecoration: 'none',
-            fontWeight: 600
-          }}
-          href={userLink}
-          target="_blank"
-          rel="noreferrer"
-        >
+      <Typography  variant="body3" display="inline">
           {word}
-        </a>
+        </Typography>
         <i> </i>
       </>
     );
-  } else {
+  }  else if(matchHastag){
+    return (
+      <>
+        <Typography  variant="body3" display="inline">
+          {word}
+        </Typography>
+        <i> </i>
+      </>
+    );
+  }
+  else{
     return <>{word} </>;
   }
 };
@@ -116,8 +156,10 @@ export const fetchLinkPreviewData = async (passedURL) => {
   }
 };
 export const urlIsImg = (url) => {
+
   const re = /\.(jpeg|jpg|gif|png)$/;
   const match = re.test(url);
+  console.log(url, match, "TEST")
   return match;
 };
 export const getAllLinks = (text) => {
