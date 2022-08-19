@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
-import { parseText, linkMentions, fetchLinkPreviewData, urlIsImg } from './Util/Util';
+import { parseText, linkMentions, fetchLinkPreviewData, urlIsImg } from '../../utils/post_helpers';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import YupReactMarkdown from '../ReactMarkdown';

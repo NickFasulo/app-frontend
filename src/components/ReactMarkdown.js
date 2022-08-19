@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
-import { markdownReplaceHashtags, markdownReplaceLinks } from './CustomWeb3PostEmbed/Util/Util';
+import { markdownReplaceHashtags, markdownReplaceLinks } from '../utils/post_helpers';
 import Link from './Link';
 import LinkPreview from './LinkPreview/LinkPreview';
 import { TruncateText } from './styles';

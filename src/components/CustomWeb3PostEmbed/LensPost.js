@@ -4,13 +4,6 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
-import {
-  fetchLinkPreviewData,
-  getAllLinks,
-  getNameInBrackets,
-  linkMentions,
-  markdownReplaceHashtags
-} from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { CldImg, SeeMore } from '../Miscellaneous';
 import ImageList from '@mui/material/ImageList';

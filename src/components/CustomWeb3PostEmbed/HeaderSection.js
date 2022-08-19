@@ -2,9 +2,9 @@ import React from 'react';
 import { Typography, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { timeSince } from './Util/Util';
 import Link from '../Link';
 import ThumbnailIcon from './ThumbnailIcon';
+import { timeSince } from '../../utils/post_helpers';
 
 const HeaderSection = ({
   classes,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
-import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
+import { parseText, linkMentions, fetchLinkPreviewData } from '../../utils/post_helpers';
 import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';

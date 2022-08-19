@@ -5,16 +5,15 @@ import ReactPlayer from 'react-player/lazy';
 import Link from '@mui/material/Link';
 import axios from 'axios';
 import _, { matches } from 'lodash';
-import { apiBaseUrl } from '../../../config';
-import LinkPreview from '../../LinkPreview/LinkPreview';
+import { apiBaseUrl } from '../config';
+import LinkPreview from '../components/LinkPreview/LinkPreview';
 import reactStringReplace from 'react-string-replace';
 import { Grid } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
-import TeaPartyPost from '../TeaPartyPost';
-import FarCasterPost from '../FarCasterPost';
-import { SeeMore } from '../../Miscellaneous';
-import LensPost from '../LensPost';
-import PhaverPost from '../PhaverPost';
+import TeaPartyPost from '../components/CustomWeb3PostEmbed/TeaPartyPost';
+import FarCasterPost from '../components/CustomWeb3PostEmbed/FarCasterPost';
+import { SeeMore } from '../components/Miscellaneous';
+import LensPost from '../components/CustomWeb3PostEmbed/LensPost';
 /**
  * - Removes https://t.co/ERYj5p9VHj that comes at end of text field in tweetData object if present
  * - Replaces '&amp;' with '&'
@@ -148,17 +147,6 @@ export const parseWeb3Post = (post, postid, classes) => {
         post={post}
       />
     );
-    // switch (post?.meta?.metadata?.appId) {
-    //   case 'phaver':
-    //     parsedPost = <PhaverPost text={content} url={urls[0]} attachments={attachments}/>;
-    //     break
-    //   case 'teaparty':
-    //     parsedPost = <TeaPartyPost text={content} url={urls[0]} attachments={attachments}/>;
-    //     break
-    //   default:
-    //   parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments} postid={postid}/>
-    //   // parsedPost = post.content
-    // }
   } else {
     parsedPost = (
       <FarCasterPost text={content} attachments={attachments} postid={postid} post={post} classes={classes}/>

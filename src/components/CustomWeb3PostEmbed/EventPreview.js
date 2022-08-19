@@ -8,7 +8,7 @@ import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import removeMd from'remove-markdown';
-import { timeSince } from '../../utils/post_helpers';
+import { timeSince } from './Util/Util';
 
 const styles = (theme) => ({
   container: {
