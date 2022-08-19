@@ -157,8 +157,10 @@ export const fetchLinkPreviewData = async (passedURL) => {
   }
 };
 export const urlIsImg = (url) => {
+
   const re = /\.(jpeg|jpg|gif|png)$/;
   const match = re.test(url);
+  console.log(url, match, "TEST")
   return match;
 };
 export const getAllLinks = (text) => {
