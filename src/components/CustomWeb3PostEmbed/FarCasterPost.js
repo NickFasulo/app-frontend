@@ -72,9 +72,7 @@ console.log({parsedTextWithMentions, parsedText})
                 <Grid container="container" spacing={1}>
                   <Grid item="item" xs={12}
                 sx={{margin:'1em 0'}}>
-                    {/* <Link href={tweetLink} target="_blank" underline="none"> */}
 
-              <Link href={`/post/${postid}`} >
 
               <Grid container="container" direction="row" spacing={1}  sx={{cursor:'pointer'}}>
 
@@ -82,6 +80,7 @@ console.log({parsedTextWithMentions, parsedText})
       {account.fullname || account.username || account._id}
     </TruncateText> */}
 
+  <Link href={`/post/${postid}`} >
     <Grid item="item" xs={12}>
         {!isFullPost() ? (
         <TruncateText variant='body2' lines={7} >
@@ -91,7 +90,7 @@ console.log({parsedTextWithMentions, parsedText})
           {parsedTextWithMentions}
         </Typography>)}
           </Grid>
-
+    </Link>
 
         <Grid item="item" xs={12}>
           {attachments
@@ -121,12 +120,8 @@ console.log({parsedTextWithMentions, parsedText})
           })
         : null}
           </Grid>
-        {/* {attachments ? parseText(text) : text }
-        </YupReactMarkdown> */}
 
-      </Grid>
-      </Link>
-                    {/* </Link> */}
+            </Grid>
                   </Grid>
                 </Grid>
               </Grid>
