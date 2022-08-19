@@ -71,7 +71,7 @@ console.log({parsedTextWithMentions, parsedText})
               <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
                   <Grid item="item" xs={12}
-                sx={{margin:'1em 0'}}>awa
+                sx={{margin:'1em 0'}}>
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
 
               <Link href={`/post/${postid}`} >
