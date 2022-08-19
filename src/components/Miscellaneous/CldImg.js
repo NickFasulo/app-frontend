@@ -54,7 +54,7 @@ const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
     }
   };
   if (isFoundationImg) {
-    return (
+    return ( 
       <img
         ref={imgRef}
         src={`${src}?${new URLSearchParams(
@@ -69,6 +69,12 @@ const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
 
   if (isWeb3Post) {
     return (
+      <Grid container  
+        justifyContent={isHigherRatio?'center':'start'} 
+        sx={isHigherRatio&&{borderRadius:'12px', 
+        backgroundColor: (theme)=>`${theme.palette.M900}AA`,
+        padding:(theme)=>theme.spacing(2)}}>
+          <Grid item>
       <img
         ref={imgRef}
         src={src}
@@ -76,6 +82,8 @@ const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
         onLoad={handleLoad}
         {...restProps}
       />
+      </Grid>
+      </Grid>
     );
   }
 

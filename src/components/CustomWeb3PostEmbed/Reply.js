@@ -120,22 +120,24 @@ const Reply = ({ post, classes, postid }) => {
               <Grid item="item" xs={12}>
                 {directParentAttachments
                   ? directParentAttachments.map((attachment) => {
-                      if (attachment.image) {
+                      if (attachment.image || urlIsImg(attachment.url)) {
                         return (
+                            <CldImg
+                            style={{ borderRadius: '12px' }}
+                            src={urlIsImg(attachment.url)?attachment.url:attachment.image}
+                            alt={attachment.title}
+                            isWeb3Post
+                          />
+                        );
+                      } else if (attachment.url) {
+                        return (
+                          
                           <LinkPreview
                             description={attachment.description || ''}
                             image={attachment.image}
                             title={attachment.title}
                             url={attachment.url}
                             // classes={classes}
-                          />
-                        );
-                      } else if (urlIsImg(attachment.url)) {
-                        return (
-                          <CldImg
-                            style={{ borderRadius: '12px' }}
-                            src={attachment.url}
-                            alt={attachment.title}
                           />
                         );
                       }
@@ -224,6 +226,7 @@ const Reply = ({ post, classes, postid }) => {
                                 style={{ borderRadius: '12px' }}
                                 src={attachment.url}
                                 alt={attachment.title}
+                                isWeb3Post
                               />
                             );
                           }
