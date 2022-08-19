@@ -36,6 +36,7 @@
     "@yupio/contract-addresses": "1.0.14",
     "apexcharts": "^3.26.0",
     "axios": "^0.18.0",
+    "boring-avatars": "^1.7.0",
     "cloudinary-react": "^1.7.0",
     "clsx": "^1.1.1",
     "connected-react-router": "^6.6.1",

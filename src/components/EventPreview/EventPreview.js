@@ -9,6 +9,7 @@ import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import removeMd from'remove-markdown';
 import { timeSince } from '../../utils/post_helpers';
+import Avatar from "boring-avatars";
 
 const styles = (theme) => ({
   container: {
@@ -98,12 +99,27 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
               <Grid item xs={12} pb={1}>
                 <Grid alignItems="start" container direction="row" rowSpacing={3}>
                   <Grid item xs={10} sm={11}>
-                    <Grid container direction='row'>
-                      <Grid item xs={12}>
-                        <Typography variant="body2" lines={2}>
-                          {creator === undefined ? trimURL(url).split(/[/]+/g, 1) : creator } attended:
+                    <Grid container direction='row'  alignItems="center" columnSpacing={2}>
+                           
+                      <Grid item>               
+                      <Avatar
+                        size={16}
+                        name={creator}
+                        variant="marble"
+                        colors={["#EB3650", "#FCA016", "#F0C909", "#00E08E"]}
+                      /></Grid> 
+                      <Grid item >  
+                       <Grid container direction={{sm:'column', md:'row'}} spacing={1} >
+                      <Grid item >
+                        <Typography variant="body3"  noWrap>
+                          {creator === undefined ? trimURL(url).split(/[/]+/g, 1) : creator }
                         </Typography>
                       </Grid>
+                      <Grid item >
+                        <Typography variant="body2"  noWrap>
+                            attended:
+                        </Typography>
+                      </Grid></Grid></Grid>
                       
                     </Grid>
                   </Grid>
