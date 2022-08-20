@@ -99,41 +99,27 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
               <Grid item xs={12} pb={1}>
                 <Grid alignItems="start" container direction="row" rowSpacing={3}>
                   <Grid item xs={10} sm={11}>
-                    <Grid container direction='row'  alignItems="center" columnSpacing={2}>
-                           
+                    <Grid container direction='row'  alignItems='start' columnSpacing={1}>
                       <Grid item>               
-                      <Avatar
-                        size={16}
-                        name={creator}
-                        variant="marble"
-                        colors={["#EB3650", "#FCA016", "#F0C909", "#00E08E"]}
-                      /></Grid> 
-                      <Grid item >  
-                       <Grid container direction={{sm:'column', md:'row'}} spacing={1} >
-                      <Grid item >
-                        <Typography variant="body3"  noWrap>
-                          {creator === undefined ? trimURL(url).split(/[/]+/g, 1) : creator }
+                        <Avatar
+                          size={36}
+                          name={creator}
+                          variant="marble"
+                          colors={["#EB3650", "#FCA016", "#F0C909", "#00E08E"]}
+                        />
+                      </Grid> 
+                      <Grid item > 
+                        <Typography variant="body1" noWrap>
+                          {creator === undefined ? trimURL(url).split(/[/]+/g, 1) : creator } 
                         </Typography>
-                      </Grid>
-                      <Grid item >
                         <Typography variant="body2"  noWrap>
                             attended:
                         </Typography>
-                      </Grid></Grid></Grid>
-                      
+                      </Grid>
                     </Grid>
                   </Grid>
                   <Grid item xs={2} sm={1}>
-                    <Grid container direction='row' center>
-                      <Grid item>
-                        <YupImage
-                          align="right"
-                          href={url}
-                          src={faviconURL}
-                          className={classes.linkImg}
-                          target="_blank"
-                        />
-                      </Grid>
+                    <Grid container direction='row' alignItems='center' rowSpacing={1} justifyContent='space-between'>
                       <Grid item
                         sx={{marginBottom: '0.09375rem'}}>
                         <Typography
@@ -142,6 +128,15 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
                               >
                                 { timeSince(new Date(createdAt)) }
                         </Typography>
+                      </Grid>
+                      <Grid item>
+                        <YupImage
+                          align="right"
+                          href={url}
+                          src={faviconURL}
+                          className={classes.linkImg}
+                          target="_blank"
+                        />
                       </Grid>
                     </Grid>
                   </Grid>
@@ -155,7 +150,7 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
                   <Grid item xs={11}>
                     <Grid container>
                       <Grid item xs={12}>
-                        <TruncateText variant="subtitle2" lines={2}>
+                        <TruncateText variant="h6" lines={2}>
                           {title.split(/[|]|[—]+/g, 1)}
                         </TruncateText>
                       </Grid>
