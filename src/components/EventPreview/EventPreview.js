@@ -73,7 +73,7 @@ const styles = (theme) => ({
   }
 });
 
-const EventPreview = ({ title, description, url, classes, creator, eventImg, eventSite, createdAt }) => {
+const EventPreview = ({ title, description, url, classes, creator, creatorENS, eventImg, eventSite, createdAt }) => {
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
@@ -108,13 +108,19 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
                           colors={["#EB3650", "#FCA016", "#F0C909", "#00E08E"]}
                         />
                       </Grid> 
-                      <Grid item > 
-                        <Typography variant="body1" noWrap>
-                          {creator === undefined ? trimURL(url).split(/[/]+/g, 1) : creator } 
-                        </Typography>
-                        <Typography variant="body2"  noWrap>
-                            attended:
-                        </Typography>
+                      <Grid item> 
+                        <Grid container direction='row'>
+                          <Grid item xs={12}>
+                            <Typography variant="body1" noWrap>
+                              {creatorENS === undefined ? creator === undefined ? trimURL(url).split(/[/]+/g, 1) : creator : creatorENS}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Typography variant="body2"  noWrap>
+                                attended:
+                            </Typography>
+                          </Grid>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -184,6 +190,7 @@ EventPreview.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   creator: PropTypes.string.isRequired,
+  creatorENS: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   eventImg: PropTypes.string.isRequired,
   eventSite: PropTypes.string.isRequired,

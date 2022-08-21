@@ -22,6 +22,7 @@ function EventPost(props) {
         eventImg={web3Preview && web3Preview.meta.event.image_url}
         eventSite={web3Preview && web3Preview.meta.event.event_url}
         creator={web3Preview.creator && web3Preview.creator.address}
+        creatorENS={web3Preview.creator && web3Preview.creator.ens}
         url={url}
         createdAt={web3Preview.createdAt}
       />
