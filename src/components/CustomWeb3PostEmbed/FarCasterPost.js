@@ -70,8 +70,7 @@ console.log({parsedTextWithMentions, parsedText})
               </Grid>
               <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
-                  <Grid item="item" xs={12}
-                sx={{margin:'1em 0'}}>
+                  <Grid item="item" xs={12}>
 
 
               <Grid container="container" direction="row" spacing={1}  sx={{cursor:'pointer'}}>

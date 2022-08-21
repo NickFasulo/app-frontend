@@ -223,7 +223,7 @@ const Quoted = ({ tweetData, classes }) => {
                           <YupTweetImg
                             className={classes.tweetImg}
                             style={{
-                              borderRadius: '0px 0px 12px 12px'
+                              borderRadius: '12px'
                             }}
                             src={
                               tweetData.excludeTweet

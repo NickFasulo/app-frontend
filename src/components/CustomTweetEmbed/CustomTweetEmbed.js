@@ -44,7 +44,7 @@ const styles = (theme) => ({
     margin: 0
   },
   twitterHandle: {
-    color: 'grey'
+    color: theme.palette.M400
   },
   userAvatar: {
     width: '2.5rem',
@@ -73,8 +73,7 @@ const styles = (theme) => ({
     borderRadius: '50%'
   },
   retweetTwitterName: {
-    display: 'inline',
-    marginRight: '10px'
+    display: 'inline'
   },
   retweetTwitterBirdIcon: {
     display: 'none'
@@ -84,7 +83,6 @@ const styles = (theme) => ({
   },
   replyTwitterName: {
     display: 'inline',
-    marginRight: '10px',
     color: theme.palette.M200
   },
   barDiv: {
