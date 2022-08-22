@@ -12,7 +12,9 @@ const Feeds = () => {
 
   const categoryData = getFeedCategoryWithDefault(category);
   const metaImage = getFeedCategoryMetaImage(category);
-
+  if(!category){
+    return null
+  }
   return (
     <>
       <YupHead

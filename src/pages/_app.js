@@ -3,10 +3,11 @@ import MainLayout from '../components/MainLayout';
 import createEmotionCache from '../createEmotionCache';
 import { CacheProvider } from '@emotion/react';
 import Head from 'next/head';
-import { QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { queryClient } from '../config/react-query';
 import Providers from '../providers';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -29,6 +30,7 @@ const MyApp = ({
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
         <Providers>
           <MainLayout>
             <Component {...pageProps} />

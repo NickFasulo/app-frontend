@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import uniqBy from 'lodash/uniqBy';
 import { REACT_QUERY_KEYS } from '../constants/enum';
 import { apiGetListOptions } from '../apis/lists';
