@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import sum from 'lodash/sum';
 import { REACT_QUERY_KEYS } from '../constants/enum';
 import callYupApi from '../apis/base_api';
@@ -231,4 +231,18 @@ export const useUserLikes = (userId) => {
   );
 
   return data;
+};
+export const useFetchFeed = (  {feedType} ) => {
+
+  return useInfiniteQuery([REACT_QUERY_KEYS.YUP_FEED, feedType], ( {pageParam = 0}) =>
+    callYupApi({
+      url: `/feed/${feedType}?start=${pageParam}&limit=10`,
+      method: 'GET'
+    }),       
+    {
+      refetchOnWindowFocus : false,    
+      getPreviousPageParam: (firstPage, pages) => pages.length>0&&pages.length-1*10,  
+      getNextPageParam: (lastPage, pages) => pages.length*10,
+    }
+  );
 };
