@@ -78,7 +78,7 @@ const styles = (theme) => ({
   }
 });
 
-const ArticlePreview = ({ title, description, url, classes, writerENS, postid }) => {
+const FullArticle = ({ title, description, url, classes, writerENS, postid }) => {
   
 
   const addDefaultSrc = (e) => {
@@ -95,7 +95,6 @@ const ArticlePreview = ({ title, description, url, classes, writerENS, postid })
   return (
     <ErrorBoundary>
       <div className={classes.container} href={url} target="_blank">       
-        <Link href={`/post/${postid}`} >
           <div className={classes.previewData}>
             <Grid container rowSpacing={1} >
               <Grid item xs={12}>
@@ -127,24 +126,21 @@ const ArticlePreview = ({ title, description, url, classes, writerENS, postid })
               </Grid>
             </Grid>
             <Grid item xs={12}>             
-               <TruncateText
+              <YupReactMarkdown
                 variant="body2"
                 className={classes.description}
-                lines={5}
               >
-                {removeMd(description)}
-              </TruncateText>
-              
+                {description}
+              </YupReactMarkdown>
              
             </Grid>
           </div>
-        </Link>
       </div>
     </ErrorBoundary>
   );
 };
 
-ArticlePreview.propTypes = {
+FullArticle.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   writerENS: PropTypes.string.isRequired,
@@ -153,4 +149,4 @@ ArticlePreview.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ArticlePreview);
+export default withStyles(styles)(FullArticle);
