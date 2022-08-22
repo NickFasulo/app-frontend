@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import useToast from '../../hooks/useToast';
 import { LOCAL_STORAGE_KEYS } from '../../constants/enum';
 import ConnectButton from '../ConnectButton';
+import BackToTop from '../BackToTop';
 
 const MainLayout = ({ children }) => {
   const router = useRouter();
@@ -35,6 +36,7 @@ const MainLayout = ({ children }) => {
       {isCheckingAuth ? <PageLoadingBar /> : children}
 
       <ConnectButton />
+      <BackToTop />
     </>
   );
 };

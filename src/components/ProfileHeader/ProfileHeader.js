@@ -20,11 +20,19 @@ import {
 } from '../../utils/helpers';
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FollowButton from '../Followers/FollowButton';
 import EditProfile from '../EditProfile/EditProfile';
 import { useAuth } from '../../contexts/AuthContext';
-import { useEnsName } from 'wagmi';
+import { useAccount, useEnsName, useSignMessage } from 'wagmi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { apiGetChallenge, apiSetETHAddress } from '../../apis';
+import { logError } from '../../utils/logging';
+import useToast from '../../hooks/useToast';
+import { queryClient } from '../../config/react-query';
+import { REACT_QUERY_KEYS } from '../../constants/enum';
+import { useMutation } from 'react-query';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ProfileHeader = ({ profile, hidden }) => {
   const { isMobile, isDesktop } = useDevice();
@@ -47,12 +55,70 @@ const ProfileHeader = ({ profile, hidden }) => {
     address: ethInfo?.address,
     chainId: 1
   });
+  const { openConnectModal } = useConnectModal();
+  const { address: connectedEthAddress } = useAccount();
+  const { toastError, toastSuccess } = useToast();
+  const { signMessageAsync } = useSignMessage();
 
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [connectWalletClicked, setConnectWalletClicked] = useState(false);
 
   const isMyProfile = isLoggedIn && authName === id;
   const userColor = levelColors[quantile || 'none'];
   const yupScore = Math.floor(profile.score || 1);
+
+  const handleConnectWallet = () => {
+    setConnectWalletClicked(true);
+    openConnectModal?.();
+  };
+
+  const {
+    mutate: updateEthAddress,
+    isLoading: isUpdatingEthAddress
+  } = useMutation(async (ethAddress) => {
+    const rspChallenge = await apiGetChallenge({
+      address: ethAddress
+    });
+
+    const signature = await signMessageAsync({
+      message: rspChallenge.data
+    });
+
+    await apiSetETHAddress(ethAddress, {
+      eosname: id,
+      signature
+    });
+  }, {
+    onError: (err) => {
+      logError('Failed to link ETH address', err);
+      toastError('Failed to link ETH address, please try again later.');
+    },
+    onSuccess: (data, ethAddress) => {
+      queryClient.setQueryData(
+        [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username],
+        (oldData) => ({
+          ...oldData,
+          ethInfo: {
+            address: ethAddress
+          }
+        })
+      );
+
+      toastSuccess('Successfully linked ETH address.');
+    }
+  });
+
+  useEffect(() => {
+    (async function() {
+      if (ethInfo?.address) return ;
+      if (!connectWalletClicked) return ;
+      if (!connectedEthAddress) return ;
+
+      updateEthAddress(connectedEthAddress);
+
+      setConnectWalletClicked(false);
+    })();
+  }, [ethInfo, connectedEthAddress, connectWalletClicked]);
 
   return (
     <YupContainer
@@ -107,6 +173,25 @@ const ProfileHeader = ({ profile, hidden }) => {
                 component="a"
                 href={etherscanUrl(ethInfo.address)}
                 target="_blank"
+              />
+            )}
+            {!isMobile && isMyProfile && !ethInfo?.address && (
+              <Chip
+                icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
+                label={
+                  isUpdatingEthAddress
+                    ? (
+                      <CircularProgress
+                        size={15}
+                        sx={{ verticalAlign: 'middle' }}
+                        color="inherit"
+                      />
+                    )
+                    : 'Connect Wallet'
+                }
+                disabled={isUpdatingEthAddress}
+                clickable
+                onClick={handleConnectWallet}
               />
             )}
             {!isMobile && twitterInfo?.username && (
