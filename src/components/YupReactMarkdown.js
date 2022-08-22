@@ -35,7 +35,7 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
  // const parsed2 = markdownReplaceHashtags(parsed);
   const getLinkPreview = (url) => {
     console.log({url})
-    return linkPreview.find(x => x.url === url);
+    return linkPreview.find(x => x?.url === url);
   }
   return (
     <TruncateText variant='body2' lines={lines} >

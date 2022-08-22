@@ -8,6 +8,7 @@ import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import removeMd from'remove-markdown';
+import Link from '../Link/Link';
 
 const styles = (theme) => ({
   container: {
@@ -76,7 +77,7 @@ const styles = (theme) => ({
   }
 });
 
-const ArticlePreview = ({ title, description, url, classes, writerENS }) => {
+const ArticlePreview = ({ title, description, url, classes, writerENS, postid }) => {
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
@@ -90,13 +91,8 @@ const ArticlePreview = ({ title, description, url, classes, writerENS }) => {
 
   return (
     <ErrorBoundary>
-      <div className={classes.container} href={url} target="_blank">
-        <a
-          className={classes.link}
-          href={url}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
+      <div className={classes.container} href={url} target="_blank">       
+        <Link href={`/post/${postid}`} >
           <div className={classes.previewData}>
             <Grid container rowSpacing={1} >
               <Grid item xs={12}>
@@ -137,7 +133,7 @@ const ArticlePreview = ({ title, description, url, classes, writerENS }) => {
               </TruncateText>
             </Grid>
           </div>
-        </a>
+        </Link>
       </div>
     </ErrorBoundary>
   );
