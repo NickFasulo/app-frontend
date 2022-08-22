@@ -6,13 +6,8 @@ import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
 import {
   convertIPFSSrcToHttps,
-  fetchLinkPreviewData,
-  getAllLinks,
-  getNameInBrackets,
-  linkMentions,
-  markdownReplaceHashtags,
   parsePhaverText
-} from './Util/Util';
+} from '../../utils/post_helpers'
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { CldImg, SeeMore } from '../Miscellaneous';
 import ImageList from '@mui/material/ImageList';

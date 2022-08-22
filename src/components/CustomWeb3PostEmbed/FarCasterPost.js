@@ -3,9 +3,7 @@ import Link from 'next/link';
 import React, {useState} from 'react';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
-import { linkMentions, markdownReplaceHashtags, urlIsImg } from './Util/Util';
 import LinkPreview from '../LinkPreview/LinkPreview';
-import { parseText } from './Util/Util';
 import YupReactMarkdown from '../YupReactMarkdown';
 import { CldImg, SeeMore } from '../Miscellaneous';
 import TextTruncate from 'react-text-truncate';
@@ -16,6 +14,7 @@ import withSuspense from '../../hoc/withSuspense';
 import Reply from './Reply';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
+import { parseText, linkMentions, urlIsImg  } from '../../utils/post_helpers';
 
 const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
   const { pathname } = useRouter();

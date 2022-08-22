@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, Typography, Grid } from '@mui/material';
 
 // util
-import { parseWeb3Post, fetchLinkPreviewData } from './Util/Util';
+import { parseWeb3Post, fetchLinkPreviewData } from '../../utils/post_helpers';
 
 // components
 import HeaderSection from './HeaderSection';

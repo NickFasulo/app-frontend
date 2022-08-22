@@ -4,7 +4,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
-import { linkMentions } from './Util/Util';
+import { linkMentions } from '../../utils/post_helpers';
 
 //Enables funky colors on links
 const TeaPartyLink = styled('a')(

@@ -1,15 +1,12 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import LinkPreview from '../LinkPreview/LinkPreview';
-import { Typography, Grid } from '@mui/material';
-import {
-  parseText,
-  urlIsImg
-} from './Util/Util';
+import { Link, Typography, Grid } from '@mui/material';
+import TweetVidPlayer from './TweetVidPlayer';
+import { parseText,  urlIsImg } from '../../utils/post_helpers';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import { CldImg } from '../Miscellaneous';
-import Link from '../Link';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
