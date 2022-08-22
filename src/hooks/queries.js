@@ -3,7 +3,6 @@ import sum from 'lodash/sum';
 import { REACT_QUERY_KEYS } from '../constants/enum';
 import callYupApi from '../apis/base_api';
 import { DEFAULT_FEED_PAGE_SIZE, DEFAULT_SEARCH_SIZE } from '../config';
-import axios from 'axios';
 
 export const useCollection = (id) => {
   const { data } = useQuery([REACT_QUERY_KEYS.YUP_COLLECTION, id], () =>

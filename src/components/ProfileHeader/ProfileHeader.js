@@ -20,11 +20,11 @@ import {
 } from '../../utils/helpers';
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
-import CountUp from 'react-countup';
 import { useState } from 'react';
 import FollowButton from '../Followers/FollowButton';
 import EditProfile from '../EditProfile/EditProfile';
 import { useAuth } from '../../contexts/AuthContext';
+import { useEnsName } from 'wagmi';
 
 const ProfileHeader = ({ profile, hidden }) => {
   const { isMobile, isDesktop } = useDevice();
@@ -43,6 +43,10 @@ const ProfileHeader = ({ profile, hidden }) => {
   const followings = useFollowings(id);
   const followers = useFollowers(id);
   const likeCount = useUserLikes(id);
+  const { data: ensName } = useEnsName({
+    address: ethInfo?.address,
+    chainId: 1
+  });
 
   const [editModalOpen, setEditModalOpen] = useState(false);
 
@@ -98,7 +102,7 @@ const ProfileHeader = ({ profile, hidden }) => {
             {!isMobile && ethInfo?.address && (
               <Chip
                 icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
-                label={shortenEthAddress(ethInfo.address)}
+                label={ensName || shortenEthAddress(ethInfo.address)}
                 clickable
                 component="a"
                 href={etherscanUrl(ethInfo.address)}
