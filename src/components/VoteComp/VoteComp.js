@@ -73,8 +73,6 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   const { toastError } = useToast();
   const category = 'overall';
   const { post } = postInfo;
-  console.log({ newRating, hasNewUpvote, hasNewDownvote, hasOldUpvote, hasOldDownvote, lastClicked ,downvotes, upvotes});
-  console.log({ vote });
   useEffect(() => {
     let timer1;
     if (newRating && lastClicked) {
@@ -117,7 +115,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
       }
     }    
   }, [newRating, lastClicked]);
-
+  
   useEffect(() => {
     setUpvotes((post.catVotes.overall && post.catVotes.overall.up) || 0);
     setDownvotes((post.catVotes.overall && post.catVotes.overall.down) || 0);
