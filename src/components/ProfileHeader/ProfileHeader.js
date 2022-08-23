@@ -122,7 +122,12 @@ const ProfileHeader = ({ profile, hidden }) => {
 
   useEffect(() =>  {
     if (isMyProfile && !ethInfo?.address) {
-      toastInfo('Connect your ETH Wallet to Earn Rewards.');
+      toastInfo(
+        'Connect your ETH Wallet to Earn Rewards.',
+        {
+          onClick: handleConnectWallet
+        }
+      );
     }
   }, [isMyProfile, ethInfo]);
 

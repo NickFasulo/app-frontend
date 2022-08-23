@@ -3,16 +3,16 @@ import { useSnackbar } from 'notistack';
 const useToast = () => {
   const { enqueueSnackbar } = useSnackbar();
 
-  const toastSuccess = (msg) => {
-    enqueueSnackbar(msg, { variant: 'success' });
+  const toastSuccess = (msg, options = {}) => {
+    enqueueSnackbar(msg, { variant: 'success', ...options });
   };
 
-  const toastError = (msg) => {
-    enqueueSnackbar(msg, { variant: 'error' });
+  const toastError = (msg, options = {}) => {
+    enqueueSnackbar(msg, { variant: 'error', ...options });
   };
 
-  const toastInfo = (msg) => {
-    enqueueSnackbar(msg, { variant: 'info' });
+  const toastInfo = (msg, options = {}) => {
+    enqueueSnackbar(msg, { variant: 'info', ...options });
   };
 
   return {
