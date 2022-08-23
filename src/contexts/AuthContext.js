@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
 
       if (scatter.connected) {
         try {
-          const { eosname, signature } = await scatter.scatter.getAuthToken();
+          const { eosname, signature, expiration } = await scatter.scatter.getAuthToken();
           const account = await apiGetAccount(eosname);
 
           setAuthInfo({
@@ -63,7 +63,8 @@ export const AuthProvider = ({ children }) => {
             eosname,
             username: account.username,
             address: account.ethInfo?.address,
-            signature
+            signature,
+            expiration
           });
 
           return;
@@ -131,6 +132,7 @@ export const AuthProvider = ({ children }) => {
 
             return;
           }
+          localStorage.removeItem(LOCAL_STORAGE_KEYS.TWITTER_INFO);
         } catch (err) {
           logError('Twitter authentication failed.', err);
         }
@@ -144,7 +146,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (!authInfo.eosname) return;
-
     // Store auth info into redux.
     dispatch({
       type: accountConstants.FETCH_AUTH_TOKEN_SUCCESS,
