@@ -155,7 +155,7 @@ class PostController extends Component {
   }
 
   render() {
-    const { classes, post, hideInteractions, renderObjects } = this.props;
+    const { classes, post, hideInteractions, renderObjects, showFullPost } = this.props;
     if (!post) return null;
 
     if ('previewData' in post && !('img' in post.previewData)) {
@@ -275,6 +275,7 @@ class PostController extends Component {
             rating={post.rating}
             hideInteractions={hideInteractions}
             classes={classes}
+            showFullPost={showFullPost}
           />
         </ErrorBoundary>
       );
@@ -470,6 +471,7 @@ class PostController extends Component {
             postHOC={PostHOC}
             hideInteractions={hideInteractions}
             classes={classes}
+            showFullPost={showFullPost}
           />
         </ErrorBoundary>
       );

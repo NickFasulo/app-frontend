@@ -7,15 +7,11 @@ import FullArticle from '../LinkPreview/FullArticle';
 import { useRouter } from 'next/router';
 
 function ArticlePost(props) {
-  const { web3Preview, previewData, postHOC: PostHOC, quantiles, rankCategory, url, createdAt, postid } = props;
-  const { pathname } = useRouter();
-  const isFullPost = () => {
-    return pathname === '/post/[id]';
-  };
+  const { web3Preview, previewData, postHOC: PostHOC, quantiles, rankCategory, url, createdAt, postid, showFullPost } = props;
 
   const ArticleComp = (_props) => (
   <>
-    {isFullPost()?(
+    {showFullPost?(
       <FullArticle
         description={web3Preview?.content}
         createdAt={createdAt}

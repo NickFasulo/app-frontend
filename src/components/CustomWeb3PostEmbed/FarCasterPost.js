@@ -1,23 +1,16 @@
 import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
-import React, {useState} from 'react';
-import reactStringReplace from 'react-string-replace';
-import styled from '@emotion/styled';
+import React from 'react';
 import LinkPreview from '../LinkPreview/LinkPreview';
-import YupReactMarkdown from '../YupReactMarkdown';
-import { CldImg, SeeMore } from '../Miscellaneous';
-import TextTruncate from 'react-text-truncate';
-import { useRouter } from 'next/router';
+import { CldImg } from '../Miscellaneous';
 import { TruncateText } from '../styles';
-import { useFarcasterReplyParent } from '../../hooks/queries';
 import withSuspense from '../../hoc/withSuspense';
 import Reply from './Reply';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
 import { parseText, linkMentions, urlIsImg  } from '../../utils/post_helpers';
 
-const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
-  const { pathname } = useRouter();
+const FarCasterPost = ({ post, text, postid, attachments, classes, showFullPost }) => {
   const web3Preview = post
   const {id} = post
  // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
@@ -28,9 +21,6 @@ console.log({parsedTextWithMentions, parsedText})
   const isReply = parents?.length  > 0
   // const isReplyToReply = parents.length > 1
 
-  const isFullPost = () => {
-    return pathname === '/post/[id]';
-  };
   if(isReply){
     return (
       <Grid item="item" xs={12}>
@@ -80,7 +70,7 @@ console.log({parsedTextWithMentions, parsedText})
 
   <Link href={`/post/${postid}`} >
     <Grid item="item" xs={12}>
-        {!isFullPost() ? (
+        {showFullPost ? (
         <TruncateText variant='body2' lines={7} >
           {parsedTextWithMentions}
         </TruncateText>):(
