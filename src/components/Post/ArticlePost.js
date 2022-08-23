@@ -4,16 +4,18 @@ import ArticlePreview from '../LinkPreview/ArticlePreview';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { createRouteLoader } from 'next/dist/client/route-loader';
 import FullArticle from '../LinkPreview/FullArticle';
+import { useRouter } from 'next/router';
 
 function ArticlePost(props) {
+  const { web3Preview, previewData, postHOC: PostHOC, quantiles, rankCategory, url, createdAt, postid } = props;
+  const { pathname } = useRouter();
   const isFullPost = () => {
     return pathname === '/post/[id]';
   };
-  const { web3Preview, previewData, postHOC: PostHOC, quantiles, rankCategory, url, createdAt, postid } = props;
 
   const ArticleComp = (_props) => (
   <>
-    {isFullPost?(
+    {isFullPost()?(
       <FullArticle
         description={web3Preview?.content}
         createdAt={createdAt}
