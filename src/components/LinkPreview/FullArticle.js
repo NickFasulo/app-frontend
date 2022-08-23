@@ -79,7 +79,7 @@ const styles = (theme) => ({
 });
 
 const FullArticle = ({ title, description, url, classes, writerENS, postid }) => {
-  
+
 
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
@@ -94,7 +94,7 @@ const FullArticle = ({ title, description, url, classes, writerENS, postid }) =>
 
   return (
     <ErrorBoundary>
-      <div className={classes.container} href={url} target="_blank">       
+      <div className={classes.container} href={url} target="_blank">
           <div className={classes.previewData}>
             <Grid container rowSpacing={1} >
               <Grid item xs={12}>
@@ -102,7 +102,7 @@ const FullArticle = ({ title, description, url, classes, writerENS, postid }) =>
                   <Grid item xs={10} sm={11}>
                     <Grid container direction='row'>
                       <Grid item xs={12}>
-                        <TruncateText variant="h6" lines={2}>
+                        <TruncateText variant="h4" lines={2}>
                           {title.split(/[|]|[—]+/g, 1)}
                         </TruncateText>
                       </Grid>
@@ -125,14 +125,14 @@ const FullArticle = ({ title, description, url, classes, writerENS, postid }) =>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>             
+            <Grid item xs={12}>
               <YupReactMarkdown
                 variant="body2"
                 className={classes.description}
               >
                 {description}
               </YupReactMarkdown>
-             
+
             </Grid>
           </div>
       </div>

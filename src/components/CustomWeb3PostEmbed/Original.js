@@ -11,7 +11,7 @@ import Avatar from './Avatar';
 import FarCasterPost from './FarCasterPost';
 import LensPost from './LensPost';
 
-const Original = ({ postid, web3Preview, classes }) => {
+const Original = ({ postid, web3Preview, classes, showFullPost }) => {
   const extendedEntities = false;
   const [linkPreviewData, setPreviewData] = useState(null);
   const entities = false;
@@ -64,16 +64,21 @@ const Original = ({ postid, web3Preview, classes }) => {
     <Grid container="container" className={classes.container}>
       {/* {postid}   */}
       {protocol==='farcaster' ?
-      (<FarCasterPost text={content} attachments={attachments} postid={postid} post={web3Preview} classes={classes}/>
-      ):(<LensPost 
+      (<FarCasterPost
+          text={content} attachments={attachments} postid={postid} post={web3Preview} classes={classes}
+          showFullPost={showFullPost}
+        />
+      ):(<LensPost
         text={content}
         url={urls[0]}
         attachments={attachments}
         postid={postid}
         linkPreview={linkPreview}
         post={web3Preview}
-        classes={classes}/>)}
-     
+        classes={classes}
+        showFullPost={showFullPost}
+        />)}
+
     </Grid>
   );
 };

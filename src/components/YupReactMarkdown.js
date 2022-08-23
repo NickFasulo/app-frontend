@@ -44,6 +44,14 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
           paddingLeft: 0}}{...props} />,
         ol: ({node, ...props}) => <ol   style={{listStylePosition: "inside",
         paddingLeft: 0}}{...props} />,
+        img: ({ node, ...props }) => <img
+          style={{
+            maxWidth: '100%',
+            objectFit: 'contain',
+            borderRadius: 10
+          }}
+          {...props}
+        />,
          a: ({node, ...props}) =>
          {
           const originalText = node?.children?.[0]?.value

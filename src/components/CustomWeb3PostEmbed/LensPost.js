@@ -8,8 +8,6 @@ import {
   convertIPFSSrcToHttps,
   parsePhaverText
 } from '../../utils/post_helpers'
-import LinkPreview from '../LinkPreview/LinkPreview';
-import { CldImg, SeeMore } from '../Miscellaneous';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ReactPlayer from 'react-player';
@@ -17,13 +15,12 @@ import { useRouter } from 'next/router';
 import YupReactMarkdown from '../YupReactMarkdown';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
-import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import useDevice from '../../hooks/useDevice';
-const WrapLink = ({ condition, wrapper, children }) => 
+const WrapLink = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children;
 
-const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post}) => {
+const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post, showFullPost}) => {
   const { isTiny } = useDevice();
   const { pathname } = useRouter();
 
@@ -33,9 +30,6 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
   const getLinkPreview = (url) => {
     return linkPreview.find(x => x.url === url);
   }
-  const isFullPost = () => {
-    return pathname === '/post/[id]';
-  };
 
   if(post.meta.metadata?.appId ==='phaver' && linkPreview?.[0]){
     text = parsePhaverText(text, linkPreview?.[0]);
@@ -72,7 +66,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                   <Grid item="item" xs={12} sx={{cursor:'pointer'}}>
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
                     <WrapLink
-                    condition={!isFullPost()}
+                    condition={!showFullPost}
                     wrapper={children => <Link href={`/post/${postid}`} target="_blank" underline="none">{children}</Link>}
                       >
                     <Typography variant="body2">
@@ -90,8 +84,8 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
     >
           {/*If text hasnt been changed for Linkpreviews */}
           {/* disabled! */}
-            <YupReactMarkdown linkPreview={linkPreview}lines={!isFullPost()&&7} classes={classes}>{text}</YupReactMarkdown>
-          
+            <YupReactMarkdown linkPreview={linkPreview}lines={!showFullPost&&7} classes={classes}>{text}</YupReactMarkdown>
+
 
           {/*If post has Attachments */}
           {attachments?.length > 0 &&  post.meta.metadata?.appId !=='phaver'&& (
@@ -129,7 +123,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
                 </ImageListItem>
               ))}
             </ImageList>
-          )}      
+          )}
     </Grid>
                     </Typography>
                     {/* </Link> */}
