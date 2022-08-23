@@ -31,19 +31,14 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
   // const handlePopoverClose = () => {
   //   setOpen(false)
   // };
-  const parsed = markdownReplaceLinks(children);
+  const parsed = linkPreview?markdownReplaceLinks(children):children;
  // const parsed2 = markdownReplaceHashtags(parsed);
   const getLinkPreview = (url) => {
-    console.log({url})
-    return linkPreview.find(x => x.url === url);
+    return linkPreview.find(x => x?.url === url);
   }
   return (
     <TruncateText variant='body2' lines={lines} >
     <ReactMarkdown
-      // components={{
-      //    ul: ({node, ...props}) => <img  height="100px" style={{maxHeight:'200px'}}{...props} />
-      // }}
-
       components={{
         ul: ({node, ...props}) => <ul   style={{listStylePosition: "inside",
           paddingLeft: 0}}{...props} />,
@@ -53,7 +48,7 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
          {
           const originalText = node?.children?.[0]?.value
           const [yupTag, text] = node?.children?.[0]?.value?.split("yupreplace")
-          console.log(node?.children?.[0]?.value,{...props, yupTag, text})
+
           let elem =
           <Typography  display="inline">
               <Link {...props} />
