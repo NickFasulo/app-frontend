@@ -20,6 +20,8 @@ import HeaderSection from './HeaderSection';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import useDevice from '../../hooks/useDevice';
+const WrapLink = ({ condition, wrapper, children }) => 
+  condition ? wrapper(children) : children;
 
 const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post}) => {
   const { isTiny } = useDevice();
@@ -67,8 +69,12 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
               </Grid>
               <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
-                  <Grid item="item" xs={12}>
+                  <Grid item="item" xs={12} sx={{cursor:'pointer'}}>
                     {/* <Link href={tweetLink} target="_blank" underline="none"> */}
+                    <WrapLink
+                    condition={!isFullPost()}
+                    wrapper={children => <Link href={`/post/${postid}`} target="_blank" underline="none">{children}</Link>}
+                      >
                     <Typography variant="body2">
                     <Grid item
       // Enable to style links
@@ -127,6 +133,7 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post})
     </Grid>
                     </Typography>
                     {/* </Link> */}
+                    </WrapLink>
                   </Grid>
                 </Grid>
               </Grid>
