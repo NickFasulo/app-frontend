@@ -57,7 +57,7 @@ const ProfileHeader = ({ profile, hidden }) => {
   });
   const { openConnectModal } = useConnectModal();
   const { address: connectedEthAddress } = useAccount();
-  const { toastError, toastSuccess } = useToast();
+  const { toastError, toastSuccess, toastInfo } = useToast();
   const { signMessageAsync } = useSignMessage();
 
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -119,6 +119,12 @@ const ProfileHeader = ({ profile, hidden }) => {
       setConnectWalletClicked(false);
     })();
   }, [ethInfo, connectedEthAddress, connectWalletClicked]);
+
+  useEffect(() =>  {
+    if (isMyProfile && !ethInfo?.address) {
+      toastInfo('Connect your ETH Wallet to Earn Rewards.');
+    }
+  }, [isMyProfile, ethInfo]);
 
   return (
     <YupContainer
