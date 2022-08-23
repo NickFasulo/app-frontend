@@ -5,7 +5,8 @@ import { makeStyles } from '@mui/styles';
 const useSnackbarStyles = makeStyles((theme) => ({
   snackbar: {
     backgroundColor: `${theme.palette.M100} !important`,
-    color: `${theme.palette.M900} !important`
+    color: `${theme.palette.M900} !important`,
+    cursor: 'pointer'
   }
 }));
 
