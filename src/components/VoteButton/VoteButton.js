@@ -204,7 +204,7 @@ const VoteButton = ({
   const [isClicked, setIsClicked] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  console.log({totalVoters, rating, web3Likes, type})
+  console.log({ rating, type})
   useEffect(() => {
     let interval;
     if (mouseDown && (!account || !account.name)) {
@@ -213,16 +213,12 @@ const VoteButton = ({
       if (mouseDown) {
         setLastClicked();
         handleOnclick();
-        interval = setInterval(() => {
-          setLastClicked();
-          handleOnclick();
-        }, 500);
       }
     }
-    return () => clearInterval(interval);
   }, [mouseDown]);
 
   const ratingToMultiplier = () => {
+
     if (type === 'dislike') {
       if (rating === 1) {
         return 2;
@@ -245,7 +241,7 @@ const VoteButton = ({
 
   //This resets mousedown for whatever reason...
   const transition = useTransition(
-    mouseDown && account && account.name ? [ratingToMultiplier()] : [],
+    mouseDown ? [rating] : [],
     {
       config: { mass: 0.7, tension: 300, friction: 35, clamp: true },
       from: { top: 0, opacity: 0 },
@@ -324,6 +320,7 @@ const VoteButton = ({
           }}
           onMouseUp={() => {
             setMouseDown(false);
+            setIsClicked(true);
           }}
           onMouseLeave={() => {
             setMouseDown(false);

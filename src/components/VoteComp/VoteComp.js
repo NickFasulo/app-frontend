@@ -85,7 +85,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   }, [newRating, lastClicked]);
 
   useEffect(() => {
-    if (shouldSubmit) handleDefaultVote();
+   // if (shouldSubmit) handleDefaultVote();
   }, [shouldSubmit]);
 
   useEffect(() => {
