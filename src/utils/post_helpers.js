@@ -55,7 +55,7 @@ export const markdownReplaceHashtags = (str) => {
   // return parsed;
 };
 //Replacesprotocol from url so markdownReplaceLinks doenst replace it twice
-export const splitMarkDownUrl = (str) => {   
+export const splitMarkDownUrl = (str) => {
   const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
   const matches = str.match(re);
   matches?.forEach((match, i) => {
@@ -69,7 +69,7 @@ export const splitMarkDownUrl = (str) => {
 
 }
 export const markdownReplaceLinks = (str) => {
-  // replaces markdown hyperlinks and adds hyperlinkyupreplace 
+  // replaces markdown hyperlinks and adds hyperlinkyupreplace
   const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
   const singleMatch = /\[([^\[]+)\]\((.*)\)/
   const mdLinkMatches = str.match(regexMdLinks)
@@ -229,9 +229,9 @@ export const parsePhaverPost = (text, url, attachments) => {
 export const timeSince =(date) => {
 
     var seconds = Math.floor((new Date() - date) / 1000);
-  
+
     var interval = seconds / 31536000;
-  
+
     if (interval > 1) {
       return Math.floor(interval) + "y";
     }
@@ -251,5 +251,5 @@ export const timeSince =(date) => {
     if (interval > 1) {
       return Math.floor(interval) + "min";
     }
-    return Math.floor(seconds) + "s";  
+    return Math.floor(seconds) + "s";
 }
