@@ -1,4 +1,4 @@
-import { Popover, Popper, Tooltip, Typography } from '@mui/material';
+import { Grid, Popover, Popper, Tooltip, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { markdownReplaceHashtags, markdownReplaceLinks }  from '../utils/post_helpers';
@@ -34,7 +34,7 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
   const parsed = linkPreview?markdownReplaceLinks(children):children;
  // const parsed2 = markdownReplaceHashtags(parsed);
   const getLinkPreview = (url) => {
-    return linkPreview.find(x => x?.url === url);
+    return linkPreview.find(x => x?.originalUrl === url);
   }
   return (
     <TruncateText variant='body2' lines={lines} >
@@ -74,14 +74,17 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
             case 'link': {
                   const linkPreviewData = getLinkPreview(text)
                   if(linkPreviewData){
-                    ( elem=<LinkPreview
+                    ( elem=
+                    <Grid item xs={12}>
+                    <LinkPreview
                       size={'large'}
                       image={linkPreviewData.img}
                       title={linkPreviewData.title}
                       url={linkPreviewData.url}
                       description={linkPreviewData.description}
                       // classes={classes}
-                      />)
+                      />
+                      </Grid>)
                   } else {
                     elem = <Typography  variant="body3" display="inline">
                     <Link href={props.href} >
