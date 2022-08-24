@@ -84,11 +84,11 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post, 
     >
           {/*If text hasnt been changed for Linkpreviews */}
           {/* disabled! */}
-            <YupReactMarkdown linkPreview={linkPreview}lines={!showFullPost&&7} classes={classes}>{text}</YupReactMarkdown>
+            <YupReactMarkdown linkPreview={linkPreview} lines={!showFullPost&&7} classes={classes}>{text}</YupReactMarkdown>
 
 
           {/*If post has Attachments */}
-          {attachments?.length > 0 &&  post.meta.metadata?.appId !=='phaver'&& (
+          {attachments?.length > 0 &&  (!linkPreview||post.meta.metadata?.appId !=='phaver')&& (
             <ImageList
               sx={{
                 borderRadius: '12px',
