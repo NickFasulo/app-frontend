@@ -37,6 +37,7 @@ import {
 import { styled } from '@mui/material/styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';
+import useLongPress from '../../hooks/useLongPress';
 
 const styles = (theme) => ({
   greenArrow: {
@@ -204,9 +205,22 @@ const VoteButton = ({
   const [isClicked, setIsClicked] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  console.log({ rating, type})
+  const [isLongPress, setIsLongPress] = useState(false);
+
+const onLongPress = (isPressed) =>{
+  console.log(isPressed)
+  setIsLongPress(isPressed)
+}
+const onClick = () => {
+    console.log('click is triggered')
+}
+  const defaultOptions = {
+    shouldPreventDefault: true,
+    delay: 500,
+};
+  const longPress = useLongPress(onLongPress, onClick, defaultOptions);
+  
   useEffect(() => {
-    let interval;
     if (mouseDown && (!account || !account.name)) {
       openAuthModal({ noRedirect: true });
     } else {
@@ -241,7 +255,7 @@ const VoteButton = ({
 
   //This resets mousedown for whatever reason...
   const transition = useTransition(
-    mouseDown ? [rating] : [],
+    isLongPress ? [rating] : [],
     {
       config: { mass: 0.7, tension: 300, friction: 35, clamp: true },
       from: { top: 0, opacity: 0 },
@@ -269,12 +283,12 @@ const VoteButton = ({
   });
   const { ...hardPress } = useSpring({
     config: { tension: 300, friction: 35 },
-    loop: { reverse: mouseDown && account && account.name },
+    loop: { reverse: isLongPress },
     from: { width: '16px', height: '16px' },
 
     to: {
-      width: mouseDown && account && account.name ? '14px' : '16px',
-      height: mouseDown && account && account.name ? '14px' : '16px'
+      width: isLongPress  ? '14px' : '16px',
+      height: isLongPress ? '14px' : '16px'
     }
   });
   const formattedWeight = totalVoters === 0 ? 0 : formatWeight(catWeight);
@@ -311,23 +325,14 @@ const VoteButton = ({
           </Grid>
         </animated.div>
       ))}
-      <Grid item sx={{ zIndex: '1000' }}>
+      <Grid item sx={{ zIndex: '1000' }}
+          onMouseEnter={()=>setIsHovered(true)}
+          onMouseLeave={()=>setIsHovered(false)}>
         <div
           style={{ width: '18px', cursor: 'pointer' }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseDown={() => {
-            setMouseDown(true);
-          }}
-          onMouseUp={() => {
-            setMouseDown(false);
-            setIsClicked(true);
-          }}
-          onMouseLeave={() => {
-            setMouseDown(false);
-            setIsHovered(false);
-          }}
+          {...longPress}
         >
-          {mouseDown || isClicked ? (
+          {isLongPress || isClicked ? (
             <AnimatedIcon style={{ ...hardPress }} icon={icon} />
           ) : (
             <AnimatedIcon style={{ ...hover }} icon={icon} />
