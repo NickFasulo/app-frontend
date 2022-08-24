@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, useRef } from 'react';
 import { isEmpty } from 'lodash';
 import { withRouter } from 'next/router';
 import PropTypes from 'prop-types';
@@ -197,7 +197,9 @@ const VoteButton = ({
   rating=0,
   isVoted,
   setLastClicked,
-  web3Likes = 0
+  lastClicked,
+  web3Likes = 0,
+  userInfluence
 }) => {
   const account = useAuth();
   const { open: openAuthModal } = useAuthModal();
@@ -206,30 +208,45 @@ const VoteButton = ({
   const [mouseDown, setMouseDown] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isLongPress, setIsLongPress] = useState(false);
+  const [clickFinished, setClickFinished] = useState(false);
 
-const onLongPress = (isPressed) =>{
-  console.log(isPressed)
-  setIsLongPress(isPressed)
-}
-const onClick = () => {
-    console.log('click is triggered')
-}
+  const onLongPress = (isPressed) =>{
+    setIsLongPress(isPressed)
+  }
+  const onClick = () => {
+    setIsClicked(true)
+    setLastClicked()
+    handleOnclick();
+  }
   const defaultOptions = {
     shouldPreventDefault: true,
-    delay: 500,
+    delay: 200,
 };
   const longPress = useLongPress(onLongPress, onClick, defaultOptions);
-  
+//Resets clickFinished so animation plays again next time
+  useEffect(()=>{
+    if(lastClicked!== type){
+      setIsClicked(false)
+      setClickFinished(false)
+    }
+  },[rating])
+
   useEffect(() => {
-    if (mouseDown && (!account || !account.name)) {
+    let interval;
+    if (isLongPress && (!account || !account.name)) {
       openAuthModal({ noRedirect: true });
     } else {
-      if (mouseDown) {
+      if (isLongPress) {
         setLastClicked();
         handleOnclick();
+        interval = setInterval(() => {
+          setLastClicked();
+          handleOnclick();
+        }, 500);
       }
     }
-  }, [mouseDown]);
+    return () => clearInterval(interval);
+  }, [isLongPress]);
 
   const ratingToMultiplier = () => {
 
@@ -255,9 +272,9 @@ const onClick = () => {
 
   //This resets mousedown for whatever reason...
   const transition = useTransition(
-    isLongPress ? [rating] : [],
+    (isLongPress || isClicked) && account && account.name ? [(rating*userInfluence).toFixed(0)] : [],
     {
-      config: { mass: 0.7, tension: 300, friction: 35, clamp: true },
+      config: { mass: 0.7, tension: 100, friction: 35, clamp: true },
       from: { top: 0, opacity: 0 },
       enter: { top: -15, opacity: 1 },
       leave: { top: -70, opacity: 0 },
@@ -281,23 +298,34 @@ const onClick = () => {
           : 'rotate(0deg)'
     }
   });
-  const { ...hardPress } = useSpring({
+  const { ...hardPressAnimation } = useSpring({
     config: { tension: 300, friction: 35 },
-    loop: { reverse: isLongPress },
+    loop: { reverse: isLongPress  },
     from: { width: '16px', height: '16px' },
 
     to: {
       width: isLongPress  ? '14px' : '16px',
-      height: isLongPress ? '14px' : '16px'
-    }
+      height: isLongPress  ? '14px' : '16px'
+    },
+  });
+  
+  const { ...clickAnimation } = useSpring({
+    config: { tension: 300, friction: 35 },
+    from: { width: '16px', height: '16px' },
+    to: {
+      width: isVoted  ? '14px' : '16px',
+      height: isVoted ? '14px' : '16px'
+    },
+    reverse: clickFinished,
+    onRest: ()=> {setClickFinished(true)}
   });
   const formattedWeight = totalVoters === 0 ? 0 : formatWeight(catWeight);
   const icon =
     type === 'like'
-      ? (isHovered || isClicked || isVoted) && account && account.name
+      ? (isHovered ||  isVoted) && account && account.name
         ? faThumbsUpSolid
         : faThumbsUp
-      : (isHovered || isClicked || isVoted) && account && account.name
+      : (isHovered || isVoted) && account && account.name
       ? faThumbsDownSolid
       : faThumbsDown;
   return (
@@ -332,8 +360,11 @@ const onClick = () => {
           style={{ width: '18px', cursor: 'pointer' }}
           {...longPress}
         >
-          {isLongPress || isClicked ? (
-            <AnimatedIcon style={{ ...hardPress }} icon={icon} />
+          {isLongPress || isVoted ? (
+            <>{isLongPress?(
+              <AnimatedIcon style={{ ...hardPressAnimation }} icon={icon} />):(
+                <AnimatedIcon style={{ ...clickAnimation }} icon={icon} />)}
+            </>
           ) : (
             <AnimatedIcon style={{ ...hover }} icon={icon} />
           )}

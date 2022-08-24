@@ -13,6 +13,7 @@ import { windowExists } from '../../utils/helpers';
 import withSuspense from '../../hoc/withSuspense';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
+import useAccount from '../../hooks/useAccount';
 const CREATE_VOTE_LIMIT = 40;
 const ratingConversion = {
   1: 2,
@@ -57,6 +58,7 @@ const getWeb3Dislikes = (postInfo) => {
 };
 const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   const { authInfo, name } = useAuth();
+  const { account } = useAccount()
   const votes = useInitialVotes(postid, name);
   const vote = votes?.[0];
   const [newRating, setNewRating] = useState();
@@ -277,6 +279,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
     <ErrorBoundary>
       <FlexBox sx={{ columnGap: (theme) => theme.spacing(3) }}>
         <VoteButton
+          userInfluence={account.weight}
           category={category}
           catWeight={weights[category]}
           handleOnclick={increaseRating}
@@ -300,6 +303,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
           web3Likes={getWeb3Likes(postInfo)}
         />
         <VoteButton
+          userInfluence={account.weight}
           category={category}
           catWeight={weights[category]}
           handleOnclick={decreaseRating}

@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { useDispatch } from 'react-redux';
 import scatter from '../eos/scatter/scatter.wallet';
 import {
+  fetchSocialLevel,
   fetchUserCollections,
   loginScatter,
   signalConnection,
@@ -104,6 +105,7 @@ export const AuthProvider = ({ children }) => {
             })
           );
 
+          dispatch(fetchSocialLevel(account._id));
           return;
         } catch (err) {
           logError('ETH authentication failed.', err);
