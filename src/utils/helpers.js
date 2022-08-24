@@ -80,6 +80,6 @@ const genRegEx = (arrOfURLs) => {
 };
 
 export const isYoutubeUrl = (url) => {
-  const ytPattern = genRegEx(['youtube.com/watch?']);
+  const ytPattern = genRegEx(['youtube.com/watch?', 'youtu.be/']);
   return ytPattern.test(url);
 };

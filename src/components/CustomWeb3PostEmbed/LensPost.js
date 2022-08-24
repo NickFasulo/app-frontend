@@ -17,6 +17,8 @@ import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
 import YupImage from '../YupImage';
 import useDevice from '../../hooks/useDevice';
+import { isYoutubeUrl } from '../../utils/helpers';
+import VideoComponent from '../VideoComponent';
 const WrapLink = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children;
 
@@ -102,7 +104,9 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post, 
                   sx={{ overflow: 'hidden' }}
                   key={attachment.images[0]}
                 >
-                  {attachment.images[0] ? (
+                  {isYoutubeUrl(attachment.url) ? (
+                    <VideoComponent url={attachment.url} />
+                  ) : attachment.images[0] ? (
                     <YupImage
                       height={ multipleAttachments()&&350}
                       src={convertIPFSSrcToHttps(attachment.images[0])}
