@@ -16,7 +16,7 @@ const RecommendedPosts = ({ query, excludeIds }) => {
   return (
     <InfiniteScroll
       loader={<FeedLoader />}
-      scrollThreshold={0.8}
+      scrollThreshold="300px"
       dataLength={posts.length}
       hasMore={hasNextPage}
       next={fetchNextPage}

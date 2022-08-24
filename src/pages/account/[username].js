@@ -24,6 +24,7 @@ import UserNewConnections from '../../components/UserNewConnections';
 import { Box, Button, Typography } from '@mui/material';
 import Link from '../../components/Link';
 import YupHead from '../../components/YupHead';
+import RecommendedPosts from '../../components/RecommendedPosts';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
@@ -130,7 +131,15 @@ const UserAccountPage = () => {
           {selectedTab === PROFILE_TAB_IDS.PROFILE && (
             <YupContainer>
               <GridLayout
-                contentLeft={<UserPosts userId={profile._id} />}
+                contentLeft={(
+                  <>
+                    <UserPosts userId={profile._id} />
+                    <Typography variant="h6" sx={{ my: 3 }}>
+                      Recommended
+                    </Typography>
+                    <RecommendedPosts query={`${profile.fullname} ${profile.username} ${profile.bio}`} />
+                  </>
+                )}
                 contentRight={
                   collections.length > 0 ? (
                     <UserCollectionsSection collections={collections} />

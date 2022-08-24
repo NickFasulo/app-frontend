@@ -21,13 +21,21 @@ const UserPosts = ({ userId }) => {
     return <ListSkeleton />;
   }
 
+  if (posts.length === 0) {
+    return (
+      <Typography variant="h6">
+        User has no posts.
+      </Typography>
+    );
+  }
+
   return (
     <InfiniteScroll
       dataLength={posts.length}
       next={fetchNextPage}
       hasMore={hasNextPage}
       loader={<ListSkeleton />}
-      endMessage={<Typography>End of Feed</Typography>}
+      scrollThreshold="300px"
     >
       {posts.map((post) => (
         <PostController
