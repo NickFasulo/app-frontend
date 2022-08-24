@@ -5,6 +5,8 @@ import { markdownReplaceHashtags, markdownReplaceLinks }  from '../utils/post_he
 import Link from './Link';
 import LinkPreview from './LinkPreview/LinkPreview';
 import { TruncateText } from './styles';
+import { isYoutubeUrl } from '../utils/helpers';
+import VideoComponent from './VideoComponent';
 
 // const TeaPartyLink = styled('a')(
 //   ({ theme }) => `
@@ -72,26 +74,30 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
               break;
 
             case 'link': {
-                  const linkPreviewData = getLinkPreview(text)
-                  if(linkPreviewData){
-                    ( elem=
-                    <Grid item xs={12}>
-                    <LinkPreview
-                      size={'large'}
-                      image={linkPreviewData.img}
-                      title={linkPreviewData.title}
-                      url={linkPreviewData.url}
-                      description={linkPreviewData.description}
-                      // classes={classes}
-                      />
-                      </Grid>)
-                  } else {
-                    elem = <Typography  variant="body3" display="inline">
-                    <Link href={props.href} >
-                      {text}
-                    </Link>
-                    </Typography>
-                  }
+                const linkPreviewData = getLinkPreview(text)
+
+                if (isYoutubeUrl(text)) {
+                  elem = <VideoComponent url={text} />;
+                }
+                else if(linkPreviewData){
+                  ( elem=
+                  <Grid item xs={12}>
+                  <LinkPreview
+                    size={'large'}
+                    image={linkPreviewData.img}
+                    title={linkPreviewData.title}
+                    url={linkPreviewData.url}
+                    description={linkPreviewData.description}
+                    // classes={classes}
+                    />
+                    </Grid>)
+                } else {
+                  elem = <Typography  variant="body3" display="inline">
+                  <Link href={props.href} >
+                    {text}
+                  </Link>
+                  </Typography>
+                }
               }
 
               break;

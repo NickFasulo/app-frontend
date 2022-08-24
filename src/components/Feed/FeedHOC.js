@@ -98,6 +98,7 @@ const FeedHOC = ({ feedType }) => {
         }
         next={()=>handleFetchNext()}
         endMessage={<p className={classes.resetScroll}>end of feed</p>}
+        scrollThrshold="300px"
       >
         {data.pages.map((page) => (
             <React.Fragment key={page.nextId}>
