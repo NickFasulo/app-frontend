@@ -72,3 +72,14 @@ export const formatDecimal = (decimal) => numeral(decimal).format('0,0.00');
 
 export const formatWeight = (weight) =>
   numeral(Math.floor(weight)).format('0,0');
+
+const genRegEx = (arrOfURLs) => {
+  return new RegExp(
+    `^((http:|https:)([/][/]))?(www.)?(${arrOfURLs.join('|')})`
+  );
+};
+
+export const isYoutubeUrl = (url) => {
+  const ytPattern = genRegEx(['youtube.com/watch?']);
+  return ytPattern.test(url);
+};

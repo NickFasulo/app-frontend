@@ -7,6 +7,9 @@ import { parseText,  urlIsImg } from '../../utils/post_helpers';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import { CldImg } from '../Miscellaneous';
+import { isYoutubeUrl } from '../../utils/helpers';
+import ReactPlayer from 'react-player/lazy';
+import VideoComponent from '../VideoComponent';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
@@ -117,7 +120,12 @@ const Reply = ({ post, classes, postid }) => {
               <Grid item="item" xs={12}>
                 {directParentAttachments
                   ? directParentAttachments.map((attachment) => {
-                      if (attachment.image || urlIsImg(attachment.url)) {
+                      if (isYoutubeUrl(attachment.url)) {
+                        return (
+                          <VideoComponent url={attachment.url} />
+                        );
+                      }
+                      else if (attachment.image || urlIsImg(attachment.url)) {
                         return (
                             <CldImg
                             style={{ borderRadius: '12px' }}
@@ -128,7 +136,7 @@ const Reply = ({ post, classes, postid }) => {
                         );
                       } else if (attachment.url) {
                         return (
-                          
+
                           <LinkPreview
                             description={attachment.description || ''}
                             image={attachment.image}
@@ -203,7 +211,12 @@ const Reply = ({ post, classes, postid }) => {
                     <Grid item="item" xs={12}>
                       {userAttachments
                         ? userAttachments.map((attachment) => {
-                          if (attachment.images?.[0]) {
+                          if (isYoutubeUrl(attachment.url)) {
+                            return (
+                              <VideoComponent url={attachment.url} />
+                            );
+                          }
+                          else if (attachment.images?.[0]) {
                             return (
                               <LinkPreview
                                 description={attachment.description || ''}
