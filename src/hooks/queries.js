@@ -235,7 +235,7 @@ export const useFetchFeed = (  {feedType} ) => {
 
   return useInfiniteQuery([REACT_QUERY_KEYS.YUP_FEED, feedType], ( {pageParam = 0}) =>
     callYupApi({
-      url: `/feed/${isStaging && 'staging:'}${feedType}?start=${pageParam}&limit=10`,
+      url: `/feed/${isStaging ? 'staging:' : ''}${feedType}?start=${pageParam}&limit=10`,
       method: 'GET'
     }),
     {
