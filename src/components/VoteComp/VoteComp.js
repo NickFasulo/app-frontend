@@ -279,7 +279,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
     <ErrorBoundary>
       <FlexBox sx={{ columnGap: (theme) => theme.spacing(3) }}>
         <VoteButton
-          userInfluence={account.weight}
+          userInfluence={account?.weight}
           category={category}
           catWeight={weights[category]}
           handleOnclick={increaseRating}
@@ -303,7 +303,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
           web3Likes={getWeb3Likes(postInfo)}
         />
         <VoteButton
-          userInfluence={account.weight}
+          userInfluence={account?.weight}
           category={category}
           catWeight={weights[category]}
           handleOnclick={decreaseRating}

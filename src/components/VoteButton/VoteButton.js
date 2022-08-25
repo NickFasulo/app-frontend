@@ -209,14 +209,18 @@ const VoteButton = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isLongPress, setIsLongPress] = useState(false);
   const [clickFinished, setClickFinished] = useState(false);
-
+console.log({userInfluence})
   const onLongPress = (isPressed) =>{
+    if(account?.name){
     setIsLongPress(isPressed)
+    }
   }
   const onClick = () => {
-    setIsClicked(true)
-    setLastClicked()
-    handleOnclick();
+    if(account?.name){
+      setIsClicked(true)
+      setLastClicked()
+      handleOnclick();
+    }
   }
   const defaultOptions = {
     shouldPreventDefault: true,
@@ -272,11 +276,11 @@ const VoteButton = ({
 
   //This resets mousedown for whatever reason...
   const transition = useTransition(
-    (isLongPress || isClicked) && account && account.name ? [(rating*userInfluence).toFixed(0)] : [],
+    (isLongPress || isClicked) ? [rating!==0&&(rating*userInfluence).toFixed(0)] : [],
     {
-      config: { mass: 0.7, tension: 100, friction: 35, clamp: true },
+      config: { mass: 0.7, tension: 300, friction: 35, clamp: true },
       from: { top: 0, opacity: 0 },
-      enter: { top: -15, opacity: 1 },
+      enter: { top: -15, opacity: 10 },
       leave: { top: -70, opacity: 0 },
       easings: easings.linear
     }
@@ -288,8 +292,8 @@ const VoteButton = ({
     from: { width: '16px', height: '16px', transform: 'rotate(0deg)' },
 
     to: {
-      width: isHovered && account && account.name ? '18px' : '16px',
-      height: isHovered && account && account.name ? '18px' : '16px',
+      width: isHovered ? '18px' : '16px',
+      height: isHovered ? '18px' : '16px',
       transform:
         isHovered && account && account.name
           ? type === 'like'
@@ -348,9 +352,10 @@ const VoteButton = ({
             ...style
           }}
         >
+          {item&&(
           <Grid item>
             <Typography variant="label">x{item}</Typography>
-          </Grid>
+          </Grid>)}
         </animated.div>
       ))}
       <Grid item sx={{ zIndex: '1000' }}
