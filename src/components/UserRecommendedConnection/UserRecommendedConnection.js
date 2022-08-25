@@ -24,6 +24,10 @@ const UserRecommendedConnection = ({ user }) => {
         </ConnectionAvatar>
       </ListItemAvatar>
       <ListItemText
+      style={{
+        textOverflow: "ellipsis",
+        overflow: "hidden"
+      }}
         primary={user.fullname || user.username}
       />
       <Box flexGrow={0}>
