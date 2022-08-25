@@ -1,3 +1,5 @@
+import { APP_PHASE } from '../constants/enum';
+
 export const polygonConfig = {
   rpcUrl: process.env.NEXT_PUBLIC_POLY_RPC_URL,
   chainId: Number(process.env.NEXT_PUBLIC_POLY_CHAIN_ID),
@@ -74,3 +76,6 @@ export const PROFILE_PICTURE_SIZE = {
   md: 32,
   sm: 24
 };
+
+export const isStaging = process.env.NEXT_PUBLIC_APP_PHASE === APP_PHASE.STAGING;
+export const isProduction = process.env.NEXT_PUBLIC_APP_PHASE === APP_PHASE.PRODUCTION;

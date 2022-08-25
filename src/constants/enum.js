@@ -7,6 +7,11 @@ export const AUTH_TYPE = {
   USERNAME: 'username'
 };
 
+export const APP_PHASE = {
+  PRODUCTION: 'production',
+  STAGING: 'staging'
+};
+
 export const LOCAL_STORAGE_KEYS = {
   ETH_AUTH: 'YUP_ETH_AUTH',
   YUP_REWARDS: 'YUP_CLAIM_RWRDS',
