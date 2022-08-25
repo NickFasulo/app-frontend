@@ -237,11 +237,26 @@ export const useFetchFeed = (  {feedType} ) => {
     callYupApi({
       url: `/feed/${feedType}?start=${pageParam}&limit=10`,
       method: 'GET'
-    }),       
+    }),
     {
-      refetchOnWindowFocus : false,    
-      getPreviousPageParam: (firstPage, pages) => pages.length>0&&pages.length-1*10,  
+      refetchOnWindowFocus : false,
+      getPreviousPageParam: (firstPage, pages) => pages.length>0&&pages.length-1*10,
       getNextPageParam: (lastPage, pages) => pages.length*10,
     }
   );
+};
+
+export const usePost = (id) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.POST, id],
+    async () => {
+      if (!id) return null;
+
+      return await callYupApi({
+        url: `/posts/post/${id}`
+      });
+    }
+  );
+
+  return data;
 };
