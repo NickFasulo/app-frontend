@@ -253,7 +253,6 @@ class PostController extends Component {
         </ErrorBoundary>
       );
     } else if (isWeb3Post(post.tag)) {
-      console.log("CONTROLLER222", post.web3Preview, post)
       return (
         <ErrorBoundary>
           <Web3Post
