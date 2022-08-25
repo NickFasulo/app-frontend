@@ -1,9 +1,6 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { apiBaseUrl } from '../../config';
-import { PageBody } from '../../_pages/pageLayouts';
-import { Grid, Typography } from '@mui/material';
+import React from 'react';
+import { Typography } from '@mui/material';
 import PostDisplay from '../../components/Post/PostDisplay';
 import { CreateCollectionFab } from '../../components/Miscellaneous';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
@@ -15,31 +12,15 @@ import {
   YupContainer
 } from '../../components/styles';
 import GridLayout from '../../components/GridLayout';
-
+import { usePost } from '../../hooks/queries';
+import withSuspense from '../../hoc/withSuspense';
+import { LOADER_TYPE } from '../../constants/enum';
 
 const PostDetails = () => {
   const router = useRouter();
-  const [post, setPost] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const { windowScrolled } = useAppUtils();
-
   const { id } = router.query;
-
-  const fetchPost = async () => {
-    try {
-      const postData = (await axios.get(`${apiBaseUrl}/posts/post/${id}`)).data;
-      setIsLoading(false);
-      setPost(postData);
-    } catch (err) {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (id) {
-      fetchPost();
-    }
-  }, [id]);
+  const post = usePost(id);
 
   return (
     <ErrorBoundary>
@@ -54,7 +35,7 @@ const PostDetails = () => {
         <YupContainer>
           <GridLayout
             contentLeft={
-              <PostDisplay isLoading={isLoading} post={post} />
+              <PostDisplay post={post} />
             }
             contentRight={<FeedCategoryList/>}
           />
@@ -65,4 +46,4 @@ const PostDetails = () => {
   );
 };
 
-export default PostDetails;
+export default withSuspense(LOADER_TYPE.TOP_BAR)(PostDetails);
