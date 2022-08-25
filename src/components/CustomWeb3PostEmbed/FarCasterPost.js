@@ -8,7 +8,10 @@ import withSuspense from '../../hoc/withSuspense';
 import Reply from './Reply';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
-import { parseText, linkMentions, urlIsImg  } from '../../utils/post_helpers';
+import { parseText, linkMentions, urlIsImg } from '../../utils/post_helpers';
+import ReactPlayer from 'react-player/lazy';
+import { isYoutubeUrl } from '../../utils/helpers';
+import VideoComponent from '../VideoComponent';
 
 const FarCasterPost = ({ post, text, postid, attachments, classes, showFullPost }) => {
   const web3Preview = post
@@ -83,7 +86,12 @@ console.log({parsedTextWithMentions, parsedText})
         <Grid item="item" xs={12}>
           {attachments
         ? attachments.map((attachment) => {
-          if(attachment.images[0]){
+          if (isYoutubeUrl(attachment.url)) {
+            return (
+              <VideoComponent url={attachment.url} />
+            );
+          }
+          else if(attachment.images[0]){
             return(
               <LinkPreview
                 size={'large'}

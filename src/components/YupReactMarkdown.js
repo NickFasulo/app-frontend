@@ -1,10 +1,12 @@
-import { Popover, Popper, Tooltip, Typography } from '@mui/material';
+import { Grid, Popover, Popper, Tooltip, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { markdownReplaceHashtags, markdownReplaceLinks }  from '../utils/post_helpers';
 import Link from './Link';
 import LinkPreview from './LinkPreview/LinkPreview';
 import { TruncateText } from './styles';
+import { isYoutubeUrl } from '../utils/helpers';
+import VideoComponent from './VideoComponent';
 
 // const TeaPartyLink = styled('a')(
 //   ({ theme }) => `
@@ -34,7 +36,7 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
   const parsed = linkPreview?markdownReplaceLinks(children):children;
  // const parsed2 = markdownReplaceHashtags(parsed);
   const getLinkPreview = (url) => {
-    return linkPreview.find(x => x?.url === url);
+    return linkPreview.find(x => x?.originalUrl === url);
   }
   return (
     <TruncateText variant='body2' lines={lines} >
@@ -72,23 +74,30 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
               break;
 
             case 'link': {
-                  const linkPreviewData = getLinkPreview(text)
-                  if(linkPreviewData){
-                    ( elem=<LinkPreview
-                      size={'large'}
-                      image={linkPreviewData.img}
-                      title={linkPreviewData.title}
-                      url={linkPreviewData.url}
-                      description={linkPreviewData.description}
-                      // classes={classes}
-                      />)
-                  } else {
-                    elem = <Typography  variant="body3" display="inline">
-                    <Link href={props.href} >
-                      {text}
-                    </Link>
-                    </Typography>
-                  }
+                const linkPreviewData = getLinkPreview(text)
+
+                if (isYoutubeUrl(text)) {
+                  elem = <VideoComponent url={text} />;
+                }
+                else if(linkPreviewData){
+                  ( elem=
+                  <Grid item xs={12}>
+                  <LinkPreview
+                    size={'large'}
+                    image={linkPreviewData.img}
+                    title={linkPreviewData.title}
+                    url={linkPreviewData.url}
+                    description={linkPreviewData.description}
+                    // classes={classes}
+                    />
+                    </Grid>)
+                } else {
+                  elem = <Typography  variant="body3" display="inline">
+                  <Link href={props.href} >
+                    {text}
+                  </Link>
+                  </Typography>
+                }
               }
 
               break;

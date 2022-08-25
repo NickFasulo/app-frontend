@@ -24,6 +24,7 @@ import isEqual from 'lodash/isEqual';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
 import axios from 'axios';
+import { isYoutubeUrl } from '../../utils/helpers';
 
 const COLUMBIA_PROF_TAG = 'columbia-course-registration/professor';
 const COLUMBIA_COURSE_TAG = 'columbia-course-registration/course';
@@ -59,11 +60,6 @@ function isObjectPost(url) {
     'rally.io/creator/[^/]*$'
   ]);
   return objPattern.test(url);
-}
-
-function isYoutubePost(url) {
-  const ytPattern = genRegEx(['youtube.com/watch?']);
-  return ytPattern.test(url);
 }
 
 function isChannelPost(url) {
@@ -300,7 +296,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isYoutubePost(post.url)) {
+    } else if (isYoutubeUrl(post.url)) {
       return (
         <ErrorBoundary>
           <VideoPost

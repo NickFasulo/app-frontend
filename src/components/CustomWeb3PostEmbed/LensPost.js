@@ -17,6 +17,8 @@ import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
 import YupImage from '../YupImage';
 import useDevice from '../../hooks/useDevice';
+import { isYoutubeUrl } from '../../utils/helpers';
+import VideoComponent from '../VideoComponent';
 const WrapLink = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children;
 
@@ -84,11 +86,11 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post, 
     >
           {/*If text hasnt been changed for Linkpreviews */}
           {/* disabled! */}
-            <YupReactMarkdown linkPreview={linkPreview}lines={!showFullPost&&7} classes={classes}>{text}</YupReactMarkdown>
+            <YupReactMarkdown linkPreview={linkPreview} lines={!showFullPost&&7} classes={classes}>{text}</YupReactMarkdown>
 
 
           {/*If post has Attachments */}
-          {attachments?.length > 0 &&  post.meta.metadata?.appId !=='phaver'&& (
+          {attachments?.length > 0 &&  (!linkPreview||post.meta.metadata?.appId !=='phaver')&& (
             <ImageList
               sx={{
                 borderRadius: '12px',
@@ -102,7 +104,9 @@ const LensPost = ({ postid, text, url, attachments, linkPreview, classes, post, 
                   sx={{ overflow: 'hidden' }}
                   key={attachment.images[0]}
                 >
-                  {attachment.images[0] ? (
+                  {isYoutubeUrl(attachment.url) ? (
+                    <VideoComponent url={attachment.url} />
+                  ) : attachment.images[0] ? (
                     <YupImage
                       height={ multipleAttachments()&&350}
                       src={convertIPFSSrcToHttps(attachment.images[0])}
