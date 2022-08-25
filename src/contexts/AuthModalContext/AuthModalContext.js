@@ -204,6 +204,8 @@ export const AuthModalContextProvider = ({ children }) => {
       })
     );
 
+    dispatch(fetchSocialLevel(account._id));
+
     updateAuthInfo({
       authType: AUTH_TYPE.ETH,
       address,
@@ -391,6 +393,7 @@ export const AuthModalContextProvider = ({ children }) => {
       })
     );
 
+    dispatch(fetchSocialLevel(mirrorData.account._id));
     dispatch(
       updateEthAuthInfo({
         ...ethSignData,
