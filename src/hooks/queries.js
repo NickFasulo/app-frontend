@@ -340,3 +340,98 @@ export const useCollectionPosts = (id) =>
       }
     }
   );
+
+export const useWalletInfo = (ethAddress) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.WALLET_INFO, ethAddress],
+    () => {
+      return {
+        tokens: [
+          {
+            image: 'https://dynamic-assets.coinbase.com/3c15df5e2ac7d4abbe9499ed9335041f00c620f28e8de2f93474a9f432058742cdf4674bd43f309e69778a26969372310135be97eb183d91c492154176d455b8/asset_icons/9d67b728b6c8f457717154b3a35f9ddc702eae7e76c4684ee39302c4d7fd0bb8.png',
+            name: 'USDC',
+            chain: 'ETHEREUM',
+            balance: 20000,
+            balanceUSD: 20000
+          },
+          {
+            image: 'https://dynamic-assets.coinbase.com/3c15df5e2ac7d4abbe9499ed9335041f00c620f28e8de2f93474a9f432058742cdf4674bd43f309e69778a26969372310135be97eb183d91c492154176d455b8/asset_icons/9d67b728b6c8f457717154b3a35f9ddc702eae7e76c4684ee39302c4d7fd0bb8.png',
+            name: 'USDC',
+            chain: 'ETHEREUM',
+            balance: 20000,
+            balanceUSD: 20000
+          },
+          {
+            image: 'https://dynamic-assets.coinbase.com/3c15df5e2ac7d4abbe9499ed9335041f00c620f28e8de2f93474a9f432058742cdf4674bd43f309e69778a26969372310135be97eb183d91c492154176d455b8/asset_icons/9d67b728b6c8f457717154b3a35f9ddc702eae7e76c4684ee39302c4d7fd0bb8.png',
+            name: 'USDC',
+            chain: 'POLYGON',
+            chainImage: 'https://content-api.changenow.io/uploads/matic_token_f9906e3f5d.svg',
+            balance: 20000,
+            balanceUSD: 20000
+          },
+          {
+            image: 'https://dynamic-assets.coinbase.com/3c15df5e2ac7d4abbe9499ed9335041f00c620f28e8de2f93474a9f432058742cdf4674bd43f309e69778a26969372310135be97eb183d91c492154176d455b8/asset_icons/9d67b728b6c8f457717154b3a35f9ddc702eae7e76c4684ee39302c4d7fd0bb8.png',
+            name: 'USDC',
+            chain: 'ETHEREUM',
+            balance: 20000,
+            balanceUSD: 20000
+          },
+          {
+            image: 'https://dynamic-assets.coinbase.com/3c15df5e2ac7d4abbe9499ed9335041f00c620f28e8de2f93474a9f432058742cdf4674bd43f309e69778a26969372310135be97eb183d91c492154176d455b8/asset_icons/9d67b728b6c8f457717154b3a35f9ddc702eae7e76c4684ee39302c4d7fd0bb8.png',
+            name: 'USDC',
+            chain: 'ETHEREUM',
+            balance: 20000,
+            balanceUSD: 20000
+          }
+        ],
+        nfts: [
+          {
+            image: 'https://lh3.googleusercontent.com/POAbbOJdmt2JwLpROZWATiZ01rBTK5ozE52X74rQaW_cAR_xRLhKbyUhjrIoo_1XCMpT0wF-G1k_pVHXvBTEBs18xm6GGDHGujdDsQ=w600',
+            collectionName: 'Super Saiyan Army Super Saiyan Army Super Saiyan Army Super Saiyan Army',
+            collectionImage: 'https://openseauserdata.com/files/fe5d7e2582dc8a6155244f2bd2d06793.gif',
+            verified: true,
+            link: ''
+          },
+          {
+            image: 'https://lh3.googleusercontent.com/giA81_dV__ihKWNW5xiZ4KOGvs4aQhYgOG9uOM5z_3kv6cAM_Vjl96OVbZxZJR1jNLmTPeDrhyR4-WuOZO_SJG8g2E2qUq73ckg9Qg=w600',
+            collectionName: 'Super Saiyan Army',
+            collectionImage: 'https://openseauserdata.com/files/fe5d7e2582dc8a6155244f2bd2d06793.gif',
+            verified: false,
+            link: ''
+          },
+          {
+            image: 'https://lh3.googleusercontent.com/POAbbOJdmt2JwLpROZWATiZ01rBTK5ozE52X74rQaW_cAR_xRLhKbyUhjrIoo_1XCMpT0wF-G1k_pVHXvBTEBs18xm6GGDHGujdDsQ=w600',
+            collectionName: 'Super Saiyan Army',
+            collectionImage: 'https://openseauserdata.com/files/fe5d7e2582dc8a6155244f2bd2d06793.gif',
+            verified: true,
+            link: ''
+          }
+        ],
+        poaps: [
+          {
+            image: 'https://assets.poap.xyz/athens-200-beta-turkey-day-launch-party-2021-logo-1637812918593.png',
+            description: 'A big',
+            link: 'https://poap.gallery/event/8251'
+          },
+          {
+            image: 'https://assets.poap.xyz/edens-first-100-supporters-2021-logo-1632300557098.png',
+            description: 'A big special thanks to you for being one of our early supporters and celebrating the launch of Athens 2.0.0-beta with us! Unfortunately we couldn\'t split a turkey over the internet, so we made this turkey JPEG for you instead.\n',
+            link: 'https://poap.gallery/event/8251'
+          },
+          {
+            image: 'https://assets.poap.xyz/athens-200-beta-turkey-day-launch-party-2021-logo-1637812918593.png',
+            description: 'A big special thanks to you for being one of our early supporters and celebrating the launch of Athens 2.0.0-beta with us! Unfortunately we couldn\'t split a turkey over the internet, so we made this turkey JPEG for you instead.\n',
+            link: 'https://poap.gallery/event/8251'
+          },
+          {
+            image: 'https://assets.poap.xyz/athens-200-beta-turkey-day-launch-party-2021-logo-1637812918593.png',
+            description: 'A big special thanks to you for being one of our early supporters and celebrating the launch of Athens 2.0.0-beta with us! Unfortunately we couldn\'t split a turkey over the internet, so we made this turkey JPEG for you instead.\n',
+            link: 'https://poap.gallery/event/8251'
+          }
+        ]
+      };
+    }
+  );
+
+  return data;
+};
