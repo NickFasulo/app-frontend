@@ -8,21 +8,21 @@ const UserConnection = ({ user }) => {
   const { closeSearch } = useSideBar();
   return (
     <Link
-      key={user._id}
-      href={`/account/${user.username || user._id}`}
+      key={user.userId}
+      href={`/account/${user.username || user.userId}`}
       style={{ textDecoration: 'none' }}
     >
       <FlexBox my={2} alignItems="center" sx={{ cursor: 'pointer' }}
       onClick={() => closeSearch()}>
         <ConnectionAvatar src={user.avatar} alt="avatar">
-          {user.username[0].toUpperCase()}
+          {user.username?.toUpperCase() ?? 'AN'}
         </ConnectionAvatar>
         <Box ml={2}>
           <Typography noWrap variant="body1">
-            <strong>{user.fullname || user._id || user.username}</strong>
+            <strong>{user.fullname || user.username || user.userId }</strong>
           </Typography>
           <Typography noWrap variant="body2">
-            @{user.username || user.eosname}
+            @{user.username || user.userId}
           </Typography>
         </Box>
       </FlexBox>
