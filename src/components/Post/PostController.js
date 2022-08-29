@@ -150,9 +150,8 @@ class PostController extends Component {
     return false;
   }
 
-  render() {
-    const { classes, post, hideInteractions, renderObjects, showFullPost } = this.props;
-    if (!post) return null;
+  componentDidMount() {
+    const { post } = this.props;
 
     if ('previewData' in post && !('img' in post.previewData)) {
       if (
@@ -164,6 +163,11 @@ class PostController extends Component {
         });
       }
     }
+  }
+
+  render() {
+    const { classes, post, hideInteractions, renderObjects, showFullPost } = this.props;
+    if (!post) return null;
 
     const isTextPost =
       (post.imgHash == null || post.imgHash.trim() === '') &&
