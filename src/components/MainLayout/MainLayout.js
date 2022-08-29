@@ -31,7 +31,7 @@ const MainLayout = ({ children }) => {
   return (
     <>
       <BackgroundGradients />
-      {showHeader && <SideBar />}
+      {showHeader && <nav><SideBar /></nav>}
       {isCheckingAuth ? <PageLoadingBar /> : children}
 
       <ConnectButton />
