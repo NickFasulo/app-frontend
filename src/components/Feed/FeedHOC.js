@@ -63,9 +63,9 @@ const FeedHOC = ({ feedType }) => {
   useEffect(() => {
     const element = document.querySelector('.infinite-scroll-component');
 
-    // if (element) {
-    //   element.scrollTop = 0;
-    // }
+    if (element) {
+      element.scrollTop = 0;
+    }
 
    // fetchPosts();
     logPageView(feedType);
