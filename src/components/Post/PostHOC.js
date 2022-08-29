@@ -50,8 +50,7 @@ const styles = (theme) => ({
   }
 });
 
-class PostHOC extends PureComponent {
-  render() {
+const PostHOC = (props)=> {
     const {
       classes,
       account,
@@ -66,7 +65,7 @@ class PostHOC extends PureComponent {
       rating,
       post,
       component: Component
-    } = this.props;
+    } = props;
 
     return (
       <ErrorBoundary>
@@ -79,7 +78,7 @@ class PostHOC extends PureComponent {
               author={author}
             />
             <div className={classes.article}>
-              <Component {...this.props} />
+              <Component {...props} />
               <Typography className={classes.postUrlHeader} variant="h6">
                 <PostGrid
                   post={post}
@@ -103,7 +102,6 @@ class PostHOC extends PureComponent {
         </Fade>
       </ErrorBoundary>
     );
-  }
 }
 
 const mapStateToProps = (state, ownProps) => {

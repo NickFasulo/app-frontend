@@ -26,6 +26,7 @@ import { apiBaseUrl } from '../../config';
 import axios from 'axios';
 import { isYoutubeUrl } from '../../utils/helpers';
 import { useRefetchPostPreview } from '../../hooks/queries';
+import withSuspense from '../../hoc/withSuspense';
 
 const COLUMBIA_PROF_TAG = 'columbia-course-registration/professor';
 const COLUMBIA_COURSE_TAG = 'columbia-course-registration/course';
@@ -144,7 +145,7 @@ function isEventPost(tag) {
 
 // TODO: Refactor
 const PostController = ({classes, post, hideInteractions, renderObjects, showFullPost}) => {
-  const postRefetch = useRefetchPostPreview(post, post._id.postid)
+   useRefetchPostPreview(post, post._id.postid)
   // shouldComponentUpdate(nextProps, nextState) {
   //   if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
   //     return true;
@@ -594,4 +595,4 @@ PostController.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default memo(PostController);
+export default withSuspense()(memo(PostController));

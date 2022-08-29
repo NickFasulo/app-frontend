@@ -17,7 +17,6 @@ import withSuspense from '../../hoc/withSuspense';
 
 const FeedHOC = ({ feedType }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [postLength, setPostLength] = useState(0);
 
   const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage,  hasPreviousPage, status } = useFetchFeed({feedType:feedType});
@@ -64,9 +63,9 @@ const FeedHOC = ({ feedType }) => {
   useEffect(() => {
     const element = document.querySelector('.infinite-scroll-component');
 
-    if (element) {
-      element.scrollTop = 0;
-    }
+    // if (element) {
+    //   element.scrollTop = 0;
+    // }
 
    // fetchPosts();
     logPageView(feedType);

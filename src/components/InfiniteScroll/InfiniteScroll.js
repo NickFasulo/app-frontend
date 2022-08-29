@@ -9,7 +9,7 @@ export default class InfiniteScroll extends Component {
   constructor(props) {
     super(props);
 
-    this.lastScrollTop = 0;
+    // this.lastScrollTop = 0;
     this.actionTriggered = false;
 
     this.state = {
