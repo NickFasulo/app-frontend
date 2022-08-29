@@ -67,7 +67,6 @@ const CollectionDialog = ({
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !!name) handleCreateNewCollection();
   };
-
   const handleCreateNewCollection = async () => {
     try {
       if (isLoading) return;

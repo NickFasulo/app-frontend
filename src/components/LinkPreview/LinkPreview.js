@@ -7,6 +7,7 @@ import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
+import Link from '../Link/Link';
 
 const styles = (theme) => ({
   container: {
@@ -96,7 +97,7 @@ const styles = (theme) => ({
 const LinkPreview=({image, title, description, url, classes})=>{
   
     let faviconURL = null;
-    console.log(image, 'WURST');
+    console.log(url, 'WURST');
 
     if (url != null) {
       faviconURL = getFavicon(url);
@@ -104,10 +105,9 @@ const LinkPreview=({image, title, description, url, classes})=>{
 
     return (
       <ErrorBoundary>
-        <div className={classes.container} href={url} target="_blank">
+        <Link className={classes.container} href={url}>
           <a
             className={classes.link}
-            href={url}
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -173,7 +173,7 @@ const LinkPreview=({image, title, description, url, classes})=>{
               </div>
             </div>
           </a>
-        </div>
+        </Link>
       </ErrorBoundary>
     );
   }

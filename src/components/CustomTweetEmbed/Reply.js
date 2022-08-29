@@ -7,6 +7,7 @@ import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import useDevice from '../../hooks/useDevice';
+import YupTweetImg from '../YupImage/YupTweetImg';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
@@ -191,8 +192,8 @@ const Reply = ({ tweetData, classes }) => {
             </Grid>
           </Grid>
           <Grid item xs>
-            <Grid container direction="column" spacing={1}>
-              <Grid item className={classes.header}>
+            <Grid container direction="row" spacing={1}>
+              <Grid item className={classes.header} xs={12}>
                 <Grid
                   container
                   justifyContent="space-between"
@@ -220,8 +221,10 @@ const Reply = ({ tweetData, classes }) => {
                           target="_blank"
                           underline="none"
                         >
-                          <Grid className={classes.twitterHandle}>
-                            @{replyScreenName}
+                          <Grid>
+                            <Typography variant='body2' className={classes.twitterHandle}>
+                              @{replyScreenName}
+                            </Typography>
                           </Grid>
                         </Link>
                       </Grid>
@@ -242,14 +245,15 @@ const Reply = ({ tweetData, classes }) => {
                 item
                 className={classes.replyContent}
                 style={{ paddingBottom: '8px' }}
+                xs={12}
               >
                 <Link href={tweetLink} target="_blank" underline="none">
                   <Typography variant="body2">{replyTweetText}</Typography>
                 </Link>
               </Grid>
               {replyHasPhoto && replyMediaURL ? (
-                <Grid item className={classes.replyImageContainer}>
-                  <img
+                <Grid item className={classes.replyImageContainer} xs={12}>
+                  <YupTweetImg
                     className={classes.tweetImg}
                     style={BothHaveMedia ? smallImage : bigImage}
                     src={
@@ -263,7 +267,7 @@ const Reply = ({ tweetData, classes }) => {
               ) : (
                 replyHasVideo &&
                 replyMediaURL && (
-                  <Grid item className={classes.replyImageContainer}>
+                  <Grid item className={classes.replyImageContainer} xs={12}>
                     <TweetVidPlayer url={replyMediaURL} />
                   </Grid>
                 )
@@ -288,7 +292,7 @@ const Reply = ({ tweetData, classes }) => {
                   <Grid item>
                     <Link href={tweetLink} target="_blank" underline="none">
                       <Typography
-                        variant="subtitle2"
+                        variant="body2"
                         className={classes.tweetText}
                       >
                         {tweetText.replace(/@\S+\s?/gm, '')}
@@ -310,7 +314,7 @@ const Reply = ({ tweetData, classes }) => {
                     )}
                     {hasPhoto && mediaURL ? (
                       <Typography className={classes.tweetText}>
-                        <img
+                        <YupTweetImg
                           className={classes.tweetImg}
                           src={
                             tweetData.excludeTweet

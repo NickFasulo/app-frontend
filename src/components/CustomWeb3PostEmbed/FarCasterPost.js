@@ -1,39 +1,33 @@
 import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
-import React, {useState} from 'react';
-import reactStringReplace from 'react-string-replace';
-import styled from '@emotion/styled';
-import { linkMentions, urlIsImg } from './Util/Util';
+import React from 'react';
 import LinkPreview from '../LinkPreview/LinkPreview';
-import { parseText } from './Util/Util';
-import YupReactMarkdown from '../YupReactMarkdown';
-import { CldImg, SeeMore } from '../Miscellaneous';
-import TextTruncate from 'react-text-truncate';
-import { useRouter } from 'next/router';
+import { CldImg } from '../Miscellaneous';
 import { TruncateText } from '../styles';
-import { useFarcasterReplyParent } from '../../hooks/queries';
 import withSuspense from '../../hoc/withSuspense';
 import Reply from './Reply';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
+import { parseText, linkMentions, urlIsImg } from '../../utils/post_helpers';
+import ReactPlayer from 'react-player/lazy';
+import { isYoutubeUrl } from '../../utils/helpers';
+import VideoComponent from '../VideoComponent';
 
-const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
-  const { pathname } = useRouter();
+const FarCasterPost = ({ post, text, postid, attachments, classes, showFullPost }) => {
   const web3Preview = post
   const {id} = post
  // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
   let parsedText = parseText(text);
+  let parsedTextWithMentions = parsedText.split(' ').map((string) => linkMentions(string, 'farcaster://profiles/'));
+console.log({parsedTextWithMentions, parsedText})
   const parents = post.meta.parents
   const isReply = parents?.length  > 0
   // const isReplyToReply = parents.length > 1
 
-  const isFullPost = () => {
-    return pathname === '/post/[id]';
-  };
   if(isReply){
     return (
       <Grid item="item" xs={12}>
-        <Reply classes={classes} post={post}>
+        <Reply classes={classes} post={post} postid={postid}>
           </Reply>
           </Grid>)
   }
@@ -68,11 +62,8 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
               </Grid>
               <Grid item="item" xs={12}>
                 <Grid container="container" spacing={1}>
-                  <Grid item="item" xs={12}
-                sx={{margin:'1em 0'}}>
-                    {/* <Link href={tweetLink} target="_blank" underline="none"> */}
+                  <Grid item="item" xs={12}>
 
-              <Link href={`/post/${postid}`} >
 
               <Grid container="container" direction="row" spacing={1}  sx={{cursor:'pointer'}}>
 
@@ -80,21 +71,27 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
       {account.fullname || account.username || account._id}
     </TruncateText> */}
 
+  <Link href={`/post/${postid}`} >
     <Grid item="item" xs={12}>
-        {!isFullPost() ? (
+        {showFullPost ? (
         <TruncateText variant='body2' lines={7} >
-          {parsedText}
-    </TruncateText>):(
+          {parsedTextWithMentions}
+        </TruncateText>):(
         <Typography variant="body2">
-          {parsedText}
+          {parsedTextWithMentions}
         </Typography>)}
           </Grid>
-
+    </Link>
 
         <Grid item="item" xs={12}>
           {attachments
         ? attachments.map((attachment) => {
-          if(attachment.images[0]){
+          if (isYoutubeUrl(attachment.url)) {
+            return (
+              <VideoComponent url={attachment.url} />
+            );
+          }
+          else if(attachment.images[0]){
             return(
               <LinkPreview
                 size={'large'}
@@ -113,17 +110,14 @@ const FarCasterPost = ({ post, text, postid, attachments, classes }) => {
               style={{ borderRadius: '12px' }}
               src={attachment.url}
               alt={attachment.title}
+              isWeb3Post
             />)
           }
           })
         : null}
           </Grid>
-        {/* {attachments ? parseText(text) : text }
-        </YupReactMarkdown> */}
 
-      </Grid>
-      </Link>
-                    {/* </Link> */}
+            </Grid>
                   </Grid>
                 </Grid>
               </Grid>

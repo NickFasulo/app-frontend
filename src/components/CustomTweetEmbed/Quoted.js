@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { parseText, linkMentions } from './Util/Util';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
+import YupTweetImg from '../YupImage/YupTweetImg';
 
 const Quoted = ({ tweetData, classes }) => {
   const { user, quoted_status: quotedStatus } = tweetData.tweetInfo;
@@ -147,7 +148,7 @@ const Quoted = ({ tweetData, classes }) => {
                   {originalHasPhoto && originalMediaURL && differentMedia ? (
                     <Grid item xs={12}>
                       <Typography className={classes.tweetText}>
-                        <img
+                        <YupTweetImg
                           className={classes.tweetImg}
                           src={
                             tweetData.excludeTweet
@@ -219,10 +220,10 @@ const Quoted = ({ tweetData, classes }) => {
                       </Grid>
                       <Grid item style={{ marginBottom: '-2px' }}>
                         {quotedHasPhoto && quotedMediaURL ? (
-                          <img
+                          <YupTweetImg
                             className={classes.tweetImg}
                             style={{
-                              borderRadius: '0px 0px 12px 12px'
+                              borderRadius: '12px'
                             }}
                             src={
                               tweetData.excludeTweet

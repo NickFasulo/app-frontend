@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
 import PropTypes from 'prop-types';
-import { parseText, linkMentions } from './Util/Util';
+import { parseText, linkMentions } from '../../utils/post_helpers';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
@@ -222,7 +222,7 @@ const Quoted = ({ tweetData, classes }) => {
                           <img
                             className={classes.tweetImg}
                             style={{
-                              borderRadius: '0px 0px 12px 12px'
+                              borderRadius: '12px'
                             }}
                             src={
                               tweetData.excludeTweet

@@ -20,11 +20,11 @@ const PostContainer = styled('div')(
 );
 
 const Web3Post = (props) => {
-  const { postid, postHOC: PostHOC, web3Preview } = props;
+  const { postid, postHOC: PostHOC, web3Preview, showFullPost } = props;
 
   const Web3PostComp = (_props) => (
     <PostContainer>
-      <CustomWeb3PostEmbed postid={postid} web3Preview={web3Preview} />
+      <CustomWeb3PostEmbed postid={postid} web3Preview={web3Preview} showFullPost={showFullPost} />
     </PostContainer>
   );
 

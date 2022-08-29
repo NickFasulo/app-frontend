@@ -12,6 +12,7 @@ import VideoPost from './VideoPost';
 import SoundPost from './SoundPost';
 import SpotifyPost from './SpotifyPost';
 import MusicPost from './MusicPost';
+import EventPost from './EventPost';
 import TallPreviewPost from './TallPreviewPost';
 import ObjectPost from './ObjectPost';
 import NFTPost from './NFTPost';
@@ -23,6 +24,7 @@ import isEqual from 'lodash/isEqual';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
 import axios from 'axios';
+import { isYoutubeUrl } from '../../utils/helpers';
 
 const COLUMBIA_PROF_TAG = 'columbia-course-registration/professor';
 const COLUMBIA_COURSE_TAG = 'columbia-course-registration/course';
@@ -58,11 +60,6 @@ function isObjectPost(url) {
     'rally.io/creator/[^/]*$'
   ]);
   return objPattern.test(url);
-}
-
-function isYoutubePost(url) {
-  const ytPattern = genRegEx(['youtube.com/watch?']);
-  return ytPattern.test(url);
 }
 
 function isChannelPost(url) {
@@ -135,9 +132,13 @@ function isNFTPost(url) {
   return nftPattern.test(url);
 }
 
-function isWeb3Post(url) {
-  const web3Pattern = genRegEx(['farcaster', 'lens', 'view.yup.io']);
-  return web3Pattern.test(url);
+function isWeb3Post(tag) {
+  return ['farcaster', 'lens'].includes(tag)
+}
+
+function isEventPost(tag) {
+  const eventPattern = genRegEx(['poap']);
+  return eventPattern.test(tag);
 }
 
 // TODO: Refactor
@@ -150,7 +151,7 @@ class PostController extends Component {
   }
 
   render() {
-    const { classes, post, hideInteractions, renderObjects } = this.props;
+    const { classes, post, hideInteractions, renderObjects, showFullPost } = this.props;
     if (!post) return null;
 
     if ('previewData' in post && !('img' in post.previewData)) {
@@ -251,7 +252,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isWeb3Post(post.url)) {
+    } else if (isWeb3Post(post.tag)) {
       return (
         <ErrorBoundary>
           <Web3Post
@@ -269,10 +270,32 @@ class PostController extends Component {
             rating={post.rating}
             hideInteractions={hideInteractions}
             classes={classes}
+            showFullPost={showFullPost}
           />
         </ErrorBoundary>
       );
-    } else if (isYoutubePost(post.url)) {
+    } else if (isEventPost(post.tag)) {
+      return (
+        <ErrorBoundary>
+          <EventPost
+            post={post}
+            url={post.url}
+            comment={post.comment}
+            author={post.author}
+            postid={post._id.postid}
+            quantiles={post.quantiles}
+            web3Preview={post.web3Preview}
+            tweetObject={post}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            rating={post.rating}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </ErrorBoundary>
+      );
+    } else if (isYoutubeUrl(post.url)) {
       return (
         <ErrorBoundary>
           <VideoPost
@@ -443,6 +466,7 @@ class PostController extends Component {
             postHOC={PostHOC}
             hideInteractions={hideInteractions}
             classes={classes}
+            showFullPost={showFullPost}
           />
         </ErrorBoundary>
       );

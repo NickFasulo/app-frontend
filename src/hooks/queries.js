@@ -1,9 +1,9 @@
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import sum from 'lodash/sum';
 import { REACT_QUERY_KEYS } from '../constants/enum';
 import callYupApi from '../apis/base_api';
-import { DEFAULT_FEED_PAGE_SIZE, DEFAULT_SEARCH_SIZE } from '../config';
-import axios from 'axios';
+import { DEFAULT_FEED_PAGE_SIZE, DEFAULT_SEARCH_SIZE, isStaging } from '../config';
+import { FEED_CATEGORIES } from '../constants/data';
 
 export const useCollection = (id) => {
   const { data } = useQuery([REACT_QUERY_KEYS.YUP_COLLECTION, id], () =>
@@ -227,6 +227,35 @@ export const useUserLikes = (userId) => {
       });
 
       return res.totalCount;
+    }
+  );
+
+  return data;
+};
+export const useFetchFeed = (  {feedType} ) => {
+
+  return useInfiniteQuery([REACT_QUERY_KEYS.YUP_FEED, feedType], ( {pageParam = 0}) =>
+    callYupApi({
+      url: `/feed/${isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''}${feedType}?start=${pageParam}&limit=10`,
+      method: 'GET'
+    }),
+    {
+      refetchOnWindowFocus : false,
+      getPreviousPageParam: (firstPage, pages) => pages.length>0&&pages.length-1*10,
+      getNextPageParam: (lastPage, pages) => pages.length*10,
+    }
+  );
+};
+
+export const usePost = (id) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.POST, id],
+    async () => {
+      if (!id) return null;
+
+      return await callYupApi({
+        url: `/posts/post/${id}`
+      });
     }
   );
 

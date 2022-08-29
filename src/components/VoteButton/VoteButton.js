@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, useRef } from 'react';
 import { isEmpty } from 'lodash';
 import { withRouter } from 'next/router';
 import PropTypes from 'prop-types';
@@ -37,6 +37,7 @@ import {
 import { styled } from '@mui/material/styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';
+import useLongPress from '../../hooks/useLongPress';
 
 const styles = (theme) => ({
   greenArrow: {
@@ -196,7 +197,9 @@ const VoteButton = ({
   rating=0,
   isVoted,
   setLastClicked,
-  web3Likes = 0
+  lastClicked,
+  web3Likes = 0,
+  userInfluence
 }) => {
   const account = useAuth();
   const { open: openAuthModal } = useAuthModal();
@@ -204,13 +207,40 @@ const VoteButton = ({
   const [isClicked, setIsClicked] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  console.log({totalVoters, rating, web3Likes, type})
+  const [isLongPress, setIsLongPress] = useState(false);
+  const [clickFinished, setClickFinished] = useState(false);
+console.log({userInfluence})
+  const onLongPress = (isPressed) =>{
+    if(account?.name){
+    setIsLongPress(isPressed)
+    }
+  }
+  const onClick = () => {
+    if(account?.name){
+      setIsClicked(true)
+      setLastClicked()
+      handleOnclick();
+    }
+  }
+  const defaultOptions = {
+    shouldPreventDefault: true,
+    delay: 200,
+};
+  const longPress = useLongPress(onLongPress, onClick, defaultOptions);
+//Resets clickFinished so animation plays again next time
+  useEffect(()=>{
+    if(lastClicked!== type){
+      setIsClicked(false)
+      setClickFinished(false)
+    }
+  },[rating])
+
   useEffect(() => {
     let interval;
-    if (mouseDown && (!account || !account.name)) {
+    if (isLongPress && (!account || !account.name)) {
       openAuthModal({ noRedirect: true });
     } else {
-      if (mouseDown) {
+      if (isLongPress) {
         setLastClicked();
         handleOnclick();
         interval = setInterval(() => {
@@ -220,9 +250,10 @@ const VoteButton = ({
       }
     }
     return () => clearInterval(interval);
-  }, [mouseDown]);
+  }, [isLongPress]);
 
   const ratingToMultiplier = () => {
+
     if (type === 'dislike') {
       if (rating === 1) {
         return 2;
@@ -245,11 +276,11 @@ const VoteButton = ({
 
   //This resets mousedown for whatever reason...
   const transition = useTransition(
-    mouseDown && account && account.name ? [ratingToMultiplier()] : [],
+    (isLongPress || isClicked) ? [rating!==0&&(rating*userInfluence).toFixed(0)] : [],
     {
       config: { mass: 0.7, tension: 300, friction: 35, clamp: true },
       from: { top: 0, opacity: 0 },
-      enter: { top: -15, opacity: 1 },
+      enter: { top: -15, opacity: 10 },
       leave: { top: -70, opacity: 0 },
       easings: easings.linear
     }
@@ -261,8 +292,8 @@ const VoteButton = ({
     from: { width: '16px', height: '16px', transform: 'rotate(0deg)' },
 
     to: {
-      width: isHovered && account && account.name ? '18px' : '16px',
-      height: isHovered && account && account.name ? '18px' : '16px',
+      width: isHovered ? '18px' : '16px',
+      height: isHovered ? '18px' : '16px',
       transform:
         isHovered && account && account.name
           ? type === 'like'
@@ -271,23 +302,34 @@ const VoteButton = ({
           : 'rotate(0deg)'
     }
   });
-  const { ...hardPress } = useSpring({
+  const { ...hardPressAnimation } = useSpring({
     config: { tension: 300, friction: 35 },
-    loop: { reverse: mouseDown && account && account.name },
+    loop: { reverse: isLongPress  },
     from: { width: '16px', height: '16px' },
 
     to: {
-      width: mouseDown && account && account.name ? '14px' : '16px',
-      height: mouseDown && account && account.name ? '14px' : '16px'
-    }
+      width: isLongPress  ? '14px' : '16px',
+      height: isLongPress  ? '14px' : '16px'
+    },
+  });
+  
+  const { ...clickAnimation } = useSpring({
+    config: { tension: 300, friction: 35 },
+    from: { width: '16px', height: '16px' },
+    to: {
+      width: isVoted  ? '14px' : '16px',
+      height: isVoted ? '14px' : '16px'
+    },
+    reverse: clickFinished,
+    onRest: ()=> {setClickFinished(true)}
   });
   const formattedWeight = totalVoters === 0 ? 0 : formatWeight(catWeight);
   const icon =
     type === 'like'
-      ? (isHovered || isClicked || isVoted) && account && account.name
+      ? (isHovered ||  isVoted) && account && account.name
         ? faThumbsUpSolid
         : faThumbsUp
-      : (isHovered || isClicked || isVoted) && account && account.name
+      : (isHovered || isVoted) && account && account.name
       ? faThumbsDownSolid
       : faThumbsDown;
   return (
@@ -310,28 +352,24 @@ const VoteButton = ({
             ...style
           }}
         >
+          {item&&(
           <Grid item>
             <Typography variant="label">x{item}</Typography>
-          </Grid>
+          </Grid>)}
         </animated.div>
       ))}
-      <Grid item sx={{ zIndex: '1000' }}>
+      <Grid item sx={{ zIndex: '1000' }}
+          onMouseEnter={()=>setIsHovered(true)}
+          onMouseLeave={()=>setIsHovered(false)}>
         <div
           style={{ width: '18px', cursor: 'pointer' }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseDown={() => {
-            setMouseDown(true);
-          }}
-          onMouseUp={() => {
-            setMouseDown(false);
-          }}
-          onMouseLeave={() => {
-            setMouseDown(false);
-            setIsHovered(false);
-          }}
+          {...longPress}
         >
-          {mouseDown || isClicked ? (
-            <AnimatedIcon style={{ ...hardPress }} icon={icon} />
+          {isLongPress || isVoted ? (
+            <>{isLongPress?(
+              <AnimatedIcon style={{ ...hardPressAnimation }} icon={icon} />):(
+                <AnimatedIcon style={{ ...clickAnimation }} icon={icon} />)}
+            </>
           ) : (
             <AnimatedIcon style={{ ...hover }} icon={icon} />
           )}

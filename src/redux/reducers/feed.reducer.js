@@ -36,22 +36,6 @@ const initialState = {
       limit: 10,
       hasMore: true
     },
-    politics: {
-      posts: [],
-      isLoading: false,
-      error: null,
-      start: 0,
-      limit: 10,
-      hasMore: true
-    },
-    safespace: {
-      posts: [],
-      isLoading: false,
-      error: null,
-      start: 0,
-      limit: 10,
-      hasMore: true
-    },
     farcaster: {
       posts: [],
       isLoading: false,

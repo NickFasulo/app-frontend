@@ -1,10 +1,12 @@
-import { Popover, Popper, Tooltip, Typography } from '@mui/material';
+import { Grid, Popover, Popper, Tooltip, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { markdownReplaceHashtags, markdownReplaceLinks } from './CustomWeb3PostEmbed/Util/Util';
+import { markdownReplaceHashtags, markdownReplaceLinks }  from '../utils/post_helpers';
 import Link from './Link';
 import LinkPreview from './LinkPreview/LinkPreview';
 import { TruncateText } from './styles';
+import { isYoutubeUrl } from '../utils/helpers';
+import VideoComponent from './VideoComponent';
 
 // const TeaPartyLink = styled('a')(
 //   ({ theme }) => `
@@ -31,29 +33,32 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
   // const handlePopoverClose = () => {
   //   setOpen(false)
   // };
-  const parsed = markdownReplaceLinks(children);
+  const parsed = linkPreview?markdownReplaceLinks(children):children;
  // const parsed2 = markdownReplaceHashtags(parsed);
   const getLinkPreview = (url) => {
-    console.log({url})
-    return linkPreview.find(x => x.url === url);
+    return linkPreview.find(x => x?.originalUrl === url);
   }
   return (
     <TruncateText variant='body2' lines={lines} >
     <ReactMarkdown
-      // components={{
-      //    ul: ({node, ...props}) => <img  height="100px" style={{maxHeight:'200px'}}{...props} />
-      // }}
-
       components={{
         ul: ({node, ...props}) => <ul   style={{listStylePosition: "inside",
           paddingLeft: 0}}{...props} />,
         ol: ({node, ...props}) => <ol   style={{listStylePosition: "inside",
         paddingLeft: 0}}{...props} />,
+        img: ({ node, ...props }) => <img
+          style={{
+            maxWidth: '100%',
+            objectFit: 'contain',
+            borderRadius: 10
+          }}
+          {...props}
+        />,
          a: ({node, ...props}) =>
          {
           const originalText = node?.children?.[0]?.value
           const [yupTag, text] = node?.children?.[0]?.value?.split("yupreplace")
-          console.log(node?.children?.[0]?.value,{...props, yupTag, text})
+
           let elem =
           <Typography  display="inline">
               <Link {...props} />
@@ -69,23 +74,30 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
               break;
 
             case 'link': {
-                  const linkPreviewData = getLinkPreview(text)
-                  if(linkPreviewData){
-                    ( elem=<LinkPreview
-                      size={'large'}
-                      image={linkPreviewData.img}
-                      title={linkPreviewData.title}
-                      url={linkPreviewData.url}
-                      description={linkPreviewData.description}
-                      // classes={classes}
-                      />)
-                  } else {
-                    elem = <Typography  variant="body3" display="inline">
-                    <Link href={props.href} >
-                      {text}
-                    </Link>
-                    </Typography>
-                  }
+                const linkPreviewData = getLinkPreview(text)
+
+                if (isYoutubeUrl(text)) {
+                  elem = <VideoComponent url={text} />;
+                }
+                else if(linkPreviewData){
+                  ( elem=
+                  <Grid item xs={12}>
+                  <LinkPreview
+                    size={'large'}
+                    image={linkPreviewData.img}
+                    title={linkPreviewData.title}
+                    url={linkPreviewData.url}
+                    description={linkPreviewData.description}
+                    // classes={classes}
+                    />
+                    </Grid>)
+                } else {
+                  elem = <Typography  variant="body3" display="inline">
+                  <Link href={props.href} >
+                    {text}
+                  </Link>
+                  </Typography>
+                }
               }
 
               break;

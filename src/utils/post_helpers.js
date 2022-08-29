@@ -5,16 +5,15 @@ import ReactPlayer from 'react-player/lazy';
 import Link from '@mui/material/Link';
 import axios from 'axios';
 import _, { matches } from 'lodash';
-import { apiBaseUrl } from '../../../config';
-import LinkPreview from '../../LinkPreview/LinkPreview';
+import { apiBaseUrl } from '../config';
+import LinkPreview from '../components/LinkPreview/LinkPreview';
 import reactStringReplace from 'react-string-replace';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
-import TeaPartyPost from '../TeaPartyPost';
-import FarCasterPost from '../FarCasterPost';
-import { SeeMore } from '../../Miscellaneous';
-import LensPost from '../LensPost';
-import PhaverPost from '../PhaverPost';
+import TeaPartyPost from '../components/CustomWeb3PostEmbed/TeaPartyPost';
+import FarCasterPost from '../components/CustomWeb3PostEmbed/FarCasterPost';
+import { SeeMore } from '../components/Miscellaneous';
+import LensPost from '../components/CustomWeb3PostEmbed/LensPost';
 /**
  * - Removes https://t.co/ERYj5p9VHj that comes at end of text field in tweetData object if present
  * - Replaces '&amp;' with '&'
@@ -56,7 +55,7 @@ export const markdownReplaceHashtags = (str) => {
   // return parsed;
 };
 //Replacesprotocol from url so markdownReplaceLinks doenst replace it twice
-export const splitMarkDownUrl = (str) => {   
+export const splitMarkDownUrl = (str) => {
   const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
   const matches = str.match(re);
   matches?.forEach((match, i) => {
@@ -70,7 +69,7 @@ export const splitMarkDownUrl = (str) => {
 
 }
 export const markdownReplaceLinks = (str) => {
-  // replaces markdown hyperlinks and adds hyperlinkyupreplace 
+  // replaces markdown hyperlinks and adds hyperlinkyupreplace
   const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
   const singleMatch = /\[([^\[]+)\]\((.*)\)/
   const mdLinkMatches = str.match(regexMdLinks)
@@ -111,31 +110,34 @@ export const parsePhaverText = (str, linkPreview) => {
   return str
 }
 // Converts http://www.example.com/page1/resource1 into --> example.com
-export const linkMentions = (word) => {
+export const linkMentions = (word, url) => {
   const { palette } = useTheme();
   const re = /\B\@([\w\-]+)/gim;
+  const hashtagRe = /\B(\#[a-zA-Z]+\b)(?!;)/gm;
+  const matchHastag = hashtagRe.test(word);
   const match = re.test(word);
+  const userLink = url + word;
   if (match) {
     word = parseTags(word);
-    const userLink = `https://twitter.com/${word}`;
     return (
       <>
-        <a
-          style={{
-            color: palette.M100,
-            textDecoration: 'none',
-            fontWeight: 600
-          }}
-          href={userLink}
-          target="_blank"
-          rel="noreferrer"
-        >
+      <Typography  variant="body3" display="inline">
           {word}
-        </a>
+        </Typography>
         <i> </i>
       </>
     );
-  } else {
+  }  else if(matchHastag){
+    return (
+      <>
+        <Typography  variant="body3" display="inline">
+          {word}
+        </Typography>
+        <i> </i>
+      </>
+    );
+  }
+  else{
     return <>{word} </>;
   }
 };
@@ -154,8 +156,10 @@ export const fetchLinkPreviewData = async (passedURL) => {
   }
 };
 export const urlIsImg = (url) => {
+
   const re = /\.(jpeg|jpg|gif|png)$/;
   const match = re.test(url);
+  console.log(url, match, "TEST")
   return match;
 };
 export const getAllLinks = (text) => {
@@ -185,17 +189,6 @@ export const parseWeb3Post = (post, postid, classes) => {
         post={post}
       />
     );
-    // switch (post?.meta?.metadata?.appId) {
-    //   case 'phaver':
-    //     parsedPost = <PhaverPost text={content} url={urls[0]} attachments={attachments}/>;
-    //     break
-    //   case 'teaparty':
-    //     parsedPost = <TeaPartyPost text={content} url={urls[0]} attachments={attachments}/>;
-    //     break
-    //   default:
-    //   parsedPost = <LensPost text={content} url={urls[0]} attachments={attachments} postid={postid}/>
-    //   // parsedPost = post.content
-    // }
   } else {
     parsedPost = (
       <FarCasterPost text={content} attachments={attachments} postid={postid} post={post} classes={classes}/>
@@ -236,9 +229,9 @@ export const parsePhaverPost = (text, url, attachments) => {
 export const timeSince =(date) => {
 
     var seconds = Math.floor((new Date() - date) / 1000);
-  
+
     var interval = seconds / 31536000;
-  
+
     if (interval > 1) {
       return Math.floor(interval) + "y";
     }
@@ -258,5 +251,5 @@ export const timeSince =(date) => {
     if (interval > 1) {
       return Math.floor(interval) + "min";
     }
-    return Math.floor(seconds) + "s";  
+    return Math.floor(seconds) + "s";
 }

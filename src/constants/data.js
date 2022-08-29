@@ -2,7 +2,6 @@ import ImgFeedDailyHits from '../../public/images/feeds/dailyhitscover.png';
 import ImgFeedSmart from '../../public/images/feeds/smartcover.png';
 import ImgFeedLol from '../../public/images/feeds/lolcover.png';
 import ImgFeedPopular from '../../public/images/feeds/popularcover.png';
-import ImgFeedPolitics from '../../public/images/feeds/politicscover.png';
 import ImgFeedSafe from '../../public/images/feeds/safecover.png';
 import ImgFeedCrypto from '../../public/images/feeds/cryptocover.png';
 import ImgFeedNft from '../../public/images/feeds/nftcover.png';
@@ -29,21 +28,6 @@ export const FEED_CATEGORIES = {
     image: ImgFeedPopular,
     metaTitle: 'Popular • Yup',
     description: 'Top content based on the like category'
-  },
-  POLITICS: {
-    id: 'politics',
-    title: 'Politics',
-    image: ImgFeedPolitics,
-    metaTitle: 'The Race • Yup',
-    description: 'Top content related to current politics'
-  },
-  NON_CORONA: {
-    id: 'safespace',
-    title: 'Safe Space',
-    image: ImgFeedSafe,
-    metaTitle: 'Safe Space • Yup',
-    description:
-      'A feed free from virus-related content. Providing clarity and well-being in hard and confusing times.'
   },
   CRYPTO: {
     id: 'crypto',

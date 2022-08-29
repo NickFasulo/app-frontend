@@ -64,12 +64,6 @@ export const logPageView = (feedType) => {
     case 'latenightcool':
       window.analytics.page('Late Night Cool');
       break;
-    case 'politics':
-      window.analytics.page('The Race');
-      break;
-    case 'safespace':
-      window.analytics.page('Safe Space');
-      break;
     case 'crypto':
       window.analytics.page('Crypto');
       break;

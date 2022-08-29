@@ -55,7 +55,11 @@ function PostDisplay({ post, classes, isLoading }) {
   return (
     <ErrorBoundary>
       <div align="center" className={classes.container}>
-        <PostController post={post} />
+        <PostController
+          post={post}
+          hideInteractions
+          showFullPost
+        />
       </div>
       <Typography variant="h6" sx={{ my: 2, width: '100%' }}>
         Recommended

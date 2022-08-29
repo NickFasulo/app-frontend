@@ -7,6 +7,11 @@ export const AUTH_TYPE = {
   USERNAME: 'username'
 };
 
+export const APP_PHASE = {
+  PRODUCTION: 'production',
+  STAGING: 'staging'
+};
+
 export const LOCAL_STORAGE_KEYS = {
   ETH_AUTH: 'YUP_ETH_AUTH',
   YUP_REWARDS: 'YUP_CLAIM_RWRDS',
@@ -32,7 +37,9 @@ export const REACT_QUERY_KEYS = {
   USER_COLLECTIONS: 'USER_COLLECTIONS',
   USER_NOTIFICATIONS: 'USER_NOTIFICATIONS',
   FARCASTER_PARENT: 'FARCASTER_PARENT',
-  USER_LIKES: 'USER_LIKES'
+  USER_LIKES: 'USER_LIKES',
+  YUP_FEED: 'YUP_FEED',
+  POST:' POST'
 };
 
 export const LOADER_TYPE = {
