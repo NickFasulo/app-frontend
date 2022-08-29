@@ -14,7 +14,9 @@ import {
 import GridLayout from '../../components/GridLayout';
 import { usePost } from '../../hooks/queries';
 import withSuspense from '../../hoc/withSuspense';
-import { LOADER_TYPE } from '../../constants/enum';
+import { LOADER_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
+import callYupApi from '../../apis/base_api';
 
 const PostDetails = () => {
   const router = useRouter();
@@ -45,5 +47,27 @@ const PostDetails = () => {
     </ErrorBoundary>
   );
 };
+
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  const qc = new QueryClient();
+
+  await qc.prefetchQuery(
+    [REACT_QUERY_KEYS.POST, id],
+    () => {
+      if (!id) return null;
+
+      return callYupApi({
+        url: `/posts/post/${id}`
+      });
+    }
+  );
+
+  return {
+    props: {
+      dehydratedState: dehydrate(qc)
+    }
+  };
+}
 
 export default withSuspense(LOADER_TYPE.TOP_BAR)(PostDetails);
