@@ -13,7 +13,7 @@ import Link from '../Link';
 import { useAuth } from '../../contexts/AuthContext';
 
 const UserMenuItem = () => {
-  const { open, closeSideBar } = useSideBar();
+  const { open, closeSideBar, closeSearch } = useSideBar();
   const { isDesktop } = useDevice();
   const { username } = useAuth();
   const profile = useSocialLevel(username);
@@ -28,6 +28,8 @@ const UserMenuItem = () => {
         // Close Sidebar on mobile version
         if (!isDesktop) {
           closeSideBar();
+        } else {
+          closeSearch()
         }
       }}
     >
