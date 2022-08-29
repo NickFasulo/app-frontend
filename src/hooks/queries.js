@@ -261,3 +261,21 @@ export const usePost = (id) => {
 
   return data;
 };
+
+export const useRefetchPostPreview = (post, id) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.POST_REFETCH_PREVIEW, id],
+    async () => {
+      if (  Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 >        Date.now()) return null
+
+      return await callYupApi({
+        url: '/posts/re-fetch/preview',
+        method: 'POST',
+        data: {postid:id}
+      });
+    
+  }
+  );
+
+  return data;
+};

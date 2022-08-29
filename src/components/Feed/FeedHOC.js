@@ -18,7 +18,6 @@ import withSuspense from '../../hoc/withSuspense';
 const FeedHOC = ({ feedType }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const feedInfo = useSelector((state) => state.feedInfo?.feeds[feedType]);
   const [postLength, setPostLength] = useState(0);
 
   const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage,  hasPreviousPage, status } = useFetchFeed({feedType:feedType});
@@ -73,9 +72,8 @@ const FeedHOC = ({ feedType }) => {
     logPageView(feedType);
   }, [feedType]);
 
-  const { posts = [], hasMore = false } = feedInfo || {};
 
-  if (!hasMore && data.pages.length === 0) {
+  if (data.pages.length === 0) {
     return (
       <div align="center">
         <Typography variant="caption" className={classes.noPostsText}>
@@ -89,7 +87,7 @@ const FeedHOC = ({ feedType }) => {
     <ErrorBoundary>
       <InfiniteScroll
         dataLength={postLength}
-        hasMore={hasMore}
+        hasMore
         className={clsx(classes.infiniteScroll, 'infinite-scroll-component')}
         loader={
           <div className={classes.feedLoader}>

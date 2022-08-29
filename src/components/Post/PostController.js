@@ -25,6 +25,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
 import axios from 'axios';
 import { isYoutubeUrl } from '../../utils/helpers';
+import { useRefetchPostPreview } from '../../hooks/queries';
 
 const COLUMBIA_PROF_TAG = 'columbia-course-registration/professor';
 const COLUMBIA_COURSE_TAG = 'columbia-course-registration/course';
@@ -142,28 +143,28 @@ function isEventPost(tag) {
 }
 
 // TODO: Refactor
-class PostController extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
-      return true;
-    }
-    return false;
-  }
+const PostController = ({classes, post, hideInteractions, renderObjects, showFullPost}) => {
+  const postRefetch = useRefetchPostPreview(post, post._id.postid)
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  render() {
-    const { classes, post, hideInteractions, renderObjects, showFullPost } = this.props;
+    // const { classes, post, hideInteractions, renderObjects, showFullPost } = this.props;
     if (!post) return null;
 
-    if ('previewData' in post && !('img' in post.previewData)) {
-      if (
-        Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 <
-        Date.now()
-      ) {
-        axios.post(`${apiBaseUrl}/posts/re-fetch/preview`, {
-          postid: post._id.postid
-        });
-      }
-    }
+    // if ('previewData' in post && !('img' in post.previewData)) {
+    //   if (
+    //     Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 <
+    //     Date.now()
+    //   ) {
+    //     axios.post(`${apiBaseUrl}/posts/re-fetch/preview`, {
+    //       postid: post._id.postid
+    //     });
+    //   }
+    // }
 
     const isTextPost =
       (post.imgHash == null || post.imgHash.trim() === '') &&
@@ -582,7 +583,7 @@ class PostController extends Component {
         />
       </ErrorBoundary>
     );
-  }
+  
 }
 
 PostController.propTypes = {
