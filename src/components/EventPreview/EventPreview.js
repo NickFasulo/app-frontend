@@ -10,6 +10,7 @@ import YupImage from '../YupImage';
 import removeMd from'remove-markdown';
 import { timeSince } from '../../utils/post_helpers';
 import Avatar from "boring-avatars";
+import  MarbleAvatar  from '../MarbleAvatar/MarbleAvatar';
 
 const styles = (theme) => ({
   container: {
@@ -101,12 +102,7 @@ const EventPreview = ({ title, description, url, classes, creator, creatorENS, e
                   <Grid item xs={10} sm={11}>
                     <Grid container direction='row'  alignItems='start' columnSpacing={1}>
                       <Grid item>               
-                        <Avatar
-                          size={36}
-                          name={creator}
-                          variant="marble"
-                          colors={["#EB3650", "#FCA016", "#F0C909", "#00E08E"]}
-                        />
+                      <MarbleAvatar name={creatorENS||creator} isEns={!!creatorENS}/>
                       </Grid> 
                       <Grid item> 
                         <Grid container direction='row'>

@@ -261,3 +261,18 @@ export const usePost = (id) => {
 
   return data;
 };
+
+
+export const useScore = (address) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.SCORE, address],
+    async () => {
+      if (!address) return null;
+      return await callYupApi({
+        url: `/score?address=${address}`
+      });
+    }
+  );
+
+  return data;
+};
