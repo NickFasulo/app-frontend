@@ -32,7 +32,7 @@ const MarbleAvatar = (name, isEns) => {
                            {isEns&&(<Avatar sx={{position:'absolute',background:'none'}}>{name.name[0].toUpperCase()}</Avatar>)} 
     <BoringAvatar
         size={36}
-        name={name}
+        name={name.name}
         variant="marble"
         colors={[theme.palette.M700, theme.palette.M300, theme.palette.M900, theme.palette.M800, theme.palette.M300]}
       />
