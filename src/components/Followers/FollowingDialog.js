@@ -51,9 +51,14 @@ const FollowingDialog = ({
                 return <div />;
               }
 
-              const level = levels[eosname];
-              const username = level && level.levelInfo.username;
-              const quantile = level && level.levelInfo.quantile;
+              const level = levels[eosname].levelInfo;
+
+              if (!level) {
+                return <div />;
+              }
+
+              const username = level.username;
+              const quantile = level.quantile;
               let socialLevelColor = levelColors[quantile];
 
               return (
