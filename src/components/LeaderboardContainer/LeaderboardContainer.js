@@ -6,6 +6,7 @@ import FeedList from './FeedList';
 import LoadingSpin from '../../LoadingSpin';
 import YupPageHeader from '../YupPageHeader';
 import { YupContainer } from '../styles';
+import withSuspense from '../../hoc/withSuspense';
 
 // Context for filters
 const FilterContext = React.createContext(null);
@@ -14,7 +15,7 @@ export const useFilters = () => React.useContext(FilterContext);
 const LeaderboardContainer = () => {
   const { query } = useRouter();
   const { platform, subject, category } = query;
-
+console.log({ platform, subject, category })
   const filters = useYupListFilters({ platform, subject, category });
 
   if (!filters) {
@@ -33,4 +34,4 @@ const LeaderboardContainer = () => {
   );
 };
 
-export default LeaderboardContainer;
+export default withSuspense()(LeaderboardContainer);

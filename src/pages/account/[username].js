@@ -8,7 +8,7 @@ import {
   YupPageWrapper
 } from '../../components/styles';
 import { useSocialLevel, useUserCollections } from '../../hooks/queries';
-import { LOADER_TYPE } from '../../constants/enum';
+import { LOADER_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
 import withSuspense from '../../hoc/withSuspense';
 import { useEffect, useState } from 'react';
 import YupPageTabs from '../../components/YupPageTabs';
@@ -25,6 +25,8 @@ import { Box, Button, Typography } from '@mui/material';
 import Link from '../../components/Link';
 import YupHead from '../../components/YupHead';
 import RecommendedPosts from '../../components/RecommendedPosts';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
+import callYupApi from '../../apis/base_api';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
@@ -170,5 +172,24 @@ const UserAccountPage = () => {
     )
   );
 };
+
+export async function getServerSideProps(context) {
+  const { username } = context.params;
+  const qc = new QueryClient();
+
+  await qc.prefetchQuery(
+    [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username],
+    () =>
+      callYupApi({
+        url: `/levels/user/${username}`
+      })
+  );
+
+  return {
+    props: {
+      dehydratedState: dehydrate(qc)
+    }
+  };
+}
 
 export default withSuspense(LOADER_TYPE.TOP_BAR)(UserAccountPage);

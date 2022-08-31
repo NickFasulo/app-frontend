@@ -4,11 +4,12 @@ import { REACT_QUERY_KEYS } from '../constants/enum';
 import { apiGetListOptions } from '../apis/lists';
 
 const useYupListFilters = (filter = {}) => {
+  console.log("HEREEEEE1", apiGetListOptions)
   const { data: filterList } = useQuery(
-    REACT_QUERY_KEYS.YUP_LIST_FILTER,
-    apiGetListOptions
+    [REACT_QUERY_KEYS.YUP_LIST_FILTER],
+    () => apiGetListOptions(filter)
   );
-
+console.log("HEREEEEE", filterList)
   if (!filterList?.length) return null;
 
   const { platform, subject } = filter;
