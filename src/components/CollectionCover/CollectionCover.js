@@ -13,7 +13,7 @@ const CoverImageItem = styled(YupImage)(() => ({
   objectFit: 'cover'
 }));
 
-const CollectionCover = ({ id }) => {
+function CollectionCover({ id }) {
   const collection = useCollection(id);
   const allImages =
     collection?.posts
@@ -41,6 +41,6 @@ const CollectionCover = ({ id }) => {
       ))}
     </FlexBox>
   );
-};
+}
 
 export default withSuspense()(CollectionCover);

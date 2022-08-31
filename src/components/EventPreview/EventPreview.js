@@ -2,14 +2,14 @@ import React from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
+import removeMd from'remove-markdown';
+import Avatar from "boring-avatars";
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
-import removeMd from'remove-markdown';
 import { timeSince } from '../../utils/post_helpers';
-import Avatar from "boring-avatars";
 import  MarbleAvatar  from '../MarbleAvatar/MarbleAvatar';
 
 const styles = (theme) => ({
@@ -74,7 +74,7 @@ const styles = (theme) => ({
   }
 });
 
-const EventPreview = ({ title, description, url, classes, creator, creatorENS, eventImg, eventSite, createdAt }) => {
+function EventPreview({ title, description, url, classes, creator, creatorENS, eventImg, eventSite, createdAt }) {
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
@@ -180,7 +180,7 @@ const EventPreview = ({ title, description, url, classes, creator, creatorENS, e
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 EventPreview.propTypes = {
   url: PropTypes.string.isRequired,
