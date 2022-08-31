@@ -1,7 +1,7 @@
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 import YupImage from '../YupImage';
 
-const YupLogoEmoji = () => {
+function YupLogoEmoji() {
   const { isLightMode } = useThemeMode();
 
   return (
@@ -11,6 +11,6 @@ const YupLogoEmoji = () => {
       width={20}
     />
   );
-};
+}
 
 export default YupLogoEmoji;

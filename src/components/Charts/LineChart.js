@@ -52,7 +52,7 @@ const styles = (theme) => ({
   }
 });
 
-const LineChart = (props) => {
+function LineChart(props) {
   const color = '#00E08E';
   const { classes, chartData, chartTitle, headerNumber } = props;
   if (chartData && chartData.data && headerNumber) {
@@ -68,7 +68,7 @@ const LineChart = (props) => {
           left: 0,
           blur: 3,
           opacity: 0.3,
-          color: color
+          color
         },
         type: 'area',
         height: 150,
@@ -163,8 +163,8 @@ const LineChart = (props) => {
           position: 'topRight'
         },
         y: {
-          formatter: function (val) {
-            return val.toFixed(2) + ' YUP';
+          formatter(val) {
+            return `${val.toFixed(2)} YUP`;
           }
         }
       },
@@ -186,7 +186,7 @@ const LineChart = (props) => {
                 <Typography
                   align="left"
                   className={classes.chart}
-                  style={{ color: color }}
+                  style={{ color }}
                   variant="h4"
                 >
                   {headerNumber.toFixed(2)} YUP
@@ -204,35 +204,34 @@ const LineChart = (props) => {
         </div>
       </Card>
     );
-  } else {
-    return (
-      <Card className={`${classes.card}`}>
-        <div className="mixed-chart">
-          <Grid container justifyContent="start" direction="column">
-            <Grid item xs={12} className={classes.chartheader}>
-              <Typography align="left" variant="h4">
-                <Skeleton
-                  variant="text"
-                  animation="wave"
-                  className={classes.Skeleton}
-                />
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
+  }
+  return (
+    <Card className={`${classes.card}`}>
+      <div className="mixed-chart">
+        <Grid container justifyContent="start" direction="column">
+          <Grid item xs={12} className={classes.chartheader}>
+            <Typography align="left" variant="h4">
               <Skeleton
-                variant="rectangular"
+                variant="text"
                 animation="wave"
                 className={classes.Skeleton}
-                width={'100%'}
-                height={160}
               />
-            </Grid>
+            </Typography>
           </Grid>
-        </div>
-      </Card>
-    );
-  }
-};
+          <Grid item xs={12}>
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              className={classes.Skeleton}
+              width="100%"
+              height={160}
+            />
+          </Grid>
+        </Grid>
+      </div>
+    </Card>
+  );
+}
 
 LineChart.propTypes = {
   classes: PropTypes.object.isRequired,

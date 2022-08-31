@@ -2,7 +2,7 @@ import { DrawerLogo, MenuItemButton } from './styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 
-const YupLogoMenuItem = () => {
+function YupLogoMenuItem() {
   const { coloredLogoPath } = useThemeMode();
   const { open: openAuthModal } = useAuthModal();
 
@@ -15,6 +15,6 @@ const YupLogoMenuItem = () => {
       <DrawerLogo src={coloredLogoPath} alt="logo" />
     </MenuItemButton>
   );
-};
+}
 
 export default YupLogoMenuItem;

@@ -1,6 +1,6 @@
 import React from 'react';
-import CustomWeb3PostEmbed from '../CustomWeb3PostEmbed/CustomWeb3PostEmbed';
 import PropTypes from 'prop-types';
+import CustomWeb3PostEmbed from '../CustomWeb3PostEmbed/CustomWeb3PostEmbed';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import './tweet.module.css';
 import { styled } from '@mui/material/styles';
@@ -19,21 +19,27 @@ const PostContainer = styled('div')(
 `
 );
 
-const Web3Post = (props) => {
+function Web3Post(props) {
   const { postid, postHOC: PostHOC, web3Preview, showFullPost } = props;
 
-  const Web3PostComp = (_props) => (
-    <PostContainer>
-      <CustomWeb3PostEmbed postid={postid} web3Preview={web3Preview} showFullPost={showFullPost} />
-    </PostContainer>
-  );
+  function Web3PostComp(_props) {
+    return (
+      <PostContainer>
+        <CustomWeb3PostEmbed
+          postid={postid}
+          web3Preview={web3Preview}
+          showFullPost={showFullPost}
+        />
+      </PostContainer>
+    );
+  }
 
   return (
     <ErrorBoundary>
       <PostHOC component={Web3PostComp} {...props} />
     </ErrorBoundary>
   );
-};
+}
 
 Web3Post.propTypes = {
   url: PropTypes.string.isRequired,

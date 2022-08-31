@@ -1,7 +1,7 @@
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 import { StyledFab } from './styles';
 
-const MobileMenuFab = ({ onClick }) => {
+function MobileMenuFab({ onClick }) {
   const { coloredLogoPath } = useThemeMode();
 
   return (
@@ -9,6 +9,6 @@ const MobileMenuFab = ({ onClick }) => {
       <img src={coloredLogoPath} alt="logo" />
     </StyledFab>
   );
-};
+}
 
 export default MobileMenuFab;

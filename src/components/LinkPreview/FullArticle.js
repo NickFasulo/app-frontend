@@ -2,12 +2,12 @@ import React from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
+import removeMd from 'remove-markdown';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
-import removeMd from'remove-markdown';
 import Link from '../Link/Link';
 import YupReactMarkdown from '../YupReactMarkdown';
 
@@ -78,9 +78,7 @@ const styles = (theme) => ({
   }
 });
 
-const FullArticle = ({ title, description, url, classes, writerENS, postid }) => {
-
-
+function FullArticle({ title, description, url, classes, writerENS, postid }) {
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
@@ -95,50 +93,48 @@ const FullArticle = ({ title, description, url, classes, writerENS, postid }) =>
   return (
     <ErrorBoundary>
       <div className={classes.container} href={url} target="_blank">
-          <div className={classes.previewData}>
-            <Grid container rowSpacing={1} >
-              <Grid item xs={12}>
-                <Grid alignItems="start" container direction="row" spacing={0}>
-                  <Grid item xs={10} sm={11}>
-                    <Grid container direction='row'>
-                      <Grid item xs={12}>
-                        <TruncateText variant="h4" lines={2}>
-                          {title.split(/[|]|[—]+/g, 1)}
-                        </TruncateText>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="body2" className={classes.url}>
-                          {writerENS === undefined ? trimURL(url).split(/[/]+/g, 1) : writerENS }
-                        </Typography>
-                      </Grid>
+        <div className={classes.previewData}>
+          <Grid container rowSpacing={1}>
+            <Grid item xs={12}>
+              <Grid alignItems="start" container direction="row" spacing={0}>
+                <Grid item xs={10} sm={11}>
+                  <Grid container direction="row">
+                    <Grid item xs={12}>
+                      <TruncateText variant="h4" lines={2}>
+                        {title.split(/[|]|[—]+/g, 1)}
+                      </TruncateText>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="body2" className={classes.url}>
+                        {writerENS === undefined
+                          ? trimURL(url).split(/[/]+/g, 1)
+                          : writerENS}
+                      </Typography>
                     </Grid>
                   </Grid>
-                  <Grid item xs={2} sm={1}>
-                    <YupImage
-                      align="right"
-                      href={url}
-                      src={faviconURL}
-                      className={classes.linkImg}
-                      target="_blank"
-                    />
-                  </Grid>
+                </Grid>
+                <Grid item xs={2} sm={1}>
+                  <YupImage
+                    align="right"
+                    href={url}
+                    src={faviconURL}
+                    className={classes.linkImg}
+                    target="_blank"
+                  />
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <YupReactMarkdown
-                variant="body2"
-                className={classes.description}
-              >
-                {description}
-              </YupReactMarkdown>
-
-            </Grid>
-          </div>
+          </Grid>
+          <Grid item xs={12}>
+            <YupReactMarkdown variant="body2" className={classes.description}>
+              {description}
+            </YupReactMarkdown>
+          </Grid>
+        </div>
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 FullArticle.propTypes = {
   url: PropTypes.string.isRequired,

@@ -1,14 +1,14 @@
-import { FilterFormControl } from './styles';
 import { InputLabel, MenuItem, Select } from '@mui/material';
+import { FilterFormControl } from './styles';
 
-const FilterDropdown = ({
+function FilterDropdown({
   label,
   options,
   value,
   onChange,
   valueKey,
   textKey
-}) => {
+}) {
   return (
     <FilterFormControl size="small">
       <InputLabel>{label}</InputLabel>
@@ -24,6 +24,6 @@ const FilterDropdown = ({
       </Select>
     </FilterFormControl>
   );
-};
+}
 
 export default FilterDropdown;

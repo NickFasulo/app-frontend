@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
 import { Card, Chip, Skeleton } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import UserAvatar from '../UserAvatar/UserAvatar';
 import Grid from '@mui/material/Grid';
+import numeral from 'numeral';
+import { connect } from 'react-redux';
+import Tooltip from '@mui/material/Tooltip';
+import CountUp from 'react-countup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTwitter, faEthereum } from '@fortawesome/free-brands-svg-icons';
+import clsx from 'clsx';
+import UserAvatar from '../UserAvatar/UserAvatar';
 import FollowButton from '../Followers/FollowButton';
 import EditProfile from '../EditProfile/EditProfile';
 import FollowersDialog from '../Followers/FollowersDialog';
 import FollowingDialog from '../Followers/FollowingDialog';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { levelColors } from '../../utils/colors';
-import numeral from 'numeral';
-import { connect } from 'react-redux';
-import Tooltip from '@mui/material/Tooltip';
-import CountUp from 'react-countup';
 import { fetchSocialLevel } from '../../redux/actions';
 import useDevice from '../../hooks/useDevice';
 import { TruncateText } from '../styles';
 import { useThemeMode } from '../../contexts/ThemeModeContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTwitter, faEthereum } from '@fortawesome/free-brands-svg-icons';
-import clsx from 'clsx';
 
 const styles = (theme) => ({
   avatarImage: {
@@ -183,7 +183,7 @@ function formatBio(bio = '') {
     return '';
   }
   if (bio.length > 120) {
-    return bio.slice(0, 120) + '...';
+    return `${bio.slice(0, 120)}...`;
   }
   return bio;
 }
@@ -603,14 +603,12 @@ function ProfileCard(props) {
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    levels: state.socialLevels.levels || {
-      isLoading: true,
-      levels: {}
-    }
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  levels: state.socialLevels.levels || {
+    isLoading: true,
+    levels: {}
+  }
+});
 
 ProfileCard.propTypes = {
   dispatch: PropTypes.func.isRequired,

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Typography } from '@mui/material/';
 import { TruncateText } from '../styles';
 
-const LinkPreview = ({ description, image, title, url, classes, size }) => {
+function LinkPreview({ description, image, title, url, classes, size }) {
   const getDomain = (str) => {
-    let a = document.createElement('a');
+    const a = document.createElement('a');
     a.href = str;
     return a.hostname;
   };
@@ -67,7 +67,7 @@ const LinkPreview = ({ description, image, title, url, classes, size }) => {
       </a>
     </div>
   );
-};
+}
 
 LinkPreview.propTypes = {
   classes: PropTypes.object.isRequired,

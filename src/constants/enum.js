@@ -39,8 +39,8 @@ export const REACT_QUERY_KEYS = {
   FARCASTER_PARENT: 'FARCASTER_PARENT',
   USER_LIKES: 'USER_LIKES',
   YUP_FEED: 'YUP_FEED',
-  POST:' POST',  
-  SCORE:' SCORE'
+  POST: ' POST',
+  SCORE: ' SCORE'
 };
 
 export const LOADER_TYPE = {

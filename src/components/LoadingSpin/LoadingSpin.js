@@ -1,12 +1,12 @@
-import { FlexBox } from '../styles';
 import { CircularProgress } from '@mui/material';
+import { FlexBox } from '../styles';
 
-const LoadingSpin = () => {
+function LoadingSpin() {
   return (
     <FlexBox justifyContent="center">
       <CircularProgress />
     </FlexBox>
   );
-};
+}
 
 export default LoadingSpin;

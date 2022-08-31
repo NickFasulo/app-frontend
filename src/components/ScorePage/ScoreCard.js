@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Avatar, Grid, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { connect } from 'react-redux';
-import { Brand, Other } from '../../utils/colors';
 import CountUp from 'react-countup';
+import { Brand, Other } from '../../utils/colors';
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 
 const CustomPaper = styled(Paper)(
@@ -27,8 +27,8 @@ const CustomAvatar = styled(Avatar)(
     }
   `
 );
-const scoreToColor = (score) => {
-  return score >= 80 && score <= 100
+const scoreToColor = (score) =>
+  score >= 80 && score <= 100
     ? Brand.mint
     : score >= 60 && score <= 80
     ? Other.moss
@@ -37,7 +37,6 @@ const scoreToColor = (score) => {
     : score >= 20 && score <= 40
     ? Brand.orange
     : Brand.red;
-};
 function ScoreCard({ score, user }) {
   const { isLightMode } = useThemeMode();
   const scoreLogo = isLightMode
@@ -49,8 +48,8 @@ function ScoreCard({ score, user }) {
     <Grid item>
       {user ? (
         <CustomPaper elevation={3}>
-          <Grid container direction={'column'} justifyContent={'center'}>
-            <Grid container justifyContent={'space-between'}>
+          <Grid container direction="column" justifyContent="center">
+            <Grid container justifyContent="space-between">
               <Grid item xs={10}>
                 <Grid item>
                   <Typography variant="h4" noWrap sx={{ color: '#FEFEFEEE' }}>
@@ -61,7 +60,7 @@ function ScoreCard({ score, user }) {
                   <img src={scoreLogo} alt="scoreLogo" />
                 </Grid>
               </Grid>
-              <Grid item justifySelf={'flex-end'}>
+              <Grid item justifySelf="flex-end">
                 <CustomAvatar>
                   <img
                     src="/images/icons/twitter.svg"

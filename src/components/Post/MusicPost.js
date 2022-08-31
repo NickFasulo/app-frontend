@@ -18,17 +18,19 @@ const styles = (theme) => ({
 function MusicPost(props) {
   const { classes, url, postHOC: PostHOC } = props;
 
-  const MusicComp = (_props) => (
-    <div className={classes.postContainer}>
-      <Embed
-        url={url}
-        style={{ fontFamily: 'Nunito, sansSerif!important' }}
-        width={600}
-        aspect="7:3"
-        autoplay
-      />
-    </div>
-  );
+  function MusicComp(_props) {
+    return (
+      <div className={classes.postContainer}>
+        <Embed
+          url={url}
+          style={{ fontFamily: 'Nunito, sansSerif!important' }}
+          width={600}
+          aspect="7:3"
+          autoplay
+        />
+      </div>
+    );
+  }
 
   return (
     <ErrorBoundary>

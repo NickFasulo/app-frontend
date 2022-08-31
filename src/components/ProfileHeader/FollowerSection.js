@@ -1,11 +1,11 @@
 import numeral from 'numeral';
+import { useState } from 'react';
 import { FlexBox } from '../styles';
 import NumberText from '../NumberText';
 import FollowersDialog from '../Followers/FollowersDialog';
-import { useState } from 'react';
 import FollowingDialog from '../Followers/FollowingDialog';
 
-const FollowerSection = ({ rating, followers, followings }) => {
+function FollowerSection({ rating, followers, followings }) {
   const [followerOpen, setFollowerOpen] = useState(false);
   const [followingOpen, setFollowingOpen] = useState(false);
 
@@ -41,6 +41,6 @@ const FollowerSection = ({ rating, followers, followings }) => {
       />
     </>
   );
-};
+}
 
 export default FollowerSection;

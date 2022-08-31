@@ -4,14 +4,18 @@ import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
 
 // util
-import { parseText, linkMentions, fetchLinkPreviewData } from '../../utils/post_helpers';
+import {
+  parseText,
+  linkMentions,
+  fetchLinkPreviewData
+} from '../../utils/post_helpers';
 
 // components
 import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
-const Retweet = ({ tweetData, classes }) => {
+function Retweet({ tweetData, classes }) {
   const { user, retweeted_status: retweetedStatus } = tweetData.tweetInfo;
   const { user: retweetedUser } = retweetedStatus;
   const retweetExtendedEntities = tweetData.tweetInfo.retweeted_status
@@ -77,9 +81,9 @@ const Retweet = ({ tweetData, classes }) => {
     tweetLink = tweetData.url;
   }
 
-  let initialText = tweetData.tweetInfo.full_text || tweetData.tweetInfo.text;
-  let text = parseText(initialText);
-  let tweetText = text.split(' ').map((string) => linkMentions(string));
+  const initialText = tweetData.tweetInfo.full_text || tweetData.tweetInfo.text;
+  const text = parseText(initialText);
+  const tweetText = text.split(' ').map((string) => linkMentions(string));
 
   return (
     <Grid container className={classes.container}>
@@ -135,7 +139,7 @@ const Retweet = ({ tweetData, classes }) => {
                                   <HeaderSection
                                     classes={classes}
                                     user={retweetedUser}
-                                    tweetType={'retweet'}
+                                    tweetType="retweet"
                                   />
                                 </Grid>
                                 <Grid item>
@@ -192,7 +196,7 @@ const Retweet = ({ tweetData, classes }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 Retweet.propTypes = {
   classes: PropTypes.object.isRequired,

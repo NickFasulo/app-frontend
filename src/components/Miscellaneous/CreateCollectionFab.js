@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import withStyles from '@mui/styles/withStyles';
-import { CollectionDialog } from '../Collections';
 import { connect } from 'react-redux';
+import { CollectionDialog } from '../Collections';
 import { accountInfoSelector } from '../../redux/selectors';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 
@@ -22,7 +22,7 @@ const styles = (theme) => ({
   }
 });
 
-const CreateCollectionFab = ({ classes, account }) => {
+function CreateCollectionFab({ classes, account }) {
   const { open: openAuthModal } = useAuthModal();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -57,7 +57,7 @@ const CreateCollectionFab = ({ classes, account }) => {
       </IconButton>
     </>
   );
-};
+}
 
 CreateCollectionFab.propTypes = {
   classes: PropTypes.object.isRequired,

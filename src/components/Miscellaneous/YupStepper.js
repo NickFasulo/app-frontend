@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 
-const YupStepper = ({ steps, activeStep }) => {
+function YupStepper({ steps, activeStep }) {
   const theme = useTheme();
 
   const isActive = (step) => step === steps[activeStep];
@@ -32,7 +32,7 @@ const YupStepper = ({ steps, activeStep }) => {
       ))}
     </Stepper>
   );
-};
+}
 
 YupStepper.propTypes = {
   steps: PropTypes.object.isRequired,

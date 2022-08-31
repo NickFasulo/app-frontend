@@ -169,15 +169,20 @@ const styles = (theme) => ({
   }
 });
 
-const CustomWeb3PostEmbed = ({ postid, web3Preview, classes, showFullPost }) => {
+function CustomWeb3PostEmbed({ postid, web3Preview, classes, showFullPost }) {
   return (
     <Fade in timeout={1000}>
       <div>
-        <Original postid={postid} web3Preview={web3Preview} classes={classes} showFullPost={showFullPost} />
+        <Original
+          postid={postid}
+          web3Preview={web3Preview}
+          classes={classes}
+          showFullPost={showFullPost}
+        />
       </div>
     </Fade>
   );
-};
+}
 
 CustomWeb3PostEmbed.propTypes = {
   web3Preview: PropTypes.object.isRequired,

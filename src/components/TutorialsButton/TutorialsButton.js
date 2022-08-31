@@ -1,7 +1,7 @@
 import { useTour } from '@reactour/tour';
 import { TutorialsFab } from './styles';
 
-const TutorialsButton = () => {
+function TutorialsButton() {
   const { setIsOpen } = useTour();
 
   return (
@@ -9,6 +9,6 @@ const TutorialsButton = () => {
       10 Seconds Tutorial
     </TutorialsFab>
   );
-};
+}
 
 export default TutorialsButton;

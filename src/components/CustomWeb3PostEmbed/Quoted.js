@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, Typography, Grid } from '@mui/material';
-import TweetVidPlayer from './TweetVidPlayer';
 import PropTypes from 'prop-types';
+import TweetVidPlayer from './TweetVidPlayer';
 import { parseText, linkMentions } from '../../utils/post_helpers';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
-const Quoted = ({ tweetData, classes }) => {
+function Quoted({ tweetData, classes }) {
   const { user, quoted_status: quotedStatus } = tweetData.tweetInfo;
   const { user: quotedUser } = quotedStatus;
   const extendedEntities = tweetData.tweetInfo.extended_entities
@@ -63,8 +63,8 @@ const Quoted = ({ tweetData, classes }) => {
     initialText = '';
   }
 
-  let text = parseText(initialText);
-  let tweetText = text.split(' ').map((string) => linkMentions(string));
+  const text = parseText(initialText);
+  const tweetText = text.split(' ').map((string) => linkMentions(string));
 
   // CHECK EXISTENCE OF QUOTED POST VARIABLES AND ASSIGN VALUES
   let quotedHasMedia;
@@ -116,8 +116,8 @@ const Quoted = ({ tweetData, classes }) => {
     quotedInitialText = '';
   }
 
-  let quotedText = parseText(quotedInitialText);
-  let quotedTweetText = quotedText
+  const quotedText = parseText(quotedInitialText);
+  const quotedTweetText = quotedText
     .split(' ')
     .map((string) => linkMentions(string));
 
@@ -188,14 +188,14 @@ const Quoted = ({ tweetData, classes }) => {
                                   className={classes.retweetUserAvatar}
                                   user={quotedUser}
                                   tweetLink={tweetLink}
-                                  tweetType={'retweet'}
+                                  tweetType="retweet"
                                 />
                               </Grid>
                               <Grid item xs>
                                 <HeaderSection
                                   classes={classes}
                                   user={quotedUser}
-                                  tweetType={'retweet'}
+                                  tweetType="retweet"
                                 />
                               </Grid>
                             </Grid>
@@ -248,7 +248,7 @@ const Quoted = ({ tweetData, classes }) => {
       </Grid>
     </Grid>
   );
-};
+}
 Quoted.propTypes = {
   classes: PropTypes.object.isRequired,
   tweetData: PropTypes.object.isRequired

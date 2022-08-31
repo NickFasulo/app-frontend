@@ -11,7 +11,7 @@ import YupTweetImg from '../YupImage/YupTweetImg';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
-const Reply = ({ tweetData, classes }) => {
+function Reply({ tweetData, classes }) {
   const { isMobile } = useDevice();
   const { user } = tweetData.tweetInfo;
   const { url } = tweetData;
@@ -51,7 +51,10 @@ const Reply = ({ tweetData, classes }) => {
       : false;
   }
 
-  let mediaURL, mediaType, hasPhoto, hasVideo;
+  let mediaURL;
+  let mediaType;
+  let hasPhoto;
+  let hasVideo;
   if (hasMedia) {
     mediaURL = extendedEntities.media[0].media_url_https
       ? extendedEntities.media[0].media_url_https
@@ -73,10 +76,10 @@ const Reply = ({ tweetData, classes }) => {
     initialText = '';
   }
 
-  let tweetText = parseText(initialText);
+  const tweetText = parseText(initialText);
 
   // REPLYS
-  let replyExtendedEntities =
+  const replyExtendedEntities =
     tweetData.tweetInfo.reply_status &&
     tweetData.tweetInfo.reply_status.extended_entities
       ? tweetData.tweetInfo.reply_status.extended_entities
@@ -88,7 +91,10 @@ const Reply = ({ tweetData, classes }) => {
       : false;
   }
 
-  let replyMediaURL, replyMediaType, replyHasPhoto, replyHasVideo;
+  let replyMediaURL;
+  let replyMediaType;
+  let replyHasPhoto;
+  let replyHasVideo;
   if (replyHasMedia) {
     replyMediaURL = replyExtendedEntities.media[0].media_url_https
       ? replyExtendedEntities.media[0].media_url_https
@@ -118,15 +124,17 @@ const Reply = ({ tweetData, classes }) => {
     replyStatusText = '';
   }
 
-  let text = parseText(replyStatusText);
-  let replyTweetText = text.split(' ').map((string) => linkMentions(string));
+  const text = parseText(replyStatusText);
+  const replyTweetText = text.split(' ').map((string) => linkMentions(string));
 
   // REPLY CUSTOM HEADER STYLING CONFIG
-  const userAvatar = classes.userAvatar;
+  const { userAvatar } = classes;
   const twitterName = classes.replyTwitterName;
-  const twitterBirdIcon = classes.twitterBirdIcon;
+  const { twitterBirdIcon } = classes;
 
-  let replyScreenName, replyUserAvatar, replyName;
+  let replyScreenName;
+  let replyUserAvatar;
+  let replyName;
   if (tweetData.tweetInfo.reply_status) {
     replyScreenName = tweetData.tweetInfo.reply_status.user.screen_name;
     replyUserAvatar =
@@ -222,7 +230,10 @@ const Reply = ({ tweetData, classes }) => {
                           underline="none"
                         >
                           <Grid>
-                            <Typography variant='body2' className={classes.twitterHandle}>
+                            <Typography
+                              variant="body2"
+                              className={classes.twitterHandle}
+                            >
                               @{replyScreenName}
                             </Typography>
                           </Grid>
@@ -291,10 +302,7 @@ const Reply = ({ tweetData, classes }) => {
                   </Grid>
                   <Grid item>
                     <Link href={tweetLink} target="_blank" underline="none">
-                      <Typography
-                        variant="body2"
-                        className={classes.tweetText}
-                      >
+                      <Typography variant="body2" className={classes.tweetText}>
                         {tweetText.replace(/@\S+\s?/gm, '')}
                       </Typography>
                     </Link>
@@ -303,7 +311,7 @@ const Reply = ({ tweetData, classes }) => {
                     {previewData && !replyHasMedia && !mediaURL && (
                       <Grid>
                         <LinkPreview
-                          size={'large'}
+                          size="large"
                           classes={classes}
                           description={previewData && previewData.description}
                           image={previewData && previewData.img}
@@ -336,7 +344,7 @@ const Reply = ({ tweetData, classes }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 Reply.propTypes = {
   classes: PropTypes.object.isRequired,

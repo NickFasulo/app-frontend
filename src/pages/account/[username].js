@@ -1,4 +1,7 @@
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
 import ProfileHeader from '../../components/ProfileHeader';
 import {
   FlexBox,
@@ -10,7 +13,6 @@ import {
 import { useSocialLevel, useUserCollections } from '../../hooks/queries';
 import { LOADER_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
 import withSuspense from '../../hoc/withSuspense';
-import { useEffect, useState } from 'react';
 import YupPageTabs from '../../components/YupPageTabs';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
 import UserPosts from '../../components/UserPosts';
@@ -21,11 +23,9 @@ import YupPageHeader from '../../components/YupPageHeader';
 import UserAnalytics from '../../components/UserAnalytics/UserAnalytics';
 import GridLayout from '../../components/GridLayout';
 import UserNewConnections from '../../components/UserNewConnections';
-import { Box, Button, Typography } from '@mui/material';
 import Link from '../../components/Link';
 import YupHead from '../../components/YupHead';
 import RecommendedPosts from '../../components/RecommendedPosts';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
 import callYupApi from '../../apis/base_api';
 
 const PROFILE_TAB_IDS = {
@@ -35,7 +35,7 @@ const PROFILE_TAB_IDS = {
   PEOPLE: 'people'
 };
 
-const UserAccountPage = () => {
+function UserAccountPage() {
   const { query } = useRouter();
   const { username } = query;
   const { isMobile } = useDevice();
@@ -47,10 +47,11 @@ const UserAccountPage = () => {
 
   useEffect(() => {
     // If `Collections` or `People` tab is selected in Desktop mode, switch it to `Profile` tab.
-    if (!isMobile && (
-      selectedTab === PROFILE_TAB_IDS.COLLECTIONS ||
-        selectedTab === PROFILE_TAB_IDS.PEOPLE
-    )) {
+    if (
+      !isMobile &&
+      (selectedTab === PROFILE_TAB_IDS.COLLECTIONS ||
+        selectedTab === PROFILE_TAB_IDS.PEOPLE)
+    ) {
       setSelectedTab(PROFILE_TAB_IDS.PROFILE);
     }
   }, [isMobile, selectedTab]);
@@ -67,9 +68,7 @@ const UserAccountPage = () => {
         height="100vh"
         gap={2}
       >
-        <Typography variant="h6">
-          Sorry, the profile does not exist.
-        </Typography>
+        <Typography variant="h6">Sorry, the profile does not exist.</Typography>
         <Button
           variant="outlined"
           component={Link}
@@ -99,90 +98,91 @@ const UserAccountPage = () => {
   }
 
   return (
-    (
-      <>
-        <YupHead
-          title={`${profile.username} | Yup`}
-          description={`${profile.fullname || profile.username}'s Profile`}
-        />
-        <YupPageWrapper>
-          <YupPageHeader scrolled={windowScrolled}>
-            <ProfileHeader profile={profile} hidden={isMobile && windowScrolled} />
-            <YupPageTabs
-              tabs={tabs}
-              value={selectedTab}
-              onChange={setSelectedTab}
-              hidden={!isMobile && windowScrolled}
-              endComponent={
-                windowScrolled && (
-                  <FlexBox gap={1} alignItems="center" mr={3}>
-                    <ProfilePicture
-                      src={avatar}
-                      alt={username}
-                      size="md"
-                      border={levelColors[quantile || 'none']}
-                    />
-                    <GradientTypography variant="h6">
-                      {profile.fullname}
-                    </GradientTypography>
-                  </FlexBox>
+    <>
+      <YupHead
+        title={`${profile.username} | Yup`}
+        description={`${profile.fullname || profile.username}'s Profile`}
+      />
+      <YupPageWrapper>
+        <YupPageHeader scrolled={windowScrolled}>
+          <ProfileHeader
+            profile={profile}
+            hidden={isMobile && windowScrolled}
+          />
+          <YupPageTabs
+            tabs={tabs}
+            value={selectedTab}
+            onChange={setSelectedTab}
+            hidden={!isMobile && windowScrolled}
+            endComponent={
+              windowScrolled && (
+                <FlexBox gap={1} alignItems="center" mr={3}>
+                  <ProfilePicture
+                    src={avatar}
+                    alt={username}
+                    size="md"
+                    border={levelColors[quantile || 'none']}
+                  />
+                  <GradientTypography variant="h6">
+                    {profile.fullname}
+                  </GradientTypography>
+                </FlexBox>
+              )
+            }
+          />
+        </YupPageHeader>
+        {selectedTab === PROFILE_TAB_IDS.PROFILE && (
+          <YupContainer>
+            <GridLayout
+              contentLeft={
+                <>
+                  <UserPosts userId={profile._id} />
+                  <Typography variant="h6" sx={{ my: 3 }}>
+                    Recommended
+                  </Typography>
+                  <RecommendedPosts
+                    query={`${profile.fullname} ${profile.username} ${profile.bio}`}
+                  />
+                </>
+              }
+              contentRight={
+                collections.length > 0 ? (
+                  <UserCollectionsSection collections={collections} />
+                ) : (
+                  <UserNewConnections profile={profile} />
                 )
               }
             />
-          </YupPageHeader>
-          {selectedTab === PROFILE_TAB_IDS.PROFILE && (
-            <YupContainer>
-              <GridLayout
-                contentLeft={(
-                  <>
-                    <UserPosts userId={profile._id} />
-                    <Typography variant="h6" sx={{ my: 3 }}>
-                      Recommended
-                    </Typography>
-                    <RecommendedPosts query={`${profile.fullname} ${profile.username} ${profile.bio}`} />
-                  </>
-                )}
-                contentRight={
-                  collections.length > 0 ? (
-                    <UserCollectionsSection collections={collections} />
-                  ) : (
-                    <UserNewConnections profile={profile} />
-                  )
-                }
-              />
-            </YupContainer>
-          )}
-          {selectedTab === PROFILE_TAB_IDS.COLLECTIONS && (
-            <YupContainer sx={{ pt: 3 }}>
-              <UserCollectionsSection collections={collections} />
-            </YupContainer>
-          )}
-          {selectedTab === PROFILE_TAB_IDS.PEOPLE && (
-            <YupContainer sx={{ pt: 3 }}>
-              <UserNewConnections profile={profile} />
-            </YupContainer>
-          )}
-          {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (
-            <YupContainer sx={{ py: 3 }}>
-              <UserAnalytics username={username} />
-            </YupContainer>
-          )}
-        </YupPageWrapper>
-      </>
-    )
+          </YupContainer>
+        )}
+        {selectedTab === PROFILE_TAB_IDS.COLLECTIONS && (
+          <YupContainer sx={{ pt: 3 }}>
+            <UserCollectionsSection collections={collections} />
+          </YupContainer>
+        )}
+        {selectedTab === PROFILE_TAB_IDS.PEOPLE && (
+          <YupContainer sx={{ pt: 3 }}>
+            <UserNewConnections profile={profile} />
+          </YupContainer>
+        )}
+        {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (
+          <YupContainer sx={{ py: 3 }}>
+            <UserAnalytics username={username} />
+          </YupContainer>
+        )}
+      </YupPageWrapper>
+    </>
   );
-};
+}
 
 export async function getServerSideProps(context) {
   const { username } = context.params;
   const qc = new QueryClient();
 
-  await qc.prefetchQuery(
-    [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username],
-    () =>
-      callYupApi({
-        url: `/levels/user/${username}`
-      })
+  await qc.prefetchQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username], () =>
+    callYupApi({
+      url: `/levels/user/${username}`
+    })
   );
 
   return {

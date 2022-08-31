@@ -6,14 +6,16 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 function TallPreviewPost(props) {
   const { previewData, url, postHOC: PostHOC } = props;
 
-  const TallPreviewComp = (_props) => (
-    <TallLinkPreview
-      description={previewData && previewData.description}
-      image={previewData && previewData.img}
-      title={previewData && previewData.title}
-      url={url}
-    />
-  );
+  function TallPreviewComp(_props) {
+    return (
+      <TallLinkPreview
+        description={previewData && previewData.description}
+        image={previewData && previewData.img}
+        title={previewData && previewData.title}
+        url={url}
+      />
+    );
+  }
 
   return (
     <ErrorBoundary>

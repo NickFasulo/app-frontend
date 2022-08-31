@@ -6,16 +6,18 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 function ObjectPost(props) {
   const { previewData, postHOC: PostHOC, quantiles, rankCategory, url } = props;
 
-  const ObjectComp = (_props) => (
-    <ObjectPreview
-      description={previewData && previewData.description}
-      image={previewData && previewData.img}
-      title={previewData && previewData.title}
-      url={url}
-      quantiles={quantiles}
-      rankCategory={rankCategory}
-    />
-  );
+  function ObjectComp(_props) {
+    return (
+      <ObjectPreview
+        description={previewData && previewData.description}
+        image={previewData && previewData.img}
+        title={previewData && previewData.title}
+        url={url}
+        quantiles={quantiles}
+        rankCategory={rankCategory}
+      />
+    );
+  }
   return (
     <ErrorBoundary>
       <PostHOC component={ObjectComp} {...props} />

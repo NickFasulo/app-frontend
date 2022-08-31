@@ -1,8 +1,8 @@
-import TwitterOAuth from '../../../_pages/TwitterOAuth/TwitterOAuth';
 import dynamic from 'next/dynamic';
+import TwitterOAuth from '../../../_pages/TwitterOAuth/TwitterOAuth';
 
-const TwitterAuth = () => {
+function TwitterAuth() {
   return <TwitterOAuth />;
-};
+}
 
 export default TwitterAuth;

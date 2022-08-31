@@ -6,7 +6,7 @@ import {
 import withSuspense from '../../hoc/withSuspense';
 import { LOADER_TYPE } from '../../constants/enum';
 
-const CollectionThumbnail = ({ url }) => {
+function CollectionThumbnail({ url }) {
   const segments = url.split('/');
   const collection = useCollection(segments[5]);
   const { posts } = collection;
@@ -17,6 +17,6 @@ const CollectionThumbnail = ({ url }) => {
       <LeaderboardItemThumbnailImage src={thumbnails} />
     </LeaderboardItemThumbnailRoot>
   );
-};
+}
 
 export default withSuspense(LOADER_TYPE.DEFAULT)(CollectionThumbnail);

@@ -44,13 +44,13 @@ const styles = (theme) => ({
   }
 });
 
-const CollectionEditDialog = ({
+function CollectionEditDialog({
   collection,
   classes,
   dialogOpen,
   handleDialogClose,
   account
-}) => {
+}) {
   const [description, setDescription] = useState('');
   const [name, setName] = useState('');
   const [snackbarMsg, setSnackbarMsg] = useState('');
@@ -165,7 +165,7 @@ const CollectionEditDialog = ({
       </YupDialog>
     </>
   );
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state);

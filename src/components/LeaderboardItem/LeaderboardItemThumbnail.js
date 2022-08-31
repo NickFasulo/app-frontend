@@ -4,7 +4,7 @@ import {
   LeaderboardItemThumbnailVideo
 } from './styles';
 
-const LeaderboardItemThumbnail = ({ url }) => {
+function LeaderboardItemThumbnail({ url }) {
   const isVideo = url.includes('.mp4');
 
   return (
@@ -23,6 +23,6 @@ const LeaderboardItemThumbnail = ({ url }) => {
       )}
     </LeaderboardItemThumbnailRoot>
   );
-};
+}
 
 export default LeaderboardItemThumbnail;

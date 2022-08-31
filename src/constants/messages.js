@@ -15,5 +15,4 @@ export const ERROR_MIRROR_ACCOUNT =
 export const INVITE_EMAIL_SUCCESS = 'Success. We will get back to you soon.';
 export const WAIT_FOR_ACCOUNT_CREATION =
   'Please wait while we create your YUP account...';
-export const ACCOUNT_CREATED =
-    'Account created!';
+export const ACCOUNT_CREATED = 'Account created!';

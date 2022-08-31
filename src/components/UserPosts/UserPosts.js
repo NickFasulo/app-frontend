@@ -1,12 +1,12 @@
-import { useUserPosts } from '../../hooks/queries';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import ListSkeleton from '../ListSkeleton/ListSkeleton';
 import { useMemo } from 'react';
 import flatten from 'lodash/flatten';
-import PostController from '../Post/PostController';
 import { Typography } from '@mui/material';
+import PostController from '../Post/PostController';
+import ListSkeleton from '../ListSkeleton/ListSkeleton';
+import { useUserPosts } from '../../hooks/queries';
 
-const UserPosts = ({ userId }) => {
+function UserPosts({ userId }) {
   const { data, hasNextPage, status, fetchNextPage } = useUserPosts(userId);
 
   const posts = useMemo(() => {
@@ -22,11 +22,7 @@ const UserPosts = ({ userId }) => {
   }
 
   if (posts.length === 0) {
-    return (
-      <Typography variant="h6">
-        User has no posts.
-      </Typography>
-    );
+    return <Typography variant="h6">User has no posts.</Typography>;
   }
 
   return (
@@ -47,6 +43,6 @@ const UserPosts = ({ userId }) => {
       ))}
     </InfiniteScroll>
   );
-};
+}
 
 export default UserPosts;

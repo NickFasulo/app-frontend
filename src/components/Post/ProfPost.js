@@ -5,7 +5,9 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 function ProfPost(props) {
   const { url, postHOC: PostHOC } = props;
-  const ProfPreview = (props) => <ProfComp url={url} />;
+  function ProfPreview(props) {
+    return <ProfComp url={url} />;
+  }
   return (
     <ErrorBoundary>
       <PostHOC component={ProfPreview} {...props} />

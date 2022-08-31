@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Grid } from '@mui/material';
 import { addUserCollection } from '../../redux/actions';
 import { YupInput, LoaderButton } from '../Miscellaneous';
 import { accountInfoSelector } from '../../redux/selectors';
@@ -10,7 +11,6 @@ import YupDialog from '../Miscellaneous/YupDialog';
 import { apiBaseUrl } from '../../config';
 import { useAuth } from '../../contexts/AuthContext';
 import useToast from '../../hooks/useToast';
-import { Grid } from '@mui/material';
 
 const TITLE_LIMIT = 30;
 const DESC_LIMIT = 140;
@@ -48,13 +48,13 @@ const styles = (theme) => ({
   }
 });
 
-const CollectionDialog = ({
+function CollectionDialog({
   postid,
   classes,
   dialogOpen,
   handleDialogClose,
   addCollectionToRedux
-}) => {
+}) {
   const { authInfo } = useAuth();
   const [description, setDescription] = useState('');
   const [name, setName] = useState('');
@@ -91,58 +91,55 @@ const CollectionDialog = ({
   };
 
   return (
-    <>
-
-      <YupDialog
-        headline="New Collection"
-        description=" Start here to make a new collection. You can add any content, person, URL, address, NFT or anything else."
-        buttonPosition="full"
-        open={dialogOpen}
-        onClose={handleDialogClose}
-        onKeyDown={handleKeyDown}
-        firstButton={
-          <LoaderButton
-            onClick={handleCreateNewCollection}
+    <YupDialog
+      headline="New Collection"
+      description=" Start here to make a new collection. You can add any content, person, URL, address, NFT or anything else."
+      buttonPosition="full"
+      open={dialogOpen}
+      onClose={handleDialogClose}
+      onKeyDown={handleKeyDown}
+      firstButton={
+        <LoaderButton
+          onClick={handleCreateNewCollection}
+          fullWidth
+          buttonText="Create Collection"
+          isLoading={isLoading}
+          variant="contained"
+          color="primary"
+        />
+      }
+    >
+      <Grid container direction="column" alignItems="stretch" spacing={2}>
+        <Grid item>
+          <YupInput
             fullWidth
-            buttonText="Create Collection"
-            isLoading={isLoading}
-            variant="contained"
-            color="primary"
+            id="name"
+            maxLength={TITLE_LIMIT}
+            label="Name"
+            onChange={handleNameChange}
+            type="text"
+            variant="outlined"
+            size="small"
           />
-        }
-      >
-        <Grid container direction="column" alignItems="stretch" spacing={2}>
-          <Grid item>
-            <YupInput
-              fullWidth
-              id="name"
-              maxLength={TITLE_LIMIT}
-              label="Name"
-              onChange={handleNameChange}
-              type="text"
-              variant="outlined"
-              size="small"
-            />
-          </Grid>
-          <Grid item>
-            <YupInput
-              fullWidth
-              id="description"
-              maxLength={DESC_LIMIT}
-              label="Description"
-              multiline
-              rows={2}
-              onChange={handleDescriptionChange}
-              type="textarea"
-              variant="outlined"
-              size="small"
-            />
-          </Grid>
         </Grid>
-      </YupDialog>
-    </>
+        <Grid item>
+          <YupInput
+            fullWidth
+            id="description"
+            maxLength={DESC_LIMIT}
+            label="Description"
+            multiline
+            rows={2}
+            onChange={handleDescriptionChange}
+            type="textarea"
+            variant="outlined"
+            size="small"
+          />
+        </Grid>
+      </Grid>
+    </YupDialog>
   );
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state);
@@ -151,12 +148,10 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapActionToProps = (dispatch) => {
-  return {
-    addCollectionToRedux: (eosname, collection) =>
-      dispatch(addUserCollection(eosname, collection))
-  };
-};
+const mapActionToProps = (dispatch) => ({
+  addCollectionToRedux: (eosname, collection) =>
+    dispatch(addUserCollection(eosname, collection))
+});
 
 CollectionDialog.propTypes = {
   postid: PropTypes.string.isRequired,

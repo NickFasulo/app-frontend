@@ -4,7 +4,7 @@ import React from 'react';
 import { ConnectionAvatar, FlexBox } from '../styles';
 import { useSideBar } from '../SideBar/SideBarContext';
 
-const UserConnection = ({ user }) => {
+function UserConnection({ user }) {
   const { closeSearch } = useSideBar();
   return (
     <Link
@@ -12,14 +12,18 @@ const UserConnection = ({ user }) => {
       href={`/account/${user.username || user.userId}`}
       style={{ textDecoration: 'none' }}
     >
-      <FlexBox my={2} alignItems="center" sx={{ cursor: 'pointer' }}
-      onClick={() => closeSearch()}>
+      <FlexBox
+        my={2}
+        alignItems="center"
+        sx={{ cursor: 'pointer' }}
+        onClick={() => closeSearch()}
+      >
         <ConnectionAvatar src={user.avatar} alt="avatar">
           {user.username?.toUpperCase() ?? 'AN'}
         </ConnectionAvatar>
         <Box ml={2}>
           <Typography noWrap variant="body1">
-            <strong>{user.fullname || user.username || user.userId }</strong>
+            <strong>{user.fullname || user.username || user.userId}</strong>
           </Typography>
           <Typography noWrap variant="body2">
             @{user.username || user.userId}
@@ -28,6 +32,6 @@ const UserConnection = ({ user }) => {
       </FlexBox>
     </Link>
   );
-};
+}
 
 export default UserConnection;

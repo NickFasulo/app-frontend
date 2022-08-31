@@ -1,4 +1,3 @@
-import { Drawer, ExternalLinkList } from './styles';
 import { Grow, List, ListItemButton, ListItemText } from '@mui/material';
 import {
   faHome,
@@ -14,8 +13,10 @@ import {
 } from '@fortawesome/pro-light-svg-icons';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import MainLink from './MainLink';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Drawer, ExternalLinkList } from './styles';
+import MainLink from './MainLink';
 import FeedLink from './FeedLink';
 import ExternalLink from './ExternalLink';
 import { extensionUrl, landingPageUrl } from '../../config';
@@ -23,7 +24,6 @@ import { MENU_ANIMATION_DURATION, PRIVACY_URL } from '../../constants/const';
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 import SettingsModal from '../TopBarAndDrawer/SettingsModal';
 import { LOCAL_STORAGE_KEYS } from '../../constants/enum';
-import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/actions';
 import useDevice from '../../hooks/useDevice';
 import MobileMenuFab from './MobileMenuFab';
@@ -35,7 +35,7 @@ import useExtension from '../../hooks/useExtension';
 import { FlexBox } from '../styles';
 import { useAuth } from '../../contexts/AuthContext';
 
-const SideBar = () => {
+function SideBar() {
   const dispatch = useDispatch();
   const { isDesktop } = useDevice();
   const { isLoggedIn, logout: logoutUser } = useAuth();
@@ -205,6 +205,6 @@ const SideBar = () => {
       />
     </SideBarContext.Provider>
   );
-};
+}
 
 export default SideBar;

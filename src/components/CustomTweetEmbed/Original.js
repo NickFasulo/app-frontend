@@ -13,7 +13,7 @@ import Avatar from './Avatar';
 import YupImage from '../YupImage';
 import YupTweetImg from '../YupImage/YupTweetImg';
 
-const Original = ({ tweetData, classes }) => {
+function Original({ tweetData, classes }) {
   const { url } = tweetData;
   const { user } = tweetData.tweetInfo;
   const extendedEntities = tweetData.tweetInfo.extended_entities
@@ -54,7 +54,7 @@ const Original = ({ tweetData, classes }) => {
   let mediaType;
   let hasPhoto;
   let hasVideo;
-  let tweetLink = tweetData.url ? tweetData.url : '';
+  const tweetLink = tweetData.url ? tweetData.url : '';
   if (hasMedia) {
     mediaURL = extendedEntities.media[0].media_url_https
       ? extendedEntities.media[0].media_url_https
@@ -69,7 +69,7 @@ const Original = ({ tweetData, classes }) => {
   }
 
   let initialText = tweetData.tweetInfo.full_text || tweetData.tweetInfo.text;
-  let text = parseText(initialText);
+  const text = parseText(initialText);
 
   if (tweetData.tweetInfo.text) {
     initialText = tweetData.tweetInfo.text;
@@ -79,7 +79,7 @@ const Original = ({ tweetData, classes }) => {
     initialText = '';
   }
 
-  let tweetText = text.split(' ').map((string) => linkMentions(string));
+  const tweetText = text.split(' ').map((string) => linkMentions(string));
 
   return (
     <Grid container="container" className={classes.container}>
@@ -111,7 +111,7 @@ const Original = ({ tweetData, classes }) => {
                       !tweetData.excludeTweet && (
                         <div>
                           <LinkPreview
-                            size={'large'}
+                            size="large"
                             description={previewData.description || ''}
                             image={previewData.img}
                             title={previewData.title}
@@ -151,7 +151,7 @@ const Original = ({ tweetData, classes }) => {
       </Grid>
     </Grid>
   );
-};
+}
 Original.propTypes = {
   tweetData: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired

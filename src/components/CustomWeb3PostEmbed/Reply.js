@@ -1,20 +1,20 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import LinkPreview from '../LinkPreview/LinkPreview';
 import { Link, Typography, Grid } from '@mui/material';
+import ReactPlayer from 'react-player/lazy';
+import LinkPreview from '../LinkPreview/LinkPreview';
 import TweetVidPlayer from './TweetVidPlayer';
-import { parseText,  urlIsImg } from '../../utils/post_helpers';
+import { parseText, urlIsImg } from '../../utils/post_helpers';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import { CldImg } from '../Miscellaneous';
 import { isYoutubeUrl } from '../../utils/helpers';
-import ReactPlayer from 'react-player/lazy';
 import VideoComponent from '../VideoComponent';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
-const Reply = ({ post, classes, postid }) => {
-  const parents = post.meta.parents;
+function Reply({ post, classes, postid }) {
+  const { parents } = post.meta;
   const userName = post.creator.fullname;
   const userHandle = post.creator.handle;
   const userAvatar = post.meta.avatar;
@@ -104,7 +104,7 @@ const Reply = ({ post, classes, postid }) => {
                   handle={directParentHandle}
                   address={directParent.body.address}
                   protocol={post.protocol}
-                  //WRONG, NEEDS TO BE PARENTS POST ID; NOT REPLY ID
+                  // WRONG, NEEDS TO BE PARENTS POST ID; NOT REPLY ID
                   tweetLink={post.id}
                   createdAt={directParent.body.publishedAt}
                   noBird
@@ -112,31 +112,35 @@ const Reply = ({ post, classes, postid }) => {
                 />
               </Grid>
               <Grid item xs={12}>
-               <Link href={`/post/${postid}`}>
-                <Typography variant="body2">{directParentPostText}</Typography>
-               </Link>
+                <Link href={`/post/${postid}`}>
+                  <Typography variant="body2">
+                    {directParentPostText}
+                  </Typography>
+                </Link>
               </Grid>
 
               <Grid item="item" xs={12}>
                 {directParentAttachments
                   ? directParentAttachments.map((attachment) => {
                       if (isYoutubeUrl(attachment.url)) {
-                        return (
-                          <VideoComponent url={attachment.url} />
-                        );
+                        return <VideoComponent url={attachment.url} />;
                       }
-                      else if (attachment.image || urlIsImg(attachment.url)) {
+                      if (attachment.image || urlIsImg(attachment.url)) {
                         return (
-                            <CldImg
+                          <CldImg
                             style={{ borderRadius: '12px' }}
-                            src={urlIsImg(attachment.url)?attachment.url:attachment.image}
+                            src={
+                              urlIsImg(attachment.url)
+                                ? attachment.url
+                                : attachment.image
+                            }
                             alt={attachment.title}
                             isWeb3Post
                           />
                         );
-                      } else if (attachment.url) {
+                      }
+                      if (attachment.url) {
                         return (
-
                           <LinkPreview
                             description={attachment.description || ''}
                             image={attachment.image}
@@ -211,36 +215,35 @@ const Reply = ({ post, classes, postid }) => {
                     <Grid item="item" xs={12}>
                       {userAttachments
                         ? userAttachments.map((attachment) => {
-                          if (isYoutubeUrl(attachment.url)) {
-                            return (
-                              <VideoComponent url={attachment.url} />
-                            );
-                          }
-                          else if (attachment.images?.[0]) {
-                            return (
-                              <LinkPreview
-                                description={attachment.description || ''}
-                                image={
-                                  attachment.images?.[0]
-                                    ? attachment.images[0]
-                                    : attachment.url
-                                }
-                                title={attachment.title}
-                                url={attachment.url}
-                                // classes={classes}
-                              />
-                            );
-                          } else if (urlIsImg(attachment.url)) {
-                            return (
-                              <CldImg
-                                style={{ borderRadius: '12px' }}
-                                src={attachment.url}
-                                alt={attachment.title}
-                                isWeb3Post
-                              />
-                            );
-                          }
-                        })
+                            if (isYoutubeUrl(attachment.url)) {
+                              return <VideoComponent url={attachment.url} />;
+                            }
+                            if (attachment.images?.[0]) {
+                              return (
+                                <LinkPreview
+                                  description={attachment.description || ''}
+                                  image={
+                                    attachment.images?.[0]
+                                      ? attachment.images[0]
+                                      : attachment.url
+                                  }
+                                  title={attachment.title}
+                                  url={attachment.url}
+                                  // classes={classes}
+                                />
+                              );
+                            }
+                            if (urlIsImg(attachment.url)) {
+                              return (
+                                <CldImg
+                                  style={{ borderRadius: '12px' }}
+                                  src={attachment.url}
+                                  alt={attachment.title}
+                                  isWeb3Post
+                                />
+                              );
+                            }
+                          })
                         : null}
                     </Grid>
                   </Grid>
@@ -252,7 +255,7 @@ const Reply = ({ post, classes, postid }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 Reply.propTypes = {
   classes: PropTypes.object.isRequired,

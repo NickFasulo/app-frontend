@@ -1,9 +1,9 @@
+import { List } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useSocialLevel, useUserNotifications } from '../../hooks/queries';
 import NotificationItem from './NotificationItem';
 import withSuspense from '../../hoc/withSuspense';
-import { List } from '@mui/material';
 import { LOADER_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
-import { useEffect, useState } from 'react';
 import wallet from '../../eos/scatter/scatter.wallet';
 import {
   apiSetNotificationSeenEth,
@@ -13,7 +13,7 @@ import { ETH_NOTIFICATION_INTERVAL } from '../../constants/const';
 import { ETH_LINK_NOTIFICATION_DATA } from '../../constants/data';
 import { useAuth } from '../../contexts/AuthContext';
 
-const UserNotificationList = () => {
+function UserNotificationList() {
   const { username, authInfo } = useAuth();
   const profile = useSocialLevel(username);
   const notifications = useUserNotifications(username);
@@ -78,7 +78,7 @@ const UserNotificationList = () => {
       }}
     >
       {notifications.map((notification) => (
-          <NotificationItem key={notification._id} data={notification} />
+        <NotificationItem key={notification._id} data={notification} />
       ))}
       {showEthLinkNotification && (
         <NotificationItem
@@ -91,6 +91,6 @@ const UserNotificationList = () => {
       )}
     </List>
   );
-};
+}
 
 export default withSuspense(LOADER_TYPE.NOTIFICATION, 5)(UserNotificationList);

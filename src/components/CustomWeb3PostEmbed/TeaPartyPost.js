@@ -1,12 +1,12 @@
 import { Grid, Typography } from '@mui/material';
-import Link from '../Link';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import reactStringReplace from 'react-string-replace';
 import styled from '@emotion/styled';
+import Link from '../Link';
 import { linkMentions } from '../../utils/post_helpers';
 
-//Enables funky colors on links
+// Enables funky colors on links
 const TeaPartyLink = styled('a')(
   ({ theme }) => `
     background-image: linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)
@@ -19,23 +19,21 @@ const TeaPartyLink = styled('a')(
     `
 );
 
-const TeaPartyPost = ({ text, url, attachments }) => {
+function TeaPartyPost({ text, url, attachments }) {
   const regexMdLinks = /\B\@([\w\-]+)/gim;
   const matches = text.match(regexMdLinks);
   console.log({ matches });
   if (attachments.length > 0) {
     matches?.forEach((element, i) => {
-      text = reactStringReplace(text, element, (match) => {
-        return (
-          <>
-            {/* Disabled for now, will add it once we have our own profiles                 
+      text = reactStringReplace(text, element, (match) => (
+        <>
+          {/* Disabled for now, will add it once we have our own profiles                 
                 <Link href={`https://app.teaparty.life/u/${match.replace('@', '')}`}>
                  {match}
                 </Link> */}
-            <Typography variant="h7">{match}</Typography>
-          </>
-        );
-      });
+          <Typography variant="h7">{match}</Typography>
+        </>
+      ));
     });
   }
   return (
@@ -59,18 +57,18 @@ const TeaPartyPost = ({ text, url, attachments }) => {
     >
       {matches ? (
         <>
-          {text.map((element, i) => {
-            return typeof element === 'string' ? (
+          {text.map((element, i) =>
+            typeof element === 'string' ? (
               <ReactMarkdown key={i}>{element}</ReactMarkdown>
             ) : (
               element
-            );
-          })}
+            )
+          )}
         </>
       ) : (
         text
       )}
     </Grid>
   );
-};
+}
 export default TeaPartyPost;

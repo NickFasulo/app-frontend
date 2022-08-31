@@ -3,10 +3,10 @@ import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
 import { connect } from 'react-redux';
-import DraggableCollectionPostItem from './DraggableCollectionPostItem';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { LoaderButton } from '../Miscellaneous';
 import axios from 'axios';
+import DraggableCollectionPostItem from './DraggableCollectionPostItem';
+import { LoaderButton } from '../Miscellaneous';
 import { getAuth } from '../../utils/authentication';
 import { accountInfoSelector } from '../../redux/selectors';
 import YupDialog from '../Miscellaneous/YupDialog';
@@ -42,12 +42,12 @@ const styles = (theme) => ({
   }
 });
 
-const CollectionReorderDialog = ({
+function CollectionReorderDialog({
   collection,
   dialogOpen,
   handleDialogClose,
   account
-}) => {
+}) {
   if (!collection.posts) return null;
   const [posts, setPosts] = useState(collection.posts);
   const [isLoading, setIsLoading] = useState(false);
@@ -98,15 +98,13 @@ const CollectionReorderDialog = ({
         <Droppable droppableId="droppable-list">
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
-              {posts.map((post, index) => {
-                return (
-                  <DraggableCollectionPostItem
-                    post={post}
-                    index={index}
-                    key={post && post._id.postid}
-                  />
-                );
-              })}
+              {posts.map((post, index) => (
+                <DraggableCollectionPostItem
+                  post={post}
+                  index={index}
+                  key={post && post._id.postid}
+                />
+              ))}
               {provided.placeholder}
             </div>
           )}
@@ -114,7 +112,7 @@ const CollectionReorderDialog = ({
       </DragDropContext>
     </YupDialog>
   );
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state);

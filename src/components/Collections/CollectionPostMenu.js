@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MenuItem, IconButton, Divider, Box } from '@mui/material';
 import axios from 'axios';
-import CollectionDialog from './CollectionDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  addPostToCollection,
-  removePostFromCollection
-} from '../../redux/actions';
-import { apiBaseUrl } from '../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faRectangleHistory,
@@ -17,15 +11,21 @@ import {
   faBan
 } from '@fortawesome/pro-light-svg-icons';
 import IconThreeDots from '@mui/icons-material/MoreHoriz';
+import ClipLoader from 'react-spinners/ClipLoader';
+import CollectionDialog from './CollectionDialog.js';
+import {
+  addPostToCollection,
+  removePostFromCollection
+} from '../../redux/actions';
+import { apiBaseUrl } from '../../config';
 import { YupMenu } from '../styles';
 import useToast from '../../hooks/useToast';
 import { useInitialVotes } from '../../hooks/queries';
 import withSuspense from '../../hoc/withSuspense';
 import { deleteVote } from '../../apis';
-import ClipLoader from 'react-spinners/ClipLoader';
 import { useAuth } from '../../contexts/AuthContext';
 
-const CollectionPostMenu = ({ postid }) => {
+function CollectionPostMenu({ postid }) {
   const { isLoggedIn, authInfo, ...account } = useAuth();
   const vote = useInitialVotes(postid, account.name)?.[0];
   const [isLoading, setIsLoading] = useState(false);
@@ -100,13 +100,11 @@ const CollectionPostMenu = ({ postid }) => {
         {hasVote && (
           <MenuItem dense onClick={handleDeleteVote}>
             {!isLoading ? (
-              <>
-                <FontAwesomeIcon icon={faBan} />
-              </>
+              <FontAwesomeIcon icon={faBan} />
             ) : (
               <ClipLoader
                 color="white"
-                loading={true}
+                loading
                 css={{ marginRight: '12px' }}
                 size={15}
               />
@@ -140,18 +138,17 @@ const CollectionPostMenu = ({ postid }) => {
                   Add to {collection.name}
                 </MenuItem>
               );
-            } else {
-              return (
-                <MenuItem
-                  dense
-                  key={collection._id}
-                  onClick={() => removeFromCollection(collection)}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                  Remove from {collection.name}
-                </MenuItem>
-              );
             }
+            return (
+              <MenuItem
+                dense
+                key={collection._id}
+                onClick={() => removeFromCollection(collection)}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+                Remove from {collection.name}
+              </MenuItem>
+            );
           })}
         </Box>
       </YupMenu>
@@ -162,7 +159,7 @@ const CollectionPostMenu = ({ postid }) => {
       />
     </>
   );
-};
+}
 
 CollectionPostMenu.propTypes = {
   postid: PropTypes.string

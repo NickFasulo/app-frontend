@@ -4,12 +4,12 @@ import withStyles from '@mui/styles/withStyles';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import Snackbar from '@mui/material/Snackbar';
 import { connect } from 'react-redux';
-import { signalNotify } from '../../redux/actions';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { signalNotify } from '../../redux/actions';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import PolicyDialog from '../PrivacyPolicy/PolicyDialog';
 
@@ -187,17 +187,13 @@ Footer.propTypes = {
   notificationDone: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-  return {
-    notify: state.scatterInstallation.notify
-  };
-};
+const mapStateToProps = (state) => ({
+  notify: state.scatterInstallation.notify
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    notificationDone: () => dispatch(signalNotify(false))
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  notificationDone: () => dispatch(signalNotify(false))
+});
 export default connect(
   mapStateToProps,
   mapDispatchToProps

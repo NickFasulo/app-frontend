@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { YupInput } from '../Miscellaneous';
 
-const AuthInput = ({ onEnter, placeholder, ...restProps }) => {
+function AuthInput({ onEnter, placeholder, ...restProps }) {
   const handleEmailKeyDown = (e) => {
     if (e.key !== 'Enter') {
       return;
@@ -21,7 +21,7 @@ const AuthInput = ({ onEnter, placeholder, ...restProps }) => {
       {...restProps}
     />
   );
-};
+}
 
 AuthInput.propTypes = {
   onEnter: PropTypes.func,

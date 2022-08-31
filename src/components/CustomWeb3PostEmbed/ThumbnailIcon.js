@@ -1,6 +1,6 @@
 import useDevice from '../../hooks/useDevice';
 
-const ThumbnailIcon = ({ protocol }) => {
+function ThumbnailIcon({ protocol }) {
   const { isMobile } = useDevice();
 
   return (
@@ -10,6 +10,6 @@ const ThumbnailIcon = ({ protocol }) => {
       alt="Lens post"
     />
   );
-};
+}
 
 export default ThumbnailIcon;

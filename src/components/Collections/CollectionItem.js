@@ -60,7 +60,7 @@ function isValidHttpUrl(string) {
   return url.protocol === 'http:' || url.protocol === 'https:';
 }
 
-const CollectionItem = ({ classes, collection, username }) => {
+function CollectionItem({ classes, collection, username }) {
   const [hasLoaded, setHasLoaded] = useState(false);
   const fmtCollectionName =
     collection && collection.name.replace(/\s+/g, '-').toLowerCase();
@@ -139,7 +139,7 @@ const CollectionItem = ({ classes, collection, username }) => {
       </CustomPaper>
     </Link>
   );
-};
+}
 
 CollectionItem.propTypes = {
   classes: PropTypes.object.isRequired,

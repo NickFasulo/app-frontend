@@ -1,25 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import useStyles from './styles';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import Grid from '@mui/material/Grid';
+import { connect } from 'react-redux';
+import useStyles from './styles';
 import FollowButton from './FollowButton';
 import { levelColors } from '../../utils/colors';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { connect } from 'react-redux';
 import { fetchSocialLevel } from '../../redux/actions';
 import YupDialog from '../Miscellaneous/YupDialog';
 
-const FollowingDialog = ({
+function FollowingDialog({
   open,
   onClose,
   account,
   followings,
   levels,
   dispatch
-}) => {
+}) {
   const classes = useStyles();
 
   return (
@@ -57,9 +57,9 @@ const FollowingDialog = ({
                 return <div />;
               }
 
-              const username = level.username;
-              const quantile = level.quantile;
-              let socialLevelColor = levelColors[quantile];
+              const { username } = level;
+              const { quantile } = level;
+              const socialLevelColor = levelColors[quantile];
 
               return (
                 <Grid item key={user}>
@@ -128,7 +128,7 @@ const FollowingDialog = ({
       </YupDialog>
     </ErrorBoundary>
   );
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
   const { username } = ownProps;

@@ -1,7 +1,7 @@
 import TwitterOAuth from '../../_pages/TwitterOAuth/TwitterOAuth';
 
-const TwitterAuth = () => {
+function TwitterAuth() {
   return <TwitterOAuth />;
-};
+}
 
 export default TwitterAuth;

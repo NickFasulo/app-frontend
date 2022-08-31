@@ -74,13 +74,8 @@ const Address = styled(Typography)(
     mix-blend-mode: multiply;
     `
 );
-const addressesToType = (num) => {
-  return num >= 7
-    ? 'ENS GOD'
-    : num >= 5 && num <= 6
-    ? 'ENS HOLDER'
-    : 'ENS OWNER';
-};
+const addressesToType = (num) =>
+  num >= 7 ? 'ENS GOD' : num >= 5 && num <= 6 ? 'ENS HOLDER' : 'ENS OWNER';
 function EnsCard({ count, addresses, score }) {
   return (
     <Grid item sx={{ width: '100%', position: 'relative' }} xs={12}>
@@ -89,11 +84,10 @@ function EnsCard({ count, addresses, score }) {
           {index % 2 === 0 ? (
             <Address
               sx={{
-                top:
-                  (100 / (addresses.length > 8 ? 8 : addresses.length)) *
-                    index +
-                  '%',
-                left: Math.floor(Math.random() * 15) + '%'
+                top: `${
+                  (100 / (addresses.length > 8 ? 8 : addresses.length)) * index
+                }%`,
+                left: `${Math.floor(Math.random() * 15)}%`
               }}
             >
               {address.name}
@@ -101,11 +95,10 @@ function EnsCard({ count, addresses, score }) {
           ) : (
             <Address
               sx={{
-                top:
-                  (100 / (addresses.length > 8 ? 8 : addresses.length)) *
-                    index +
-                  '%',
-                right: Math.floor(Math.random() * 15) + '%'
+                top: `${
+                  (100 / (addresses.length > 8 ? 8 : addresses.length)) * index
+                }%`,
+                right: `${Math.floor(Math.random() * 15)}%`
               }}
             >
               {address.name}
@@ -118,7 +111,7 @@ function EnsCard({ count, addresses, score }) {
         <Grid
           container
           direction="column"
-          justifyContent={'center'}
+          justifyContent="center"
           alignItems="center"
           sx={{ minHeight: '686px' }}
           spacing={5}
@@ -129,7 +122,7 @@ function EnsCard({ count, addresses, score }) {
 
           <Grid
             container
-            justifyContent={'center'}
+            justifyContent="center"
             alignItems="center"
             sx={{ position: 'relative' }}
           >

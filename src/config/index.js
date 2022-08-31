@@ -77,5 +77,7 @@ export const PROFILE_PICTURE_SIZE = {
   sm: 24
 };
 
-export const isStaging = process.env.NEXT_PUBLIC_APP_PHASE === APP_PHASE.STAGING;
-export const isProduction = process.env.NEXT_PUBLIC_APP_PHASE === APP_PHASE.PRODUCTION;
+export const isStaging =
+  process.env.NEXT_PUBLIC_APP_PHASE === APP_PHASE.STAGING;
+export const isProduction =
+  process.env.NEXT_PUBLIC_APP_PHASE === APP_PHASE.PRODUCTION;
