@@ -24,7 +24,7 @@ function Avatar({ classes, user, tweetType, tweetLink, hideBird }) {
       <img
         className={userAvatar}
         src={user.profile_image_url_https}
-        alt="user image"
+        alt="user"
         onError={addDefaultSrc}
       />
     </div>

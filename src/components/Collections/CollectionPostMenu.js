@@ -12,7 +12,7 @@ import {
 } from '@fortawesome/pro-light-svg-icons';
 import IconThreeDots from '@mui/icons-material/MoreHoriz';
 import ClipLoader from 'react-spinners/ClipLoader';
-import CollectionDialog from './CollectionDialog.js';
+import CollectionDialog from './CollectionDialog';
 import {
   addPostToCollection,
   removePostFromCollection
@@ -53,7 +53,7 @@ function CollectionPostMenu({ postid }) {
       dispatch(addPostToCollection(account.name, collection, postid));
     } catch (err) {
       console.error(err);
-      toastError(`An error occured. Try again later.`);
+      toastError('An error occured. Try again later.');
     }
   };
 
@@ -73,7 +73,7 @@ function CollectionPostMenu({ postid }) {
       dispatch(removePostFromCollection(account.name, collection, postid));
     } catch (err) {
       console.error(err);
-      toastError(`An error occured. Try again later.`);
+      toastError('An error occured. Try again later.');
     }
   };
 

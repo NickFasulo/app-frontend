@@ -32,7 +32,13 @@
     "no-shadow": "warn",
     "react/no-unused-prop-types": "warn",
     "no-underscore-dangle": "warn",
-    "import/prefer-default-export": "warn",
+    "import/prefer-default-export": "off",
+    "consistent-return": "off",
+    "import/no-named-as-default-member": "off",
+    "import/no-named-as-default": "off",
+    "import/no-cycle": "warn",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "no-use-before-define": "off",
     // defaultProps rule to be deprecated on function components
     // https://github.com/reactjs/rfcs/pull/107
     "react/require-default-props": [

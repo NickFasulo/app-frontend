@@ -176,7 +176,7 @@ function Reply({ tweetData, classes }) {
                   <img
                     className={userAvatar}
                     src={replyUserAvatar}
-                    alt="user image"
+                    alt="user"
                     onError={addDefaultSrc}
                   />
                 ) : (

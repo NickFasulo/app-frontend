@@ -81,7 +81,6 @@ const styles = (theme) => ({
     border: `1.2px solid ${theme.palette.M700}`,
     boxShadow: `0px -6px 0px 0px ${theme.palette.M700}, 0px 12px 0px 0px ${theme.palette.M700}`,
     borderRadius: '12px',
-    zIndex: '-2',
     content: " '' ",
     fontSize: 0,
     width: 0,

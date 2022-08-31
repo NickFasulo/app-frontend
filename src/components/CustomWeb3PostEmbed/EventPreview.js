@@ -8,7 +8,7 @@ import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
-import { timeSince } from './Util/Util';
+import { timeSince } from '../../utils/post_helpers';
 
 const styles = (theme) => ({
   container: {
@@ -149,7 +149,7 @@ function EventPreview({
               <Grid item xs={12} className={classes.eventContainer}>
                 <Grid container direction="row" spacing={1} p={2}>
                   <Grid item xs={1}>
-                    <img src={eventImg} width="100%" />
+                    <img alt="event" src={eventImg} width="100%" />
                   </Grid>
                   <Grid item xs={11}>
                     <Grid container>

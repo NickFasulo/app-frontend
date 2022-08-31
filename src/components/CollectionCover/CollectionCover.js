@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { styled } from '@mui/material';
 import { FlexBox } from '../styles';
 import { useCollection } from '../../hooks/queries';
@@ -19,19 +20,20 @@ function CollectionCover({ id }) {
     collection?.posts
       .map((item) => item?.previewData?.img)
       .filter((img) => !!img) || [];
+
   const coverImages =
     allImages.length === 0
       ? [DEFAULT_IMAGE_PATH]
       : allImages.slice(
-          0,
-          Math.min(allImages.length, COLLECTION_COVER_IMAGE_COUNT)
-        );
+        0,
+        Math.min(allImages.length, COLLECTION_COVER_IMAGE_COUNT)
+      );
 
   return (
     <FlexBox width="100%" height="100%">
-      {coverImages.map((img, idx) => (
+      {coverImages.map((img) => (
         <CoverImageItem
-          key={idx}
+          key={img}
           src={img}
           alt="Collection Cover"
           style={{
