@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { connect } from 'react-redux';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import YupDialog from '../Miscellaneous/YupDialog';
 import FollowUser from '../FollowUser';
 
@@ -38,7 +38,6 @@ function FollowingDialog({
     </ErrorBoundary>
   );
 }
-)
 const mapStateToProps = (state, ownProps) => {
   const { username } = ownProps;
 
