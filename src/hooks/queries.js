@@ -276,3 +276,20 @@ export const useScore = (address) => {
 
   return data;
 };
+
+export const useYupAccount = (userId) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.ACCOUNT, userId],
+    async () => {
+      try {
+        return await callYupApi({
+          url: `/accounts/${userId}`
+        });
+      } catch {
+        return null;
+      }
+    }
+  );
+
+  return data;
+}

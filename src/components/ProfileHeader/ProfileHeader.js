@@ -21,7 +21,6 @@ import {
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
 import { useEffect, useState } from 'react';
-import FollowButton from '../Followers/FollowButton';
 import EditProfile from '../EditProfile/EditProfile';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAccount, useEnsName, useSignMessage } from 'wagmi';
@@ -33,6 +32,7 @@ import { queryClient } from '../../config/react-query';
 import { REACT_QUERY_KEYS } from '../../constants/enum';
 import { useMutation } from 'react-query';
 import CircularProgress from '@mui/material/CircularProgress';
+import FollowButton from '../FollowButton';
 
 const ProfileHeader = ({ profile, hidden }) => {
   const { isMobile, isDesktop } = useDevice();
@@ -163,7 +163,9 @@ const ProfileHeader = ({ profile, hidden }) => {
                 </ActionButton>
               )}
               {isLoggedIn && !isMyProfile && (
-                <FollowButton eosname={id} isLoggedIn={false} followings={followings} followers={followers} />
+                <FollowButton
+                  userId={id}
+                />
               )}
             </FlexBox>
           </FlexBox>
