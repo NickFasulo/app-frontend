@@ -2,6 +2,7 @@ import { Box, styled } from '@mui/material';
 import Link from '../Link';
 import YupImage from '../YupImage';
 import { TruncateText } from '../styles';
+import { convertIPFSSrcToHttps } from '../../utils/post_helpers';
 
 const CardContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,7 +58,7 @@ const NftCard = ({ image, collectionName, collectionImage, link, verified }) => 
         <CaptionContainer>
           <Box position="relative">
             <CollectionImage
-              src={collectionImage}
+              src={convertIPFSSrcToHttps(collectionImage)}
               alt={collectionName}
             />
             {verified && (

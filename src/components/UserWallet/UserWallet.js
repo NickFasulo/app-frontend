@@ -12,7 +12,7 @@ const UserWallet = ({ ethAddress }) => {
     <>
       <GridLayout
         contentLeft={(
-          <Box>
+          <Box mb={5}>
             <Badges data={poaps} />
             <NFTs data={nfts} />
           </Box>
