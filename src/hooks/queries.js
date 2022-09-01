@@ -193,13 +193,17 @@ export const useUserCollections = (userId) => {
 export const useUserNotifications = (username) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.USER_NOTIFICATIONS, username],
-    () => {
+    async () => {
       if (!username) return [];
 
-      return callYupApi({
-        method: 'GET',
-        url: `/notifications/${username}`
-      });
+      try {
+        return await callYupApi({
+          method: 'GET',
+          url: `/notifications/${username}`
+        });
+      } catch {
+        return null;
+      }
     }
   );
 
