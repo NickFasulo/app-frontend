@@ -20,7 +20,7 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: Run Prettier
         run: yarn prettier --check src
