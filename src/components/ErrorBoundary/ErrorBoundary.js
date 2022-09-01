@@ -7,15 +7,17 @@ class ErrorBoundary extends Component {
   state = {
     error: false
   };
+
   componentDidCatch(error, errorInfo) {
     this.setState({
-      error: error
+      error
     });
     console.log('Error boundary', errorInfo);
     rollbar.error(
       `WEBAPP: Error boundary error=${error} errorInfo=${parseErr(errorInfo)}`
     );
   }
+
   render() {
     if (this.state.error) {
       return <div />;

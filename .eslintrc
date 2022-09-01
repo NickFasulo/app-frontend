@@ -4,6 +4,7 @@
     "es2021": true,
     "node": true
   },
+  "parser": "@babel/eslint-parser",
   "extends": [
     "airbnb",
     "prettier",
@@ -14,11 +15,15 @@
     "eslint-plugin-prettier"
   ],
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 12,
-    "sourceType": "module"
+    "requireConfigFile": false,
+    "babelOptions": {
+      "babelrc": false,
+      "configFile": false,
+      // your babel options
+      "presets": [
+        "@babel/preset-react"
+      ]
+    }
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
@@ -67,7 +72,16 @@
     "react/jsx-no-target-blank": "warn",
     "react/destructuring-assignment": "warn",
     "no-unused-expressions": "warn",
-    "react/no-children-prop": "warn"
+    "react/no-children-prop": "warn",
+    "no-useless-escape": "warn",
+    "react/state-in-constructor": "warn",
+    "class-methods-use-this": "warn",
+    "no-plusplus": "warn",
+    "max-classes-per-file": "warn",
+    "react/no-unused-class-component-methods": "warn",
+    "no-dupe-keys": "warn",
+    "react/no-access-state-in-setstate": "warn",
+    "prefer-rest-params": "warn"
     // defaultProps rule to be deprecated on function components
     // https://github.com/reactjs/rfcs/pull/107
   }
