@@ -1,4 +1,4 @@
-import { List } from '@mui/material';
+import { List, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSocialLevel, useUserNotifications } from '../../hooks/queries';
 import NotificationItem from './NotificationItem';
@@ -14,9 +14,9 @@ import { ETH_LINK_NOTIFICATION_DATA } from '../../constants/data';
 import { useAuth } from '../../contexts/AuthContext';
 
 function UserNotificationList() {
-  const { username, authInfo } = useAuth();
+  const { username, userId, authInfo } = useAuth();
   const profile = useSocialLevel(username);
-  const notifications = useUserNotifications(username);
+  const notifications = useUserNotifications(userId) || [];
   const [showEthLinkNotification, setShowEthLinkNotification] = useState(false);
 
   useEffect(() => {
@@ -69,6 +69,14 @@ function UserNotificationList() {
       );
     }
   }, [profile]);
+
+  if (!notifications.length) {
+    return (
+      <Typography>
+        No notifications, you are all caught up!
+      </Typography>
+    );
+  }
 
   return (
     <List
