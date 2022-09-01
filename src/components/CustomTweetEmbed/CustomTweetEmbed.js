@@ -179,7 +179,7 @@ const styles = (theme) => ({
   }
 });
 
-function CustomTweetEmbed({ props }) {
+function CustomTweetEmbed( props ) {
   const { tweetData, classes } = props;
   if (!tweetData || !tweetData.tweetInfo) {
     return <div />;
