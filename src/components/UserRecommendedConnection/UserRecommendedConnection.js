@@ -6,8 +6,8 @@ import {
   styled
 } from '@mui/material';
 import { ConnectionAvatar } from '../styles';
-import FollowButton from '../Followers/FollowButton';
 import Link from '../Link';
+import FollowButton from '../FollowButton';
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: `${theme.palette.M800}A6`,
@@ -37,7 +37,9 @@ function UserRecommendedConnection({ user }) {
         primary={user.fullname || user.username}
       />
       <Box flexGrow={0}>
-        <FollowButton eosname={user.eosname} isLoggedIn={false} />
+        <FollowButton
+          userId={user.eosname}
+        />
       </Box>
     </StyledListItemButton>
   );

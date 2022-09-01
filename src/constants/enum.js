@@ -40,7 +40,12 @@ export const REACT_QUERY_KEYS = {
   USER_LIKES: 'USER_LIKES',
   YUP_FEED: 'YUP_FEED',
   POST: ' POST',
-  SCORE: ' SCORE'
+  SCORE: ' SCORE',
+  ACCOUNT: 'ACCOUNT'
+};
+
+export const MUTATION_KEYS = {
+  FOLLOW_UNFOLLOW_USER: 'FOLLOW_UNFOLLOW_USER'
 };
 
 export const LOADER_TYPE = {

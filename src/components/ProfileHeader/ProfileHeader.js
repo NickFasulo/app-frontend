@@ -25,7 +25,6 @@ import {
 } from '../../utils/helpers';
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
-import FollowButton from '../Followers/FollowButton';
 import EditProfile from '../EditProfile/EditProfile';
 import { useAuth } from '../../contexts/AuthContext';
 import { apiGetChallenge, apiSetETHAddress } from '../../apis';
@@ -33,6 +32,7 @@ import { logError } from '../../utils/logging';
 import useToast from '../../hooks/useToast';
 import { queryClient } from '../../config/react-query';
 import { REACT_QUERY_KEYS } from '../../constants/enum';
+import FollowButton from '../FollowButton';
 
 function ProfileHeader({ profile, hidden }) {
   const { isMobile, isDesktop } = useDevice();
@@ -162,10 +162,7 @@ function ProfileHeader({ profile, hidden }) {
               )}
               {isLoggedIn && !isMyProfile && (
                 <FollowButton
-                  eosname={id}
-                  isLoggedIn={false}
-                  followings={followings}
-                  followers={followers}
+                  userId={id}
                 />
               )}
             </FlexBox>
