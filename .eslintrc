@@ -43,13 +43,32 @@
     "jsx-a11y/alt-text": "warn",
     "react/no-array-index-key": "warn",
     "array-callback-return": "warn",
+    "no-lone-blocks": "warn",
+    "no-unsafe-optional-chaining": "warn",
+    "no-empty-pattern": "warn",
+    "no-empty": "warn",
+    "react/require-default-props": "warn",
+    "no-useless-concat": "warn",
+    "react/jsx-no-useless-fragment": "warn",
+    "import/no-extraneous-dependencies": "warn",
+    "react/jsx-key": "warn",
+    "react/default-props-match-prop-types": "warn",
+    "react/display-name": "warn",
+    "react/jsx-no-constructed-context-values": "warn",
+    "react/prefer-stateless-function": "warn",
+    "react/jsx-no-bind": "warn",
+    "import/order": "warn",
+    "import/extensions": "warn",
+    "react/no-unescaped-entities": "warn",
+    "react/sort-comp": "warn",
+    "import/no-unresolved": "warn",
+    "jsx-a11y/iframe-has-title": "warn",
+    "no-const-assign": "warn",
+    "react/jsx-no-target-blank": "warn",
+    "react/destructuring-assignment": "warn",
+    "no-unused-expressions": "warn",
+    "react/no-children-prop": "warn"
     // defaultProps rule to be deprecated on function components
     // https://github.com/reactjs/rfcs/pull/107
-    "react/require-default-props": [
-      "error",
-      {
-        "ignoreFunctionalComponents": true
-      }
-    ]
   }
 }

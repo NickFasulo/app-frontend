@@ -95,28 +95,24 @@ export const useFollowers = (id) => {
   return data;
 };
 
-export const useUserPosts = (userId) => {
-  return useInfiniteQuery(
-    [REACT_QUERY_KEYS.USER_POSTS, userId],
-    ({ pageParam = 0 }) => {
-      return callYupApi({
-        method: 'GET',
-        url: `/feed/account/${userId}`,
-        params: {
-          start: pageParam,
-          limit: DEFAULT_FEED_PAGE_SIZE
-        }
-      });
-    },
-    {
-      getNextPageParam: (lastPage, allPages) => {
-        if (!lastPage.posts?.length) return undefined;
-
-        return sum(allPages.map((page) => page.posts?.length || 0));
-      }
+export const useUserPosts = (userId) => useInfiniteQuery(
+  [REACT_QUERY_KEYS.USER_POSTS, userId],
+  ({ pageParam = 0 }) => callYupApi({
+    method: 'GET',
+    url: `/feed/account/${userId}`,
+    params: {
+      start: pageParam,
+      limit: DEFAULT_FEED_PAGE_SIZE
     }
-  );
-};
+  }),
+  {
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage.posts?.length) return undefined;
+
+      return sum(allPages.map((page) => page.posts?.length || 0));
+    }
+  }
+);
 
 export const useSearchPosts = (query) => {
   const searchQuery = query
@@ -125,17 +121,15 @@ export const useSearchPosts = (query) => {
 
   return useInfiniteQuery(
     [REACT_QUERY_KEYS.SEARCH_POSTS, query],
-    ({ pageParam = 0 }) => {
-      return callYupApi({
-        method: 'GET',
-        url: '/search/es/posts',
-        params: {
-          offset: pageParam,
-          searchText: searchQuery,
-          limit: DEFAULT_FEED_PAGE_SIZE
-        }
-      });
-    },
+    ({ pageParam = 0 }) => callYupApi({
+      method: 'GET',
+      url: '/search/es/posts',
+      params: {
+        offset: pageParam,
+        searchText: searchQuery,
+        limit: DEFAULT_FEED_PAGE_SIZE
+      }
+    }),
     {
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.length) return undefined;
@@ -215,16 +209,16 @@ export const useUserNotifications = (username) => {
 export const useFarcasterReplyParent = (merkleRoot) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.FARCASTER_PARENT, merkleRoot],
-    () => {
-      return fetch(
+    () =>
+      fetch(
         `https://api.farcaster.xyz/indexer/threads/${merkleRoot}?viewer_address=0xB9f95cee37ED663C088a5B772FAe772DaEf6b130&include_deleted_casts=true&version=2`
-      );
+      )
 
-      // return callYupApi({
-      //   method: 'GET',
-      //   url: `/notifications/${username}`
-      // });
-    }
+    // return callYupApi({
+    //   method: 'GET',
+    //   url: `/notifications/${username}`
+    // });
+
   );
 
   return data;
@@ -241,30 +235,27 @@ export const useUserLikes = (userId) => {
 
   return data;
 };
-export const useFetchFeed = ({ feedType }) => {
-  return useInfiniteQuery(
-    [REACT_QUERY_KEYS.YUP_FEED, feedType],
-    ({ pageParam = 0 }) =>
-      callYupApi({
-        url: `/feed/${
-          isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
+export const useFetchFeed = ({ feedType }) => useInfiniteQuery(
+  [REACT_QUERY_KEYS.YUP_FEED, feedType],
+  ({ pageParam = 0 }) =>
+    callYupApi({
+      url: `/feed/${isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
         }${feedType}?start=${pageParam}&limit=10`,
-        method: 'GET'
-      }),
-    {
-      refetchOnWindowFocus: false,
-      getPreviousPageParam: (firstPage, pages) =>
-        pages.length > 0 && pages.length - 1 * 10,
-      getNextPageParam: (lastPage, pages) => pages.length * 10
-    }
-  );
-};
+      method: 'GET'
+    }),
+  {
+    refetchOnWindowFocus: false,
+    getPreviousPageParam: (firstPage, pages) =>
+      pages.length > 0 && pages.length - 1 * 10,
+    getNextPageParam: (lastPage, pages) => pages.length * 10
+  }
+);
 
 export const usePost = (id) => {
   const { data } = useQuery([REACT_QUERY_KEYS.POST, id], async () => {
     if (!id) return null;
 
-    return await callYupApi({
+    return callYupApi({
       url: `/posts/post/${id}`
     });
   });
@@ -275,7 +266,7 @@ export const usePost = (id) => {
 export const useScore = (address) => {
   const { data } = useQuery([REACT_QUERY_KEYS.SCORE, address], async () => {
     if (!address) return null;
-    return await callYupApi({
+    return callYupApi({
       url: `/score?address=${address}`
     });
   });
