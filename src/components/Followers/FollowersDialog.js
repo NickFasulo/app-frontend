@@ -26,7 +26,7 @@ function FollowersDialog({
           {!followers?.length ? (
             <Typography variant="subtitle1">No followers</Typography>
           ) : (followers.map((follower) => (
-            <FollowUser userId={follower._id.account} />
+            <FollowUser userId={follower} />
           ))
           )}
         </Grid>
