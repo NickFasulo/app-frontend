@@ -82,7 +82,7 @@ function Reply({ tweetData, classes }) {
   // REPLYS
   const replyExtendedEntities =
     tweetData.tweetInfo.reply_status &&
-    tweetData.tweetInfo.reply_status.extended_entities
+      tweetData.tweetInfo.reply_status.extended_entities
       ? tweetData.tweetInfo.reply_status.extended_entities
       : false;
   let replyHasMedia;
@@ -182,7 +182,7 @@ function Reply({ tweetData, classes }) {
                   <img
                     className={userAvatar}
                     src={replyUserAvatar}
-                    alt="user image"
+                    alt="user"
                     onError={addDefaultSrc}
                   />
                 ) : (
@@ -272,7 +272,7 @@ function Reply({ tweetData, classes }) {
                         ? 'https://api.faviconkit.com/twitter.com/128'
                         : replyMediaURL
                     }
-                    alt="tweet-image"
+                    alt="tweet"
                   />
                 </Grid>
               ) : (
@@ -332,7 +332,7 @@ function Reply({ tweetData, classes }) {
                               ? 'https://api.faviconkit.com/twitter.com/128'
                               : mediaURL
                           }
-                          alt="tweet-image"
+                          alt="tweet"
                         />
                       </Typography>
                     ) : (

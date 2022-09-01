@@ -167,7 +167,7 @@ function Retweet({ tweetData, classes }) {
                                                 ? 'https://api.faviconkit.com/twitter.com/128'
                                                 : retweetMediaURL
                                             }
-                                            alt="tweet-image"
+                                            alt="tweet"
                                           />
                                         </Typography>
                                       ) : (

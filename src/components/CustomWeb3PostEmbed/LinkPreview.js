@@ -75,8 +75,7 @@ LinkPreview.propTypes = {
   image: PropTypes.string.isRequired,
   url: PropTypes.string,
   title: PropTypes.string,
-  size: PropTypes.string,
-  url: PropTypes.string
+  size: PropTypes.string
 };
 
 export default LinkPreview;

@@ -174,7 +174,7 @@ function EventPreview({
               <Grid item xs={12} className={classes.eventContainer}>
                 <Grid container direction="row" spacing={1} p={2}>
                   <Grid item xs={1}>
-                    <img src={eventImg} width="100%" />
+                    <img alt={eventImg} src={eventImg} width="100%" />
                   </Grid>
                   <Grid item xs={11}>
                     <Grid container>

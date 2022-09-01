@@ -21,7 +21,6 @@
     "sourceType": "module"
   },
   "rules": {
-    "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
@@ -39,6 +38,11 @@
     "import/no-cycle": "warn",
     "jsx-a11y/anchor-is-valid": "warn",
     "no-use-before-define": "off",
+    "no-param-reassign": "warn",
+    "react/no-unstable-nested-components": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "react/no-array-index-key": "warn",
+    "array-callback-return": "warn",
     // defaultProps rule to be deprecated on function components
     // https://github.com/reactjs/rfcs/pull/107
     "react/require-default-props": [

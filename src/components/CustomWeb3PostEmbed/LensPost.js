@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, { useState, useEffect } from 'react';
 import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -136,7 +137,7 @@ function LensPost({
                                       alt={attachment.images[0]}
                                     />
                                   ) : (
-                                    <>
+                                    <div>
                                       {index === 0 && (
                                         <ReactPlayer
                                           controls
@@ -148,7 +149,7 @@ function LensPost({
                                           }}
                                         />
                                       )}
-                                    </>
+                                    </div>
                                   )}
                                 </ImageListItem>
                               ))}

@@ -154,7 +154,7 @@ function Quoted({ tweetData, classes }) {
                               ? 'https://api.faviconkit.com/twitter.com/128'
                               : originalMediaURL
                           }
-                          alt="tweet-image"
+                          alt="tweet"
                         />
                       </Typography>
                     </Grid>
@@ -229,7 +229,7 @@ function Quoted({ tweetData, classes }) {
                                 ? 'https://api.faviconkit.com/twitter.com/128'
                                 : quotedMediaURL
                             }
-                            alt="tweet-image"
+                            alt="tweet"
                           />
                         ) : (
                           quotedHasVideo &&
