@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
             signature,
             expiration
           });
-                
+
           const timer = setTimeout(() => refetchScatterAuth(), expiration - new Date().getTime() - 60000)
           return () => clearTimeout(timer)
         } catch (err) {
@@ -146,7 +146,7 @@ export const AuthProvider = ({ children }) => {
       setIsCheckingAuth(false);
     })();
   }, []);
-  
+
 
   useEffect(() => {
     if (!authInfo.eosname) return;
@@ -195,6 +195,7 @@ export const AuthProvider = ({ children }) => {
         isCheckingAuth,
         name: authInfo.eosname,
         username: authInfo.username,
+        userId: authInfo.eosname,
         authInfo,
         updateAuthInfo: setAuthInfo,
         logout: handleLogout
