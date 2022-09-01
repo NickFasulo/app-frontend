@@ -6,7 +6,7 @@ import Link from '../Link';
 import ThumbnailIcon from './ThumbnailIcon';
 import { timeSince } from '../../utils/post_helpers';
 
-const HeaderSection = ({
+function HeaderSection({
   classes,
   name,
   handle,
@@ -18,19 +18,17 @@ const HeaderSection = ({
   replyParentUsername,
   createdAt,
   meta
-}) => {
+}) {
   let web3PostIcon;
 
   if (tweetType === 'retweet') {
     web3PostIcon = classes.retweetweb3PostIcon;
   } else if (tweetType === 'reply') {
     web3PostIcon = classes.web3PostIcon;
+  } else if (hideBird === true) {
+    web3PostIcon = classes.retweetweb3PostIcon;
   } else {
-    if (hideBird === true) {
-      web3PostIcon = classes.retweetweb3PostIcon;
-    } else {
-      web3PostIcon = classes.web3PostIcon;
-    }
+    web3PostIcon = classes.web3PostIcon;
   }
 
   let thumbnailLink;
@@ -39,12 +37,13 @@ const HeaderSection = ({
     thumbnailLink = `farcaster://casts/${meta.merkleRoot}/${meta.merkleRoot}`;
   }
 
-  const accountLink = protocol === 'lens'
-    ? `https://lenster.xyz/u/${handle}`
-    : `farcaster://profiles/${address}/posts`;
+  const accountLink =
+    protocol === 'lens'
+      ? `https://lenster.xyz/u/${handle}`
+      : `farcaster://profiles/${address}/posts`;
   const isMobile = window.innerWidth <= 600;
 
-  //const formattedVoteTime = moment(createdAt, 'x').fromNow(true);
+  // const formattedVoteTime = moment(createdAt, 'x').fromNow(true);
   return (
     <Grid
       container
@@ -83,44 +82,44 @@ const HeaderSection = ({
               className={classes.userHandle}
               sx={{ fontStyle: 'italic' }}
             >
-              {'Replied to @' + replyParentUsername}
+              {`Replied to @${replyParentUsername}`}
             </Typography>
           </Grid>
         )}
       </Grid>
       <Grid item>
-        <Grid container alignItems={'center'} spacing={1}>
-          <Grid item
-            sx={{marginBottom: '0.09375rem'}}>
-            <Typography
-                    variant="bodyS2"
-                    className={classes.userHandle}
-                  >
-                    { timeSince(new Date(createdAt)) }
+        <Grid container alignItems="center" spacing={1}>
+          <Grid item sx={{ marginBottom: '0.09375rem' }}>
+            <Typography variant="bodyS2" className={classes.userHandle}>
+              {timeSince(new Date(createdAt))}
             </Typography>
           </Grid>
-              {!hideBird && (
-        <Grid
-          item
-          className={web3PostIcon}
-          sx={{
-            display: 'flex'
-          }}
-        >
-          {thumbnailLink ? (
-            <Link href={thumbnailLink} target="_blank" style={{ display: 'flex' }}>
-              <ThumbnailIcon protocol={protocol} />
-            </Link>
-          ) : (
-            <ThumbnailIcon protocol={protocol} />
+          {!hideBird && (
+            <Grid
+              item
+              className={web3PostIcon}
+              sx={{
+                display: 'flex'
+              }}
+            >
+              {thumbnailLink ? (
+                <Link
+                  href={thumbnailLink}
+                  target="_blank"
+                  style={{ display: 'flex' }}
+                >
+                  <ThumbnailIcon protocol={protocol} />
+                </Link>
+              ) : (
+                <ThumbnailIcon protocol={protocol} />
+              )}
+            </Grid>
           )}
-      </Grid>)}
-      </Grid>
-
         </Grid>
+      </Grid>
     </Grid>
   );
-};
+}
 
 HeaderSection.propTypes = {
   classes: PropTypes.object.isRequired,

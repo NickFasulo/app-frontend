@@ -1,9 +1,9 @@
+import { Typography } from '@mui/material';
 import { FlexBox } from '../styles';
 import PostController from '../Post/PostController';
-import { Typography } from '@mui/material';
 import RecommendedPosts from '../RecommendedPosts';
 
-const CollectionList = ({ collection }) => {
+function CollectionList({ collection }) {
   const { name, posts } = collection;
 
   return (
@@ -29,6 +29,6 @@ const CollectionList = ({ collection }) => {
       <RecommendedPosts query={name} />
     </>
   );
-};
+}
 
 export default CollectionList;

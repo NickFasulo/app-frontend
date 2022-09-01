@@ -1,7 +1,7 @@
 import { Box, Skeleton } from '@mui/material';
 import { FlexBox } from '../styles';
 
-const UserConnectionSkeleton = () => {
+function UserConnectionSkeleton() {
   return (
     <FlexBox alignItems="center">
       <Skeleton variant="circular" animation="wave" width={50} height={50} />
@@ -11,6 +11,6 @@ const UserConnectionSkeleton = () => {
       </Box>
     </FlexBox>
   );
-};
+}
 
 export default UserConnectionSkeleton;

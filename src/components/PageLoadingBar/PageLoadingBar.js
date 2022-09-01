@@ -15,7 +15,7 @@ const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
   }
 }));
 
-const PageLoadingBar = () => {
+function PageLoadingBar() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -33,6 +33,6 @@ const PageLoadingBar = () => {
       <StyledLinearProgress variant="determinate" value={progress} />
     </Box>
   );
-};
+}
 
 export default PageLoadingBar;

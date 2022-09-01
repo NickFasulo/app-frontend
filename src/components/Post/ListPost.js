@@ -25,18 +25,20 @@ function ListPost(props) {
     imageUrl = 'https://mirror.xyz/images/social.png';
   }
 
-  const ListComp = (_props) => (
-    <ListPreview
-      previewData={previewData}
-      description={previewData && previewData.description}
-      image={imageUrl}
-      title={previewData && previewData.title}
-      url={url}
-      quantiles={quantiles}
-      rankCategory={rankCategory}
-      rank={rank}
-    />
-  );
+  function ListComp(_props) {
+    return (
+      <ListPreview
+        previewData={previewData}
+        description={previewData && previewData.description}
+        image={imageUrl}
+        title={previewData && previewData.title}
+        url={url}
+        quantiles={quantiles}
+        rankCategory={rankCategory}
+        rank={rank}
+      />
+    );
+  }
   return (
     <ErrorBoundary>
       <PostHOC component={ListComp} {...props} />

@@ -33,8 +33,8 @@ const styles = (theme) => ({
 function TextPost(props) {
   const { url, classes, previewData, postHOC: PostHOC } = props;
 
-  const PreviewData = (_props) =>
-    previewData ? (
+  function PreviewData(_props) {
+    return previewData ? (
       <LinkPreview
         description={previewData.description || ''}
         image={previewData.img}
@@ -42,26 +42,29 @@ function TextPost(props) {
         url={url}
       />
     ) : null;
-  const TextComp = (_props) => (
-    <div className={classes.postContainer}>
-      <Typography align="left" variant="h6" className={classes.postUrl}>
-        <Linkify
-          properties={{
-            style: {
-              color: '#fff',
-              fontWeight: '500',
-              '&:visited': {
-                color: '#fff'
+  }
+  function TextComp(_props) {
+    return (
+      <div className={classes.postContainer}>
+        <Typography align="left" variant="h6" className={classes.postUrl}>
+          <Linkify
+            properties={{
+              style: {
+                color: '#fff',
+                fontWeight: '500',
+                '&:visited': {
+                  color: '#fff'
+                }
               }
-            }
-          }}
-        >
-          {url}
-        </Linkify>
-        <PreviewData />
-      </Typography>
-    </div>
-  );
+            }}
+          >
+            {url}
+          </Linkify>
+          <PreviewData />
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <ErrorBoundary>

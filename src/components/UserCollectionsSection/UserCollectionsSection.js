@@ -1,14 +1,14 @@
+import { Grid, Typography } from '@mui/material';
+import { useState } from 'react';
 import withSuspense from '../../hoc/withSuspense';
 import { LOADER_TYPE } from '../../constants/enum';
 import { useUserCollections } from '../../hooks/queries';
-import { Grid, Typography } from '@mui/material';
 import { FlexBox } from '../styles';
 import CollectionCard from '../CollectionCard';
-import { useState } from 'react';
 import { USER_COLLECTION_PAGE_SIZE } from '../../config';
 import CollectionPagination from './CollectionPagination';
 
-const UserCollectionsSection = ({ collections }) => {
+function UserCollectionsSection({ collections }) {
   const [page, setPage] = useState(0);
 
   const pageStartIndex = page * USER_COLLECTION_PAGE_SIZE;
@@ -52,6 +52,6 @@ const UserCollectionsSection = ({ collections }) => {
       </Grid>
     </>
   );
-};
+}
 
 export default withSuspense(LOADER_TYPE.DEFAULT)(UserCollectionsSection);

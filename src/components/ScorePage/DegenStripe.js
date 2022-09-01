@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
 import { connect } from 'react-redux';
-import { Brand, Other } from '../../utils/colors';
 import { styled } from '@mui/system';
+import { Brand, Other } from '../../utils/colors';
 
 const Stripe = styled(Grid)(
   ({ theme }) => `
@@ -24,8 +24,8 @@ const Stripe2 = styled(Grid)(
           margin-left: -10px;
             `
 );
-const scoreToColor = (score) => {
-  return score >= 80 && score <= 100
+const scoreToColor = (score) =>
+  score >= 80 && score <= 100
     ? Brand.mint
     : score >= 60 && score <= 80
     ? Other.moss
@@ -34,7 +34,6 @@ const scoreToColor = (score) => {
     : score >= 20 && score <= 40
     ? Brand.orange
     : Brand.red;
-};
 function DegenStripe({ score, lightMode }) {
   const socialLevelColor = scoreToColor(score);
   return (

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import CustomTweetEmbed from '../CustomTweetEmbed/CustomTweetEmbed';
 import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
+import CustomTweetEmbed from '../CustomTweetEmbed/CustomTweetEmbed';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import './tweet.module.css';
 

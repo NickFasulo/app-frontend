@@ -1,11 +1,11 @@
 import numeral from 'numeral';
-import { FlexBox } from '../styles';
 import IconLeft from '@mui/icons-material/ChevronLeft';
 import IconRight from '@mui/icons-material/ChevronRight';
 import { Typography } from '@mui/material';
+import { FlexBox } from '../styles';
 import { ArrowButton } from './styles';
 
-const CollectionPagination = ({ page, total, pageSize, onSetPage }) => {
+function CollectionPagination({ page, total, pageSize, onSetPage }) {
   const maxPage = Math.floor(total / pageSize);
 
   return (
@@ -36,6 +36,6 @@ const CollectionPagination = ({ page, total, pageSize, onSetPage }) => {
       </ArrowButton>
     </FlexBox>
   );
-};
+}
 
 export default CollectionPagination;

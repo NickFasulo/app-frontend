@@ -1,12 +1,12 @@
+import { Container, Menu, MenuItem, Typography } from '@mui/material';
+import { faShare, faCopy, faBars } from '@fortawesome/pro-solid-svg-icons';
+import React, { useState } from 'react';
 import { FlexBox, YupContainer } from '../styles';
 import { HeaderRoot, Logo } from './styles';
 import { DEFAULT_IMAGE_PATH } from '../../utils/helpers';
-import { Container, Menu, MenuItem, Typography } from '@mui/material';
-import { faShare, faCopy, faBars } from '@fortawesome/pro-solid-svg-icons';
 import YupLink from '../YupLink';
 import ActionIcon from '../ActionIcon';
 import useToast from '../../hooks/useToast';
-import React, { useState } from 'react';
 import {
   CollectionDuplicateDialog,
   CollectionEditDialog,
@@ -15,7 +15,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 
 // TODO: Implement Tour
-const CollectionHeader = ({ collection, minimized }) => {
+function CollectionHeader({ collection, minimized }) {
   const { toastSuccess } = useToast();
   const account = useAuth();
   const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
@@ -119,6 +119,6 @@ const CollectionHeader = ({ collection, minimized }) => {
       />
     </YupContainer>
   );
-};
+}
 
 export default CollectionHeader;

@@ -3,10 +3,10 @@ import withStyles from '@mui/styles/withStyles';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { connect } from 'react-redux';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
 import { withRouter } from 'next/router';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import {
   fetchUserSearchResults,
   fetchPostSearchResults,
@@ -195,16 +195,14 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
     searchPosts: (searchText, limit) =>
       dispatch(fetchPostSearchResults(searchText, limit)),
     searchCollections: (searchText, limit) =>
       dispatch(fetchCollectionSearchResults(searchText, limit)),
     searchUsers: (searchText, limit) =>
       dispatch(fetchUserSearchResults(searchText, limit))
-  };
-};
+  });
 
 SearchBar.propTypes = {
   router: PropTypes.object.isRequired,

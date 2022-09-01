@@ -1,15 +1,14 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
-import { levelColors } from '../../utils/colors';
-import NotifText from './NotifText';
 import Grid from '@mui/material/Grid';
 import moment from 'moment';
 import axios from 'axios';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ReactPlayer from 'react-player/lazy';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import NotifText from './NotifText';
+import { levelColors } from '../../utils/colors';
 import { apiBaseUrl } from '../../config';
-import { useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const styles = (theme) => ({
@@ -77,7 +76,7 @@ const styles = (theme) => ({
   }
 });
 
-const Notification = ({ notif, classes }) => {
+function Notification({ notif, classes }) {
   const { isLoggedIn, ...account } = useAuth();
   const [invokerWeight, setInvokerWeight] = useState();
   const [underlineColor, setUnderlineColor] = useState();
@@ -87,7 +86,7 @@ const Notification = ({ notif, classes }) => {
   }, []);
 
   const getInvokerWeight = async () => {
-    const invoker = notif.invoker;
+    const { invoker } = notif;
     const res = await axios.get(
       `${apiBaseUrl}/levels/user/${invoker.eosname || invoker}`
     );
@@ -116,11 +115,13 @@ const Notification = ({ notif, classes }) => {
       return isURL(url ?? caption)
         ? url ?? caption
         : `/p/${notif.post._id.postid}`;
-    } else if (notif.action === 'follow') {
+    }
+    if (notif.action === 'follow') {
       return notif.invoker.eosname
         ? `/${notif.invoker.eosname}`
         : `/${notif.invoker}`;
-    } else if (notif.action === 'update') {
+    }
+    if (notif.action === 'update') {
       if (notif.type === 'ethaddressmissing') {
         return `/account/${account.name}?dialogOpen=true`;
       }
@@ -203,7 +204,7 @@ const Notification = ({ notif, classes }) => {
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 Notification.propTypes = {
   classes: PropTypes.object.isRequired,

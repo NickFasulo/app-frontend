@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
-import UserAvatar from '../UserAvatar/UserAvatar';
 import withStyles from '@mui/styles/withStyles';
-import { levelColors } from '../../utils/colors';
 import { connect } from 'react-redux';
 import Grid from '@mui/material/Grid';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Fade from '@mui/material/Fade';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { levelColors } from '../../utils/colors';
+import UserAvatar from '../UserAvatar/UserAvatar';
 
 const styles = (theme) => ({
   article: {

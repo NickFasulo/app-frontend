@@ -81,7 +81,6 @@ const styles = (theme) => ({
     border: `1.2px solid ${theme.palette.M700}`,
     boxShadow: `0px -6px 0px 0px ${theme.palette.M700}, 0px 12px 0px 0px ${theme.palette.M700}`,
     borderRadius: '12px',
-    zIndex: '-2',
     content: " '' ",
     fontSize: 0,
     width: 0,
@@ -169,15 +168,20 @@ const styles = (theme) => ({
   }
 });
 
-const CustomWeb3PostEmbed = ({ postid, web3Preview, classes, showFullPost }) => {
+function CustomWeb3PostEmbed({ postid, web3Preview, classes, showFullPost }) {
   return (
     <Fade in timeout={1000}>
       <div>
-        <Original postid={postid} web3Preview={web3Preview} classes={classes} showFullPost={showFullPost} />
+        <Original
+          postid={postid}
+          web3Preview={web3Preview}
+          classes={classes}
+          showFullPost={showFullPost}
+        />
       </div>
     </Fade>
   );
-};
+}
 
 CustomWeb3PostEmbed.propTypes = {
   web3Preview: PropTypes.object.isRequired,

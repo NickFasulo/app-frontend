@@ -4,13 +4,10 @@ import TutorialsProvider from '../providers/TutorialsProvider';
 import { LEADERBOARD_TUTORIAL_STEPS } from '../constants/data';
 import YupHead from '../components/YupHead';
 
-const Leaderboard = () => {
+function Leaderboard() {
   return (
     <>
-      <YupHead
-        title={'Leaderboard | Yup'}
-        description={'Leaderboards'}
-      />
+      <YupHead title="Leaderboard | Yup" description="Leaderboards" />
       <TutorialsProvider steps={LEADERBOARD_TUTORIAL_STEPS}>
         <YupPageWrapper>
           <LeaderboardContainer />
@@ -18,6 +15,6 @@ const Leaderboard = () => {
       </TutorialsProvider>
     </>
   );
-};
+}
 
 export default Leaderboard;

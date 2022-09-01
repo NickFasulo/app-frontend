@@ -1,16 +1,15 @@
-import { YupContainer } from '../styles';
 import { useState } from 'react';
+import { Box, Grid, Typography } from '@mui/material';
+import { YupContainer, YupPageWrapper } from '../styles';
 import CollectionHeader from './CollectionHeader';
 import CollectionList from './CollectionList';
 import useDevice from '../../hooks/useDevice';
 import { useCollection } from '../../hooks/queries';
 import RecommendationList from './RecommendationList';
-import { Box, Grid, Typography } from '@mui/material';
 import YupHead from '../YupHead';
-import YupPageHeader from '../../components/YupPageHeader';
+import YupPageHeader from '../YupPageHeader';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
-import { YupPageWrapper } from '../../components/styles';
-import YupPageTabs from '../../components/YupPageTabs';
+import YupPageTabs from '../YupPageTabs';
 import { LOADER_TYPE } from '../../constants/enum';
 import withSuspense from '../../hoc/withSuspense';
 import GridLayout from '../GridLayout';
@@ -20,7 +19,7 @@ const COLLECTION_TAB_IDS = {
   RECOMMENDATION: 'recommendation'
 };
 
-const CollectionDetails = ({ id }) => {
+function CollectionDetails({ id }) {
   const { isDesktop } = useDevice();
   const collection = useCollection(id);
   const { windowScrolled } = useAppUtils();
@@ -75,6 +74,6 @@ const CollectionDetails = ({ id }) => {
       </YupPageWrapper>
     </>
   );
-};
+}
 
 export default withSuspense(LOADER_TYPE.TOP_BAR)(CollectionDetails);

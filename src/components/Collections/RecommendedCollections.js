@@ -12,10 +12,9 @@ const AWS_DEFAULT_COLLECTION_IMG_URLS = [...Array(5)].map(
   (_, i) => `https://app-gradients.s3.amazonaws.com/gradient${i + 1}.png`
 );
 const getRandomGradientImg = () =>
-  `${
-    AWS_DEFAULT_COLLECTION_IMG_URLS[
-      Math.floor(Math.random() * AWS_DEFAULT_COLLECTION_IMG_URLS.length)
-    ]
+  `${AWS_DEFAULT_COLLECTION_IMG_URLS[
+  Math.floor(Math.random() * AWS_DEFAULT_COLLECTION_IMG_URLS.length)
+  ]
   }`;
 
 const ImageSkeleton = styled(Skeleton)(({ theme }) => ({
@@ -53,7 +52,7 @@ const styles = (theme) => ({
   }
 });
 
-const RecommendedCollections = ({ classes, collection }) => {
+function RecommendedCollections({ classes, collection }) {
   const [hasLoaded, setHasLoaded] = useState(false);
   const { closeSearch } = useSideBar();
   const fmtCollectionName =
@@ -118,7 +117,7 @@ const RecommendedCollections = ({ classes, collection }) => {
             </Grid>
             <Grid item>
               <Typography noWrap variant="body2">
-                {!hasLoaded ? <Skeleton animation={false} /> : collection.owner}
+                {!hasLoaded ? <Skeleton animation={false} /> : collection.username}
               </Typography>
             </Grid>
           </Grid>
@@ -126,7 +125,7 @@ const RecommendedCollections = ({ classes, collection }) => {
       </Grid>
     </Link>
   );
-};
+}
 
 RecommendedCollections.propTypes = {
   classes: PropTypes.object.isRequired,

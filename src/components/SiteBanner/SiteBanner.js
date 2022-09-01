@@ -27,7 +27,7 @@ const styles = (theme) => ({
   }
 });
 
-const SiteBanner = ({ classes }) => {
+function SiteBanner({ classes }) {
   const [open, setOpen] = useState(true);
 
   const handleClose = (event, reason) => {
@@ -78,7 +78,7 @@ const SiteBanner = ({ classes }) => {
       }}
     />
   );
-};
+}
 
 SiteBanner.propTypes = {
   classes: PropTypes.object.isRequired

@@ -83,3 +83,5 @@ export const isYoutubeUrl = (url) => {
   const ytPattern = genRegEx(['youtube.com/watch?', 'youtu.be/']);
   return ytPattern.test(url);
 };
+
+export const getInitial = (name) => name?.toUpperCase().substring(0, 1);

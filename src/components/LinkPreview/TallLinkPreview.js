@@ -120,7 +120,6 @@ class LinkPreview extends Component {
             <div
               className={classes.previewContainer}
               href={url}
-              rel="noopener noreferrer"
               target="_blank"
             >
               <YupImage

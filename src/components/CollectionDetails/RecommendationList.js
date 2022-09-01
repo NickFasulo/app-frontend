@@ -3,7 +3,7 @@ import { FlexBox } from '../styles';
 import RecommendedCollections from '../Collections/RecommendedCollections';
 import withSuspense from '../../hoc/withSuspense';
 
-const RecommendationList = ({ collection }) => {
+function RecommendationList({ collection }) {
   const { name, description, _id: id } = collection;
   const recommendation = useRecommendation({ name, description, id });
 
@@ -16,6 +16,6 @@ const RecommendationList = ({ collection }) => {
         ))}
     </FlexBox>
   );
-};
+}
 
 export default withSuspense()(RecommendationList);

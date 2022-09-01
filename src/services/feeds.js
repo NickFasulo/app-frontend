@@ -5,7 +5,7 @@ import ImgFeedDailyHits from '../../public/images/feeds/dailyhitscover.png';
 export const getFeedCategory = (categoryName) =>
   Object.values(FEED_CATEGORIES).find((item) => item.id === categoryName);
 export const getFeedCategoryWithDefault = (categoryName) =>
-  getFeedCategory(categoryName) || {    
+  getFeedCategory(categoryName) || {
     id: categoryName,
     title: categoryName,
     image: ImgFeedDailyHits,

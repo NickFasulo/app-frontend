@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
-import { levelColors } from '../../utils/colors';
 import Fade from '@mui/material/Fade';
+import axios from 'axios';
+import { levelColors } from '../../utils/colors';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { trimURL, getFavicon } from '../../utils/url';
-import axios from 'axios';
 import { apiBaseUrl, defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
@@ -117,6 +117,7 @@ const styles = (theme) => ({
 
 class FallbackImage extends Component {
   state = { imgLink: '' };
+
   componentDidMount() {
     (async () => {
       const imgL = await this.resetImgLink();
@@ -192,7 +193,7 @@ class ObjectPreview extends Component {
               <div
                 className={classes.previewContainer}
                 href={url}
-                rel="noopener noreferrer"
+                
                 target="_blank"
               >
                 <div className={classes.previewData}>

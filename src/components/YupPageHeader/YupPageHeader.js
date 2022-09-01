@@ -1,10 +1,10 @@
 import { useResizeDetector } from 'react-resize-detector';
-import { YupPageHeaderRoot } from './styles';
 import { useEffect } from 'react';
+import { YupPageHeaderRoot } from './styles';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
 import { useAppLayout } from '../../contexts/AppLayoutContext';
 
-const YupPageHeader = ({ children, ...restProps }) => {
+function YupPageHeader({ children, ...restProps }) {
   const { height, ref } = useResizeDetector();
   const { windowScrolled } = useAppUtils();
   const { setHeaderHeight } = useAppLayout();
@@ -18,6 +18,6 @@ const YupPageHeader = ({ children, ...restProps }) => {
       {children}
     </YupPageHeaderRoot>
   );
-};
+}
 
 export default YupPageHeader;

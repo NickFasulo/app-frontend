@@ -1,21 +1,21 @@
 import '../../styles/global.css';
-import MainLayout from '../components/MainLayout';
-import createEmotionCache from '../createEmotionCache';
 import { CacheProvider } from '@emotion/react';
 import Head from 'next/head';
 import { QueryClientProvider, Hydrate } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from '../config/react-query';
 import Providers from '../providers';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import createEmotionCache from '../createEmotionCache';
+import MainLayout from '../components/MainLayout';
 
 const clientSideEmotionCache = createEmotionCache();
 
-const MyApp = ({
+function MyApp({
   Component,
   emotionCache = clientSideEmotionCache,
   pageProps
-}) => {
+}) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => setIsMounted(true), []);
@@ -41,6 +41,6 @@ const MyApp = ({
       </QueryClientProvider>
     </CacheProvider>
   );
-};
+}
 
 export default MyApp;

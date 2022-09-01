@@ -1,16 +1,16 @@
+import { Typography } from '@mui/material';
+import Link from 'next/link';
 import {
   CollectionCardRoot,
   CollectionContent,
   CollectionCoverWrapper,
   CollectionOverlay
 } from './styles';
-import { Typography } from '@mui/material';
 import { TruncateText } from '../styles';
-import Link from 'next/link';
 import CollectionCover from '../CollectionCover';
 import { generateCollectionUrl } from '../../utils/helpers';
 
-const CollectionCard = ({ data }) => {
+function CollectionCard({ data }) {
   const { _id: id, name, postIds } = data;
 
   return (
@@ -34,6 +34,6 @@ const CollectionCard = ({ data }) => {
       </a>
     </Link>
   );
-};
+}
 
 export default CollectionCard;

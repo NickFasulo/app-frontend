@@ -24,17 +24,19 @@ function AudiusPost(props) {
   } = props;
   if (!trackId || !ownerId) return null;
 
-  const AudiusComp = (_props) => (
-    <div className={classes.postContainer}>
-      <iframe
-        src={`${audisEmbedUrl}/${trackId}?flavor=compact`}
-        allow="encrypted-media"
-        width="100%"
-        height="130"
-        style={{ border: 'none', padding: '10px' }}
-      />
-    </div>
-  );
+  function AudiusComp(_props) {
+    return (
+      <div className={classes.postContainer}>
+        <iframe
+          src={`${audisEmbedUrl}/${trackId}?flavor=compact`}
+          allow="encrypted-media"
+          width="100%"
+          height="130"
+          style={{ border: 'none', padding: '10px' }}
+        />
+      </div>
+    );
+  }
   return (
     <ErrorBoundary>
       <PostHOC component={AudiusComp} {...props} />
