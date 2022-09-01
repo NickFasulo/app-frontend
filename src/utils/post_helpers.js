@@ -5,12 +5,11 @@ import ReactPlayer from 'react-player/lazy';
 import Link from '@mui/material/Link';
 import axios from 'axios';
 import _, { matches } from 'lodash';
-import { apiBaseUrl } from '../config';
-import LinkPreview from '../components/LinkPreview/LinkPreview';
 import reactStringReplace from 'react-string-replace';
 import { Grid, Typography } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
-import TeaPartyPost from '../components/CustomWeb3PostEmbed/TeaPartyPost';
+import LinkPreview from '../components/LinkPreview/LinkPreview';
+import { apiBaseUrl } from '../config';
 import FarCasterPost from '../components/CustomWeb3PostEmbed/FarCasterPost';
 import { SeeMore } from '../components/Miscellaneous';
 import LensPost from '../components/CustomWeb3PostEmbed/LensPost';
@@ -54,7 +53,7 @@ export const markdownReplaceHashtags = (str) => {
   // const parsed = str.replace(re, '');
   // return parsed;
 };
-//Replacesprotocol from url so markdownReplaceLinks doenst replace it twice
+// Replacesprotocol from url so markdownReplaceLinks doenst replace it twice
 export const splitMarkDownUrl = (str) => {
   const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
   const matches = str.match(re);
@@ -64,7 +63,7 @@ export const splitMarkDownUrl = (str) => {
     const urlObject = new URL(match);
     str = str.replace(
       urlObject.protocol,
-      urlObject.protocol + 'hyperlinkyupreplace'
+      `${urlObject.protocol}hyperlinkyupreplace`
     );
     // url= str.replace(match, `[linkyupreplace${match}](${match})`);
   });
@@ -76,15 +75,15 @@ export const markdownReplaceLinks = (str) => {
   const singleMatch = /\[([^\[]+)\]\((.*)\)/;
   const mdLinkMatches = str.match(regexMdLinks);
   mdLinkMatches?.forEach((match) => {
-    var markdownMatches = singleMatch.exec(match);
-    var text = markdownMatches[1];
-    var url = markdownMatches[2];
+    const markdownMatches = singleMatch.exec(match);
+    const text = markdownMatches[1];
+    let url = markdownMatches[2];
     url = decodeURIComponent(url);
     url = url.replace(/(\r\n|\n|\r)/gm, '');
     str = str.replace(match, `[${text}](${splitMarkDownUrl(url)})`);
   });
 
-  //replaces markdown links and adds linkyupreplace to handle it later
+  // replaces markdown links and adds linkyupreplace to handle it later
   const re = /http[s]?:\/\/.*?( |\n|\t|$){1}/g;
   const matches = str.match(re);
   matches?.forEach((match, i) => {
@@ -129,7 +128,7 @@ export const linkMentions = (word, url) => {
         <i> </i>
       </>
     );
-  } else if (matchHastag) {
+  } if (matchHastag) {
     return (
       <>
         <Typography variant="body3" display="inline">
@@ -138,9 +137,9 @@ export const linkMentions = (word, url) => {
         <i> </i>
       </>
     );
-  } else {
-    return <>{word} </>;
   }
+  return <>{word} </>;
+
 };
 
 export const fetchLinkPreviewData = async (passedURL) => {
@@ -213,48 +212,46 @@ export const parsePhaverPost = (text, url, attachments) => {
   const matches = text.match(regexMdLinks);
   if (attachments.length > 0) {
     matches?.forEach((element, i) => {
-      text = reactStringReplace(text, element, () => {
-        return attachments[i];
-      });
+      text = reactStringReplace(text, element, () => attachments[i]);
     });
 
     return (
       <LinkPreview
-        size={'large'}
+        size="large"
         description={text[2]}
         image={text[1]}
         title={text[0]}
         url={url}
       />
     );
-  } else {
-    return text;
   }
+  return text;
+
 };
 
 export const timeSince = (date) => {
-  var seconds = Math.floor((new Date() - date) / 1000);
+  const seconds = Math.floor((new Date() - date) / 1000);
 
-  var interval = seconds / 31536000;
+  let interval = seconds / 31536000;
 
   if (interval > 1) {
-    return Math.floor(interval) + 'y';
+    return `${Math.floor(interval)}y`;
   }
   interval = seconds / 2592000;
   if (interval > 1) {
-    return Math.floor(interval) + 'm';
+    return `${Math.floor(interval)}m`;
   }
   interval = seconds / 86400;
   if (interval > 1) {
-    return Math.floor(interval) + 'd';
+    return `${Math.floor(interval)}d`;
   }
   interval = seconds / 3600;
   if (interval > 1) {
-    return Math.floor(interval) + 'h';
+    return `${Math.floor(interval)}h`;
   }
   interval = seconds / 60;
   if (interval > 1) {
-    return Math.floor(interval) + 'min';
+    return `${Math.floor(interval)}min`;
   }
-  return Math.floor(seconds) + 's';
+  return `${Math.floor(seconds)}s`;
 };
