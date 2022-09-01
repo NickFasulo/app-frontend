@@ -1,9 +1,9 @@
-import { StyledInput } from './styles';
 import { InputAdornment } from '@mui/material';
 import IconSearch from '@mui/icons-material/SearchOutlined';
 import { useState } from 'react';
+import { StyledInput } from './styles';
 
-const SearchInput = ({ onSearch }) => {
+function SearchInput({ onSearch }) {
   const [value, setValue] = useState('');
 
   const handleKeyDown = (ev) => {
@@ -27,6 +27,6 @@ const SearchInput = ({ onSearch }) => {
       }
     />
   );
-};
+}
 
 export default SearchInput;

@@ -2,12 +2,12 @@ import React from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
+import removeMd from 'remove-markdown';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
-import removeMd from'remove-markdown';
 import Link from '../Link/Link';
 import YupReactMarkdown from '../YupReactMarkdown';
 
@@ -78,9 +78,14 @@ const styles = (theme) => ({
   }
 });
 
-const ArticlePreview = ({ title, description, url, classes, writerENS, postid }) => {
-  
-
+function ArticlePreview({
+  title,
+  description,
+  url,
+  classes,
+  writerENS,
+  postid
+}) {
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
@@ -94,14 +99,14 @@ const ArticlePreview = ({ title, description, url, classes, writerENS, postid })
 
   return (
     <ErrorBoundary>
-      <div className={classes.container} href={url} target="_blank">       
-        <Link href={`/post/${postid}`} >
+      <div className={classes.container} href={url} target="_blank">
+        <Link href={`/post/${postid}`}>
           <div className={classes.previewData}>
-            <Grid container rowSpacing={1} >
+            <Grid container rowSpacing={1}>
               <Grid item xs={12}>
                 <Grid alignItems="start" container direction="row" spacing={0}>
                   <Grid item xs={10} sm={11}>
-                    <Grid container direction='row'>
+                    <Grid container direction="row">
                       <Grid item xs={12}>
                         <TruncateText variant="h6" lines={2}>
                           {title.split(/[|]|[—]+/g, 1)}
@@ -109,7 +114,9 @@ const ArticlePreview = ({ title, description, url, classes, writerENS, postid })
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2" className={classes.url}>
-                          {writerENS === undefined ? trimURL(url).split(/[/]+/g, 1) : writerENS }
+                          {writerENS === undefined
+                            ? trimURL(url).split(/[/]+/g, 1)
+                            : writerENS}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -126,23 +133,21 @@ const ArticlePreview = ({ title, description, url, classes, writerENS, postid })
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>             
-               <TruncateText
+            <Grid item xs={12}>
+              <TruncateText
                 variant="body2"
                 className={classes.description}
                 lines={5}
               >
                 {removeMd(description)}
               </TruncateText>
-              
-             
             </Grid>
           </div>
         </Link>
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 ArticlePreview.propTypes = {
   url: PropTypes.string.isRequired,

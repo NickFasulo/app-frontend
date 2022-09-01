@@ -1,9 +1,9 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { useTheme } from '@mui/styles';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
-const FeedLoader = () => {
+function FeedLoader() {
   const { palette } = useTheme();
   return (
     <ErrorBoundary>
@@ -175,6 +175,6 @@ const FeedLoader = () => {
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 export default FeedLoader;

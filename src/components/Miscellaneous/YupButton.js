@@ -37,7 +37,7 @@ const styles = () => ({
   }
 });
 
-const YupButton = ({
+function YupButton({
   size,
   color,
   variant,
@@ -45,7 +45,7 @@ const YupButton = ({
   children,
   adornment,
   ...restProps
-}) => {
+}) {
   const leftAdornment =
     adornment === 'left' || adornment === 'both' ? <ArrowForwardIcon /> : null;
   const rightAdornment =
@@ -82,7 +82,7 @@ const YupButton = ({
       {children}
     </Button>
   );
-};
+}
 
 YupButton.propTypes = {
   size: PropTypes.string,

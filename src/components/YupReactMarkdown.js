@@ -1,7 +1,10 @@
 import { Grid, Popover, Popper, Tooltip, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { markdownReplaceHashtags, markdownReplaceLinks }  from '../utils/post_helpers';
+import {
+  markdownReplaceHashtags,
+  markdownReplaceLinks
+} from '../utils/post_helpers';
 import Link from './Link';
 import LinkPreview from './LinkPreview/LinkPreview';
 import { TruncateText } from './styles';
@@ -19,12 +22,17 @@ import VideoComponent from './VideoComponent';
 //     background-size: 300% 100%;
 //     `
 // );
-const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }) => {
-
-  //Related to on hover LinkPreview
+function YupReactMarkdown({
+  props,
+  children,
+  lines,
+  linkPreview,
+  classes,
+  post
+}) {
+  // Related to on hover LinkPreview
   // const linkRef = useRef();
   // const [open, setOpen] = useState(false);
-
 
   // const handlePopoverOpen = (event) => {
   //   setOpen(true)
@@ -33,79 +41,96 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
   // const handlePopoverClose = () => {
   //   setOpen(false)
   // };
-  const parsed = linkPreview?markdownReplaceLinks(children):children;
- // const parsed2 = markdownReplaceHashtags(parsed);
-  const getLinkPreview = (url) => {
-    return linkPreview.find(x => x?.originalUrl === url);
-  }
+  const parsed = linkPreview ? markdownReplaceLinks(children) : children;
+  // const parsed2 = markdownReplaceHashtags(parsed);
+  const getLinkPreview = (url) =>
+    linkPreview.find((x) => x?.originalUrl === url);
   return (
-    <TruncateText variant='body2' lines={lines} >
-    <ReactMarkdown
-      components={{
-        ul: ({node, ...props}) => <ul   style={{listStylePosition: "inside",
-          paddingLeft: 0}}{...props} />,
-        ol: ({node, ...props}) => <ol   style={{listStylePosition: "inside",
-        paddingLeft: 0}}{...props} />,
-        img: ({ node, ...props }) => <img
-          style={{
-            maxWidth: '100%',
-            objectFit: 'contain',
-            borderRadius: 10
-          }}
-          {...props}
-        />,
-         a: ({node, ...props}) =>
-         {
-          const originalText = node?.children?.[0]?.value
-          const [yupTag, text] = node?.children?.[0]?.value?.split("yupreplace")
+    <TruncateText variant="body2" lines={lines}>
+      <ReactMarkdown
+        components={{
+          ul: ({ node, ...props }) => (
+            <ul
+              style={{ listStylePosition: 'inside', paddingLeft: 0 }}
+              {...props}
+            />
+          ),
+          ol: ({ node, ...props }) => (
+            <ol
+              style={{ listStylePosition: 'inside', paddingLeft: 0 }}
+              {...props}
+            />
+          ),
+          img: ({ node, ...props }) => (
+            <img
+              style={{
+                maxWidth: '100%',
+                objectFit: 'contain',
+                borderRadius: 10
+              }}
+              {...props}
+            />
+          ),
+          a: ({ node, ...props }) => {
+            const originalText = node?.children?.[0]?.value;
+            const [yupTag, text] =
+              node?.children?.[0]?.value?.split('yupreplace');
 
-          let elem =
-          <Typography  display="inline">
-              <Link {...props} />
-            </Typography>
+            let elem = (
+              <Typography display="inline">
+                <Link {...props} />
+              </Typography>
+            );
 
-          switch (yupTag) {
-            case 'hashtag':
-             elem = <Typography  display="inline">
-                      <Link href={props.href} >
-                        {text}
-                      </Link>
+            switch (yupTag) {
+              case 'hashtag':
+                elem = (
+                  <Typography display="inline">
+                    <Link href={props.href}>{text}</Link>
                   </Typography>
-              break;
+                );
+                break;
 
-            case 'link': {
-                const linkPreviewData = getLinkPreview(text)
+              case 'link':
+                {
+                  const linkPreviewData = getLinkPreview(text);
 
-                if (isYoutubeUrl(text)) {
-                  elem = <VideoComponent url={text} />;
+                  if (isYoutubeUrl(text)) {
+                    elem = <VideoComponent url={text} />;
+                  } else if (linkPreviewData) {
+                    elem = (
+                      <Grid item xs={12}>
+                        <LinkPreview
+                          size="large"
+                          image={linkPreviewData.img}
+                          title={linkPreviewData.title}
+                          url={linkPreviewData.url}
+                          description={linkPreviewData.description}
+                          // classes={classes}
+                        />
+                      </Grid>
+                    );
+                  } else {
+                    elem = (
+                      <Typography variant="body3" display="inline">
+                        <Link href={props.href}>{text}</Link>
+                      </Typography>
+                    );
+                  }
                 }
-                else if(linkPreviewData){
-                  ( elem=
-                  <Grid item xs={12}>
-                  <LinkPreview
-                    size={'large'}
-                    image={linkPreviewData.img}
-                    title={linkPreviewData.title}
-                    url={linkPreviewData.url}
-                    description={linkPreviewData.description}
-                    // classes={classes}
-                    />
-                    </Grid>)
-                } else {
-                  elem = <Typography  variant="body3" display="inline">
-                  <Link href={props.href} >
-                    {text}
-                  </Link>
-                  </Typography>
-                }
-              }
 
-              break;
-            default: {
-              if(props.href.includes('hyperlinkyupreplace')){
-                const linkPreviewData = getLinkPreview(props.href.replace("hyperlinkyupreplace", ''))
-                {/* Shows linkpreview on hover for hyperlinks */}
-               {/* if(linkPreviewData){
+                break;
+              default:
+                {
+                  if (props.href.includes('hyperlinkyupreplace')) {
+                    const linkPreviewData = getLinkPreview(
+                      props.href.replace('hyperlinkyupreplace', '')
+                    );
+                    {
+                      /* Shows linkpreview on hover for hyperlinks */
+                    }
+                    {
+                      /* if(linkPreviewData){
                   elem =
                   <>
                   <Typography  display="inline"
@@ -158,30 +183,35 @@ const YupReactMarkdown = ({ props, children, lines, linkPreview, classes, post }
               )}
               </>
                 }
-                else {*/}
-                  elem = <Typography variant="body3" display="inline">
-                <Link href={props.href.replace("hyperlinkyupreplace", '')} >
-                  {originalText.replace("hyperlinkyupreplace", '')}
-                </Link>
-                </Typography>
-                {/* } */}
-              }
+                else { */
+                    }
+                    elem = (
+                      <Typography variant="body3" display="inline">
+                        <Link
+                          href={props.href.replace('hyperlinkyupreplace', '')}
+                        >
+                          {originalText.replace('hyperlinkyupreplace', '')}
+                        </Link>
+                      </Typography>
+                    );
+                    {
+                      /* } */
+                    }
+                  }
+                }
+                break;
             }
-              break;
+            return elem;
+            //  <Typography  display="inline">
+            //     <Link {...props} />
+            //  </Typography>
           }
-          return elem
-        //  <Typography  display="inline">
-        //     <Link {...props} />
-        //  </Typography>
-
-      }
-      }}
-
-      {...props}
-    >
-      {parsed}
-    </ReactMarkdown>
+        }}
+        {...props}
+      >
+        {parsed}
+      </ReactMarkdown>
     </TruncateText>
   );
-};
+}
 export default YupReactMarkdown;

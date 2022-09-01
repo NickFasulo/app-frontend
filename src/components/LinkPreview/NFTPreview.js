@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Tooltip, Typography } from '@mui/material';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import axios from 'axios';
-import { CldImg, CldVid } from '../../components/Miscellaneous';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { CldImg, CldVid } from "../Miscellaneous";
 import { trimURL, getFavicon } from '../../utils/url';
 import { raribleApiUrl } from '../../config';
 import { TruncateText } from '../styles';
@@ -234,7 +234,7 @@ class NFTPreview extends Component {
             <div
               className={classes.previewContainer}
               href={url}
-              rel="noopener noreferrer"
+              
               target="_blank"
             >
               <div

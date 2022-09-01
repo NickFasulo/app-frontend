@@ -14,19 +14,21 @@ function NFTPost(props) {
     postid
   } = props;
 
-  const ObjectComp = (_props) => (
-    <NFTPreview
-      previewData={previewData}
-      description={previewData && previewData.description}
-      image={previewData?.img || defaultPostImageUrl}
-      title={previewData && previewData.title}
-      mimeType={previewData && previewData.mimeType}
-      url={url}
-      quantiles={quantiles}
-      rankCategory={rankCategory}
-      postid={postid}
-    />
-  );
+  function ObjectComp(_props) {
+    return (
+      <NFTPreview
+        previewData={previewData}
+        description={previewData && previewData.description}
+        image={previewData?.img || defaultPostImageUrl}
+        title={previewData && previewData.title}
+        mimeType={previewData && previewData.mimeType}
+        url={url}
+        quantiles={quantiles}
+        rankCategory={rankCategory}
+        postid={postid}
+      />
+    );
+  }
   return (
     <ErrorBoundary>
       <PostHOC component={ObjectComp} {...props} />

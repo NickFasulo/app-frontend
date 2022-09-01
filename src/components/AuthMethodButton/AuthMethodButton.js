@@ -5,7 +5,7 @@ import { Typography } from '@mui/material';
 import { YupButton } from '../Miscellaneous';
 import useStyles from './AuthMethodButtonStyles';
 
-const AuthMethodButton = ({ text, imageUrl, onClick }) => {
+function AuthMethodButton({ text, imageUrl, onClick }) {
   const classes = useStyles();
 
   return (
@@ -21,7 +21,7 @@ const AuthMethodButton = ({ text, imageUrl, onClick }) => {
       <img alt={text} src={imageUrl} className={classes.icon} />
     </YupButton>
   );
-};
+}
 
 AuthMethodButton.propTypes = {
   text: PropTypes.string,

@@ -44,26 +44,28 @@ const styles = (theme) => ({
 });
 
 function getTwitchId(url) {
-  var startIndex = url.lastIndexOf('.tv/') + 4;
+  const startIndex = url.lastIndexOf('.tv/') + 4;
   return url.substr(startIndex);
 }
 function TwitchPost(props) {
   const { classes, url, postHOC: PostHOC } = props;
 
-  const TwitchComp = (_props) => (
-    <div className={classes.postContainer}>
-      <ReactTwitchEmbedVideo
-        autoplay={false}
-        channel={getTwitchId(url)}
-        className={classes.reactPlayer}
-        height="400px"
-        layout="video"
-        mute
-        replay={url}
-        width="550px"
-      />
-    </div>
-  );
+  function TwitchComp(_props) {
+    return (
+      <div className={classes.postContainer}>
+        <ReactTwitchEmbedVideo
+          autoplay={false}
+          channel={getTwitchId(url)}
+          className={classes.reactPlayer}
+          height="400px"
+          layout="video"
+          mute
+          replay={url}
+          width="550px"
+        />
+      </div>
+    );
+  }
 
   return (
     <ErrorBoundary>

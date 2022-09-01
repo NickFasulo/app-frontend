@@ -12,7 +12,7 @@ import YupLogoMenuItem from './YupLogoMenuItem';
 import Link from '../Link';
 import { useAuth } from '../../contexts/AuthContext';
 
-const UserMenuItem = () => {
+function UserMenuItem() {
   const { open, closeSideBar, closeSearch } = useSideBar();
   const { isDesktop } = useDevice();
   const { username } = useAuth();
@@ -29,7 +29,7 @@ const UserMenuItem = () => {
         if (!isDesktop) {
           closeSideBar();
         } else {
-          closeSearch()
+          closeSearch();
         }
       }}
     >
@@ -69,6 +69,6 @@ const UserMenuItem = () => {
       </Grow>
     </MenuItemButton>
   );
-};
+}
 
 export default withCustomSuspense(YupLogoMenuItem)(UserMenuItem);

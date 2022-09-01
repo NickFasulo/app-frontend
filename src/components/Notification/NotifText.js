@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { reactionIcons } from '../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-regular-svg-icons';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { reactionIcons } from '../../config';
 import { TruncateText } from '../styles';
 
 const styles = (theme) => ({
@@ -73,7 +73,8 @@ function NotifText(props) {
         </TruncateText>
       </ErrorBoundary>
     );
-  } else if (notif.action === 'vote') {
+  }
+  if (notif.action === 'vote') {
     return (
       <ErrorBoundary>
         <TruncateText lines={3} className={classes.dotdotdot}>
@@ -101,7 +102,8 @@ function NotifText(props) {
         </TruncateText>
       </ErrorBoundary>
     );
-  } else if (notif.action === 'comment') {
+  }
+  if (notif.action === 'comment') {
     return (
       <ErrorBoundary>
         <TruncateText lines={3} className={classes.dotdotdot}>
@@ -127,7 +129,8 @@ function NotifText(props) {
         </TruncateText>
       </ErrorBoundary>
     );
-  } else if (notif.action === 'circle') {
+  }
+  if (notif.action === 'circle') {
     return (
       <ErrorBoundary>
         <TruncateText
@@ -152,7 +155,8 @@ function NotifText(props) {
         </TruncateText>
       </ErrorBoundary>
     );
-  } else if (notif.action === 'update') {
+  }
+  if (notif.action === 'update') {
     return (
       <ErrorBoundary>
         <TruncateText
@@ -164,28 +168,27 @@ function NotifText(props) {
         </TruncateText>
       </ErrorBoundary>
     );
-  } else {
-    return (
-      <ErrorBoundary>
-        <TruncateText lines={2} className={classes.dotdotdot}>
-          <p
-            className={classes.text}
-            style={
-              invokerWeight !== 0
-                ? {
-                    textDecoration: 'underline',
-                    textDecorationColor: underlineColor
-                  }
-                : null
-            }
-          >
-            {invoker}
-          </p>
-          &nbsp; were rewarded {notif.quantity.toFixed(4)} YUP.
-        </TruncateText>
-      </ErrorBoundary>
-    );
   }
+  return (
+    <ErrorBoundary>
+      <TruncateText lines={2} className={classes.dotdotdot}>
+        <p
+          className={classes.text}
+          style={
+            invokerWeight !== 0
+              ? {
+                  textDecoration: 'underline',
+                  textDecorationColor: underlineColor
+                }
+              : null
+          }
+        >
+          {invoker}
+        </p>
+        &nbsp; were rewarded {notif.quantity.toFixed(4)} YUP.
+      </TruncateText>
+    </ErrorBoundary>
+  );
 }
 
 NotifText.propTypes = {

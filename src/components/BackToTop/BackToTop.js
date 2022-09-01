@@ -1,6 +1,6 @@
-import { useAppUtils } from '../../contexts/AppUtilsContext';
 import { Button, styled } from '@mui/material';
 import IconTop from '@mui/icons-material/ArrowUpward';
+import { useAppUtils } from '../../contexts/AppUtilsContext';
 import useDevice from '../../hooks/useDevice';
 
 const BackToTopButton = styled(Button)(({ theme }) => ({
@@ -16,7 +16,7 @@ const BackToTopButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-const BackToTop = () => {
+function BackToTop() {
   const { isDesktop } = useDevice();
   const { windowScrolled } = useAppUtils();
 
@@ -27,20 +27,18 @@ const BackToTop = () => {
   };
 
   return (
-    <>
-      <BackToTopButton
-        startIcon={isDesktop && <IconTop />}
-        variant="contained"
-        color="inherit"
-        sx={{
-          width: 'auto'
-        }}
-        onClick={handleGoToTop}
-      >
-        {isDesktop ? 'back to top' : <IconTop />}
-      </BackToTopButton>
-    </>
+    <BackToTopButton
+      startIcon={isDesktop && <IconTop />}
+      variant="contained"
+      color="inherit"
+      sx={{
+        width: 'auto'
+      }}
+      onClick={handleGoToTop}
+    >
+      {isDesktop ? 'back to top' : <IconTop />}
+    </BackToTopButton>
   );
-};
+}
 
 export default BackToTop;

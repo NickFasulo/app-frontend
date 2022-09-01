@@ -1,9 +1,9 @@
+import { useRouter } from 'next/router';
 import { useFilters } from './LeaderboardContainer';
 import { FlexBox } from '../styles';
 import FilterDropdown from './FilterDropdown';
-import { useRouter } from 'next/router';
 
-const FilterBar = () => {
+function FilterBar() {
   const filters = useFilters();
   const { push } = useRouter();
 
@@ -43,6 +43,6 @@ const FilterBar = () => {
       />
     </FlexBox>
   );
-};
+}
 
 export default FilterBar;

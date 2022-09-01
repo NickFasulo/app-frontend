@@ -9,10 +9,7 @@ import { useAppUtils } from '../../contexts/AppUtilsContext';
 // Add support for the sx prop for consistency with the other branches.
 const Anchor = styled('a')({});
 
-export const NextLinkComposed = React.forwardRef(function NextLinkComposed(
-  props,
-  ref
-) {
+export const NextLinkComposed = React.forwardRef((props, ref) => {
   const { to, linkAs, replace, scroll, shallow, prefetch, locale, ...other } =
     props;
 
@@ -32,7 +29,7 @@ export const NextLinkComposed = React.forwardRef(function NextLinkComposed(
   );
 });
 
-const Link = React.forwardRef(function Link(props, ref) {
+const Link = React.forwardRef((props, ref) => {
   const {
     activeClassName = 'active',
     as,

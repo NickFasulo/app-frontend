@@ -1,12 +1,12 @@
+import { useMutation } from '@tanstack/react-query';
+import { CircularProgress } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContext';
 import { useFollowings } from '../../hooks/queries';
 import { ActionButton } from '../styles';
 import withSuspense from '../../hoc/withSuspense';
-import { useMutation } from '@tanstack/react-query';
 import { MUTATION_KEYS } from '../../constants/enum';
-import { CircularProgress } from '@mui/material';
 
-const FollowButton = ({ userId }) => {
+function FollowButton({ userId }) {
   const { userId: myUserId, isLoggedIn, authInfo } = useAuth();
   const myFollowingUsers = useFollowings(myUserId) || [];
   const isAlreadyFollowing = myFollowingUsers.includes(userId);
@@ -39,6 +39,6 @@ const FollowButton = ({ userId }) => {
       ) : isAlreadyFollowing ? 'Following' : 'Follow'}
     </ActionButton>
   )
-};
+}
 
 export default withSuspense()(FollowButton);

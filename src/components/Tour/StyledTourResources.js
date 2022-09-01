@@ -1,8 +1,8 @@
 import React from 'react';
-import YupButton from '../Miscellaneous/YupButton';
 import { Grid } from '@mui/material';
+import YupButton from '../Miscellaneous/YupButton';
 
-const StyledTourResources = () => {
+function StyledTourResources() {
   return (
     <Grid container spacing={2} textAlign="center" sx={{ marginBottom: '1em' }}>
       <Grid item>
@@ -40,6 +40,6 @@ const StyledTourResources = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default StyledTourResources;

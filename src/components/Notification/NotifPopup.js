@@ -4,16 +4,17 @@ import withStyles from '@mui/styles/withStyles';
 import { Paper, Grow, IconButton, Badge, Icon } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import wallet from '../../eos/scatter/scatter.wallet.js';
 import Downshift from 'downshift';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/pro-light-svg-icons';
+import wallet from '../../eos/scatter/scatter.wallet.js';
 import NotifOutline from './NotifOutline';
 import { ethAuthSelector } from '../../redux/selectors';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
+
 const Notification = React.lazy(() => import('./Notification'));
 
 const styles = (theme) => ({
@@ -57,7 +58,7 @@ const styles = (theme) => ({
   }
 });
 
-const NotifPopup = ({ notifications, ethAuth, classes }) => {
+function NotifPopup({ notifications, ethAuth, classes }) {
   const [open, setOpen] = useState(false);
 
   const handleToggle = () => {
@@ -121,25 +122,18 @@ const NotifPopup = ({ notifications, ethAuth, classes }) => {
           </MenuItem>
         </MenuList>
       );
-    } else {
-      return (
-        <MenuList className={classes.menuList}>
-          {notifications.map((notif, i) => {
-            return (
-              <MenuItem
-                className={classes.menuItem}
-                key={i}
-                onClick={handleClose}
-              >
-                <Suspense fallback={<NotifOutline />}>
-                  <Notification notif={notif} />
-                </Suspense>
-              </MenuItem>
-            );
-          })}
-        </MenuList>
-      );
     }
+    return (
+      <MenuList className={classes.menuList}>
+        {notifications.map((notif, i) => (
+          <MenuItem className={classes.menuItem} key={i} onClick={handleClose}>
+            <Suspense fallback={<NotifOutline />}>
+              <Notification notif={notif} />
+            </Suspense>
+          </MenuItem>
+        ))}
+      </MenuList>
+    );
   };
 
   return (
@@ -211,7 +205,7 @@ const NotifPopup = ({ notifications, ethAuth, classes }) => {
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
   const ethAuth = ethAuthSelector(state);

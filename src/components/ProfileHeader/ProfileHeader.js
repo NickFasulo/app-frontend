@@ -1,3 +1,11 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEthereum, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { Chip, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useAccount, useEnsName, useSignMessage } from 'wagmi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useMutation } from 'react-query';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   ActionButton,
   FlexBox,
@@ -6,12 +14,9 @@ import {
   YupContainer,
   YupCountUp
 } from '../styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEthereum, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { levelColors } from '../../utils/colors';
 import { useFollowers, useFollowings, useUserLikes } from '../../hooks/queries';
 import FollowerSection from './FollowerSection';
-import { Chip, Typography } from '@mui/material';
 import {
   etherscanUrl,
   formatDecimal,
@@ -20,21 +25,16 @@ import {
 } from '../../utils/helpers';
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
-import { useEffect, useState } from 'react';
 import EditProfile from '../EditProfile/EditProfile';
 import { useAuth } from '../../contexts/AuthContext';
-import { useAccount, useEnsName, useSignMessage } from 'wagmi';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { apiGetChallenge, apiSetETHAddress } from '../../apis';
 import { logError } from '../../utils/logging';
 import useToast from '../../hooks/useToast';
 import { queryClient } from '../../config/react-query';
 import { REACT_QUERY_KEYS } from '../../constants/enum';
-import { useMutation } from 'react-query';
-import CircularProgress from '@mui/material/CircularProgress';
 import FollowButton from '../FollowButton';
 
-const ProfileHeader = ({ profile, hidden }) => {
+function ProfileHeader({ profile, hidden }) {
   const { isMobile, isDesktop } = useDevice();
   const {
     quantile,
@@ -72,47 +72,48 @@ const ProfileHeader = ({ profile, hidden }) => {
     openConnectModal?.();
   };
 
-  const {
-    mutate: updateEthAddress,
-    isLoading: isUpdatingEthAddress
-  } = useMutation(async (ethAddress) => {
-    const rspChallenge = await apiGetChallenge({
-      address: ethAddress
-    });
+  const { mutate: updateEthAddress, isLoading: isUpdatingEthAddress } =
+    useMutation(
+      async (ethAddress) => {
+        const rspChallenge = await apiGetChallenge({
+          address: ethAddress
+        });
 
-    const signature = await signMessageAsync({
-      message: rspChallenge.data
-    });
+        const signature = await signMessageAsync({
+          message: rspChallenge.data
+        });
 
-    await apiSetETHAddress(ethAddress, {
-      eosname: id,
-      signature
-    });
-  }, {
-    onError: (err) => {
-      logError('Failed to link ETH address', err);
-      toastError('Failed to link ETH address, please try again later.');
-    },
-    onSuccess: (data, ethAddress) => {
-      queryClient.setQueryData(
-        [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username],
-        (oldData) => ({
-          ...oldData,
-          ethInfo: {
-            address: ethAddress
-          }
-        })
-      );
+        await apiSetETHAddress(ethAddress, {
+          eosname: id,
+          signature
+        });
+      },
+      {
+        onError: (err) => {
+          logError('Failed to link ETH address', err);
+          toastError('Failed to link ETH address, please try again later.');
+        },
+        onSuccess: (data, ethAddress) => {
+          queryClient.setQueryData(
+            [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username],
+            (oldData) => ({
+              ...oldData,
+              ethInfo: {
+                address: ethAddress
+              }
+            })
+          );
 
-      toastSuccess('Successfully linked ETH address.');
-    }
-  });
+          toastSuccess('Successfully linked ETH address.');
+        }
+      }
+    );
 
   useEffect(() => {
-    (async function() {
-      if (ethInfo?.address) return ;
-      if (!connectWalletClicked) return ;
-      if (!connectedEthAddress) return ;
+    (async function () {
+      if (ethInfo?.address) return;
+      if (!connectWalletClicked) return;
+      if (!connectedEthAddress) return;
 
       updateEthAddress(connectedEthAddress);
 
@@ -120,14 +121,11 @@ const ProfileHeader = ({ profile, hidden }) => {
     })();
   }, [ethInfo, connectedEthAddress, connectWalletClicked]);
 
-  useEffect(() =>  {
+  useEffect(() => {
     if (isMyProfile && !ethInfo?.address) {
-      toastInfo(
-        'Connect your ETH Wallet to Earn Rewards.',
-        {
-          onClick: handleConnectWallet
-        }
-      );
+      toastInfo('Connect your ETH Wallet to Earn Rewards.', {
+        onClick: handleConnectWallet
+      });
     }
   }, [isMyProfile, ethInfo]);
 
@@ -192,15 +190,15 @@ const ProfileHeader = ({ profile, hidden }) => {
               <Chip
                 icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
                 label={
-                  isUpdatingEthAddress
-                    ? (
-                      <CircularProgress
-                        size={15}
-                        sx={{ verticalAlign: 'middle' }}
-                        color="inherit"
-                      />
-                    )
-                    : 'Connect Wallet'
+                  isUpdatingEthAddress ? (
+                    <CircularProgress
+                      size={15}
+                      sx={{ verticalAlign: 'middle' }}
+                      color="inherit"
+                    />
+                  ) : (
+                    'Connect Wallet'
+                  )
                 }
                 disabled={isUpdatingEthAddress}
                 clickable
@@ -248,6 +246,6 @@ const ProfileHeader = ({ profile, hidden }) => {
       />
     </YupContainer>
   );
-};
+}
 
 export default ProfileHeader;

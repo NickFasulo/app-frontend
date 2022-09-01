@@ -1,11 +1,14 @@
 import React, { memo, Component } from 'react';
-import Post from '../Post/Post';
+import PropTypes from 'prop-types';
+import isEqual from 'lodash/isEqual';
+import axios from 'axios';
+import Post from './Post';
 import PostHOC from './PostHOC';
 import TextPost from './TextPost';
 import LinkPreviewPost from './LinkPreviewPost';
 import ArticlePost from './ArticlePost';
-import CoursePost from '../Post/CoursePost';
-import ProfPost from '../Post/ProfPost';
+import CoursePost from './CoursePost';
+import ProfPost from './ProfPost';
 import TweetPost from './TweetPost';
 import Web3Post from './Web3Post';
 import VideoPost from './VideoPost';
@@ -19,11 +22,8 @@ import NFTPost from './NFTPost';
 import TwitchPost from './TwitchPost';
 import InstagramPost from './InstagramPost';
 import AudiusPost from './AudiusPost';
-import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
-import axios from 'axios';
 import { isYoutubeUrl } from '../../utils/helpers';
 
 const COLUMBIA_PROF_TAG = 'columbia-course-registration/professor';
@@ -102,10 +102,7 @@ function isTwitchPost(url) {
 }
 
 function isArticlePost(url) {
-  const atPattern = genRegEx([
-    'forum.yup.io/*/*',
-    '.*.mirror.xyz/*'
-  ]);
+  const atPattern = genRegEx(['forum.yup.io/*/*', '.*.mirror.xyz/*']);
   return atPattern.test(url);
 }
 
@@ -133,7 +130,7 @@ function isNFTPost(url) {
 }
 
 function isWeb3Post(tag) {
-  return ['farcaster', 'lens'].includes(tag)
+  return ['farcaster', 'lens'].includes(tag);
 }
 
 function isEventPost(tag) {
@@ -166,7 +163,8 @@ class PostController extends Component {
   }
 
   render() {
-    const { classes, post, hideInteractions, renderObjects, showFullPost } = this.props;
+    const { classes, post, hideInteractions, renderObjects, showFullPost } =
+      this.props;
     if (!post) return null;
 
     const isTextPost =
@@ -193,7 +191,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (post.tag === COLUMBIA_COURSE_TAG) {
+    }
+    if (post.tag === COLUMBIA_COURSE_TAG) {
       return (
         <ErrorBoundary>
           <CoursePost
@@ -213,7 +212,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (post.tag === US_PRES_ELECTIONS_TAG) {
+    }
+    if (post.tag === US_PRES_ELECTIONS_TAG) {
       return (
         <ErrorBoundary>
           <TweetPost
@@ -235,7 +235,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isTwitterPost(post.url)) {
+    }
+    if (isTwitterPost(post.url)) {
       return (
         <ErrorBoundary>
           <TweetPost
@@ -256,7 +257,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isWeb3Post(post.tag)) {
+    }
+    if (isWeb3Post(post.tag)) {
       return (
         <ErrorBoundary>
           <Web3Post
@@ -278,7 +280,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isEventPost(post.tag)) {
+    }
+    if (isEventPost(post.tag)) {
       return (
         <ErrorBoundary>
           <EventPost
@@ -299,7 +302,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isYoutubeUrl(post.url)) {
+    }
+    if (isYoutubeUrl(post.url)) {
       return (
         <ErrorBoundary>
           <VideoPost
@@ -318,7 +322,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isSoundPost(post.url)) {
+    }
+    if (isSoundPost(post.url)) {
       return (
         <ErrorBoundary>
           <SoundPost
@@ -337,7 +342,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isSpotifyPost(post.url)) {
+    }
+    if (isSpotifyPost(post.url)) {
       return (
         <ErrorBoundary>
           <SpotifyPost
@@ -355,7 +361,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isMusicPost(post.url)) {
+    }
+    if (isMusicPost(post.url)) {
       return (
         <ErrorBoundary>
           <MusicPost
@@ -373,7 +380,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isTwitchPost(post.url)) {
+    }
+    if (isTwitchPost(post.url)) {
       return (
         <ErrorBoundary>
           <TwitchPost
@@ -392,7 +400,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isInstagramPost(post.url)) {
+    }
+    if (isInstagramPost(post.url)) {
       return (
         <ErrorBoundary>
           <InstagramPost
@@ -412,7 +421,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isNFTPost(post.url)) {
+    }
+    if (isNFTPost(post.url)) {
       return (
         <ErrorBoundary>
           <NFTPost
@@ -432,7 +442,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isTallPost(post.url)) {
+    }
+    if (isTallPost(post.url)) {
       return (
         <ErrorBoundary>
           <TallPreviewPost
@@ -452,7 +463,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isArticlePost(post.url)) {
+    }
+    if (isArticlePost(post.url)) {
       return (
         <ErrorBoundary>
           <ArticlePost
@@ -474,7 +486,8 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       );
-    } else if (isObjectPost(post.url) || isChannelPost(post.url)) {
+    }
+    if (isObjectPost(post.url) || isChannelPost(post.url)) {
       if (renderObjects) {
         return (
           <ErrorBoundary>
@@ -498,7 +511,8 @@ class PostController extends Component {
         );
       }
       return null;
-    } else if (isTextPost) {
+    }
+    if (isTextPost) {
       if (post.previewData == null) {
         return (
           <ErrorBoundary>
@@ -521,7 +535,8 @@ class PostController extends Component {
             />
           </ErrorBoundary>
         );
-      } else if (isAudiusPost(post.url)) {
+      }
+      if (isAudiusPost(post.url)) {
         return (
           <ErrorBoundary>
             <AudiusPost
@@ -542,28 +557,27 @@ class PostController extends Component {
             />
           </ErrorBoundary>
         );
-      } else {
-        return (
-          <ErrorBoundary>
-            <LinkPreviewPost
-              post={post}
-              comment={post.comment}
-              key={post._id.postid}
-              postid={post._id.postid}
-              author={post.author}
-              url={post.url}
-              previewData={post.previewData}
-              quantiles={post.quantiles}
-              votes={post.upvotes - post.downvotes}
-              weights={post.weights}
-              postHOC={PostHOC}
-              rating={post.rating}
-              hideInteractions={hideInteractions}
-              classes={classes}
-            />
-          </ErrorBoundary>
-        );
       }
+      return (
+        <ErrorBoundary>
+          <LinkPreviewPost
+            post={post}
+            comment={post.comment}
+            key={post._id.postid}
+            postid={post._id.postid}
+            author={post.author}
+            url={post.url}
+            previewData={post.previewData}
+            quantiles={post.quantiles}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            rating={post.rating}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </ErrorBoundary>
+      );
     }
     return (
       <ErrorBoundary>

@@ -1,16 +1,17 @@
 // https://remysharp.com/2010/07/21/throttling-function-calls
 export default function throttle(fn, threshhold, scope) {
   threshhold || (threshhold = 250);
-  var last, deferTimer;
+  let last;
+  let deferTimer;
   return function () {
-    var context = scope || this;
+    const context = scope || this;
 
-    var now = +new Date();
-    var args = arguments;
+    const now = +new Date();
+    const args = arguments;
     if (last && now < last + threshhold) {
       // hold on to it
       clearTimeout(deferTimer);
-      deferTimer = setTimeout(function () {
+      deferTimer = setTimeout(() => {
         last = now;
         fn.apply(context, args);
       }, threshhold);

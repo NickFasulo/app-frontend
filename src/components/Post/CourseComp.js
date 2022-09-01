@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
-import CourseLoader from '../FeedLoader/CourseLoader';
 import Grid from '@mui/material/Grid';
 import { startCase, toLower } from 'lodash';
 import Link from '@mui/material/Link';
 import axios from 'axios';
+import CourseLoader from '../FeedLoader/CourseLoader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl, vergilSearchUrl } from '../../config';
 import { TruncateText } from '../styles';
@@ -93,6 +93,7 @@ class CourseComp extends Component {
     courseTime: '',
     isLoading: true
   };
+
   componentDidMount() {
     this.fetchCourseInfo();
   }
@@ -101,9 +102,9 @@ class CourseComp extends Component {
     try {
       const { url } = this.props;
       const courseInfo = (await axios.get(`${apiBaseUrl}/courses/${url}`)).data;
-      const name = courseInfo.name;
+      const {name} = courseInfo;
       const subject = courseInfo.subject.long_name;
-      const courseId = courseInfo.courseId;
+      const {courseId} = courseInfo;
       const firstCourseName = courseInfo.classes[0].title;
       const daysAndTimes = courseInfo.classes[0].days_times;
       const courseTime = daysAndTimes[0] ? daysAndTimes[0].time : '';

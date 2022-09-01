@@ -1,9 +1,9 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { useTheme } from '@mui/styles';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
-const ChartLoader = () => {
+function ChartLoader() {
   const { palette } = useTheme();
   return (
     <ErrorBoundary>
@@ -103,6 +103,6 @@ const ChartLoader = () => {
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 export default ChartLoader;

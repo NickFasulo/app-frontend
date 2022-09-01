@@ -26,18 +26,23 @@ function SpotifyPost(props) {
   const { classes, url, postHOC: PostHOC } = props;
   const isMobile = window.innerWidth <= 600;
 
-  const SpotifyComp = (_props) => (
-    <div className={classes.postContainer}>
-      <Tuber
-        className={classes.spotifyTuber}
-        src={url}
-        style={{ margin: '0 0 0 0', borderRadius: '5px 5px 0px 0px!important' }}
-        width={600}
-        aspect={isMobile ? '5:3' : '7:2'}
-        autoplay
-      />
-    </div>
-  );
+  function SpotifyComp(_props) {
+    return (
+      <div className={classes.postContainer}>
+        <Tuber
+          className={classes.spotifyTuber}
+          src={url}
+          style={{
+            margin: '0 0 0 0',
+            borderRadius: '5px 5px 0px 0px!important'
+          }}
+          width={600}
+          aspect={isMobile ? '5:3' : '7:2'}
+          autoplay
+        />
+      </div>
+    );
+  }
 
   return (
     <ErrorBoundary>

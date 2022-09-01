@@ -49,8 +49,8 @@ const styles = (theme) => ({
 function Post(props) {
   const { classes, image, video, postHOC: PostHOC } = props;
 
-  const PostComp = (_props) =>
-    image && image.trim().length ? (
+  function PostComp(_props) {
+    return image && image.trim().length ? (
       <PostImage className={classes.postImage} src={hashToUrl(image)} />
     ) : (
       <ReactPlayer
@@ -68,6 +68,7 @@ function Post(props) {
         width="100%"
       />
     );
+  }
   return (
     <ErrorBoundary>
       <PostHOC component={PostComp} {...props} />

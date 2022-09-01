@@ -1,8 +1,7 @@
-import { DEFAULT_IMAGE_PATH } from '../../utils/helpers';
 import { useState } from 'react';
+import { DEFAULT_IMAGE_PATH } from '../../utils/helpers';
 
-const YupImage = ({ src, alt, ...restProps }) => {
- 
+function YupImage({ src, alt, ...restProps }) {
   const [imageIndex, setImageIndex] = useState(0);
   const srcList = Array.isArray(src)
     ? src.filter((item) => Boolean(item))
@@ -17,6 +16,6 @@ const YupImage = ({ src, alt, ...restProps }) => {
   };
 
   return <img src={imagePath} alt={alt} onError={handleError} {...restProps} />;
-};
+}
 
 export default YupImage;

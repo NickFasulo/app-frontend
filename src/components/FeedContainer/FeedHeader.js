@@ -1,9 +1,9 @@
-import { HeaderImage, HeaderImageWrapper, HeaderRoot } from './styles';
 import { Typography } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import { HeaderImage, HeaderImageWrapper, HeaderRoot } from './styles';
 import { FlexBox } from '../styles';
 
-const FeedHeader = ({ categoryData, isMinimize }) => {
+function FeedHeader({ categoryData, isMinimize }) {
   return (
     <HeaderRoot isMinimize={isMinimize}>
       <Tooltip
@@ -27,6 +27,6 @@ const FeedHeader = ({ categoryData, isMinimize }) => {
       </Tooltip>
     </HeaderRoot>
   );
-};
+}
 
 export default FeedHeader;

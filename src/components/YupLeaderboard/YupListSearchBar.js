@@ -1,16 +1,16 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField } from '@mui/material';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import useStyles from './YupListSearchBarStyles';
-import useYupListSettings from '../../hooks/useYupListSettings';
 import { useDispatch, useSelector } from 'react-redux';
 import deburr from 'lodash/deburr';
 import axios from 'axios';
-import { apiBaseUrl } from '../../config';
 import { useRef } from 'react';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import useStyles from './YupListSearchBarStyles';
+import useYupListSettings from '../../hooks/useYupListSettings';
+import { apiBaseUrl } from '../../config';
 import { updateSearchListPosts } from '../../redux/actions';
 
-const YupListSearchBar = ({}) => {
+function YupListSearchBar({}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -47,9 +47,9 @@ const YupListSearchBar = ({}) => {
 
         setInitialSearchLoad();
 
-        let input = deburr(inputRef.current.value.trim()).toLowerCase();
+        const input = deburr(inputRef.current.value.trim()).toLowerCase();
         inputRef.current.value = '';
-        let posts = (
+        const posts = (
           await axios.get(`${apiBaseUrl}/search`, {
             params: {
               searchText: input,
@@ -76,7 +76,7 @@ const YupListSearchBar = ({}) => {
         </div>
         <TextField
           InputProps={{
-            inputRef: inputRef,
+            inputRef,
             classes: {
               root: classes.inputRoot,
               input: classes.inputInput
@@ -89,6 +89,6 @@ const YupListSearchBar = ({}) => {
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 export default YupListSearchBar;

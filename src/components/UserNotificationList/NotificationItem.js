@@ -1,11 +1,11 @@
-import NotificationMedia from './NotificationMedia';
 import { ListItemAvatar, ListItemText, Fade } from '@mui/material';
+import NotificationMedia from './NotificationMedia';
 import NotifText from '../Notification/NotifText';
 import { formatDate, isUrl } from '../../utils/helpers';
 import { NotificationItemRoot } from './styles';
 import Link from '../Link';
 
-const NotificationItem = ({ data }) => {
+function NotificationItem({ data }) {
   const {
     image,
     createdAt,
@@ -53,6 +53,6 @@ const NotificationItem = ({ data }) => {
       </NotificationItemRoot>
     </Fade>
   );
-};
+}
 
 export default NotificationItem;

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import PostGrid from '../PostGrid/PostGrid';
 import withStyles from '@mui/styles/withStyles';
 import { connect } from 'react-redux';
-import PostHeader from '../PostHeader/PostHeader';
 import { Divider, Fade, Typography } from '@mui/material';
+import PostHeader from '../PostHeader/PostHeader';
+import PostGrid from '../PostGrid/PostGrid';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { accountInfoSelector } from '../../redux/selectors';
 
@@ -37,7 +37,7 @@ const styles = (theme) => ({
     borderBottomLeftRadius: '10px',
     borderBottomRightRadius: '10px',
     [theme.breakpoints.down('md')]: {
-      padding: '4px 8px 8px 4px',
+      padding: '4px 8px 8px 4px'
     },
     [theme.breakpoints.down('sm')]: {
       zoom: '100%'
@@ -94,11 +94,11 @@ class PostHOC extends PureComponent {
                 />
               </Typography>
             </div>
-          <Divider
-            className={classes.divider}
-            style={{ backgroundColor: '#ffffff05' }}
-            variant="fullWidth"
-          />
+            <Divider
+              className={classes.divider}
+              style={{ backgroundColor: '#ffffff05' }}
+              variant="fullWidth"
+            />
           </div>
         </Fade>
       </ErrorBoundary>

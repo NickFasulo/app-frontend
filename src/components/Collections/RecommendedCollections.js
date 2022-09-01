@@ -53,7 +53,7 @@ const styles = (theme) => ({
   }
 });
 
-const RecommendedCollections = ({ classes, collection }) => {
+function RecommendedCollections({ classes, collection }) {
   const [hasLoaded, setHasLoaded] = useState(false);
   const { closeSearch } = useSideBar();
   const fmtCollectionName =
@@ -126,7 +126,7 @@ const RecommendedCollections = ({ classes, collection }) => {
       </Grid>
     </Link>
   );
-};
+}
 
 RecommendedCollections.propTypes = {
   classes: PropTypes.object.isRequired,

@@ -5,7 +5,7 @@ import { FlexBox, YupContainer } from '../styles';
 import FilterBar from './FilterBar';
 import { useFilters } from './LeaderboardContainer';
 
-const Header = () => {
+function Header() {
   const { filterObject } = useFilters();
 
   let title = filterObject.subject.name.includes('nft')
@@ -30,6 +30,6 @@ const Header = () => {
       </FlexBox>
     </YupContainer>
   );
-};
+}
 
 export default Header;

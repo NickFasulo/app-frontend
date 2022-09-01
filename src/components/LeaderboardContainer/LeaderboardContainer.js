@@ -12,10 +12,10 @@ import withSuspense from '../../hoc/withSuspense';
 const FilterContext = React.createContext(null);
 export const useFilters = () => React.useContext(FilterContext);
 
-const LeaderboardContainer = () => {
+function LeaderboardContainer() {
   const { query } = useRouter();
   const { platform, subject, category } = query;
-console.log({ platform, subject, category })
+  console.log({ platform, subject, category });
   const filters = useYupListFilters({ platform, subject, category });
 
   if (!filters) {
@@ -32,6 +32,6 @@ console.log({ platform, subject, category })
       </YupContainer>
     </FilterContext.Provider>
   );
-};
+}
 
 export default withSuspense()(LeaderboardContainer);

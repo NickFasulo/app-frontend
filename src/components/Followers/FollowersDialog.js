@@ -6,11 +6,11 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import YupDialog from '../Miscellaneous/YupDialog';
 import FollowUser from '../FollowUser';
 
-const FollowersDialog = ({
+function FollowersDialog({
   open,
   onClose,
   followers,
-}) => {
+}) {
   return (
     <ErrorBoundary>
       <YupDialog
@@ -26,14 +26,14 @@ const FollowersDialog = ({
           {!followers?.length ? (
             <Typography variant="subtitle1">No followers</Typography>
           ) : (followers.map((follower) => (
-              <FollowUser userId={follower._id.account} />
-            ))
+            <FollowUser userId={follower._id.account} />
+          ))
           )}
         </Grid>
       </YupDialog>
     </ErrorBoundary>
   );
-};
+}
 
 FollowersDialog.propTypes = {
   open: PropTypes.bool.isRequired,

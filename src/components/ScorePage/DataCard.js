@@ -33,9 +33,9 @@ function ScoreCard({ title, subtitle, desc, lightMode, noGradient }) {
     <CustomPaper elevation={3}>
       <Grid
         container
-        direction={'column'}
-        justifyContent={'center'}
-        alignItems={'center'}
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
         spacing={3}
       >
         <Grid item xs={12}>

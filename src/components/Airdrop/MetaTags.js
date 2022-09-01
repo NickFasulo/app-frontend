@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const AIRDROP_IMG = 'https://app-meta-images.s3.amazonaws.com/migration.png';
 
-const MetaTags = ({ polygonAddress, airdrop }) => {
+function MetaTags({ polygonAddress, airdrop }) {
   const metaDescription = polygonAddress
     ? `${polygonAddress.slice(0, 5)}...${polygonAddress.slice(
         -6,
@@ -28,7 +28,7 @@ const MetaTags = ({ polygonAddress, airdrop }) => {
       <meta property="og:image" content={AIRDROP_IMG} />
     </Helmet>
   );
-};
+}
 
 MetaTags.propTypes = {
   airdrop: PropTypes.string,

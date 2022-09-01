@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
+import withStyles from '@mui/styles/withStyles';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import withStyles from '@mui/styles/withStyles';
 
 const styles = (theme) => ({
   postContainer: {
@@ -13,16 +13,18 @@ const styles = (theme) => ({
 
 function LinkPreviewPost(props) {
   const { previewData, url, classes, postHOC: PostHOC } = props;
-  const PreviewComp = (_props) => (
-    <div className={classes.postContainer}>
-      <LinkPreview
-        description={previewData && previewData.description}
-        image={previewData && previewData.img}
-        title={previewData && previewData.title}
-        url={url}
-      />
-    </div>
-  );
+  function PreviewComp(_props) {
+    return (
+      <div className={classes.postContainer}>
+        <LinkPreview
+          description={previewData && previewData.description}
+          image={previewData && previewData.img}
+          title={previewData && previewData.title}
+          url={url}
+        />
+      </div>
+    );
+  }
 
   return (
     <ErrorBoundary>

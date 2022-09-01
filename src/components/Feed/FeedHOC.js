@@ -1,42 +1,60 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Typography } from '@mui/material';
+import clsx from 'clsx';
 import FeedLoader from '../FeedLoader/FeedLoader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { fetchFeed } from '../../redux/actions';
 
 import PostController from '../Post/PostController';
-import { Typography } from '@mui/material';
 
 import useStyles from './FeedHOCStyles';
 import { logPageView } from '../../utils/analytics';
-import clsx from 'clsx';
 import callYupApi from '../../apis/base_api';
 import { useFetchFeed } from '../../hooks/queries';
 import withSuspense from '../../hoc/withSuspense';
 
-const FeedHOC = ({ feedType }) => {
+function FeedHOC({ feedType }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const feedInfo = useSelector((state) => state.feedInfo?.feeds[feedType]);
   const [postLength, setPostLength] = useState(0);
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage,  hasPreviousPage, status } = useFetchFeed({feedType:feedType});
- console.log({ data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, hasPreviousPage, status})
- const calcPostLength = () => {
-  if (data) {
-    data.pages.map((page) => {
-      setPostLength(postLength + page.length)
-    })
-  }
-}
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    hasPreviousPage,
+    status
+  } = useFetchFeed({ feedType });
+  console.log({
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    hasPreviousPage,
+    status
+  });
+  const calcPostLength = () => {
+    if (data) {
+      data.pages.map((page) => {
+        setPostLength(postLength + page.length);
+      });
+    }
+  };
   useMemo(() => {
-    calcPostLength()
+    calcPostLength();
   }, [data]);
 
-  const handleFetchNext= () => {
+  const handleFetchNext = () => {
     fetchNextPage();
-  }
+  };
   // Fetches initial posts, if there are none
   // const fetchPosts = () => {
   //   if (!feedInfo) {
@@ -69,7 +87,7 @@ const FeedHOC = ({ feedType }) => {
       element.scrollTop = 0;
     }
 
-   // fetchPosts();
+    // fetchPosts();
     logPageView(feedType);
   }, [feedType]);
 
@@ -96,24 +114,20 @@ const FeedHOC = ({ feedType }) => {
             <FeedLoader />
           </div>
         }
-        next={()=>handleFetchNext()}
+        next={() => handleFetchNext()}
         endMessage={<p className={classes.resetScroll}>end of feed</p>}
         scrollThrshold="300px"
       >
         {data.pages.map((page) => (
-            <React.Fragment key={page.nextId}>
-              {page.map((post) => (
-                <PostController
-                  key={post._id.postid}
-                  post={post}
-                  renderObjects
-                />
-              ))}
-              </React.Fragment>
-              ))}
+          <React.Fragment key={page.nextId}>
+            {page.map((post) => (
+              <PostController key={post._id.postid} post={post} renderObjects />
+            ))}
+          </React.Fragment>
+        ))}
       </InfiniteScroll>
     </ErrorBoundary>
   );
-};
+}
 
 export default withSuspense()(FeedHOC);

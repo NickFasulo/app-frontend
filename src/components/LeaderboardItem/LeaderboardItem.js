@@ -14,15 +14,12 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import useDevice from '../../hooks/useDevice';
 import PageLoadingBar from '../PageLoadingBar';
 
-const LeaderboardItem = ({ data, rank }) => {
+function LeaderboardItem({ data, rank }) {
   const { isDesktop } = useDevice();
   const { previewData, url, quantiles, weights, rating } = data;
   const { trackId, ownerId, img, title } = previewData;
-  const thumbnail = img
-    ? img
-    : isMirrorUrl(url)
-    ? MIRROR_THUMBNAIL_IMAGE
-    : YUP_THUMBNAIL_IMAGE;
+  const thumbnail =
+    img || (isMirrorUrl(url) ? MIRROR_THUMBNAIL_IMAGE : YUP_THUMBNAIL_IMAGE);
 
   const isAudiusPost = Boolean(trackId) || Boolean(ownerId);
   const isCollection = isCollectionUrl(url);
@@ -56,6 +53,6 @@ const LeaderboardItem = ({ data, rank }) => {
       )}
     </LeaderboardItemRoot>
   );
-};
+}
 
 export default LeaderboardItem;

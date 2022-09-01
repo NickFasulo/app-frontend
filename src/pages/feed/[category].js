@@ -6,14 +6,14 @@ import {
 } from '../../services/feeds';
 import FeedContainer from '../../components/FeedContainer';
 
-const Feeds = () => {
+function Feeds() {
   const { query } = useRouter();
   const { category } = query;
 
   const categoryData = getFeedCategoryWithDefault(category);
   const metaImage = getFeedCategoryMetaImage(category);
-  if(!category){
-    return null
+  if (!category) {
+    return null;
   }
   return (
     <>
@@ -25,6 +25,6 @@ const Feeds = () => {
       <FeedContainer categoryData={categoryData} />
     </>
   );
-};
+}
 
 export default Feeds;

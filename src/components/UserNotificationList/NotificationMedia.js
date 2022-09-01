@@ -2,7 +2,7 @@ import ReactPlayer from 'react-player/lazy';
 import YupImage from '../YupImage';
 import { FlexBox } from '../styles';
 
-const NotificationMedia = ({ url }) => {
+function NotificationMedia({ url }) {
   const isVideo = url?.includes('nft.mp4');
 
   return (
@@ -34,6 +34,6 @@ const NotificationMedia = ({ url }) => {
       )}
     </FlexBox>
   );
-};
+}
 
 export default NotificationMedia;

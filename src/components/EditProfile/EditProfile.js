@@ -3,15 +3,21 @@ import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 import ReactCrop from 'react-image-crop';
 import { useDispatch, connect } from 'react-redux';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit';
 import { Grid, IconButton, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 
+import { useAccount, useDisconnect } from 'wagmi';
+import { useRouter } from 'next/router';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import YupDialog from '../Miscellaneous/YupDialog';
 import { YupButton, YupInput } from '../Miscellaneous';
 import UserAvatar from '../UserAvatar/UserAvatar';
-import { updateAccountInfo, updateEthAuthInfo } from '../../redux/actions';
+import {
+  updateAccountInfo,
+  updateEthAuthInfo,
+  fetchSocialLevel
+} from '../../redux/actions';
 import {
   apiGetChallenge,
   apiSetETHAddress,
@@ -21,18 +27,14 @@ import {
 import useToast from '../../hooks/useToast';
 import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
 import useStyles from './styles';
-import { useAccount, useDisconnect } from 'wagmi';
 import { useAuthModal } from '../../contexts/AuthModalContext';
-import { useRouter } from 'next/router';
 import useEthAuth from '../../hooks/useEthAuth';
 import useYupAccount from '../../hooks/useAccount';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
 import withSuspense from '../../hoc/withSuspense';
 import { useSocialLevel } from '../../hooks/queries';
-import { fetchSocialLevel } from '../../redux/actions';
 import { useAuth } from '../../contexts/AuthContext';
 // TODO: Refactor styling to Mui v5
-const EditProfile = ({ open: modalOpen, onClose }) => {
+function EditProfile({ open: modalOpen, onClose }) {
   const router = useRouter();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
@@ -45,7 +47,7 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
   const dispatch = useDispatch();
   const { toastError } = useToast();
   const { linkEthAddress } = useAuthModal();
-  //const { open: openAuthModal } = useAuthModal();
+  // const { open: openAuthModal } = useAuthModal();
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [avatar, setAvatar] = useState();
@@ -89,7 +91,7 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
     setOpen(modalOpen);
   }, [modalOpen]);
 
-  //Disconnect user if dialogOpen -> openConnectModal returns undefined if already connected
+  // Disconnect user if dialogOpen -> openConnectModal returns undefined if already connected
   useEffect(() => {
     if (isConnected && dialogOpen && !connectModalIsOpen) {
       disconnect();
@@ -131,13 +133,13 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
     setFiles([]);
   };
 
-  const saveImage = async () => {
-    return new Promise((resolve, reject) => {
+  const saveImage = async () =>
+    new Promise((resolve, reject) => {
       try {
         if (files.length === 0) {
           return;
         }
-        const file = files[0].file;
+        const { file } = files[0];
         const reader = new window.FileReader();
         reader.onload = async () => {
           const body = {
@@ -155,7 +157,6 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
         reject(err);
       }
     });
-  };
 
   const handleAccountInfoSubmit = async () => {
     try {
@@ -218,10 +219,10 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
       setFiles(
         files.map((file) => ({
           preview: URL.createObjectURL(file),
-          file: file
+          file
         }))
       );
-      setCropTime(!!files[0]['type'].includes('image'));
+      setCropTime(!!files[0].type.includes('image'));
     } catch (err) {
       toastError('Failed to upload file. Try again later.');
     }
@@ -269,8 +270,8 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
   };
 
   const cropComplete = async () => {
-    let file = files[0]['file'];
-    let img = await getCroppedImg(imageRef, pixelCrop, file['name']);
+    const { file } = files[0];
+    const img = await getCroppedImg(imageRef, pixelCrop, file.name);
 
     setFiles([
       {
@@ -281,7 +282,7 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
     setCropTime(false);
   };
 
-  const CropIcon = () => {
+  function CropIcon() {
     if (!cropTime) {
       return null;
     }
@@ -294,9 +295,9 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
         </IconButton>
       </Grid>
     );
-  };
+  }
 
-  const RemovePhoto = () => {
+  function RemovePhoto() {
     if (cropTime || files.length || avatar === '') {
       return null;
     }
@@ -306,7 +307,7 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
         Remove Current Photo
       </YupButton>
     );
-  };
+  }
 
   return (
     <ErrorBoundary>
@@ -457,7 +458,7 @@ const EditProfile = ({ open: modalOpen, onClose }) => {
       </YupDialog>
     </ErrorBoundary>
   );
-};
+}
 
 // TODO: Move to `useSelector`
 

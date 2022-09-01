@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
-import CourseLoader from '../FeedLoader/CourseLoader';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import axios from 'axios';
+import CourseLoader from '../FeedLoader/CourseLoader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl, vergilSearchUrl } from '../../config';
 import { TruncateText } from '../styles';
@@ -94,6 +94,7 @@ class ProfComp extends Component {
     subject: '',
     isLoading: true
   };
+
   componentDidMount() {
     this.fetchProfInfo();
   }

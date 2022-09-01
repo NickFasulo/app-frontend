@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { ExternalLinkA } from './styles';
 
-const ExternalLink = ({ text, to }) => {
+function ExternalLink({ text, to }) {
   return (
     <ExternalLinkA href={to} target="_blank" rel="noreferrer">
       <Typography
@@ -12,6 +12,6 @@ const ExternalLink = ({ text, to }) => {
       </Typography>
     </ExternalLinkA>
   );
-};
+}
 
 export default ExternalLink;

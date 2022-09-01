@@ -2,15 +2,15 @@ import React from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
+import removeMd from 'remove-markdown';
+import Avatar from 'boring-avatars';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
-import removeMd from'remove-markdown';
 import { timeSince } from '../../utils/post_helpers';
-import Avatar from "boring-avatars";
-import  MarbleAvatar  from '../MarbleAvatar/MarbleAvatar';
+import MarbleAvatar from '../MarbleAvatar/MarbleAvatar';
 
 const styles = (theme) => ({
   container: {
@@ -74,12 +74,17 @@ const styles = (theme) => ({
   }
 });
 
-const EventPreview = ({ title, description, url, classes, creator, creatorENS, eventImg, eventSite, createdAt }) => {
-  const addDefaultSrc = (e) => {
-    e.target.onerror = null;
-    e.target.src = defaultPostImageUrl;
-  };
-
+function EventPreview({
+  title,
+  description,
+  url,
+  classes,
+  creator,
+  creatorENS,
+  eventImg,
+  eventSite,
+  createdAt
+}) {
   let faviconURL = null;
 
   if (url != null) {
@@ -98,22 +103,39 @@ const EventPreview = ({ title, description, url, classes, creator, creatorENS, e
           <div className={classes.previewData}>
             <Grid container>
               <Grid item xs={12} pb={1}>
-                <Grid alignItems="start" container direction="row" rowSpacing={3}>
+                <Grid
+                  alignItems="start"
+                  container
+                  direction="row"
+                  rowSpacing={3}
+                >
                   <Grid item xs={10} sm={11}>
-                    <Grid container direction='row'  alignItems='start' columnSpacing={1}>
-                      <Grid item>               
-                      <MarbleAvatar name={creatorENS||creator} isEns={!!creatorENS}/>
-                      </Grid> 
-                      <Grid item> 
-                        <Grid container direction='row'>
+                    <Grid
+                      container
+                      direction="row"
+                      alignItems="start"
+                      columnSpacing={1}
+                    >
+                      <Grid item>
+                        <MarbleAvatar
+                          name={creatorENS || creator}
+                          isEns={!!creatorENS}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <Grid container direction="row">
                           <Grid item xs={12}>
                             <Typography variant="body1" noWrap>
-                              {creatorENS === undefined ? creator === undefined ? trimURL(url).split(/[/]+/g, 1) : creator : creatorENS}
+                              {creatorENS === undefined
+                                ? creator === undefined
+                                  ? trimURL(url).split(/[/]+/g, 1)
+                                  : creator
+                                : creatorENS}
                             </Typography>
                           </Grid>
                           <Grid item xs={12}>
-                            <Typography variant="body2"  noWrap>
-                                attended:
+                            <Typography variant="body2" noWrap>
+                              attended:
                             </Typography>
                           </Grid>
                         </Grid>
@@ -121,14 +143,19 @@ const EventPreview = ({ title, description, url, classes, creator, creatorENS, e
                     </Grid>
                   </Grid>
                   <Grid item xs={2} sm={1}>
-                    <Grid container direction='row' alignItems='center' rowSpacing={1} justifyContent='space-between'>
-                      <Grid item
-                        sx={{marginBottom: '0.09375rem'}}>
+                    <Grid
+                      container
+                      direction="row"
+                      alignItems="center"
+                      rowSpacing={1}
+                      justifyContent="space-between"
+                    >
+                      <Grid item sx={{ marginBottom: '0.09375rem' }}>
                         <Typography
-                                variant="bodyS2"
-                                className={classes.userHandle}
-                              >
-                                { timeSince(new Date(createdAt)) }
+                          variant="bodyS2"
+                          className={classes.userHandle}
+                        >
+                          {timeSince(new Date(createdAt))}
                         </Typography>
                       </Grid>
                       <Grid item>
@@ -145,9 +172,9 @@ const EventPreview = ({ title, description, url, classes, creator, creatorENS, e
                 </Grid>
               </Grid>
               <Grid item xs={12} className={classes.eventContainer}>
-                <Grid container direction='row' spacing={1} p={2}>
+                <Grid container direction="row" spacing={1} p={2}>
                   <Grid item xs={1}>
-                    <img src={eventImg} width='100%'/>
+                    <img alt={eventImg} src={eventImg} width="100%" />
                   </Grid>
                   <Grid item xs={11}>
                     <Grid container>
@@ -167,7 +194,9 @@ const EventPreview = ({ title, description, url, classes, creator, creatorENS, e
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2" className={classes.url}>
-                          {eventSite === undefined ? trimURL(eventSite).split(/[/]+/g, 1) : eventSite }
+                          {eventSite === undefined
+                            ? trimURL(eventSite).split(/[/]+/g, 1)
+                            : eventSite}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -180,7 +209,7 @@ const EventPreview = ({ title, description, url, classes, creator, creatorENS, e
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 EventPreview.propTypes = {
   url: PropTypes.string.isRequired,

@@ -7,7 +7,7 @@ import FollowButton from '../FollowButton';
 import withSuspense from '../../hoc/withSuspense';
 import { levelColors } from '../../utils/colors';
 
-const FollowUser = ({ userId }) => {
+function FollowUser({ userId }) {
   const userProfile = useYupAccount(userId);
 
   if (!userProfile) return null;
@@ -45,6 +45,6 @@ const FollowUser = ({ userId }) => {
       </Box>
     </FlexBox>
   );
-};
+}
 
 export default withSuspense()(FollowUser);

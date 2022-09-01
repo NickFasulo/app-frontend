@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { LinearProgress } from '@mui/material';
 import { Brand } from '../../utils/colors';
 
-const LoadingBar = ({ isLoading, ...restProps }) => {
+function LoadingBar({ isLoading, ...restProps }) {
   return (
     isLoading && (
       <LinearProgress
@@ -20,7 +20,7 @@ const LoadingBar = ({ isLoading, ...restProps }) => {
       />
     )
   );
-};
+}
 
 LoadingBar.propTypes = {
   isLoading: PropTypes.bool.isRequired

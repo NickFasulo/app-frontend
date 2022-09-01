@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import SideBar from '../SideBar';
 import BackgroundGradients from '../BackgroundGradients';
 import { useAuth } from '../../contexts/AuthContext';
 import PageLoadingBar from '../PageLoadingBar';
-import { useEffect } from 'react';
 import useToast from '../../hooks/useToast';
 import { LOCAL_STORAGE_KEYS } from '../../constants/enum';
 import ConnectButton from '../ConnectButton';
 
-const MainLayout = ({ children }) => {
+function MainLayout({ children }) {
   const router = useRouter();
   const { toastInfo } = useToast();
   const { isCheckingAuth } = useAuth();
@@ -31,12 +31,16 @@ const MainLayout = ({ children }) => {
   return (
     <>
       <BackgroundGradients />
-      {showHeader && <nav><SideBar /></nav>}
+      {showHeader && (
+        <nav>
+          <SideBar />
+        </nav>
+      )}
       {isCheckingAuth ? <PageLoadingBar /> : children}
 
       <ConnectButton />
     </>
   );
-};
+}
 
 export default MainLayout;

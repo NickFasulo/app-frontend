@@ -7,8 +7,8 @@ import {
   styled,
   Typography
 } from '@mui/material';
-import { PROFILE_PICTURE_SIZE } from '../config';
 import CountUp from 'react-countup';
+import { PROFILE_PICTURE_SIZE } from '../config';
 
 export const FlexBox = styled(Box)(({ theme }) => ({
   display: 'flex'
@@ -30,13 +30,17 @@ export const PageLayout = styled('div')(({ theme }) => ({
   rowGap: theme.spacing(2)
 }));
 
-export const TruncateText = styled(Typography)(({ lines }) => (lines?{
-  overflow: 'hidden',
-  display: '-webkit-box',
-  textOverflow: 'ellipsis',
-  '-webkit-box-orient': 'vertical',
-  '-webkit-line-clamp': `${lines || 1}`
-}:null));
+export const TruncateText = styled(Typography)(({ lines }) =>
+  lines
+    ? {
+        overflow: 'hidden',
+        display: '-webkit-box',
+        textOverflow: 'ellipsis',
+        '-webkit-box-orient': 'vertical',
+        '-webkit-line-clamp': `${lines || 1}`
+      }
+    : null
+);
 
 export const YupMenu = styled(Menu)(({ theme }) => ({
   '& svg': {
@@ -46,7 +50,9 @@ export const YupMenu = styled(Menu)(({ theme }) => ({
 
 export const YupContainer = styled(Box)(({ theme, visible }) => ({
   position: 'relative',
-  padding: `${theme.spacing(1.5)} ${theme.spacing(1.5)} 0 ${theme.spacing(1.5)}`,
+  padding: `${theme.spacing(1.5)} ${theme.spacing(1.5)} 0 ${theme.spacing(
+    1.5
+  )}`,
   marginLeft: 'auto',
   marginRight: 'auto',
   [theme.breakpoints.down('md')]: {
@@ -112,7 +118,7 @@ export const ActionButton = styled(Button)(({ theme }) => ({
 
 export const YupCountUp = styled(CountUp)(({ color, theme }) => ({
   marginRight: theme.spacing(1),
-  color: color,
+  color,
   fontSize: 24,
   fontWeight: 700
 }));

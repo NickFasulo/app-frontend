@@ -3,7 +3,7 @@ import CollectionDetails from '../../../components/CollectionDetails';
 import TutorialsProvider from '../../../providers/TutorialsProvider';
 import { COLLECTIONS_TUTORIAL_STEPS } from '../../../constants/data';
 
-const Collections = () => {
+function Collections() {
   const { query } = useRouter();
   const { id } = query;
 
@@ -14,6 +14,6 @@ const Collections = () => {
       <CollectionDetails id={id} />
     </TutorialsProvider>
   );
-};
+}
 
 export default Collections;
