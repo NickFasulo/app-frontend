@@ -15,7 +15,6 @@ import '../Twitter/twitter.module.css';
 import Tilt from 'react-tilt';
 import axios from 'axios';
 import { connect, useDispatch } from 'react-redux';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { Mono } from '../../utils/colors.js';
 import { accountInfoSelector } from '../../redux/selectors';
 import HomeMenuLinkItem from './HomeMenuLinkItem';
@@ -34,15 +33,15 @@ import { useAuth } from '../../contexts/AuthContext';
 import FeedHOC from '../Feed/FeedHOC';
 import UserNewConnections from '../UserNewConnections';
 import FeedCategoryList from '../FeedContainer/FeedCategoryList';
+import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
 );
 const getRandomGradientImg = () =>
-  `${
-    DEFAULT_COLLECTION_IMGS[
-      Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
-    ]
+  `${DEFAULT_COLLECTION_IMGS[
+  Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
+  ]
   }`;
 
 function Home({ isUser, userCollections, theme }) {
@@ -94,7 +93,7 @@ function Home({ isUser, userCollections, theme }) {
     }
   }, [scrollPosition]);
   return (
-    <ErrorBoundary>
+    <FunctionalErrorBoundary>
       <div className={classes.container}>
         <PageBody pageClass={classes.page}>
           <Grid
@@ -457,9 +456,8 @@ function Home({ isUser, userCollections, theme }) {
                     recommendedFloating && {
                       position: 'fixed',
                       top: 0,
-                      left: `${
-                        feedRef.current.clientWidth + feedRef.current.offsetLeft
-                      }px`
+                      left: `${feedRef.current.clientWidth + feedRef.current.offsetLeft
+                        }px`
                     }
                   }
                 >
@@ -475,7 +473,7 @@ function Home({ isUser, userCollections, theme }) {
           </Grid>
         </PageBody>
       </div>
-    </ErrorBoundary>
+    </FunctionalErrorBoundary>
   );
 }
 
@@ -496,4 +494,4 @@ Home.propTypes = {
   isUser: PropTypes.bool.isRequired
 };
 
-export default memo(connect(mapStateToProps)(withTheme(Home)));
+export default memo(connect(mapStateToProps)(withTheme((Home))));

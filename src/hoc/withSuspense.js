@@ -1,14 +1,14 @@
 import React, { Suspense } from 'react';
+import { Skeleton } from '@mui/material';
 import LoadingSpin from '../LoadingSpin';
 import { LOADER_TYPE } from '../constants/enum';
 import { UserConnectionSkeleton } from '../components/Skeletons';
 import { FlexBox } from '../components/styles';
 import FeedLoader from '../components/FeedLoader/FeedLoader';
-import { Skeleton } from '@mui/material';
 import PageLoadingBar from '../components/PageLoadingBar';
 
-const withSuspense = (loaderType, repeatCount) => (Component) => (props) => {
-  let loader, loaderUnit;
+const withSuspense = (loaderType, repeatCount) => (Component) => function (props) {
+  let loader; let loaderUnit;
 
   switch (loaderType) {
     case LOADER_TYPE.DEFAULT:
@@ -57,7 +57,7 @@ const withSuspense = (loaderType, repeatCount) => (Component) => (props) => {
 };
 
 export const withCustomSuspense =
-  (LoaderComponent) => (Component) => (props) => {
+  (LoaderComponent) => (Component) => function (props) {
     return (
       <Suspense fallback={<LoaderComponent />}>
         <Component {...props} />
