@@ -39,9 +39,10 @@ const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
 );
 const getRandomGradientImg = () =>
-  `${DEFAULT_COLLECTION_IMGS[
-  Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
-  ]
+  `${
+    DEFAULT_COLLECTION_IMGS[
+      Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
+    ]
   }`;
 
 function Home({ isUser, userCollections, theme }) {
@@ -456,8 +457,9 @@ function Home({ isUser, userCollections, theme }) {
                     recommendedFloating && {
                       position: 'fixed',
                       top: 0,
-                      left: `${feedRef.current.clientWidth + feedRef.current.offsetLeft
-                        }px`
+                      left: `${
+                        feedRef.current.clientWidth + feedRef.current.offsetLeft
+                      }px`
                     }
                   }
                 >
@@ -494,4 +496,4 @@ Home.propTypes = {
   isUser: PropTypes.bool.isRequired
 };
 
-export default memo(connect(mapStateToProps)(withTheme((Home))));
+export default memo(connect(mapStateToProps)(withTheme(Home)));
