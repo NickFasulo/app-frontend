@@ -1,0 +1,36 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:16-alpine
+    working_directory: ~/repo
+    
+    environment:
+      CI: false
+
+    steps:
+      - checkout
+      - run: apk add --no-cache --update --virtual .build-deps git make
+      # Download and cache dependencies
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Set Font Awesome key
+          command: |
+            npm config set "@fortawesome:registry" https://npm.fontawesome.com/ && \
+            npm config set "//npm.fontawesome.com/:_authToken" ${FONTAWESOME_NPM_AUTH_TOKEN}
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - .yarn/cache
+            - .yarn/unplugged
+      # run tests!
+      - run: yarn lint
+
+      - run: yarn build
