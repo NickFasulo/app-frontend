@@ -88,7 +88,7 @@ function Notification({ notif, classes }) {
   const getInvokerWeight = async () => {
     const { invoker } = notif;
     const res = await axios.get(
-      `${apiBaseUrl}/levels/user/${invoker.eosname || invoker}`
+      `${apiBaseUrl}/accounts/${invoker.eosname || invoker}`
     );
     if (!res.error) {
       getUnderlineColor(res.data.quantile, res.data.weight);

@@ -10,7 +10,7 @@ import {
   YupContainer,
   YupPageWrapper
 } from '../../components/styles';
-import { useSocialLevel, useUserCollections } from '../../hooks/queries';
+import { useYupAccount, useUserCollections } from '../../hooks/queries';
 import { LOADER_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
 import withSuspense from '../../hoc/withSuspense';
 import YupPageTabs from '../../components/YupPageTabs';
@@ -39,7 +39,7 @@ function UserAccountPage() {
   const { query } = useRouter();
   const { username } = query;
   const { isMobile } = useDevice();
-  const profile = useSocialLevel(username);
+  const profile = useYupAccount(username);
   const collections = useUserCollections(profile?._id);
   const { windowScrolled } = useAppUtils();
 
@@ -181,7 +181,7 @@ export async function getServerSideProps(context) {
 
   await qc.prefetchQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username], () =>
     callYupApi({
-      url: `/levels/user/${username}`
+      url: `/accounts/${username}`
     })
   );
 

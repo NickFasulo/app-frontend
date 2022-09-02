@@ -52,25 +52,6 @@ export const useInitialVotes = (postid, voter) => {
   return data;
 };
 
-export const useSocialLevel = (voter) => {
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, voter],
-    async () => {
-      if (!voter) return null;
-
-      try {
-        return await callYupApi({
-          url: `/levels/user/${voter}`,
-          method: 'GET'
-        });
-      } catch {
-        return null;
-      }
-    }
-  );
-
-  return data;
-};
 
 export const useFollowings = (id) => {
   const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], async () => {
