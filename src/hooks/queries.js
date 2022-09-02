@@ -36,11 +36,18 @@ export const useRecommendation = (params) => {
 export const useInitialVotes = (postid, voter) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.YUP_INITIAL_VOTES, postid, voter],
-    () =>
-      callYupApi({
-        url: `/votes/post/${postid}/voter/${voter}`,
-        method: 'GET'
-      })
+    async () => {
+
+      if (!postid || !voter) return null
+      try {
+        return await callYupApi({
+          url: `/votes/post/${postid}/voter/${voter}`,
+          method: 'GET'
+        })
+      } catch {
+        return null
+      }
+    }
   );
   return data;
 };
@@ -246,9 +253,8 @@ export const useFetchFeed = ({ feedType }) =>
     [REACT_QUERY_KEYS.YUP_FEED, feedType],
     ({ pageParam = 0 }) =>
       callYupApi({
-        url: `/feed/${
-          isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
-        }${feedType}?start=${pageParam}&limit=10`,
+        url: `/feed/${isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
+          }${feedType}?start=${pageParam}&limit=10`,
         method: 'GET'
       }),
     {
@@ -300,15 +306,15 @@ export const useRefetchPostPreview = (post, id) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.POST_REFETCH_PREVIEW, id],
     async () => {
-      if (  Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 >        Date.now()) return null
+      if (Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 > Date.now()) return null
 
-      return await callYupApi({
+      return callYupApi({
         url: '/posts/re-fetch/preview',
         method: 'POST',
-        data: {postid:id}
+        data: { postid: id }
       });
-    
-  }
+
+    }
   );
 
   return data;
