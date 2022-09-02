@@ -21,7 +21,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm config set '//npm.fontawesome.com/:_authToken' "${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}"
+          echo "@fortawesome:registry=https://npm.fontawesome.com/" > .npmrc
+          echo "//npm.fontawesome.com/:_authToken=${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}" > .npmrc
           yarn install
 
       - name: Run Prettier
