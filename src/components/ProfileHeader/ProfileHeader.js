@@ -160,11 +160,7 @@ function ProfileHeader({ profile, hidden }) {
                   Edit
                 </ActionButton>
               )}
-              {isLoggedIn && !isMyProfile && (
-                <FollowButton
-                  userId={id}
-                />
-              )}
+              {isLoggedIn && !isMyProfile && <FollowButton userId={id} />}
             </FlexBox>
           </FlexBox>
           <FlexBox columnGap={1}>

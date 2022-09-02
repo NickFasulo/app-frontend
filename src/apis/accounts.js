@@ -77,4 +77,4 @@ export const apiUnfollowUser = async (authUserId, userIdToUnfollow, authInfo) =>
       accountToUnfollow: userIdToUnfollow
     },
     data: authInfo
-  })
+  });

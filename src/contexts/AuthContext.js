@@ -31,8 +31,8 @@ const AuthContext = createContext({
   name: null,
   username: null,
   authInfo: {},
-  updateAuthInfo: () => { },
-  logout: () => { }
+  updateAuthInfo: () => {},
+  logout: () => {}
 });
 
 export function AuthProvider({ children }) {
@@ -75,8 +75,11 @@ export function AuthProvider({ children }) {
             expiration
           });
 
-          const timer = setTimeout(() => refetchScatterAuth(), expiration - new Date().getTime() - 60000)
-          return () => clearTimeout(timer)
+          const timer = setTimeout(
+            () => refetchScatterAuth(),
+            expiration - new Date().getTime() - 60000
+          );
+          return () => clearTimeout(timer);
         } catch (err) {
           logError('Scatter authentication failed.', err);
         }
