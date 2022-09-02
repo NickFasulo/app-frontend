@@ -122,38 +122,43 @@ function Reply({ post, classes, postid }) {
               <Grid item="item" xs={12}>
                 {directParentAttachments
                   ? directParentAttachments.map((attachment) => {
-                    if (isYoutubeUrl(attachment.url)) {
-                      return <VideoComponent key={attachment.url} url={attachment.url} />;
-                    }
-                    if (attachment.image || urlIsImg(attachment.url)) {
-                      return (
-                        <CldImg
-                          key={attachment.url}
-                          style={{ borderRadius: '12px' }}
-                          src={
-                            urlIsImg(attachment.url)
-                              ? attachment.url
-                              : attachment.image
-                          }
-                          alt={attachment.title}
-                          isWeb3Post
-                        />
-                      );
-                    }
-                    if (attachment.url) {
-                      return (
-                        <LinkPreview
-                          key={attachment.url}
-                          description={attachment.description || ''}
-                          image={attachment.image}
-                          title={attachment.title}
-                          url={attachment.url}
-                        // classes={classes}
-                        />
-                      );
-                    }
-                    return null
-                  })
+                      if (isYoutubeUrl(attachment.url)) {
+                        return (
+                          <VideoComponent
+                            key={attachment.url}
+                            url={attachment.url}
+                          />
+                        );
+                      }
+                      if (attachment.image || urlIsImg(attachment.url)) {
+                        return (
+                          <CldImg
+                            key={attachment.url}
+                            style={{ borderRadius: '12px' }}
+                            src={
+                              urlIsImg(attachment.url)
+                                ? attachment.url
+                                : attachment.image
+                            }
+                            alt={attachment.title}
+                            isWeb3Post
+                          />
+                        );
+                      }
+                      if (attachment.url) {
+                        return (
+                          <LinkPreview
+                            key={attachment.url}
+                            description={attachment.description || ''}
+                            image={attachment.image}
+                            title={attachment.title}
+                            url={attachment.url}
+                            // classes={classes}
+                          />
+                        );
+                      }
+                      return null;
+                    })
                   : null}
               </Grid>
               {/* {replyHasPhoto && replyMediaURL ? (
@@ -218,39 +223,43 @@ function Reply({ post, classes, postid }) {
                     <Grid item="item" xs={12}>
                       {userAttachments
                         ? userAttachments.map((attachment) => {
-                          if (isYoutubeUrl(attachment.url)) {
-                            return <VideoComponent
-                              key={attachment.url} url={attachment.url} />;
-                          }
-                          if (attachment.images?.[0]) {
-                            return (
-                              <LinkPreview
-                                key={attachment.url}
-                                description={attachment.description || ''}
-                                image={
-                                  attachment.images?.[0]
-                                    ? attachment.images[0]
-                                    : attachment.url
-                                }
-                                title={attachment.title}
-                                url={attachment.url}
-                              // classes={classes}
-                              />
-                            );
-                          }
-                          if (urlIsImg(attachment.url)) {
-                            return (
-                              <CldImg
-                                key={attachment.url}
-                                style={{ borderRadius: '12px' }}
-                                src={attachment.url}
-                                alt={attachment.title}
-                                isWeb3Post
-                              />
-                            );
-                          }
-                          return null
-                        })
+                            if (isYoutubeUrl(attachment.url)) {
+                              return (
+                                <VideoComponent
+                                  key={attachment.url}
+                                  url={attachment.url}
+                                />
+                              );
+                            }
+                            if (attachment.images?.[0]) {
+                              return (
+                                <LinkPreview
+                                  key={attachment.url}
+                                  description={attachment.description || ''}
+                                  image={
+                                    attachment.images?.[0]
+                                      ? attachment.images[0]
+                                      : attachment.url
+                                  }
+                                  title={attachment.title}
+                                  url={attachment.url}
+                                  // classes={classes}
+                                />
+                              );
+                            }
+                            if (urlIsImg(attachment.url)) {
+                              return (
+                                <CldImg
+                                  key={attachment.url}
+                                  style={{ borderRadius: '12px' }}
+                                  src={attachment.url}
+                                  alt={attachment.title}
+                                  isWeb3Post
+                                />
+                              );
+                            }
+                            return null;
+                          })
                         : null}
                     </Grid>
                   </Grid>

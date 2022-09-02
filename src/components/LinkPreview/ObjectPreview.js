@@ -193,7 +193,6 @@ class ObjectPreview extends Component {
               <div
                 className={classes.previewContainer}
                 href={url}
-                
                 target="_blank"
               >
                 <div className={classes.previewData}>

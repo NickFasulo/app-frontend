@@ -71,11 +71,7 @@ function UserNotificationList() {
   }, [profile]);
 
   if (!notifications.length) {
-    return (
-      <Typography>
-        No notifications, you are all caught up!
-      </Typography>
-    );
+    return <Typography>No notifications, you are all caught up!</Typography>;
   }
 
   return (

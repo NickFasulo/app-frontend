@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Grid, Tooltip, Typography } from '@mui/material';
 import axios from 'axios';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { CldImg, CldVid } from "../Miscellaneous";
+import { CldImg, CldVid } from '../Miscellaneous';
 import { trimURL, getFavicon } from '../../utils/url';
 import { raribleApiUrl } from '../../config';
 import { TruncateText } from '../styles';
@@ -234,7 +234,6 @@ class NFTPreview extends Component {
             <div
               className={classes.previewContainer}
               href={url}
-              
               target="_blank"
             >
               <div
