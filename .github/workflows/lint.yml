@@ -21,6 +21,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        env:
+          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
 
       - name: Run Prettier
         run: yarn prettier --check src
