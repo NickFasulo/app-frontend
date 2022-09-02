@@ -38,14 +38,14 @@ export const useInitialVotes = (postid, voter) => {
     [REACT_QUERY_KEYS.YUP_INITIAL_VOTES, postid, voter],
     async () => {
 
-      if (!postid || !voter) return null
+      if (!postid || !voter) return []
       try {
         return await callYupApi({
           url: `/votes/post/${postid}/voter/${voter}`,
           method: 'GET'
         })
       } catch {
-        return null
+        return []
       }
     }
   );
