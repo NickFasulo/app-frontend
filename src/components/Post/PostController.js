@@ -25,6 +25,7 @@ import AudiusPost from './AudiusPost';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
 import { isYoutubeUrl } from '../../utils/helpers';
+import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
 
 const COLUMBIA_PROF_TAG = 'columbia-course-registration/professor';
 const COLUMBIA_COURSE_TAG = 'columbia-course-registration/course';
@@ -173,7 +174,7 @@ class PostController extends Component {
 
     if (post.tag === COLUMBIA_PROF_TAG) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <ProfPost
             post={post}
             url={post.url}
@@ -189,12 +190,12 @@ class PostController extends Component {
             postType={COLUMBIA_PROF_POST_TYPE}
             hideInteractions={hideInteractions}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (post.tag === COLUMBIA_COURSE_TAG) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <CoursePost
             post={post}
             url={post.url}
@@ -210,12 +211,12 @@ class PostController extends Component {
             postType={COLUMBIA_COURSE_POST_TYPE}
             hideInteractions={hideInteractions}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (post.tag === US_PRES_ELECTIONS_TAG) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <TweetPost
             post={post}
             url={post.url}
@@ -233,12 +234,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isTwitterPost(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <TweetPost
             post={post}
             url={post.url}
@@ -255,12 +256,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isWeb3Post(post.tag)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <Web3Post
             post={post}
             url={post.url}
@@ -278,12 +279,12 @@ class PostController extends Component {
             classes={classes}
             showFullPost={showFullPost}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isEventPost(post.tag)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <EventPost
             post={post}
             url={post.url}
@@ -300,12 +301,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isYoutubeUrl(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <VideoPost
             post={post}
             url={post.url}
@@ -320,12 +321,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isSoundPost(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <SoundPost
             post={post}
             url={post.url}
@@ -340,12 +341,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isSpotifyPost(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <SpotifyPost
             post={post}
             url={post.url}
@@ -359,12 +360,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isMusicPost(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <MusicPost
             post={post}
             url={post.url}
@@ -378,12 +379,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isTwitchPost(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <TwitchPost
             post={post}
             url={post.url}
@@ -398,12 +399,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isInstagramPost(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <InstagramPost
             post={post}
             url={post.url}
@@ -419,12 +420,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isNFTPost(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <NFTPost
             post={post}
             comment={post.comment}
@@ -440,12 +441,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isTallPost(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <TallPreviewPost
             post={post}
             comment={post.comment}
@@ -461,12 +462,12 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isArticlePost(post.url)) {
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <ArticlePost
             post={post}
             comment={post.comment}
@@ -484,13 +485,13 @@ class PostController extends Component {
             classes={classes}
             showFullPost={showFullPost}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     if (isObjectPost(post.url) || isChannelPost(post.url)) {
       if (renderObjects) {
         return (
-          <ErrorBoundary>
+          <FunctionalErrorBoundary>
             <ObjectPost
               post={post}
               comment={post.comment}
@@ -507,7 +508,7 @@ class PostController extends Component {
               hideInteractions={hideInteractions}
               classes={classes}
             />
-          </ErrorBoundary>
+          </FunctionalErrorBoundary>
         );
       }
       return null;
@@ -515,7 +516,7 @@ class PostController extends Component {
     if (isTextPost) {
       if (post.previewData == null) {
         return (
-          <ErrorBoundary>
+          <FunctionalErrorBoundary>
             <TextPost
               post={post}
               url={post.url}
@@ -533,12 +534,12 @@ class PostController extends Component {
               hideInteractions={hideInteractions}
               classes={classes}
             />
-          </ErrorBoundary>
+          </FunctionalErrorBoundary>
         );
       }
       if (isAudiusPost(post.url)) {
         return (
-          <ErrorBoundary>
+          <FunctionalErrorBoundary>
             <AudiusPost
               post={post}
               url={post.url}
@@ -555,11 +556,11 @@ class PostController extends Component {
               hideInteractions={hideInteractions}
               classes={classes}
             />
-          </ErrorBoundary>
+          </FunctionalErrorBoundary>
         );
       }
       return (
-        <ErrorBoundary>
+        <FunctionalErrorBoundary>
           <LinkPreviewPost
             post={post}
             comment={post.comment}
@@ -576,7 +577,7 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
             classes={classes}
           />
-        </ErrorBoundary>
+        </FunctionalErrorBoundary>
       );
     }
     return (
