@@ -81,7 +81,8 @@
     "react/no-unused-class-component-methods": "warn",
     "no-dupe-keys": "warn",
     "react/no-access-state-in-setstate": "warn",
-    "prefer-rest-params": "warn"
+    "prefer-rest-params": "warn",
+    "react/function-component-definition": "off"
     // defaultProps rule to be deprecated on function components
     // https://github.com/reactjs/rfcs/pull/107
   }

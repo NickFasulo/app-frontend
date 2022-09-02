@@ -7,6 +7,7 @@ import PageLoadingBar from '../PageLoadingBar';
 import useToast from '../../hooks/useToast';
 import { LOCAL_STORAGE_KEYS } from '../../constants/enum';
 import ConnectButton from '../ConnectButton';
+import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
 
 function MainLayout({ children }) {
   const router = useRouter();
@@ -33,7 +34,9 @@ function MainLayout({ children }) {
       <BackgroundGradients />
       {showHeader && (
         <nav>
-          <SideBar />
+          <FunctionalErrorBoundary>
+            <SideBar />
+          </FunctionalErrorBoundary>
         </nav>
       )}
       {isCheckingAuth ? <PageLoadingBar /> : children}
