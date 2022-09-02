@@ -10,7 +10,9 @@ function FollowButton({ userId }) {
   const { userId: myUserId, isLoggedIn, authInfo } = useAuth();
   const myFollowingUsers = useFollowings(myUserId) || [];
   const isAlreadyFollowing = myFollowingUsers.includes(userId);
-  const { isLoading, mutate } = useMutation([MUTATION_KEYS.FOLLOW_UNFOLLOW_USER]);
+  const { isLoading, mutate } = useMutation([
+    MUTATION_KEYS.FOLLOW_UNFOLLOW_USER
+  ]);
 
   // If user's not logged-in, show nothing.
   if (!isLoggedIn) {
@@ -36,9 +38,13 @@ function FollowButton({ userId }) {
     >
       {isLoading ? (
         <CircularProgress size={16} />
-      ) : isAlreadyFollowing ? 'Following' : 'Follow'}
+      ) : isAlreadyFollowing ? (
+        'Following'
+      ) : (
+        'Follow'
+      )}
     </ActionButton>
-  )
+  );
 }
 
 export default withSuspense()(FollowButton);

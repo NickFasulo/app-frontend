@@ -128,7 +128,8 @@ export const linkMentions = (word, url) => {
         <i> </i>
       </>
     );
-  } if (matchHastag) {
+  }
+  if (matchHastag) {
     return (
       <>
         <Typography variant="body3" display="inline">
@@ -139,7 +140,6 @@ export const linkMentions = (word, url) => {
     );
   }
   return <>{word} </>;
-
 };
 
 export const fetchLinkPreviewData = async (passedURL) => {
@@ -226,7 +226,6 @@ export const parsePhaverPost = (text, url, attachments) => {
     );
   }
   return text;
-
 };
 
 export const timeSince = (date) => {

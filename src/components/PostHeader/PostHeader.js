@@ -196,12 +196,12 @@ class PostHeader extends Component {
                 {' '}
                 {hideInteractions ? null : (
                   <Grid item>
-                      <Grid container direction="row" alignItems="center">
-                        <Grid item className={classes.voterOpacity}>
-                          <VoterHeader />
-                        </Grid>
+                    <Grid container direction="row" alignItems="center">
+                      <Grid item className={classes.voterOpacity}>
+                        <VoterHeader />
                       </Grid>
                     </Grid>
+                  </Grid>
                 )}
                 <Grid item className={classes.voterOpacity}>
                   <FontAwesomeIcon
