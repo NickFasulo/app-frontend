@@ -3,18 +3,18 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import { connect } from 'react-redux';
-import { levelColors } from '../../utils/colors';
 import { withRouter } from 'next/router';
 import withStyles from '@mui/styles/withStyles';
 import Grid from '@mui/material/Grid';
-import UserAvatar from '../UserAvatar/UserAvatar';
 import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsDown, faThumbsUp } from '@fortawesome/free-regular-svg-icons';
+import { levelColors } from '../../utils/colors';
+import UserAvatar from '../UserAvatar/UserAvatar';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { fetchSocialLevel } from '../../redux/actions';
 import { accountInfoSelector } from '../../redux/selectors';
 import { apiBaseUrl, yupCreator } from '../../config';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsDown, faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import YupLink from '../YupLink';
 
 const styles = (theme) => ({
@@ -195,15 +195,13 @@ class PostHeader extends Component {
               >
                 {' '}
                 {hideInteractions ? null : (
-                  <Fragment>
-                    <Grid item>
-                      <Grid container direction="row" alignItems="center">
-                        <Grid item className={classes.voterOpacity}>
-                          <VoterHeader />
-                        </Grid>
+                  <Grid item>
+                    <Grid container direction="row" alignItems="center">
+                      <Grid item className={classes.voterOpacity}>
+                        <VoterHeader />
                       </Grid>
                     </Grid>
-                  </Fragment>
+                  </Grid>
                 )}
                 <Grid item className={classes.voterOpacity}>
                   <FontAwesomeIcon

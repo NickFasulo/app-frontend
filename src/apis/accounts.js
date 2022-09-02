@@ -56,3 +56,25 @@ export const apiUploadProfileImage = async (imageData) =>
     method: 'POST',
     data: imageData
   });
+
+export const apiFollowUser = async (authUserId, userIdToFollow, authInfo) =>
+  callYupApi({
+    url: `/v2/followers`,
+    method: 'POST',
+    params: {
+      account: authUserId,
+      accountToFollow: userIdToFollow
+    },
+    data: authInfo
+  });
+
+export const apiUnfollowUser = async (authUserId, userIdToUnfollow, authInfo) =>
+  callYupApi({
+    url: `/v2/followers`,
+    method: 'DELETE',
+    params: {
+      account: authUserId,
+      accountToUnfollow: userIdToUnfollow
+    },
+    data: authInfo
+  });

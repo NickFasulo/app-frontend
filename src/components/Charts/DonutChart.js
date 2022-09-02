@@ -33,12 +33,12 @@ const styles = (theme) => ({
   }
 });
 
-const DonutChart = ({ classes, chartData, chartTitle, colors }) => {
+function DonutChart({ classes, chartData, chartTitle, colors }) {
   const { palette } = useTheme();
 
   if (chartData) {
-    let series = [];
-    let labels = [];
+    const series = [];
+    const labels = [];
     Object.values(chartData).forEach((val, i) => {
       if (Object.keys(chartData)[i] !== 'total' && val !== 0)
         series.push(Number(val));
@@ -49,13 +49,13 @@ const DonutChart = ({ classes, chartData, chartTitle, colors }) => {
       }
     });
     const chart = {
-      series: series,
+      series,
       chart: {
         height: 350,
         type: 'donut',
         fontFamily: 'Gilroy, sans-serif'
       },
-      colors: colors,
+      colors,
       stroke: {
         width: 0
       },
@@ -63,7 +63,7 @@ const DonutChart = ({ classes, chartData, chartTitle, colors }) => {
         show: true,
         label: 'Total Likes',
         color: palette.M100,
-        formatter: function (w) {
+        formatter(w) {
           // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
           return chartData.total;
         }
@@ -86,19 +86,18 @@ const DonutChart = ({ classes, chartData, chartTitle, colors }) => {
               value: {
                 fontSize: '15px',
                 color: palette.M100,
-                formatter: function (w) {
+                formatter(w) {
                   // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                  return (
-                    Number(w).toFixed(2) +
-                    `%(${Math.round((chartData.total * w) / 100)})`
-                  );
+                  return `${Number(w).toFixed(2)}%(${Math.round(
+                    (chartData.total * w) / 100
+                  )})`;
                 }
               }
             }
           }
         }
       },
-      labels: labels
+      labels
     };
     return (
       <Card className={`${classes.card}`}>
@@ -121,35 +120,34 @@ const DonutChart = ({ classes, chartData, chartTitle, colors }) => {
         </div>
       </Card>
     );
-  } else {
-    return (
-      <Card className={`${classes.card}`}>
-        <div className="mixed-chart">
-          <Grid container justifyContent="start" direction="column" spacing={3}>
-            <Grid item xs={12} spacing={3}>
-              <Typography align="left" className={classes.chart} variant="h4">
-                <Skeleton
-                  variant="text"
-                  animation="wave"
-                  className={classes.Skeleton}
-                />
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
+  }
+  return (
+    <Card className={`${classes.card}`}>
+      <div className="mixed-chart">
+        <Grid container justifyContent="start" direction="column" spacing={3}>
+          <Grid item xs={12} spacing={3}>
+            <Typography align="left" className={classes.chart} variant="h4">
               <Skeleton
-                variant="rectangular"
+                variant="text"
                 animation="wave"
                 className={classes.Skeleton}
-                width={'100%'}
-                height={150}
               />
-            </Grid>
+            </Typography>
           </Grid>
-        </div>
-      </Card>
-    );
-  }
-};
+          <Grid item xs={12}>
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              className={classes.Skeleton}
+              width="100%"
+              height={150}
+            />
+          </Grid>
+        </Grid>
+      </div>
+    </Card>
+  );
+}
 
 DonutChart.propTypes = {
   classes: PropTypes.object.isRequired,

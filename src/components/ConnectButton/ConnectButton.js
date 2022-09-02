@@ -1,9 +1,9 @@
-import { useAuth } from '../../contexts/AuthContext';
 import { useAccount } from 'wagmi';
 import { useRouter } from 'next/router';
 import { Button, styled } from '@mui/material';
-import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAuthModal } from '../../contexts/AuthModalContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   position: 'fixed',
@@ -18,7 +18,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-const ConnectButton = () => {
+function ConnectButton() {
   const { isCheckingAuth, isLoggedIn } = useAuth();
   const { startEthAuth, open: openAuthModal } = useAuthModal();
   const { isConnected } = useAccount();
@@ -47,6 +47,6 @@ const ConnectButton = () => {
       Connect
     </StyledButton>
   );
-};
+}
 
 export default ConnectButton;

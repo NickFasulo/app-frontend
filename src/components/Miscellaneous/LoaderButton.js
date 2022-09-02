@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { CircularProgress } from '@mui/material';
 import YupButton from './YupButton';
 
-const LoaderButton = ({
+function LoaderButton({
   size,
   color,
   variant,
   isLoading,
   buttonText,
   ...restProps
-}) => {
+}) {
   return (
     <YupButton size={size} color={color} variant={variant} {...restProps}>
       {buttonText}
@@ -22,7 +22,7 @@ const LoaderButton = ({
       )}
     </YupButton>
   );
-};
+}
 
 LoaderButton.propTypes = {
   color: PropTypes.string.isRequired,

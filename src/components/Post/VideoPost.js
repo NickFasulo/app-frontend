@@ -44,18 +44,20 @@ function VideoPost(props) {
   const isMobile = window.innerWidth <= 600;
   const heightProp = isMobile ? { height: 0 } : {};
 
-  const VideoComp = (_props) => (
-    <div className={classes.postContainer}>
-      <ReactPlayer
-        className={classes.reactPlayer}
-        controls
-        style={{ overFlow: 'hidden', maxHeight: '1000px' }}
-        url={url}
-        width="100%"
-        {...heightProp}
-      />
-    </div>
-  );
+  function VideoComp(_props) {
+    return (
+      <div className={classes.postContainer}>
+        <ReactPlayer
+          className={classes.reactPlayer}
+          controls
+          style={{ overFlow: 'hidden', maxHeight: '1000px' }}
+          url={url}
+          width="100%"
+          {...heightProp}
+        />
+      </div>
+    );
+  }
   return (
     <ErrorBoundary>
       <PostHOC component={VideoComp} {...props} />

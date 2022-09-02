@@ -4,7 +4,7 @@ import Link from '../Link';
 import { useSideBar } from './SideBarContext';
 import useDevice from '../../hooks/useDevice';
 
-const FeedLink = ({ category, text }) => {
+function FeedLink({ category, text }) {
   const { isMobile } = useDevice();
   const { closeSideBar, closeSearch } = useSideBar();
 
@@ -30,11 +30,11 @@ const FeedLink = ({ category, text }) => {
         primary={text}
         primaryTypographyProps={{
           variant: 'bodyS2',
-          color: (theme) => isMobile ? theme.palette.M50 : theme.palette.M500
+          color: (theme) => (isMobile ? theme.palette.M50 : theme.palette.M500)
         }}
       />
     </MenuItemButton>
   );
-};
+}
 
 export default FeedLink;

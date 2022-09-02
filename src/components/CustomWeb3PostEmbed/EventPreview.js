@@ -2,13 +2,13 @@ import React from 'react';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
+import removeMd from 'remove-markdown';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { trimURL, getFavicon } from '../../utils/url';
 import { defaultPostImageUrl } from '../../config';
 import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
-import removeMd from'remove-markdown';
-import { timeSince } from './Util/Util';
+import { timeSince } from '../../utils/post_helpers';
 
 const styles = (theme) => ({
   container: {
@@ -72,7 +72,16 @@ const styles = (theme) => ({
   }
 });
 
-const EventPreview = ({ title, description, url, classes, creator, eventImg, eventSite, createdAt }) => {
+function EventPreview({
+  title,
+  description,
+  url,
+  classes,
+  creator,
+  eventImg,
+  eventSite,
+  createdAt
+}) {
   const addDefaultSrc = (e) => {
     e.target.onerror = null;
     e.target.src = defaultPostImageUrl;
@@ -96,19 +105,26 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
           <div className={classes.previewData}>
             <Grid container>
               <Grid item xs={12} pb={1}>
-                <Grid alignItems="start" container direction="row" rowSpacing={3}>
+                <Grid
+                  alignItems="start"
+                  container
+                  direction="row"
+                  rowSpacing={3}
+                >
                   <Grid item xs={10} sm={11}>
-                    <Grid container direction='row'>
+                    <Grid container direction="row">
                       <Grid item xs={12}>
                         <Typography variant="body2" lines={2}>
-                          {creator === undefined ? trimURL(url).split(/[/]+/g, 1) : creator } attended:
+                          {creator === undefined
+                            ? trimURL(url).split(/[/]+/g, 1)
+                            : creator}{' '}
+                          attended:
                         </Typography>
                       </Grid>
-                      
                     </Grid>
                   </Grid>
                   <Grid item xs={2} sm={1}>
-                    <Grid container direction='row' center>
+                    <Grid container direction="row" center>
                       <Grid item>
                         <YupImage
                           align="right"
@@ -118,13 +134,12 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
                           target="_blank"
                         />
                       </Grid>
-                      <Grid item
-                        sx={{marginBottom: '0.09375rem'}}>
+                      <Grid item sx={{ marginBottom: '0.09375rem' }}>
                         <Typography
-                                variant="bodyS2"
-                                className={classes.userHandle}
-                              >
-                                { timeSince(new Date(createdAt)) }
+                          variant="bodyS2"
+                          className={classes.userHandle}
+                        >
+                          {timeSince(new Date(createdAt))}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -132,9 +147,9 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
                 </Grid>
               </Grid>
               <Grid item xs={12} className={classes.eventContainer}>
-                <Grid container direction='row' spacing={1} p={2}>
+                <Grid container direction="row" spacing={1} p={2}>
                   <Grid item xs={1}>
-                    <img src={eventImg} width='100%'/>
+                    <img alt="event" src={eventImg} width="100%" />
                   </Grid>
                   <Grid item xs={11}>
                     <Grid container>
@@ -154,7 +169,9 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2" className={classes.url}>
-                          {eventSite === undefined ? trimURL(eventSite).split(/[/]+/g, 1) : eventSite }
+                          {eventSite === undefined
+                            ? trimURL(eventSite).split(/[/]+/g, 1)
+                            : eventSite}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -167,7 +184,7 @@ const EventPreview = ({ title, description, url, classes, creator, eventImg, eve
       </div>
     </ErrorBoundary>
   );
-};
+}
 
 EventPreview.propTypes = {
   url: PropTypes.string.isRequired,

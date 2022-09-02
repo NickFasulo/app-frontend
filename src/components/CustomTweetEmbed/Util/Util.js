@@ -20,7 +20,7 @@ export const parseText = (str) => {
   const parsed = str
     .replace(re, '')
     .replace(/&amp;/g, '&')
-    .replace(/&nbsp;/g, ' ')
+    .replace(/&nbsp;/g, ' ');
   return parsed;
 };
 

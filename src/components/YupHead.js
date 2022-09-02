@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-const YupHead = ({ title, description, image, meta }) => {
+function YupHead({ title, description, image, meta }) {
   if (!image) {
     image = '/images/metaImages/main-meta.jpg';
   }
@@ -35,6 +35,6 @@ const YupHead = ({ title, description, image, meta }) => {
       ))}
     </Head>
   );
-};
+}
 
 export default YupHead;

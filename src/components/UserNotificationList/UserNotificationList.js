@@ -1,9 +1,9 @@
+import { List, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useSocialLevel, useUserNotifications } from '../../hooks/queries';
 import NotificationItem from './NotificationItem';
 import withSuspense from '../../hoc/withSuspense';
-import { List } from '@mui/material';
 import { LOADER_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
-import { useEffect, useState } from 'react';
 import wallet from '../../eos/scatter/scatter.wallet';
 import {
   apiSetNotificationSeenEth,
@@ -13,10 +13,10 @@ import { ETH_NOTIFICATION_INTERVAL } from '../../constants/const';
 import { ETH_LINK_NOTIFICATION_DATA } from '../../constants/data';
 import { useAuth } from '../../contexts/AuthContext';
 
-const UserNotificationList = () => {
-  const { username, authInfo } = useAuth();
+function UserNotificationList() {
+  const { username, userId, authInfo } = useAuth();
   const profile = useSocialLevel(username);
-  const notifications = useUserNotifications(username);
+  const notifications = useUserNotifications(userId) || [];
   const [showEthLinkNotification, setShowEthLinkNotification] = useState(false);
 
   useEffect(() => {
@@ -70,6 +70,10 @@ const UserNotificationList = () => {
     }
   }, [profile]);
 
+  if (!notifications.length) {
+    return <Typography>No notifications, you are all caught up!</Typography>;
+  }
+
   return (
     <List
       sx={{
@@ -78,7 +82,7 @@ const UserNotificationList = () => {
       }}
     >
       {notifications.map((notification) => (
-          <NotificationItem key={notification._id} data={notification} />
+        <NotificationItem key={notification._id} data={notification} />
       ))}
       {showEthLinkNotification && (
         <NotificationItem
@@ -91,6 +95,6 @@ const UserNotificationList = () => {
       )}
     </List>
   );
-};
+}
 
 export default withSuspense(LOADER_TYPE.NOTIFICATION, 5)(UserNotificationList);

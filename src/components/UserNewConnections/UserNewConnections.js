@@ -1,9 +1,9 @@
-import { useSearchPeople } from '../../hooks/queries';
 import { List, Typography } from '@mui/material';
+import { useSearchPeople } from '../../hooks/queries';
 import UserRecommendedConnection from '../UserRecommendedConnection';
 
-const UserNewConnections = ({ profile }) => {
-  const people = useSearchPeople(profile.bio,6);
+function UserNewConnections({ profile }) {
+  const people = useSearchPeople(profile.bio, 6);
 
   return (
     <>
@@ -17,17 +17,17 @@ const UserNewConnections = ({ profile }) => {
           gap: 2
         }}
       >
-        {people.map((connection) => (
+        {people.map((connection) =>
           connection.username !== profile.username ? (
             <UserRecommendedConnection
               key={connection.username}
               user={connection}
             />
           ) : null
-        ))}
+        )}
       </List>
     </>
   );
-};
+}
 
 export default UserNewConnections;

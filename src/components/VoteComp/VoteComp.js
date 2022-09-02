@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import VoteButton from '../VoteButton/VoteButton';
 import { useInitialVotes } from '../../hooks/queries';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
@@ -11,9 +12,9 @@ import { createVote, editVote, deleteVote } from '../../apis';
 import { FlexBox } from '../styles';
 import { windowExists } from '../../utils/helpers';
 import withSuspense from '../../hoc/withSuspense';
-import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 import useAccount from '../../hooks/useAccount';
+
 const CREATE_VOTE_LIMIT = 40;
 const ratingConversion = {
   1: 2,
@@ -40,7 +41,8 @@ function genRegEx(arrOfURLs) {
 const getWeb3Likes = (postInfo) => {
   if (postInfo.post.web3Preview?.protocol === 'farcaster') {
     return postInfo.post.web3Preview?.meta?.reactions.count;
-  } else if (postInfo.post.web3Preview?.protocol === 'lens') {
+  }
+  if (postInfo.post.web3Preview?.protocol === 'lens') {
     return postInfo.post.web3Preview?.meta?.metadata.stats.totalUpvotes;
   }
 
@@ -50,15 +52,16 @@ const getWeb3Likes = (postInfo) => {
 const getWeb3Dislikes = (postInfo) => {
   if (postInfo.post.web3Preview?.protocol === 'farcaster') {
     return 0;
-  } else if (postInfo.post.web3Preview?.protocol === 'lens') {
+  }
+  if (postInfo.post.web3Preview?.protocol === 'lens') {
     return postInfo.post.web3Preview?.meta?.metadata.stats.totalDownvotes;
   }
 
   return 0;
 };
-const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
+function VoteComp({ postid, url, weights, listType, postInfo, rating }) {
   const { authInfo, name } = useAuth();
-  const { account } = useAccount()
+  const { account } = useAccount();
   const votes = useInitialVotes(postid, name);
   const vote = votes?.[0];
   const [newRating, setNewRating] = useState();
@@ -69,7 +72,9 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   const [hasNewUpvote, setHasNewUpvote] = useState(false);
   const [hasNewDownvote, setHasNewDownvote] = useState(false);
   const [hasOldUpvote, setHasOldUpvote] = useState(vote?.like && vote.rating);
-  const [hasOldDownvote, setHasOldDownvote] = useState(vote && !vote.like && vote.rating);
+  const [hasOldDownvote, setHasOldDownvote] = useState(
+    vote && !vote.like && vote.rating
+  );
   const [hasOldUpvoteRemoved, setHasOldUpvoteRemoved] = useState();
   const [hasOldDownvoteRemoved, setHasOldDownvoteRemoved] = useState();
   const { toastError } = useToast();
@@ -87,37 +92,37 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
   }, [newRating, lastClicked]);
 
   useEffect(() => {
-   // if (shouldSubmit) handleDefaultVote();
+    // if (shouldSubmit) handleDefaultVote();
   }, [shouldSubmit]);
 
   useEffect(() => {
-    if (lastClicked){
-      if(lastClicked === 'like'){      
-        if(hasOldDownvote&&!hasOldDownvoteRemoved){
-          setHasOldDownvoteRemoved(true)
-          setDownvotes(prev=>prev-1) 
-        }  
-        if(hasOldUpvote&&hasOldUpvoteRemoved){
-          setHasOldUpvoteRemoved(true)
-          setUpvotes(prev=>prev+1)
-        }   
-        setHasNewUpvote(ratingConversion[newRating])
-        setHasNewDownvote(0)
+    if (lastClicked) {
+      if (lastClicked === 'like') {
+        if (hasOldDownvote && !hasOldDownvoteRemoved) {
+          setHasOldDownvoteRemoved(true);
+          setDownvotes((prev) => prev - 1);
+        }
+        if (hasOldUpvote && hasOldUpvoteRemoved) {
+          setHasOldUpvoteRemoved(true);
+          setUpvotes((prev) => prev + 1);
+        }
+        setHasNewUpvote(ratingConversion[newRating]);
+        setHasNewDownvote(0);
       } else {
-        if(hasOldUpvote&&!hasOldUpvoteRemoved){
-          setHasOldUpvoteRemoved(true)
-          setUpvotes(prev=>prev-1) 
-        }  
-        if(hasOldDownvote&&hasOldDownvoteRemoved){
-          setHasOldDownvoteRemoved(true)
-          setDownvotes(prev=>prev+1)
-        } 
-        setHasNewDownvote(ratingConversion[newRating])
-        setHasNewUpvote(0)
+        if (hasOldUpvote && !hasOldUpvoteRemoved) {
+          setHasOldUpvoteRemoved(true);
+          setUpvotes((prev) => prev - 1);
+        }
+        if (hasOldDownvote && hasOldDownvoteRemoved) {
+          setHasOldDownvoteRemoved(true);
+          setDownvotes((prev) => prev + 1);
+        }
+        setHasNewDownvote(ratingConversion[newRating]);
+        setHasNewUpvote(0);
       }
-    }    
+    }
   }, [newRating, lastClicked]);
-  
+
   useEffect(() => {
     setUpvotes((post.catVotes.overall && post.catVotes.overall.up) || 0);
     setDownvotes((post.catVotes.overall && post.catVotes.overall.down) || 0);
@@ -173,7 +178,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
         await createVote({
           postid,
           voter: name,
-          like: like,
+          like,
           rating,
           authInfo
         });
@@ -181,7 +186,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
         await createVote({
           url,
           voter: name,
-          like: like,
+          like,
           rating,
           authInfo
         });
@@ -256,7 +261,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
         await submitForcedVote(prevRating, newRating);
         return;
       }
-      console.log({error})
+      console.log({ error });
       toastError(parseError(error, 'vote'));
       rollbar.error(
         `WEB APP VoteButton handleVote() ${JSON.stringify(
@@ -286,13 +291,19 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
           setLastClicked={() => setLastClicked('like')}
           type="like"
           totalVoters={
-            upvotes 
+            upvotes
             // +
             // (lastClicked === 'like' ? ratingConversion[newRating] : 0) -
             // (lastClicked && vote?.like ? vote.rating : 0)
           }
           rating={
-            lastClicked === 'like' ?(hasOldUpvote?(hasNewUpvote?hasNewUpvote-1:hasOldUpvote-1) :(hasNewUpvote?hasNewUpvote:hasOldUpvote)):0
+            lastClicked === 'like'
+              ? hasOldUpvote
+                ? hasNewUpvote
+                  ? hasNewUpvote - 1
+                  : hasOldUpvote - 1
+                : hasNewUpvote || hasOldUpvote
+              : 0
           }
           postid={postid}
           listType={listType}
@@ -310,13 +321,19 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
           type="dislike"
           setLastClicked={() => setLastClicked('dislike')}
           totalVoters={
-            downvotes 
+            downvotes
             // +
             // (lastClicked === 'dislike' ? ratingConversion[newRating] : 0) -
             // (lastClicked && vote && !vote.like ? vote.rating : 0)
           }
           rating={
-            lastClicked === 'dislike' ?( hasOldDownvote?(hasNewDownvote?hasNewDownvote-1:hasOldDownvote-1) :(hasNewDownvote?hasNewDownvote:hasOldDownvote)): 0
+            lastClicked === 'dislike'
+              ? hasOldDownvote
+                ? hasNewDownvote
+                  ? hasNewDownvote - 1
+                  : hasOldDownvote - 1
+                : hasNewDownvote || hasOldDownvote
+              : 0
           }
           postid={postid}
           listType={listType}
@@ -331,7 +348,7 @@ const VoteComp = ({ postid, url, weights, listType, postInfo, rating }) => {
       </FlexBox>
     </ErrorBoundary>
   );
-};
+}
 
 VoteComp.propTypes = {
   account: PropTypes.object,

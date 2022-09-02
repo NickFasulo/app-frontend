@@ -2,8 +2,8 @@ import * as React from 'react';
 import Document, { Html, Main, Head, NextScript } from 'next/document';
 import Script from 'next/script';
 import createEmotionServer from '@emotion/server/create-instance';
-import createEmotionCache from '../createEmotionCache';
 import { ServerStyleSheets } from '@mui/styles';
+import createEmotionCache from '../createEmotionCache';
 
 export default class MyDocument extends Document {
   render() {
@@ -12,8 +12,8 @@ export default class MyDocument extends Document {
         <Head>
           {/* TODO: Redefine theme structure */}
           {/* PWA primary color */}
-          {/*<meta name="theme-color" content={theme.palette.primary.main} />*/}
-          {/*<link rel="shortcut icon" href="/static/favicon.ico" />*/}
+          {/* <meta name="theme-color" content={theme.palette.primary.main} /> */}
+          {/* <link rel="shortcut icon" href="/static/favicon.ico" /> */}
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"

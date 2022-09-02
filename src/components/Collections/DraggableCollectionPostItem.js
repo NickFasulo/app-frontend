@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import { Draggable } from 'react-beautiful-dnd';
 import YupImage from '../YupImage';
-import { TruncateText } from '../../components/styles';
+import { TruncateText } from '../styles';
 
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${
   Math.floor(Math.random() * 5) + 1
@@ -38,7 +38,7 @@ const styles = (theme) => ({
   }
 });
 
-const DraggableCollectionPostItem = ({ classes, post, index }) => {
+function DraggableCollectionPostItem({ classes, post, index }) {
   if (!post) return null;
   const { _id, previewData } = post;
 
@@ -75,7 +75,7 @@ const DraggableCollectionPostItem = ({ classes, post, index }) => {
       )}
     </Draggable>
   );
-};
+}
 
 DraggableCollectionPostItem.propTypes = {
   classes: PropTypes.object.isRequired,

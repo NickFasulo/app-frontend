@@ -1,9 +1,9 @@
+import { Typography } from '@mui/material';
 import { YupContainer, YupPageWrapper } from '../components/styles';
 import YupPageHeader from '../components/YupPageHeader';
-import { Typography } from '@mui/material';
 import UserNotificationList from '../components/UserNotificationList';
 
-const Notifications = () => {
+function Notifications() {
   return (
     <YupPageWrapper>
       <YupPageHeader noborder>
@@ -16,6 +16,6 @@ const Notifications = () => {
       </YupContainer>
     </YupPageWrapper>
   );
-};
+}
 
 export default Notifications;

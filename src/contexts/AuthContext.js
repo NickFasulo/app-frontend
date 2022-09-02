@@ -1,5 +1,12 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'react';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import scatter from '../eos/scatter/scatter.wallet';
 import {
   fetchSocialLevel,
@@ -17,7 +24,6 @@ import {
 } from '../apis';
 import { accountConstants } from '../redux/constants';
 import useToast from '../hooks/useToast';
-import { useRouter } from 'next/router';
 
 const AuthContext = createContext({
   isLoggedIn: false,
@@ -29,7 +35,7 @@ const AuthContext = createContext({
   logout: () => {}
 });
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const { toastError } = useToast();
@@ -56,7 +62,8 @@ export const AuthProvider = ({ children }) => {
 
       if (scatter.connected) {
         try {
-          const { eosname, signature, expiration } = await scatter.scatter.getAuthToken();
+          const { eosname, signature, expiration } =
+            await scatter.scatter.getAuthToken();
           const account = await apiGetAccount(eosname);
 
           setAuthInfo({
@@ -67,9 +74,12 @@ export const AuthProvider = ({ children }) => {
             signature,
             expiration
           });
-                
-          const timer = setTimeout(() => refetchScatterAuth(), expiration - new Date().getTime() - 60000)
-          return () => clearTimeout(timer)
+
+          const timer = setTimeout(
+            () => refetchScatterAuth(),
+            expiration - new Date().getTime() - 60000
+          );
+          return () => clearTimeout(timer);
         } catch (err) {
           logError('Scatter authentication failed.', err);
         }
@@ -146,7 +156,6 @@ export const AuthProvider = ({ children }) => {
       setIsCheckingAuth(false);
     })();
   }, []);
-  
 
   useEffect(() => {
     if (!authInfo.eosname) return;
@@ -174,20 +183,22 @@ export const AuthProvider = ({ children }) => {
     setAuthInfo({});
   }, []);
 
- const refetchScatterAuth = async () => {
-  console.log("REFETCHING")
-  const { eosname, signature, expiration } = await scatter.scatter.getAuthToken();
-  const account = await apiGetAccount(eosname);
-  const authInfo = {
-    authType: AUTH_TYPE.EXTENSION,
-    eosname,
-    username: account.username,
-    address: account.ethInfo?.address,
-    signature,
-    expiration}
-  setAuthInfo(authInfo);
-  return authInfo
- }
+  const refetchScatterAuth = async () => {
+    console.log('REFETCHING');
+    const { eosname, signature, expiration } =
+      await scatter.scatter.getAuthToken();
+    const account = await apiGetAccount(eosname);
+    const authInfo = {
+      authType: AUTH_TYPE.EXTENSION,
+      eosname,
+      username: account.username,
+      address: account.ethInfo?.address,
+      signature,
+      expiration
+    };
+    setAuthInfo(authInfo);
+    return authInfo;
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -195,6 +206,7 @@ export const AuthProvider = ({ children }) => {
         isCheckingAuth,
         name: authInfo.eosname,
         username: authInfo.username,
+        userId: authInfo.eosname,
         authInfo,
         updateAuthInfo: setAuthInfo,
         logout: handleLogout
@@ -203,7 +215,7 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 export const useAuth = () => useContext(AuthContext);
 

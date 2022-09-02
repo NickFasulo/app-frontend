@@ -6,9 +6,9 @@ import {
   Transformation,
   Placeholder
 } from 'cloudinary-react';
+import { Grid } from '@mui/material';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { cloudinaryName } from '../../config';
-import { Grid } from '@mui/material';
 
 const ROOT_CLOUDINARY_URL = `https://res.cloudinary.com/yup-io/image/upload/`;
 const FOUNDATION_IMG_URI = `https://f8n`;
@@ -21,7 +21,7 @@ const foundationOptimizeParams = {
   fm: 'png'
 };
 
-const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
+function CldImg({ postid, src, alt, isWeb3Post, ...restProps }) {
   const imgRef = useRef(null);
   const [isHigherRatio, setIsHigherRatio] = useState(false);
 
@@ -54,7 +54,7 @@ const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
     }
   };
   if (isFoundationImg) {
-    return ( 
+    return (
       <img
         ref={imgRef}
         src={`${src}?${new URLSearchParams(
@@ -69,20 +69,26 @@ const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
 
   if (isWeb3Post) {
     return (
-      <Grid container  
-        justifyContent={isHigherRatio?'center':'start'} 
-        sx={isHigherRatio&&{borderRadius:'12px', 
-        backgroundColor: (theme)=>`${theme.palette.M900}AA`,
-        padding:(theme)=>theme.spacing(2)}}>
-          <Grid item>
-      <img
-        ref={imgRef}
-        src={src}
-        alt={alt}
-        onLoad={handleLoad}
-        {...restProps}
-      />
-      </Grid>
+      <Grid
+        container
+        justifyContent={isHigherRatio ? 'center' : 'start'}
+        sx={
+          isHigherRatio && {
+            borderRadius: '12px',
+            backgroundColor: (theme) => `${theme.palette.M900}AA`,
+            padding: (theme) => theme.spacing(2)
+          }
+        }
+      >
+        <Grid item>
+          <img
+            ref={imgRef}
+            src={src}
+            alt={alt}
+            onLoad={handleLoad}
+            {...restProps}
+          />
+        </Grid>
       </Grid>
     );
   }
@@ -90,7 +96,6 @@ const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
   return (
     <ErrorBoundary>
       <CloudinaryContext cloudName={cloudinaryName}>
-       
         <Image
           innerRef={imgRef}
           publicId={isUploadedToCloud ? postid : src}
@@ -105,11 +110,11 @@ const CldImg = ({ postid, src, alt, isWeb3Post, ...restProps }) => {
         >
           <Placeholder type="vectorize" />
           <Transformation quality="auto" fetchFormat="auto" />
-        </Image>     
+        </Image>
       </CloudinaryContext>
     </ErrorBoundary>
   );
-};
+}
 
 CldImg.propTypes = {
   postid: PropTypes.string,

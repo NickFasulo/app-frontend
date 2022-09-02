@@ -51,14 +51,14 @@ const styles = (theme) => ({
   }
 });
 
-const CollectionDuplicateDialog = ({
+function CollectionDuplicateDialog({
   collection,
   classes,
   dialogOpen,
   handleDialogClose,
   addCollectionToRedux,
   account
-}) => {
+}) {
   const [description, setDescription] = useState(collection.description);
   const [name, setName] = useState(collection.name);
   const [snackbarMsg, setSnackbarMsg] = useState('');
@@ -160,7 +160,7 @@ const CollectionDuplicateDialog = ({
       </YupDialog>
     </>
   );
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state);
@@ -169,12 +169,10 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapActionToProps = (dispatch) => {
-  return {
-    addCollectionToRedux: (eosname, collection) =>
-      dispatch(addUserCollection(eosname, collection))
-  };
-};
+const mapActionToProps = (dispatch) => ({
+  addCollectionToRedux: (eosname, collection) =>
+    dispatch(addUserCollection(eosname, collection))
+});
 
 CollectionDuplicateDialog.propTypes = {
   collection: PropTypes.string.isRequired,

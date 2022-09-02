@@ -25,7 +25,7 @@ const styles = (theme) => ({
   }
 });
 
-const HomeMenuLinkItem = ({ link, title, classes }) => {
+function HomeMenuLinkItem({ link, title, classes }) {
   return (
     <Grid item xs={6} md={3} className={classes.gridContainer}>
       <ConditionalLinkWrapper href={link} className={classes.link}>
@@ -47,7 +47,7 @@ const HomeMenuLinkItem = ({ link, title, classes }) => {
       </ConditionalLinkWrapper>
     </Grid>
   );
-};
+}
 
 HomeMenuLinkItem.propTypes = {
   title: PropTypes.string.isRequired,

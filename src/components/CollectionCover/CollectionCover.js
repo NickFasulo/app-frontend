@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { styled } from '@mui/material';
 import { FlexBox } from '../styles';
 import { useCollection } from '../../hooks/queries';
@@ -13,12 +14,13 @@ const CoverImageItem = styled(YupImage)(() => ({
   objectFit: 'cover'
 }));
 
-const CollectionCover = ({ id }) => {
+function CollectionCover({ id }) {
   const collection = useCollection(id);
   const allImages =
     collection?.posts
       .map((item) => item?.previewData?.img)
       .filter((img) => !!img) || [];
+
   const coverImages =
     allImages.length === 0
       ? [DEFAULT_IMAGE_PATH]
@@ -29,9 +31,9 @@ const CollectionCover = ({ id }) => {
 
   return (
     <FlexBox width="100%" height="100%">
-      {coverImages.map((img, idx) => (
+      {coverImages.map((img) => (
         <CoverImageItem
-          key={idx}
+          key={img}
           src={img}
           alt="Collection Cover"
           style={{
@@ -41,6 +43,6 @@ const CollectionCover = ({ id }) => {
       ))}
     </FlexBox>
   );
-};
+}
 
 export default withSuspense()(CollectionCover);

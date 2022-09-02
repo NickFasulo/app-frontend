@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Snackbar } from '@mui/material';
 
-const YupSnackbar = ({
+function YupSnackbar({
   open,
   width,
   autoHideDuration,
@@ -14,7 +14,7 @@ const YupSnackbar = ({
   leftAdornment,
   rightAdornment,
   ...restProps
-}) => {
+}) {
   return (
     <Snackbar
       open={open}
@@ -34,7 +34,7 @@ const YupSnackbar = ({
       {...restProps}
     />
   );
-};
+}
 
 YupSnackbar.propTypes = {
   open: PropTypes.bool,

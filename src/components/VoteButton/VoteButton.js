@@ -9,16 +9,11 @@ import SnackbarContent from '@mui/material/SnackbarContent';
 import numeral from 'numeral';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { levelColors } from '../../utils/colors';
 import Rating from '@mui/material/Rating';
 import equal from 'fast-deep-equal';
-import WelcomeDialog from '../WelcomeDialog/WelcomeDialog';
-import rollbar from '../../utils/rollbar';
 import isEqual from 'lodash/isEqual';
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import Fade from '@mui/material/Fade';
-import { YupButton } from '../Miscellaneous';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -35,6 +30,11 @@ import {
   useSpringRef
 } from '@react-spring/web';
 import { styled } from '@mui/material/styles';
+import { YupButton } from '../Miscellaneous';
+import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
+import rollbar from '../../utils/rollbar';
+import WelcomeDialog from '../WelcomeDialog/WelcomeDialog';
+import { levelColors } from '../../utils/colors';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';
 import useLongPress from '../../hooks/useLongPress';
@@ -130,14 +130,7 @@ StyledTooltip.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const PostStats = ({
-  classes,
-  isShown,
-  quantile,
-  theme,
-  totalVoters,
-  weight
-}) => {
+function PostStats({ classes, isShown, quantile, theme, totalVoters, weight }) {
   return (
     <Grid itemRef="">
       <Grid container spacing={0}>
@@ -160,7 +153,7 @@ const PostStats = ({
       </Grid>
     </Grid>
   );
-};
+}
 
 PostStats.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -186,7 +179,7 @@ const postStatStyles = (theme) => ({
 const StyledPostStats = withTheme(withStyles(postStatStyles)(PostStats));
 
 // TODO: Convert to functional component
-const VoteButton = ({
+function VoteButton({
   classes,
   postInfo,
   isShown,
@@ -194,13 +187,13 @@ const VoteButton = ({
   totalVoters,
   handleOnclick,
   catWeight,
-  rating=0,
+  rating = 0,
   isVoted,
   setLastClicked,
   lastClicked,
   web3Likes = 0,
   userInfluence
-}) => {
+}) {
   const account = useAuth();
   const { open: openAuthModal } = useAuthModal();
   const [isHovered, setIsHovered] = useState(false);
@@ -209,51 +202,48 @@ const VoteButton = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isLongPress, setIsLongPress] = useState(false);
   const [clickFinished, setClickFinished] = useState(false);
-console.log({userInfluence})
-  const onLongPress = (isPressed) =>{
-    if(account?.name){
-    setIsLongPress(isPressed)
+  console.log({ userInfluence });
+  const onLongPress = (isPressed) => {
+    if (account?.name) {
+      setIsLongPress(isPressed);
     }
-  }
+  };
   const onClick = () => {
-    if(account?.name){
-      setIsClicked(true)
-      setLastClicked()
+    if (account?.name) {
+      setIsClicked(true);
+      setLastClicked();
       handleOnclick();
     }
-  }
+  };
   const defaultOptions = {
     shouldPreventDefault: true,
-    delay: 200,
-};
+    delay: 200
+  };
   const longPress = useLongPress(onLongPress, onClick, defaultOptions);
-//Resets clickFinished so animation plays again next time
-  useEffect(()=>{
-    if(lastClicked!== type){
-      setIsClicked(false)
-      setClickFinished(false)
+  // Resets clickFinished so animation plays again next time
+  useEffect(() => {
+    if (lastClicked !== type) {
+      setIsClicked(false);
+      setClickFinished(false);
     }
-  },[rating])
+  }, [rating]);
 
   useEffect(() => {
     let interval;
     if (isLongPress && (!account || !account.name)) {
       openAuthModal({ noRedirect: true });
-    } else {
-      if (isLongPress) {
+    } else if (isLongPress) {
+      setLastClicked();
+      handleOnclick();
+      interval = setInterval(() => {
         setLastClicked();
         handleOnclick();
-        interval = setInterval(() => {
-          setLastClicked();
-          handleOnclick();
-        }, 500);
-      }
+      }, 500);
     }
     return () => clearInterval(interval);
   }, [isLongPress]);
 
   const ratingToMultiplier = () => {
-
     if (type === 'dislike') {
       if (rating === 1) {
         return 2;
@@ -267,16 +257,18 @@ console.log({userInfluence})
     const _weight = Math.round(weight);
     if (weight < 1000) {
       return numeral(_weight).format('0a');
-    } else if (weight < 10000) {
-      return numeral(_weight).format('0.00a');
-    } else {
-      return numeral(_weight).format('0.0a');
     }
+    if (weight < 10000) {
+      return numeral(_weight).format('0.00a');
+    }
+    return numeral(_weight).format('0.0a');
   };
 
-  //This resets mousedown for whatever reason...
+  // This resets mousedown for whatever reason...
   const transition = useTransition(
-    (isLongPress || isClicked) ? [rating!==0&&(rating*userInfluence).toFixed(0)] : [],
+    isLongPress || isClicked
+      ? [rating !== 0 && (rating * userInfluence).toFixed(0)]
+      : [],
     {
       config: { mass: 0.7, tension: 300, friction: 35, clamp: true },
       from: { top: 0, opacity: 0 },
@@ -304,29 +296,31 @@ console.log({userInfluence})
   });
   const { ...hardPressAnimation } = useSpring({
     config: { tension: 300, friction: 35 },
-    loop: { reverse: isLongPress  },
+    loop: { reverse: isLongPress },
     from: { width: '16px', height: '16px' },
 
     to: {
-      width: isLongPress  ? '14px' : '16px',
-      height: isLongPress  ? '14px' : '16px'
-    },
+      width: isLongPress ? '14px' : '16px',
+      height: isLongPress ? '14px' : '16px'
+    }
   });
-  
+
   const { ...clickAnimation } = useSpring({
     config: { tension: 300, friction: 35 },
     from: { width: '16px', height: '16px' },
     to: {
-      width: isVoted  ? '14px' : '16px',
+      width: isVoted ? '14px' : '16px',
       height: isVoted ? '14px' : '16px'
     },
     reverse: clickFinished,
-    onRest: ()=> {setClickFinished(true)}
+    onRest: () => {
+      setClickFinished(true);
+    }
   });
   const formattedWeight = totalVoters === 0 ? 0 : formatWeight(catWeight);
   const icon =
     type === 'like'
-      ? (isHovered ||  isVoted) && account && account.name
+      ? (isHovered || isVoted) && account && account.name
         ? faThumbsUpSolid
         : faThumbsUp
       : (isHovered || isVoted) && account && account.name
@@ -352,23 +346,27 @@ console.log({userInfluence})
             ...style
           }}
         >
-          {item&&(
-          <Grid item>
-            <Typography variant="label">x{item}</Typography>
-          </Grid>)}
+          {item && (
+            <Grid item>
+              <Typography variant="label">x{item}</Typography>
+            </Grid>
+          )}
         </animated.div>
       ))}
-      <Grid item sx={{ zIndex: '1000' }}
-          onMouseEnter={()=>setIsHovered(true)}
-          onMouseLeave={()=>setIsHovered(false)}>
-        <div
-          style={{ width: '18px', cursor: 'pointer' }}
-          {...longPress}
-        >
+      <Grid
+        item
+        sx={{ zIndex: '1000' }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div style={{ width: '18px', cursor: 'pointer' }} {...longPress}>
           {isLongPress || isVoted ? (
-            <>{isLongPress?(
-              <AnimatedIcon style={{ ...hardPressAnimation }} icon={icon} />):(
-                <AnimatedIcon style={{ ...clickAnimation }} icon={icon} />)}
+            <>
+              {isLongPress ? (
+                <AnimatedIcon style={{ ...hardPressAnimation }} icon={icon} />
+              ) : (
+                <AnimatedIcon style={{ ...clickAnimation }} icon={icon} />
+              )}
             </>
           ) : (
             <AnimatedIcon style={{ ...hover }} icon={icon} />
@@ -377,14 +375,14 @@ console.log({userInfluence})
       </Grid>
       <Grid xs={4} className={classes.postWeight} item>
         <StyledPostStats
-          totalVoters={totalVoters + web3Likes+rating}
+          totalVoters={totalVoters + web3Likes + rating}
           weight={Number(formattedWeight)}
           isShown={isShown}
         />
       </Grid>
     </Grid>
   );
-};
+}
 
 VoteButton.propTypes = {
   postid: PropTypes.string.isRequired,

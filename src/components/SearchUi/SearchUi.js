@@ -1,10 +1,10 @@
-import { SearchLayout, SearchUiHeader } from './styles';
 import { useState } from 'react';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
+import IconClose from '@mui/icons-material/Close';
+import { SearchLayout, SearchUiHeader } from './styles';
 import SearchInput from './SearchInput';
 import { YupContainer } from '../styles';
 import useDevice from '../../hooks/useDevice';
-import { Box, Grid, IconButton, Typography } from '@mui/material';
-import IconClose from '@mui/icons-material/Close';
 import YupPageTabs from '../YupPageTabs';
 import SearchPosts from './SearchPosts';
 import SearchPeople from './SearchPeople';
@@ -17,7 +17,7 @@ const SEARCH_TAB_IDS = {
   COLLECTIONS: 'collections'
 };
 
-const SearchUi = ({ onClose }) => {
+function SearchUi({ onClose }) {
   const { isMobile } = useDevice();
   const { headerHeight } = useAppLayout();
   const [selectedTab, setSelectedTab] = useState(SEARCH_TAB_IDS.POSTS);
@@ -108,6 +108,6 @@ const SearchUi = ({ onClose }) => {
         ))}
     </SearchLayout>
   );
-};
+}
 
 export default SearchUi;

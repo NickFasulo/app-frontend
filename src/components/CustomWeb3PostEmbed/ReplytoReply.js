@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
-import { parseText, linkMentions, fetchLinkPreviewData } from '../../utils/post_helpers';
+import {
+  parseText,
+  linkMentions,
+  fetchLinkPreviewData
+} from '../../utils/post_helpers';
 import LinkPreview from './LinkPreview';
 import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png';
 
-const Reply = ({ tweetData, classes }) => {
+function Reply({ tweetData, classes }) {
   const { user } = tweetData.tweetInfo;
   const { url } = tweetData;
   const [previewData, setPreviewData] = useState(null);
@@ -48,7 +52,10 @@ const Reply = ({ tweetData, classes }) => {
       : false;
   }
 
-  let mediaURL, mediaType, hasPhoto, hasVideo;
+  let mediaURL;
+  let mediaType;
+  let hasPhoto;
+  let hasVideo;
   if (hasMedia) {
     mediaURL = extendedEntities.media[0].media_url_https
       ? extendedEntities.media[0].media_url_https
@@ -70,10 +77,10 @@ const Reply = ({ tweetData, classes }) => {
     initialText = '';
   }
 
-  let tweetText = parseText(initialText);
+  const tweetText = parseText(initialText);
 
   // REPLYS
-  let replyExtendedEntities =
+  const replyExtendedEntities =
     tweetData.tweetInfo.reply_status &&
     tweetData.tweetInfo.reply_status.extended_entities
       ? tweetData.tweetInfo.reply_status.extended_entities
@@ -85,7 +92,10 @@ const Reply = ({ tweetData, classes }) => {
       : false;
   }
 
-  let replyMediaURL, replyMediaType, replyHasPhoto, replyHasVideo;
+  let replyMediaURL;
+  let replyMediaType;
+  let replyHasPhoto;
+  let replyHasVideo;
   if (replyHasMedia) {
     replyMediaURL = replyExtendedEntities.media[0].media_url_https
       ? replyExtendedEntities.media[0].media_url_https
@@ -115,15 +125,17 @@ const Reply = ({ tweetData, classes }) => {
     replyStatusText = '';
   }
 
-  let text = parseText(replyStatusText);
-  let replyTweetText = text.split(' ').map((string) => linkMentions(string));
+  const text = parseText(replyStatusText);
+  const replyTweetText = text.split(' ').map((string) => linkMentions(string));
 
   // REPLY CUSTOM HEADER STYLING CONFIG
-  const userAvatar = classes.userAvatar;
+  const { userAvatar } = classes;
   const twitterName = classes.replyTwitterName;
-  const twitterBirdIcon = classes.twitterBirdIcon;
+  const { twitterBirdIcon } = classes;
 
-  let replyScreenName, replyUserAvatar, replyName;
+  let replyScreenName;
+  let replyUserAvatar;
+  let replyName;
   if (tweetData.tweetInfo.reply_status) {
     replyScreenName = tweetData.tweetInfo.reply_status.user.screen_name;
     replyUserAvatar =
@@ -170,7 +182,7 @@ const Reply = ({ tweetData, classes }) => {
                   <img
                     className={userAvatar}
                     src={replyUserAvatar}
-                    alt="user image"
+                    alt="user"
                     onError={addDefaultSrc}
                   />
                 ) : (
@@ -260,7 +272,7 @@ const Reply = ({ tweetData, classes }) => {
                         ? 'https://api.faviconkit.com/twitter.com/128'
                         : replyMediaURL
                     }
-                    alt="tweet-image"
+                    alt="tweet"
                   />
                 </Grid>
               ) : (
@@ -302,7 +314,7 @@ const Reply = ({ tweetData, classes }) => {
                     {previewData && !replyHasMedia && !mediaURL && (
                       <Grid>
                         <LinkPreview
-                          size={'large'}
+                          size="large"
                           classes={classes}
                           description={previewData && previewData.description}
                           image={previewData && previewData.img}
@@ -320,7 +332,7 @@ const Reply = ({ tweetData, classes }) => {
                               ? 'https://api.faviconkit.com/twitter.com/128'
                               : mediaURL
                           }
-                          alt="tweet-image"
+                          alt="tweet"
                         />
                       </Typography>
                     ) : (
@@ -335,7 +347,7 @@ const Reply = ({ tweetData, classes }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 Reply.propTypes = {
   classes: PropTypes.object.isRequired,

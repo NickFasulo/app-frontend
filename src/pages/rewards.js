@@ -1,7 +1,7 @@
 import RewardsPage from '../_pages/RewardsPage/RewardsPage';
 
-const Rewards = () => {
+function Rewards() {
   return <RewardsPage />;
-};
+}
 
 export default Rewards;

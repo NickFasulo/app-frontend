@@ -2,19 +2,17 @@ import React from 'react';
 import { Link, Typography, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
+function HeaderSection({ classes, user, tweetType, tweetLink, hideBird }) {
   let twitterBirdIcon;
 
   if (tweetType === 'retweet') {
     twitterBirdIcon = classes.retweetTwitterBirdIcon;
   } else if (tweetType === 'reply') {
     twitterBirdIcon = classes.twitterBirdIcon;
+  } else if (hideBird === true) {
+    twitterBirdIcon = classes.retweetTwitterBirdIcon;
   } else {
-    if (hideBird === true) {
-      twitterBirdIcon = classes.retweetTwitterBirdIcon;
-    } else {
-      twitterBirdIcon = classes.twitterBirdIcon;
-    }
+    twitterBirdIcon = classes.twitterBirdIcon;
   }
 
   const accountLink = `https://twitter.com/${user.screen_name}`;
@@ -62,7 +60,7 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
       </Grid>
     </Grid>
   );
-};
+}
 HeaderSection.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,

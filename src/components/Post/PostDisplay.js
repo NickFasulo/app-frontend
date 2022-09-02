@@ -2,8 +2,8 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import withStyles from '@mui/styles/withStyles';
-import PostController from './PostController';
 import CircularProgress from '@mui/material/CircularProgress';
+import PostController from './PostController';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import RecommendedPosts from '../RecommendedPosts';
 
@@ -55,11 +55,7 @@ function PostDisplay({ post, classes, isLoading }) {
   return (
     <ErrorBoundary>
       <div align="center" className={classes.container}>
-        <PostController
-          post={post}
-          hideInteractions
-          showFullPost
-        />
+        <PostController post={post} hideInteractions showFullPost />
       </div>
       <Typography variant="h6" sx={{ my: 2, width: '100%' }}>
         Recommended

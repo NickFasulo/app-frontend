@@ -2,7 +2,7 @@ import { Box, Grid } from '@mui/material';
 import useDevice from '../../hooks/useDevice';
 import { useAppLayout } from '../../contexts/AppLayoutContext';
 
-const GridLayout = ({ contentLeft, contentRight, noHideRightContent }) => {
+function GridLayout({ contentLeft, contentRight, noHideRightContent }) {
   const { isMobile } = useDevice();
   const { headerHeight } = useAppLayout();
 
@@ -31,6 +31,6 @@ const GridLayout = ({ contentLeft, contentRight, noHideRightContent }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default GridLayout;

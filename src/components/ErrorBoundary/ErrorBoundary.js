@@ -1,31 +1,33 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import rollbar from '../../utils/rollbar';
+import React from 'react';
+import rollbar from 'rollbar';
 
-const parseErr = (err) => (typeof err === 'object' ? JSON.stringify(err) : err);
-class ErrorBoundary extends Component {
-  state = {
-    error: false
-  };
-  componentDidCatch(error, errorInfo) {
-    this.setState({
-      error: error
-    });
-    console.log('Error boundary', errorInfo);
-    rollbar.error(
-      `WEBAPP: Error boundary error=${error} errorInfo=${parseErr(errorInfo)}`
-    );
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // Define a state variable to track whether is an error or not
+    this.state = { hasError: false };
   }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI
+    rollbar.error(`WEBAPP: Error boundary error=${error} }`);
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // You can use your own error logging service here
+    console.log({ error, errorInfo });
+  }
+
   render() {
-    if (this.state.error) {
-      return <div />;
+    // Check if the error is thrown
+    if (!this.state.hasError) {
+      return this.props.children;
     }
-    return this.props.children;
+
+    // Return children components in case of no error
   }
 }
-
-ErrorBoundary.propTypes = {
-  children: PropTypes.node
-};
 
 export default ErrorBoundary;

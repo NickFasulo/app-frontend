@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Link from '../Link';
 import { webAppUrl } from '../../config';
 
-const ConditionalLinkWrapper = ({ children, href, ...restProps }) => {
+function ConditionalLinkWrapper({ children, href, ...restProps }) {
   if (!href) return null;
   const isNativeYupPost = href.startsWith(webAppUrl) || href.startsWith('/');
   return isNativeYupPost ? (
@@ -15,7 +15,7 @@ const ConditionalLinkWrapper = ({ children, href, ...restProps }) => {
       {children}
     </a>
   );
-};
+}
 
 ConditionalLinkWrapper.propTypes = {
   children: PropTypes.object.isRequired,

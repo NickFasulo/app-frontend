@@ -7,7 +7,7 @@ import { MenuItemButton } from './styles';
 import Link from '../Link';
 import { isUrl } from '../../utils/helpers';
 
-const MainLink = ({ icon, text, to, onClick }) => {
+function MainLink({ icon, text, to, onClick }) {
   const { isMobile } = useDevice();
   const { open, closeSideBar, closeSearch } = useSideBar();
 
@@ -51,6 +51,6 @@ const MainLink = ({ icon, text, to, onClick }) => {
       </Grow>
     </MenuItemButton>
   );
-};
+}
 
 export default MainLink;

@@ -39,7 +39,7 @@ const styles = (theme) => ({
   }
 });
 
-const YupInput = ({
+function YupInput({
   classes,
   maxLength,
   fullWidth,
@@ -51,7 +51,7 @@ const YupInput = ({
   inputIsValid,
   endAdornment,
   ...restProps
-}) => {
+}) {
   const arrowEndAdornment = onSubmit ? (
     <InputAdornment position="end">
       <IconButton onClick={onSubmit} edge="end" size="large">
@@ -83,7 +83,7 @@ const YupInput = ({
       </FormHelperText>
     </FormControl>
   );
-};
+}
 
 YupInput.propTypes = {
   classes: PropTypes.object.isRequired,

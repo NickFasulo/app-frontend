@@ -7,14 +7,8 @@ const StyledReactPlayer = styled(ReactPlayer)(({ theme }) => ({
   }
 }));
 
-const VideoComponent = ({ url }) => {
-  return (
-    <StyledReactPlayer
-      url={url}
-      controls
-      width="100%"
-    />
-  );
-};
+function VideoComponent({ url }) {
+  return <StyledReactPlayer url={url} controls width="100%" />;
+}
 
 export default VideoComponent;

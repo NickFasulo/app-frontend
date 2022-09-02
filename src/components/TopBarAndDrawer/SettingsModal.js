@@ -2,7 +2,7 @@ import React from 'react';
 import { YupButton } from '../Miscellaneous';
 import YupDialog from '../Miscellaneous/YupDialog';
 
-const SettingsModal = ({ handleSettingsClose, settingsOpen, handleLogout }) => {
+function SettingsModal({ handleSettingsClose, settingsOpen, handleLogout }) {
   return (
     <YupDialog
       headline="Settings"
@@ -23,6 +23,6 @@ const SettingsModal = ({ handleSettingsClose, settingsOpen, handleLogout }) => {
       }
     />
   );
-};
+}
 
 export default SettingsModal;

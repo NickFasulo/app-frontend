@@ -11,7 +11,7 @@ import LeaderboardItem from '../LeaderboardItem';
 
 const LIST_PAGE_SIZE = 20;
 
-const FeedList = () => {
+function FeedList() {
   const { selectedPlatform, selectedSubject } = useFilters();
   const { data, hasNextPage, status, fetchNextPage } = useInfiniteQuery(
     [REACT_QUERY_KEYS.YUP_LIST, selectedPlatform, selectedSubject],
@@ -58,6 +58,6 @@ const FeedList = () => {
       ))}
     </InfiniteScroll>
   );
-};
+}
 
 export default FeedList;

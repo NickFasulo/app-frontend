@@ -72,14 +72,14 @@ const BorderLinearProgress = withStyles((theme) => ({
   }
 }))(LinearProgress);
 
-const BarChart = ({
+function BarChart({
   classes,
   chartData,
   chartTitle,
   color,
   unit,
   description
-}) => {
+}) {
   if (chartData) {
     const chart = {
       series: [
@@ -158,11 +158,7 @@ const BarChart = ({
                 className={classes.chart}
               >
                 <Grid item>
-                  <Typography
-                    align="left"
-                    style={{ color: color }}
-                    variant="h3"
-                  >
+                  <Typography align="left" style={{ color }} variant="h3">
                     {chartData.toFixed(0) + (unit || '')}
                   </Typography>
                 </Grid>
@@ -172,7 +168,7 @@ const BarChart = ({
                     className={classes.text}
                     variant="h5"
                     sx={{
-                      color: color
+                      color
                     }}
                   >
                     {chartTitle}
@@ -207,26 +203,25 @@ const BarChart = ({
         </Grid>
       </Card>
     );
-  } else {
-    return (
-      <Card className={`${classes.card}`}>
-        <div className="mixed-chart">
-          <Grid container justifyContent="start" direction="column">
-            <Grid item xs={12} className={classes.chartheader}>
-              <Typography align="left" variant="h4">
-                <Skeleton
-                  variant="text"
-                  animation="wave"
-                  className={classes.Skeleton}
-                />
-              </Typography>
-            </Grid>
-          </Grid>
-        </div>
-      </Card>
-    );
   }
-};
+  return (
+    <Card className={`${classes.card}`}>
+      <div className="mixed-chart">
+        <Grid container justifyContent="start" direction="column">
+          <Grid item xs={12} className={classes.chartheader}>
+            <Typography align="left" variant="h4">
+              <Skeleton
+                variant="text"
+                animation="wave"
+                className={classes.Skeleton}
+              />
+            </Typography>
+          </Grid>
+        </Grid>
+      </div>
+    </Card>
+  );
+}
 
 BarChart.propTypes = {
   classes: PropTypes.object.isRequired,

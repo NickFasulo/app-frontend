@@ -1,12 +1,12 @@
 import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
+import { Typography, Grid } from '@mui/material';
+import withStyles from '@mui/styles/withStyles';
 import VoteComp from '../VoteComp/VoteComp';
 import { levelColors } from '../../utils/colors';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { CollectionPostMenu } from '../Collections';
-import { Typography, Grid } from '@mui/material';
 
-import withStyles from '@mui/styles/withStyles';
 import PageLoadingBar from '../PageLoadingBar';
 
 const styles = (theme) => ({

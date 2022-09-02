@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { CloudinaryContext, Transformation, Video } from 'cloudinary-react';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ReactPlayer from 'react-player/lazy';
 import withStyles from '@mui/styles/withStyles';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { cloudinaryName } from '../../config';
 
 const ROOT_CLOUDINARY_URL = `https://res.cloudinary.com/yup-io/video/upload/`;
@@ -29,7 +29,7 @@ const styles = (theme) => ({
   }
 });
 
-const CldVid = ({ postid, src, classes, ...restProps }) => {
+function CldVid({ postid, src, classes, ...restProps }) {
   const isUploadedToCloud = src && src.startsWith(ROOT_CLOUDINARY_URL);
 
   if (!isUploadedToCloud) {
@@ -67,7 +67,7 @@ const CldVid = ({ postid, src, classes, ...restProps }) => {
       </CloudinaryContext>
     </ErrorBoundary>
   );
-};
+}
 
 CldVid.propTypes = {
   postid: PropTypes.string,

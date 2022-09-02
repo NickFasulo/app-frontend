@@ -53,7 +53,7 @@ const styles = (theme) => ({
   }
 });
 
-const RecommendedCollections = ({ classes, collection }) => {
+function RecommendedCollections({ classes, collection }) {
   const [hasLoaded, setHasLoaded] = useState(false);
   const { closeSearch } = useSideBar();
   const fmtCollectionName =
@@ -118,7 +118,11 @@ const RecommendedCollections = ({ classes, collection }) => {
             </Grid>
             <Grid item>
               <Typography noWrap variant="body2">
-                {!hasLoaded ? <Skeleton animation={false} /> : collection.owner}
+                {!hasLoaded ? (
+                  <Skeleton animation={false} />
+                ) : (
+                  collection.username
+                )}
               </Typography>
             </Grid>
           </Grid>
@@ -126,7 +130,7 @@ const RecommendedCollections = ({ classes, collection }) => {
       </Grid>
     </Link>
   );
-};
+}
 
 RecommendedCollections.propTypes = {
   classes: PropTypes.object.isRequired,
