@@ -1,7 +1,6 @@
 name: Lint
 
 on:
-  push:
   pull_request:
 
 jobs:
@@ -23,7 +22,6 @@ jobs:
         run: |
           echo "@fortawesome:registry=https://npm.fontawesome.com/" > .npmrc
           echo "//npm.fontawesome.com/:_authToken=${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}" >> .npmrc
-          cat .npmrc
           yarn install
 
       - name: Run Prettier
