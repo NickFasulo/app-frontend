@@ -42,7 +42,8 @@ export const REACT_QUERY_KEYS = {
   YUP_FEED: 'YUP_FEED',
   POST: ' POST',
   SCORE: ' SCORE',
-  ACCOUNT: 'ACCOUNT'
+  ACCOUNT: 'ACCOUNT',
+  LP_REWARDS: 'LP_REWARDS'
 };
 
 export const MUTATION_KEYS = {

@@ -302,3 +302,21 @@ export const usePostInteractions = (postid) => {
   );
   return data;
 };
+
+export const useLpRewards = (address) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.LP_REWARDS, address],
+    async () => {
+      if (!address) return null;
+      try {
+        return await callYupApi({
+          url: `/metrics/historic-lp-rewards/${address}`,
+          method: 'GET'
+        });
+      } catch {
+        return null;
+      }
+    }
+  );
+  return data;
+};
