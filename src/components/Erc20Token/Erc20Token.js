@@ -28,7 +28,7 @@ const ChainImage = styled(YupImage)(({ theme }) => ({
   transform: 'translate(5px, 5px)'
 }));
 
-const Erc20Token = ({ name, image, chain, chainImage, balance, balanceUSD }) => (
+const Erc20Token = ({ name, image, chain, chainImage, balance }) => (
   <TokenRoot>
     <Box position="relative" display="flex">
       <TokenImage src={image} alt={name} />
@@ -53,9 +53,6 @@ const Erc20Token = ({ name, image, chain, chainImage, balance, balanceUSD }) => 
     <Box>
       <Typography align="right">
         {convertTokenBalance(balance)}
-      </Typography>
-      <Typography align="right" sx={{ color: (theme) => theme.palette.M400 }}>
-        ${balanceUSD}
       </Typography>
     </Box>
   </TokenRoot>
