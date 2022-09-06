@@ -1,5 +1,6 @@
 import { Box, styled, Typography } from '@mui/material';
 import YupImage from '../YupImage';
+import { convertTokenBalance } from '../../utils/helpers';
 
 const TokenRoot = styled('div')(({ theme }) => ({
   border: `solid 1px ${theme.palette.M750}`,
@@ -52,7 +53,7 @@ const Erc20Token = ({ name, image, chain, chainImage, balance, balanceUSD }) => 
       </Box>
       <Box>
         <Typography align="right">
-          {balance}
+          {convertTokenBalance(balance)}
         </Typography>
         <Typography align="right" sx={{ color: (theme) => theme.palette.M400 }}>
           ${balanceUSD}
