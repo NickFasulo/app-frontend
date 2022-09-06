@@ -17,7 +17,6 @@ import { accountInfoSelector } from '../../redux/selectors';
 import { apiBaseUrl, yupCreator } from '../../config';
 import YupLink from '../YupLink';
 import { usePostInteractions, useYupAccount } from '../../hooks/queries';
-import withSuspense from '../../hoc/withSuspense';
 
 const styles = (theme) => ({
   interactionBar: {
@@ -57,11 +56,13 @@ const styles = (theme) => ({
 });
 
 const PostHeader = ({ postid, classes, hideInteractions, }) => {
-  const { postInteractions } = usePostInteractions(postid)
+  const postInteractions = usePostInteractions(postid)
+  if (!postInteractions?.length > 0) return
   const vote = postInteractions?.[0];
   const account = useYupAccount(vote?.voter)
-  if (!account) return
   const formattedVoteTime = moment(vote.timestamp, 'x').fromNow(true);
+
+  if (!account) return
 
   const voterQuantile = account.quantile;
   const voterLevelColor = voterQuantile
@@ -80,6 +81,7 @@ const PostHeader = ({ postid, classes, hideInteractions, }) => {
       voterIsTracked
       ? voterTwitterUsername
       : voterUsername || vote.voter;
+  console.log({ account }, voterAvatar)
 
   const VoterHeader = (props) => (
     <Grid container direction="row" alignItems="center">
@@ -176,5 +178,5 @@ PostHeader.propTypes = {
 };
 
 export default
-  withSuspense()(withRouter(withStyles(styles)(PostHeader))
+  withRouter(withStyles(styles)(PostHeader)
   );

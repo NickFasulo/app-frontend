@@ -104,7 +104,8 @@ export const useUserPosts = (userId) =>
     }
   );
 
-export const useSearchPosts = (query) => {
+export const useSearchPosts = (query = '') => {
+
   const searchQuery = query
     .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')
     .replace(/[^a-zA-Z'@ ]/g, '');
