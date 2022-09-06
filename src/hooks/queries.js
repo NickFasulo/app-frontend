@@ -300,3 +300,22 @@ export const useRefetchPostPreview = (post, id) => {
 
   return data;
 };
+
+export const usePostInteractions = (postid) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.YUP_POSTINTERACTIONS, postid],
+    async () => {
+
+      if (!postid) return []
+      try {
+        return await callYupApi({
+          url: `/posts/interactions/${postid}`,
+          method: 'POST'
+        })
+      } catch {
+        return []
+      }
+    }
+  );
+  return data;
+};
