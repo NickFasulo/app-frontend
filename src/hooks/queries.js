@@ -36,25 +36,18 @@ export const useRecommendation = (params) => {
 export const useInitialVotes = (postid, voter) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.YUP_INITIAL_VOTES, postid, voter],
-    () =>
-      callYupApi({
-        url: `/votes/post/${postid}/voter/${voter}`,
-        method: 'GET'
-      })
+    async () => {
+      if (!postid || !voter) return [];
+      try {
+        return await callYupApi({
+          url: `/votes/post/${postid}/voter/${voter}`,
+          method: 'GET'
+        });
+      } catch {
+        return [];
+      }
+    }
   );
-  return data;
-};
-
-export const useSocialLevel = (voter) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, voter], () => {
-    if (!voter) return null;
-
-    return callYupApi({
-      url: `/levels/user/${voter}`,
-      method: 'GET'
-    });
-  });
-
   return data;
 };
 
@@ -101,7 +94,7 @@ export const useUserPosts = (userId) =>
     }
   );
 
-export const useSearchPosts = (query) => {
+export const useSearchPosts = (query = '') => {
   const searchQuery = query
     .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')
     .replace(/[^a-zA-Z'@ ]/g, '');
@@ -268,5 +261,44 @@ export const useYupAccount = (userId) => {
     })
   );
 
+  return data;
+};
+
+export const useRefetchPostPreview = (post, id) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.POST_REFETCH_PREVIEW, id],
+    async () => {
+      if (
+        Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 >
+        Date.now()
+      )
+        return null;
+
+      return callYupApi({
+        url: '/posts/re-fetch/preview',
+        method: 'POST',
+        data: { postid: id }
+      });
+    }
+  );
+
+  return data;
+};
+
+export const usePostInteractions = (postid) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.YUP_POSTINTERACTIONS, postid],
+    async () => {
+      if (!postid) return [];
+      try {
+        return await callYupApi({
+          url: `/posts/interactions/${postid}`,
+          method: 'POST'
+        });
+      } catch {
+        return [];
+      }
+    }
+  );
   return data;
 };

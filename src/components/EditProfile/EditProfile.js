@@ -13,25 +13,13 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import YupDialog from '../Miscellaneous/YupDialog';
 import { YupButton, YupInput } from '../Miscellaneous';
 import UserAvatar from '../UserAvatar/UserAvatar';
-import {
-  updateAccountInfo,
-  updateEthAuthInfo,
-  fetchSocialLevel
-} from '../../redux/actions';
-import {
-  apiGetChallenge,
-  apiSetETHAddress,
-  apiUploadProfileImage,
-  apiVerifyChallenge
-} from '../../apis';
+import { updateAccountInfo } from '../../redux/actions';
+import { apiUploadProfileImage } from '../../apis';
 import useToast from '../../hooks/useToast';
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
 import useStyles from './styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
-import useEthAuth from '../../hooks/useEthAuth';
 import useYupAccount from '../../hooks/useAccount';
 import withSuspense from '../../hoc/withSuspense';
-import { useSocialLevel } from '../../hooks/queries';
 import { useAuth } from '../../contexts/AuthContext';
 // TODO: Refactor styling to Mui v5
 function EditProfile({ open: modalOpen, onClose }) {

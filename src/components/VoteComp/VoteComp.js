@@ -11,7 +11,6 @@ import rollbar from '../../utils/rollbar';
 import { createVote, editVote, deleteVote } from '../../apis';
 import { FlexBox } from '../styles';
 import { windowExists } from '../../utils/helpers';
-import withSuspense from '../../hoc/withSuspense';
 import { useAuth } from '../../contexts/AuthContext';
 import useAccount from '../../hooks/useAccount';
 
@@ -371,4 +370,4 @@ VoteComp.defaultProps = {
   voterWeight: 0
 };
 
-export default withSuspense()(VoteComp);
+export default VoteComp;

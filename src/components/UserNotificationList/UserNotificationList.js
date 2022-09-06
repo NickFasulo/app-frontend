@@ -1,6 +1,6 @@
 import { List, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useSocialLevel, useUserNotifications } from '../../hooks/queries';
+import { useYupAccount, useUserNotifications } from '../../hooks/queries';
 import NotificationItem from './NotificationItem';
 import withSuspense from '../../hoc/withSuspense';
 import { LOADER_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
@@ -15,7 +15,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 function UserNotificationList() {
   const { username, userId, authInfo } = useAuth();
-  const profile = useSocialLevel(username);
+  const profile = useYupAccount(username);
   const notifications = useUserNotifications(userId) || [];
   const [showEthLinkNotification, setShowEthLinkNotification] = useState(false);
 

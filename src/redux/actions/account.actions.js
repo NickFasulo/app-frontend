@@ -1,8 +1,7 @@
+import axios from 'axios';
 import { accountConstants as constants } from '../constants';
 import scatter from '../../eos/scatter/scatter.wallet';
-import { editVote } from '../../apis';
-import axios from 'axios';
-import { apiGetAccount, editProfile } from '../../apis';
+import { editVote, apiGetAccount, editProfile } from '../../apis';
 import { AUTH_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
 import { apiBaseUrl } from '../../config';
 import { queryClient } from '../../config/react-query';
@@ -55,8 +54,8 @@ export function fetchAuthInfo(accountName) {
           authInfo = {
             authType: AUTH_TYPE.ETH,
             eosname: account.eosname,
-            address: address,
-            signature: signature
+            address,
+            signature
           };
         } catch (err) {
           localStorage.removeItem('YUP_ETH_AUTH');

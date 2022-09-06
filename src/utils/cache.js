@@ -4,11 +4,11 @@ export async function getCache(dbName, expirationTime) {
   try {
     const db = await openDB(dbName, 1);
     // Get all the articles in date order:
-    let expiration = (await db.getAllFromIndex('expiration', 'timestamp'))[0]
+    const expiration = (await db.getAllFromIndex('expiration', 'timestamp'))[0]
       .timestamp;
     if (!expiration || new Date().getTime() - expiration > expirationTime)
       return;
-    let data = await db.getAllFromIndex(dbName, 'id');
+    const data = await db.getAllFromIndex(dbName, 'id');
     return data;
   } catch (e) {
     console.log(e);

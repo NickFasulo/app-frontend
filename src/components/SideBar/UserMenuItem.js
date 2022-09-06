@@ -3,7 +3,7 @@ import { formatWeight, formatDecimal } from '../../utils/helpers';
 import { StyledProfileAvatar } from '../TopBarAndDrawer/StyledProfileAvatar';
 import { levelColors } from '../../utils/colors';
 import { MENU_ANIMATION_DURATION } from '../../constants/const';
-import { useSocialLevel } from '../../hooks/queries';
+import { useYupAccount } from '../../hooks/queries';
 import { withCustomSuspense } from '../../hoc/withSuspense';
 import useDevice from '../../hooks/useDevice';
 import { useSideBar } from './SideBarContext';
@@ -16,7 +16,7 @@ function UserMenuItem() {
   const { open, closeSideBar, closeSearch } = useSideBar();
   const { isDesktop } = useDevice();
   const { username } = useAuth();
-  const profile = useSocialLevel(username);
+  const profile = useYupAccount(username);
 
   return (
     <MenuItemButton

@@ -349,9 +349,8 @@ class UserAnalytics extends Component {
       try {
         const { username } = this.props;
 
-        const account = (
-          await axios.get(`${apiBaseUrl}/levels/user/${username}`)
-        ).data;
+        const account = (await axios.get(`${apiBaseUrl}/accounts/${username}`))
+          .data;
         this.setState({ isLoading: false, account });
         this.ratingPower(account);
         this.getDistributions(account._id);
