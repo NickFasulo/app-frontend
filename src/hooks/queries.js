@@ -46,51 +46,36 @@ export const useInitialVotes = (postid, voter) => {
 };
 
 export const useSocialLevel = (voter) => {
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, voter],
-    async () => {
-      if (!voter) return null;
+  const { data } = useQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, voter], () => {
+    if (!voter) return null;
 
-      try {
-        return await callYupApi({
-          url: `/levels/user/${voter}`,
-          method: 'GET'
-        });
-      } catch {
-        return null;
-      }
-    }
-  );
+    return callYupApi({
+      url: `/levels/user/${voter}`,
+      method: 'GET'
+    });
+  });
 
   return data;
 };
 
 export const useFollowings = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], async () => {
-    try {
-      return await callYupApi({
-        method: 'GET',
-        url: `/following/${id}`
-      });
-    } catch {
-      return [];
-    }
-  });
+  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], () =>
+    callYupApi({
+      method: 'GET',
+      url: `/following/${id}`
+    })
+  );
 
   return data;
 };
 
 export const useFollowers = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWER, id], async () => {
-    try {
-      return await callYupApi({
-        method: 'GET',
-        url: `/v2/followers/${id}`
-      });
-    } catch {
-      return [];
-    }
-  });
+  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWER, id], () =>
+    callYupApi({
+      method: 'GET',
+      url: `/v2/followers/${id}`
+    })
+  );
 
   return data;
 };
@@ -179,14 +164,12 @@ export const useUserCollections = (userId) => {
     async () => {
       if (!userId) return [];
 
-      try {
-        return await callYupApi({
+      return (
+        (await callYupApi({
           method: 'GET',
           url: `/accounts/${userId}/collections`
-        });
-      } catch {
-        return [];
-      }
+        })) || []
+      );
     }
   );
 
@@ -196,17 +179,13 @@ export const useUserCollections = (userId) => {
 export const useUserNotifications = (username) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.USER_NOTIFICATIONS, username],
-    async () => {
+    () => {
       if (!username) return [];
 
-      try {
-        return await callYupApi({
-          method: 'GET',
-          url: `/notifications/${username}`
-        });
-      } catch {
-        return null;
-      }
+      return callYupApi({
+        method: 'GET',
+        url: `/notifications/${username}`
+      });
     }
   );
 
@@ -260,7 +239,7 @@ export const useFetchFeed = ({ feedType }) =>
   );
 
 export const usePost = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.POST, id], async () => {
+  const { data } = useQuery([REACT_QUERY_KEYS.POST, id], () => {
     if (!id) return null;
 
     return callYupApi({
@@ -283,15 +262,11 @@ export const useScore = (address) => {
 };
 
 export const useYupAccount = (userId) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.ACCOUNT, userId], async () => {
-    try {
-      return await callYupApi({
-        url: `/accounts/${userId}`
-      });
-    } catch {
-      return null;
-    }
-  });
+  const { data } = useQuery([REACT_QUERY_KEYS.ACCOUNT, userId], () =>
+    callYupApi({
+      url: `/accounts/${userId}`
+    })
+  );
 
   return data;
 };
