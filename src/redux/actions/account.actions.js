@@ -74,7 +74,7 @@ export function fetchAuthInfo(accountName) {
 
           authInfo.address =
             account && account.ethInfo && account.ethInfo.address;
-        } catch (err) { }
+        } catch (err) {}
       }
 
       dispatch(success(authInfo));

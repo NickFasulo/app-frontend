@@ -55,18 +55,19 @@ const styles = (theme) => ({
   }
 });
 
-const PostHeader = ({ postid, classes, hideInteractions, }) => {
-  const postInteractions = usePostInteractions(postid)
-  if (!postInteractions?.length > 0) return
+const PostHeader = ({ postid, classes, hideInteractions }) => {
+  const postInteractions = usePostInteractions(postid);
+  if (!postInteractions?.length > 0) return;
   const vote = postInteractions?.[0];
-  const account = useYupAccount(vote?.voter)
+  const account = useYupAccount(vote?.voter);
   const formattedVoteTime = moment(vote.timestamp, 'x').fromNow(true);
 
-  if (!account) return
+  if (!account) return;
 
   const voterQuantile = account.quantile;
   const voterLevelColor = voterQuantile
-    ? levelColors[voterQuantile] : levelColors.sixth;
+    ? levelColors[voterQuantile]
+    : levelColors.sixth;
 
   const voterAvatar = account.avatar;
   const voterUsername = account.username;
@@ -77,11 +78,10 @@ const PostHeader = ({ postid, classes, hideInteractions, }) => {
   const voterTwitterUsername = account?.twitterInfo?.username || '';
 
   const headerDisplayName =
-    voterIsMirror &&
-      voterIsTracked
+    voterIsMirror && voterIsTracked
       ? voterTwitterUsername
       : voterUsername || vote.voter;
-  console.log({ account }, voterAvatar)
+  console.log({ account }, voterAvatar);
 
   const VoterHeader = (props) => (
     <Grid container direction="row" alignItems="center">
@@ -169,7 +169,7 @@ const PostHeader = ({ postid, classes, hideInteractions, }) => {
       </div>
     </ErrorBoundary>
   );
-}
+};
 PostHeader.propTypes = {
   postid: PropTypes.string.isRequired,
   hideInteractions: PropTypes.bool,
@@ -177,6 +177,4 @@ PostHeader.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default
-  withRouter(withStyles(styles)(PostHeader)
-  );
+export default withRouter(withStyles(styles)(PostHeader));

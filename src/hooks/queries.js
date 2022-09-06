@@ -37,21 +37,19 @@ export const useInitialVotes = (postid, voter) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.YUP_INITIAL_VOTES, postid, voter],
     async () => {
-
-      if (!postid || !voter) return []
+      if (!postid || !voter) return [];
       try {
         return await callYupApi({
           url: `/votes/post/${postid}/voter/${voter}`,
           method: 'GET'
-        })
+        });
       } catch {
-        return []
+        return [];
       }
     }
   );
   return data;
 };
-
 
 export const useFollowings = (id) => {
   const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], () =>
@@ -97,7 +95,6 @@ export const useUserPosts = (userId) =>
   );
 
 export const useSearchPosts = (query = '') => {
-
   const searchQuery = query
     .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')
     .replace(/[^a-zA-Z'@ ]/g, '');
@@ -221,8 +218,9 @@ export const useFetchFeed = ({ feedType }) =>
     [REACT_QUERY_KEYS.YUP_FEED, feedType],
     ({ pageParam = 0 }) =>
       callYupApi({
-        url: `/feed/${isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
-          }${feedType}?start=${pageParam}&limit=10`,
+        url: `/feed/${
+          isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
+        }${feedType}?start=${pageParam}&limit=10`,
         method: 'GET'
       }),
     {
@@ -270,14 +268,17 @@ export const useRefetchPostPreview = (post, id) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.POST_REFETCH_PREVIEW, id],
     async () => {
-      if (Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 > Date.now()) return null
+      if (
+        Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 >
+        Date.now()
+      )
+        return null;
 
       return callYupApi({
         url: '/posts/re-fetch/preview',
         method: 'POST',
         data: { postid: id }
       });
-
     }
   );
 
@@ -288,15 +289,14 @@ export const usePostInteractions = (postid) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.YUP_POSTINTERACTIONS, postid],
     async () => {
-
-      if (!postid) return []
+      if (!postid) return [];
       try {
         return await callYupApi({
           url: `/posts/interactions/${postid}`,
           method: 'POST'
-        })
+        });
       } catch {
-        return []
+        return [];
       }
     }
   );

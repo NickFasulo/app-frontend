@@ -77,7 +77,8 @@ const PostHOC = (props) => {
               postType={postType}
               hideInteractions={hideInteractions}
               author={author}
-            />)}
+            />
+          )}
           <div className={classes.article}>
             <Component {...props} />
             <Typography className={classes.postUrlHeader} variant="h6">
@@ -103,7 +104,7 @@ const PostHOC = (props) => {
       </Fade>
     </ErrorBoundary>
   );
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state);

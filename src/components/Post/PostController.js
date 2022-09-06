@@ -138,10 +138,15 @@ function isEventPost(tag) {
   return eventPattern.test(tag);
 }
 
-const PostController = ({ classes, post, hideInteractions, renderObjects, showFullPost }) => {
-  useRefetchPostPreview(post, post._id.postid)
+const PostController = ({
+  classes,
+  post,
+  hideInteractions,
+  renderObjects,
+  showFullPost
+}) => {
+  useRefetchPostPreview(post, post._id.postid);
   if (!post) return null;
-
 
   const isTextPost =
     (post.imgHash == null || post.imgHash.trim() === '') &&
@@ -576,8 +581,7 @@ const PostController = ({ classes, post, hideInteractions, renderObjects, showFu
       />
     </ErrorBoundary>
   );
-
-}
+};
 
 PostController.propTypes = {
   post: PropTypes.object.isRequired,

@@ -13,12 +13,8 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import YupDialog from '../Miscellaneous/YupDialog';
 import { YupButton, YupInput } from '../Miscellaneous';
 import UserAvatar from '../UserAvatar/UserAvatar';
-import {
-  updateAccountInfo,
-} from '../../redux/actions';
-import {
-  apiUploadProfileImage,
-} from '../../apis';
+import { updateAccountInfo } from '../../redux/actions';
+import { apiUploadProfileImage } from '../../apis';
 import useToast from '../../hooks/useToast';
 import useStyles from './styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';

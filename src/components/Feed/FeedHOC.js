@@ -89,7 +89,6 @@ function FeedHOC({ feedType }) {
     logPageView(feedType);
   }, [feedType]);
 
-
   if (data.pages.length === 0) {
     return (
       <div align="center">

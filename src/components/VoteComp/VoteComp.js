@@ -370,4 +370,4 @@ VoteComp.defaultProps = {
   voterWeight: 0
 };
 
-export default (VoteComp);
+export default VoteComp;
