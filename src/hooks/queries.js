@@ -218,9 +218,8 @@ export const useFetchFeed = ({ feedType }) =>
     [REACT_QUERY_KEYS.YUP_FEED, feedType],
     ({ pageParam = 0 }) =>
       callYupApi({
-        url: `/feed/${
-          isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
-        }${feedType}?start=${pageParam}&limit=10`,
+        url: `/feed/${isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
+          }${feedType}?start=${pageParam}&limit=10`,
         method: 'GET'
       }),
     {
@@ -297,6 +296,24 @@ export const usePostInteractions = (postid) => {
         });
       } catch {
         return [];
+      }
+    }
+  );
+  return data;
+};
+
+export const useLpRewards = (address) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.LP_REWARDS, address],
+    async () => {
+      if (!address) return null;
+      try {
+        return await callYupApi({
+          url: `/metrics/historic-lp-rewards/${address}`,
+          method: 'GET'
+        });
+      } catch {
+        return null;
       }
     }
   );
