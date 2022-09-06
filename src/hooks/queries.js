@@ -320,3 +320,24 @@ export const useLpRewards = (address) => {
   );
   return data;
 };
+
+export const useCollectionPosts = (id) =>
+  useInfiniteQuery(
+    [REACT_QUERY_KEYS.COLLECTION_POSTS, id],
+    ({ pageParam = 0 }) =>
+      callYupApi({
+        url: `/collection/posts/${id}`,
+        params: {
+          start: pageParam,
+          limit: DEFAULT_FEED_PAGE_SIZE
+        }
+      }),
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (!lastPage?.length) return undefined;
+
+        return sum(pages.map((page) => page.length || 0));
+      }
+    }
+  )
+;
