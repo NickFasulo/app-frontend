@@ -10,35 +10,33 @@ const BadgeContainer = styled('div')(({ theme }) => ({
   borderRadius: 16
 }));
 
-const PoapBadge = ({ image, text, link }) => {
-  return (
-    <Link href={link} target="_blank">
-      <BadgeContainer>
-        <FlexBox sx={{ justifyContent: 'center' }}>
-          <YupImage
-            src={image}
-            alt={text}
-            style={{
-              width: '50%',
-              height: 'auto',
-              borderRadius: '100%'
-            }}
-          />
-        </FlexBox>
-        <TruncateText
-          align="center"
-          lines={2}
-          sx={{
-            mt: 4,
-            lineHeight: `20px`,
-            height: 40
+const PoapBadge = ({ image, text, link }) => (
+  <Link href={link} target="_blank">
+    <BadgeContainer>
+      <FlexBox sx={{ justifyContent: 'center' }}>
+        <YupImage
+          src={image}
+          alt={text}
+          style={{
+            width: '50%',
+            height: 'auto',
+            borderRadius: '100%'
           }}
-        >
-          {text}
-        </TruncateText>
-      </BadgeContainer>
-    </Link>
-  );
-};
+        />
+      </FlexBox>
+      <TruncateText
+        align="center"
+        lines={2}
+        sx={{
+          mt: 4,
+          lineHeight: `20px`,
+          height: 40
+        }}
+      >
+        {text}
+      </TruncateText>
+    </BadgeContainer>
+  </Link>
+);
 
 export default PoapBadge;

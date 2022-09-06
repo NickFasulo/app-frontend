@@ -41,45 +41,43 @@ const VerifiedImage = styled(YupImage)(({ theme }) => ({
   bottom: 0
 }));
 
-const NftCard = ({ image, collectionName, collectionImage, link, verified }) => {
-  return (
-    <Link href={link} target="_blank">
-      <CardContainer>
-        <YupImage
-          src={image}
-          alt={collectionName}
-          style={{
-            width: '100%',
-            aspectRatio: 1,
-            borderRadius: 16,
-            objectFit: 'contain'
-          }}
-        />
-        <CaptionContainer>
-          <Box position="relative">
-            <CollectionImage
-              src={convertIPFSSrcToHttps(collectionImage)}
-              alt={collectionName}
+const NftCard = ({ image, collectionName, collectionImage, link, verified }) => (
+  <Link href={link} target="_blank">
+    <CardContainer>
+      <YupImage
+        src={image}
+        alt={collectionName}
+        style={{
+          width: '100%',
+          aspectRatio: 1,
+          borderRadius: 16,
+          objectFit: 'contain'
+        }}
+      />
+      <CaptionContainer>
+        <Box position="relative">
+          <CollectionImage
+            src={convertIPFSSrcToHttps(collectionImage)}
+            alt={collectionName}
+          />
+          {verified && (
+            <VerifiedImage
+              src="/images/icons/nft_verified.svg"
+              alt="Verified NFT"
             />
-            {verified && (
-              <VerifiedImage
-                src="/images/icons/nft_verified.svg"
-                alt="Verified NFT"
-              />
-            )}
-          </Box>
-          <TruncateText
-            lines={2}
-            sx={{
-              lineHeight: '20px',
-            }}
-          >
-            {collectionName}
-          </TruncateText>
-        </CaptionContainer>
-      </CardContainer>
-    </Link>
-  );
-};
+          )}
+        </Box>
+        <TruncateText
+          lines={2}
+          sx={{
+            lineHeight: '20px',
+          }}
+        >
+          {collectionName}
+        </TruncateText>
+      </CaptionContainer>
+    </CardContainer>
+  </Link>
+);
 
 export default NftCard;

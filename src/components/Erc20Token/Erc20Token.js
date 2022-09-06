@@ -28,39 +28,37 @@ const ChainImage = styled(YupImage)(({ theme }) => ({
   transform: 'translate(5px, 5px)'
 }));
 
-const Erc20Token = ({ name, image, chain, chainImage, balance, balanceUSD }) => {
-  return (
-    <TokenRoot>
-      <Box position="relative" display="flex">
-        <TokenImage src={image} alt={name} />
-        {chainImage && (
-          <ChainImage src={chainImage} alt={chain} />
-        )}
-      </Box>
-      <Box flexGrow={1}>
-        <Typography variant="h6">
-          {name}
+const Erc20Token = ({ name, image, chain, chainImage, balance, balanceUSD }) => (
+  <TokenRoot>
+    <Box position="relative" display="flex">
+      <TokenImage src={image} alt={name} />
+      {chainImage && (
+        <ChainImage src={chainImage} alt={chain} />
+      )}
+    </Box>
+    <Box flexGrow={1}>
+      <Typography variant="h6">
+        {name}
+      </Typography>
+      {chain && (
+        <Typography
+          sx={{
+            color: (theme) => theme.palette.M400
+          }}
+        >
+          {chain.toUpperCase()}
         </Typography>
-        {chain && (
-          <Typography
-            sx={{
-              color: (theme) => theme.palette.M400
-            }}
-          >
-            {chain.toUpperCase()}
-          </Typography>
-        )}
-      </Box>
-      <Box>
-        <Typography align="right">
-          {convertTokenBalance(balance)}
-        </Typography>
-        <Typography align="right" sx={{ color: (theme) => theme.palette.M400 }}>
-          ${balanceUSD}
-        </Typography>
-      </Box>
-    </TokenRoot>
-  );
-};
+      )}
+    </Box>
+    <Box>
+      <Typography align="right">
+        {convertTokenBalance(balance)}
+      </Typography>
+      <Typography align="right" sx={{ color: (theme) => theme.palette.M400 }}>
+        ${balanceUSD}
+      </Typography>
+    </Box>
+  </TokenRoot>
+);
 
 export default Erc20Token;
