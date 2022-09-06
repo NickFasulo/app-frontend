@@ -2,7 +2,11 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import sum from 'lodash/sum';
 import { REACT_QUERY_KEYS } from '../constants/enum';
 import callYupApi from '../apis/base_api';
-import { DEFAULT_FEED_PAGE_SIZE, DEFAULT_SEARCH_SIZE, isStaging } from '../config';
+import {
+  DEFAULT_FEED_PAGE_SIZE,
+  DEFAULT_SEARCH_SIZE,
+  isStaging
+} from '../config';
 import { FEED_CATEGORIES } from '../constants/data';
 
 export const useCollection = (id) => {
@@ -42,25 +46,21 @@ export const useInitialVotes = (postid, voter) => {
 };
 
 export const useSocialLevel = (voter) => {
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, voter],
-    () => {
-      if (!voter) return null;
+  const { data } = useQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, voter], () => {
+    if (!voter) return null;
 
-      return callYupApi({
-        url: `/levels/user/${voter}`,
-        method: 'GET'
-      });
-    }
-  );
+    return callYupApi({
+      url: `/levels/user/${voter}`,
+      method: 'GET'
+    });
+  });
 
   return data;
 };
 
 export const useFollowings = (id) => {
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.FOLLOWING, id],
-    () => callYupApi({
+  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], () =>
+    callYupApi({
       method: 'GET',
       url: `/following/${id}`
     })
@@ -70,9 +70,8 @@ export const useFollowings = (id) => {
 };
 
 export const useFollowers = (id) => {
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.FOLLOWER, id],
-    () => callYupApi({
+  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWER, id], () =>
+    callYupApi({
       method: 'GET',
       url: `/v2/followers/${id}`
     })
@@ -165,10 +164,12 @@ export const useUserCollections = (userId) => {
     async () => {
       if (!userId) return [];
 
-      return await callYupApi({
-        method: 'GET',
-        url: `/accounts/${userId}/collections`
-      }) || [];
+      return (
+        (await callYupApi({
+          method: 'GET',
+          url: `/accounts/${userId}/collections`
+        })) || []
+      );
     }
   );
 
@@ -238,8 +239,7 @@ export const useFetchFeed = ({ feedType }) =>
   );
 
 export const usePost = (id) => {
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.POST, id],() => {
+  const { data } = useQuery([REACT_QUERY_KEYS.POST, id], () => {
     if (!id) return null;
 
     return callYupApi({
@@ -262,9 +262,8 @@ export const useScore = (address) => {
 };
 
 export const useYupAccount = (userId) => {
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.ACCOUNT, userId],
-    () => callYupApi({
+  const { data } = useQuery([REACT_QUERY_KEYS.ACCOUNT, userId], () =>
+    callYupApi({
       url: `/accounts/${userId}`
     })
   );
