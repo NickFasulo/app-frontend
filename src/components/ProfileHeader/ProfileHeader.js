@@ -48,8 +48,8 @@ function ProfileHeader({ profile, hidden }) {
     balance
   } = profile;
   const { isLoggedIn, name: authName } = useAuth();
-  const followings = useFollowings(id);
-  const followers = useFollowers(id);
+  const followings = useFollowings(id) || [];
+  const followers = useFollowers(id) || [];
   const likeCount = useUserLikes(id);
   const { data: ensName } = useEnsName({
     address: ethInfo?.address,
