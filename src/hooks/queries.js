@@ -326,7 +326,7 @@ export const useCollectionPosts = (id) =>
     [REACT_QUERY_KEYS.COLLECTION_POSTS, id],
     ({ pageParam = 0 }) =>
       callYupApi({
-        url: `/collection/posts/${id}`,
+        url: `/collections/posts/${id}`,
         params: {
           start: pageParam,
           limit: DEFAULT_FEED_PAGE_SIZE
@@ -334,7 +334,7 @@ export const useCollectionPosts = (id) =>
       }),
     {
       getNextPageParam: (lastPage, pages) => {
-        if (!lastPage?.length) return undefined;
+        if ((lastPage?.length || 0) < DEFAULT_FEED_PAGE_SIZE) return undefined;
 
         return sum(pages.map((page) => page.length || 0));
       }
