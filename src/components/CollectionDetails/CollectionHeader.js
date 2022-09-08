@@ -1,4 +1,4 @@
-import { Container, Menu, MenuItem, Typography } from '@mui/material';
+import { Menu, MenuItem, Typography } from '@mui/material';
 import { faShare, faCopy, faBars } from '@fortawesome/pro-solid-svg-icons';
 import React, { useState } from 'react';
 import { FlexBox, YupContainer } from '../styles';
@@ -9,8 +9,7 @@ import ActionIcon from '../ActionIcon';
 import useToast from '../../hooks/useToast';
 import {
   CollectionDuplicateDialog,
-  CollectionEditDialog,
-  CollectionReorderDialog
+  CollectionEditDialog
 } from '../Collections';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -20,7 +19,6 @@ function CollectionHeader({ collection, minimized }) {
   const account = useAuth();
   const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [reorderModalOpen, setReorderModalOpen] = useState(false);
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
   const { isLoggedIn, userId } = account;
@@ -83,16 +81,6 @@ function CollectionHeader({ collection, minimized }) {
         >
           Edit
         </MenuItem>
-        {/*{postIds.length > 0 && (*/}
-        {/*  <MenuItem*/}
-        {/*    onClick={() => {*/}
-        {/*      setMenuAnchorEl(null);*/}
-        {/*      setReorderModalOpen(true);*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    Reorder*/}
-        {/*  </MenuItem>*/}
-        {/*)}*/}
       </Menu>
 
       {/* Modal Definition */}
@@ -109,12 +97,6 @@ function CollectionHeader({ collection, minimized }) {
         account={account}
         dialogOpen={editModalOpen}
         handleDialogClose={() => setEditModalOpen(false)}
-      />
-
-      <CollectionReorderDialog
-        handleDialogClose={() => setReorderModalOpen(false)}
-        collection={collection}
-        dialogOpen={reorderModalOpen}
       />
     </YupContainer>
   );

@@ -12,7 +12,7 @@ import { FEED_CATEGORIES } from '../constants/data';
 export const useCollection = (id) => {
   const { data } = useQuery([REACT_QUERY_KEYS.YUP_COLLECTION, id], () =>
     callYupApi({
-      url: `/collections/name/${id}`,
+      url: `/collections/name-v2/${id}`,
       method: 'GET'
     })
   );
