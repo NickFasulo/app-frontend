@@ -8,13 +8,12 @@ import { LOADER_TYPE } from '../../constants/enum';
 
 function CollectionThumbnail({ url }) {
   const segments = url.split('/');
-  const collection = useCollection(segments[5]);
-  const { posts } = collection;
-  const thumbnails = posts.map((item) => item?.previewData?.img);
+  const collection = useCollection(segments[5]) || {};
+  const { images } = collection;
 
   return (
     <LeaderboardItemThumbnailRoot>
-      <LeaderboardItemThumbnailImage src={thumbnails} />
+      <LeaderboardItemThumbnailImage src={images || []} />
     </LeaderboardItemThumbnailRoot>
   );
 }

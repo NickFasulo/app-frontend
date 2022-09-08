@@ -1,4 +1,4 @@
-import { Container, Menu, MenuItem, Typography } from '@mui/material';
+import { Menu, MenuItem, Typography } from '@mui/material';
 import { faShare, faCopy, faBars } from '@fortawesome/pro-solid-svg-icons';
 import React, { useState } from 'react';
 import { FlexBox, YupContainer } from '../styles';
@@ -9,8 +9,7 @@ import ActionIcon from '../ActionIcon';
 import useToast from '../../hooks/useToast';
 import {
   CollectionDuplicateDialog,
-  CollectionEditDialog,
-  CollectionReorderDialog
+  CollectionEditDialog
 } from '../Collections';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -20,10 +19,9 @@ function CollectionHeader({ collection, minimized }) {
   const account = useAuth();
   const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [reorderModalOpen, setReorderModalOpen] = useState(false);
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
-  const { isLoggedIn, username } = account;
+  const { isLoggedIn, userId } = account;
 
   const handleShare = async () => {
     // eslint-disable-next-line no-restricted-globals
@@ -31,15 +29,14 @@ function CollectionHeader({ collection, minimized }) {
     toastSuccess('Copied collection to clipboard');
   };
 
-  const { name, owner, ownerId, posts } = collection;
-  const logoPath = posts?.[0]?.previewData?.img;
-  const isMyCollection = username === ownerId;
+  const { name, owner, ownerId, images } = collection;
+  const isMyCollection = userId === ownerId;
 
   return (
     <YupContainer sx={{ pb: 3 }}>
       <HeaderRoot>
         <Logo
-          src={[logoPath, DEFAULT_IMAGE_PATH]}
+          src={[...(images || []), DEFAULT_IMAGE_PATH]}
           alt={name}
           size={minimized ? 'small' : 'large'}
         />
@@ -84,16 +81,6 @@ function CollectionHeader({ collection, minimized }) {
         >
           Edit
         </MenuItem>
-        {posts.length > 0 && (
-          <MenuItem
-            onClick={() => {
-              setMenuAnchorEl(null);
-              setReorderModalOpen(true);
-            }}
-          >
-            Reorder
-          </MenuItem>
-        )}
       </Menu>
 
       {/* Modal Definition */}
@@ -110,12 +97,6 @@ function CollectionHeader({ collection, minimized }) {
         account={account}
         dialogOpen={editModalOpen}
         handleDialogClose={() => setEditModalOpen(false)}
-      />
-
-      <CollectionReorderDialog
-        handleDialogClose={() => setReorderModalOpen(false)}
-        collection={collection}
-        dialogOpen={reorderModalOpen}
       />
     </YupContainer>
   );
