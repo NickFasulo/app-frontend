@@ -12,7 +12,7 @@ import { FEED_CATEGORIES } from '../constants/data';
 export const useCollection = (id) => {
   const { data } = useQuery([REACT_QUERY_KEYS.YUP_COLLECTION, id], () =>
     callYupApi({
-      url: `/collections/name/${id}`,
+      url: `/collections/name-v2/${id}`,
       method: 'GET'
     })
   );
@@ -320,3 +320,23 @@ export const useLpRewards = (address) => {
   );
   return data;
 };
+
+export const useCollectionPosts = (id) =>
+  useInfiniteQuery(
+    [REACT_QUERY_KEYS.COLLECTION_POSTS, id],
+    ({ pageParam = 0 }) =>
+      callYupApi({
+        url: `/collections/posts/${id}`,
+        params: {
+          start: pageParam,
+          limit: DEFAULT_FEED_PAGE_SIZE
+        }
+      }),
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if ((lastPage?.length || 0) < DEFAULT_FEED_PAGE_SIZE) return undefined;
+
+        return sum(pages.map((page) => page.length || 0));
+      }
+    }
+  );
