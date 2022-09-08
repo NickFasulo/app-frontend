@@ -11,7 +11,6 @@ import PostController from '../Post/PostController';
 
 import useStyles from './FeedHOCStyles';
 import { logPageView } from '../../utils/analytics';
-import callYupApi from '../../apis/base_api';
 import { useFetchFeed } from '../../hooks/queries';
 import withSuspense from '../../hoc/withSuspense';
 
@@ -21,24 +20,14 @@ function FeedHOC({ feedType }) {
 
   const {
     data,
-    error,
+    // error,
     fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    hasPreviousPage,
-    status
+    // hasNextPage,
+    // isFetching,
+    // isFetchingNextPage,
+    // hasPreviousPage,
+    // status
   } = useFetchFeed({ feedType });
-  console.log({
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    hasPreviousPage,
-    status
-  });
   const calcPostLength = () => {
     if (data) {
       data.pages.map((page) => {
