@@ -16,11 +16,7 @@ const Badges = ({ data }) => {
           <Grid container spacing={3}>
             {data.map(({ description, image, link }) => (
               <Grid key={description} item xs={6} sm={4} md={6} lg={4}>
-                <PoapBadge
-                  image={image}
-                  text={description}
-                  link={link}
-                />
+                <PoapBadge image={image} text={description} link={link} />
               </Grid>
             ))}
           </Grid>
@@ -40,9 +36,7 @@ const Badges = ({ data }) => {
           )}
         </>
       ) : (
-        <Typography>
-          You don't have any badges earned yet.
-        </Typography>
+        <Typography>You don't have any badges earned yet.</Typography>
       )}
     </>
   );

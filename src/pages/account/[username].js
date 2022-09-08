@@ -26,7 +26,7 @@ import UserNewConnections from '../../components/UserNewConnections';
 import Link from '../../components/Link';
 import YupHead from '../../components/YupHead';
 import RecommendedPosts from '../../components/RecommendedPosts';
-import UserWallet from '../../components/UserWallet'
+import UserWallet from '../../components/UserWallet';
 import callYupApi from '../../apis/base_api';
 import { useAuth } from '../../contexts/AuthContext';
 

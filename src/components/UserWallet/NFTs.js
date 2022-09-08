@@ -14,17 +14,25 @@ const NFTs = ({ data }) => {
       {data?.length > 0 ? (
         <>
           <Grid container spacing={3}>
-            {(showAll ? data : data.slice(0, 2)).map(({ imageURI, collectionName, collectionImageURI, verified, link }) => (
-              <Grid key={imageURI} item xs={12} sm={6}>
-                <NftCard
-                  image={imageURI}
-                  collectionName={collectionName}
-                  collectionImage={collectionImageURI}
-                  link={link}
-                  verified={verified}
-                />
-              </Grid>
-            ))}
+            {(showAll ? data : data.slice(0, 2)).map(
+              ({
+                imageURI,
+                collectionName,
+                collectionImageURI,
+                verified,
+                link
+              }) => (
+                <Grid key={imageURI} item xs={12} sm={6}>
+                  <NftCard
+                    image={imageURI}
+                    collectionName={collectionName}
+                    collectionImage={collectionImageURI}
+                    link={link}
+                    verified={verified}
+                  />
+                </Grid>
+              )
+            )}
           </Grid>
           {data.length > 2 && (
             <FlexBox justifyContent="flex-end">
@@ -42,9 +50,7 @@ const NFTs = ({ data }) => {
           )}
         </>
       ) : (
-        <Typography>
-          You don't have any NFTs.
-        </Typography>
+        <Typography>You don't have any NFTs.</Typography>
       )}
     </>
   );

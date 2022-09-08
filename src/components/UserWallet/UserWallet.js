@@ -13,18 +13,14 @@ const UserWallet = ({ ethAddress }) => {
   return (
     <>
       <GridLayout
-        contentLeft={(
+        contentLeft={
           <Box>
-            {isMobile && (
-              <Tokens data={tokens} />
-            )}
+            {isMobile && <Tokens data={tokens} />}
             <Badges data={poaps} />
             <NFTs data={nfts} />
           </Box>
-        )}
-        contentRight={(
-          <Tokens data={tokens} />
-        )}
+        }
+        contentRight={<Tokens data={tokens} />}
       />
     </>
   );

@@ -41,7 +41,13 @@ const VerifiedImage = styled(YupImage)(({ theme }) => ({
   bottom: 0
 }));
 
-const NftCard = ({ image, collectionName, collectionImage, link, verified }) => (
+const NftCard = ({
+  image,
+  collectionName,
+  collectionImage,
+  link,
+  verified
+}) => (
   <Link href={link} target="_blank">
     <CardContainer>
       <YupImage
@@ -70,7 +76,7 @@ const NftCard = ({ image, collectionName, collectionImage, link, verified }) => 
         <TruncateText
           lines={2}
           sx={{
-            lineHeight: '20px',
+            lineHeight: '20px'
           }}
         >
           {collectionName}
