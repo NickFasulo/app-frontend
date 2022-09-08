@@ -21,7 +21,7 @@ function FeedHOC({ feedType }) {
   const {
     data,
     // error,
-    fetchNextPage,
+    fetchNextPage
     // hasNextPage,
     // isFetching,
     // isFetchingNextPage,
