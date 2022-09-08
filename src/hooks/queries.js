@@ -339,5 +339,4 @@ export const useCollectionPosts = (id) =>
         return sum(pages.map((page) => page.length || 0));
       }
     }
-  )
-;
+  );

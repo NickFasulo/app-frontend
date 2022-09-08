@@ -14,7 +14,9 @@ function CollectionPostList({ id, name }) {
     return data.pages.flat().filter((item) => item?._id.postid);
   }, [data]);
 
-  const isPostAllFetched = data.pages?.length > 0 && data.pages[data.pages.length - 1].length < DEFAULT_FEED_PAGE_SIZE;
+  const isPostAllFetched =
+    data.pages?.length > 0 &&
+    data.pages[data.pages.length - 1].length < DEFAULT_FEED_PAGE_SIZE;
 
   return (
     <>

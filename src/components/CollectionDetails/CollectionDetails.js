@@ -64,7 +64,9 @@ function CollectionDetails({ id }) {
             )
           ) : (
             <GridLayout
-              contentLeft={<CollectionPostList id={id} name={collection.name} />}
+              contentLeft={
+                <CollectionPostList id={id} name={collection.name} />
+              }
               contentRight={
                 <>
                   <Typography variant="h6" sx={{ pb: 1 }}>
