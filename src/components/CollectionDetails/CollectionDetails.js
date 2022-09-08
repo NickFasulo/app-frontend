@@ -27,6 +27,11 @@ function CollectionDetails({ id }) {
 
   const isTabMode = !isDesktop;
 
+  if (!collection) {
+    // TODO: Replace with NOT FOUND page.
+    return <div />;
+  }
+
   return (
     <>
       <YupHead
