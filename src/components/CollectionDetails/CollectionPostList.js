@@ -2,7 +2,6 @@ import { Typography } from '@mui/material';
 import RecommendedPosts from '../RecommendedPosts';
 import { useCollectionPosts } from '../../hooks/queries';
 import { useMemo } from 'react';
-import flatten from 'lodash/flatten';
 import InfinitePosts from '../InfinitePosts/InfinitePosts';
 import { DEFAULT_FEED_PAGE_SIZE } from '../../config';
 
@@ -12,7 +11,7 @@ function CollectionPostList({ id, name }) {
   const posts = useMemo(() => {
     if (!data) return [];
 
-    return flatten(data.pages).filter((item) => item?._id.postid);
+    return data.pages.flat().filter((item) => item?._id.postid);
   }, [data]);
 
   const isPostAllFetched = data.pages?.length > 0 && data.pages[data.pages.length - 1].length < DEFAULT_FEED_PAGE_SIZE;
