@@ -26,18 +26,20 @@ const NFTs = ({ data }) => {
               </Grid>
             ))}
           </Grid>
-          <FlexBox justifyContent="flex-end">
-            <Button
-              sx={{
-                width: 100,
-                mt: 1
-              }}
-              color="inherit"
-              onClick={() => setShowAll(!showAll)}
-            >
-              {showAll ? 'See less...' : 'See more...'}
-            </Button>
-          </FlexBox>
+          {data.length > 2 && (
+            <FlexBox justifyContent="flex-end">
+              <Button
+                sx={{
+                  width: 100,
+                  mt: 1
+                }}
+                color="inherit"
+                onClick={() => setShowAll(!showAll)}
+              >
+                {showAll ? 'See less...' : 'See more...'}
+              </Button>
+            </FlexBox>
+          )}
         </>
       ) : (
         <Typography>

@@ -180,7 +180,7 @@ function UserAccountPage() {
           </YupContainer>
         )}
         {selectedTab === PROFILE_TAB_IDS.WALLET && (
-          <YupContainer>
+          <YupContainer sx={{ py: 3 }}>
             <UserWallet ethAddress={ethInfo?.address} />
           </YupContainer>
         )}

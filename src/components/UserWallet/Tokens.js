@@ -6,8 +6,8 @@ const Tokens = ({ data }) => (
     <Typography variant="h6" sx={{ mb: 2 }}>
       Tokens
     </Typography>
-    <Grid container spacing={1.5}>
-      {data.map(({ name, image, chain, chainImage, balance, balanceUSD }) => (
+    <Grid container spacing={1.5} sx={{ mb: 3 }}>
+      {data.map(({ name, symbol, image, chain, chainImage, balance, balanceUSD }) => (
         <Grid key={name} item xs={12}>
           <Erc20Token
             name={name}
@@ -16,6 +16,7 @@ const Tokens = ({ data }) => (
             chainImage={chainImage}
             balance={balance}
             balanceUSD={balanceUSD}
+            symbol={symbol}
           />
         </Grid>
       ))}

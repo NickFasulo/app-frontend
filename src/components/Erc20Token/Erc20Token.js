@@ -7,7 +7,7 @@ const TokenRoot = styled('div')(({ theme }) => ({
   backgroundColor: `${theme.palette.M900}88`,
   padding: theme.spacing(2.5),
   display: 'flex',
-  gap: theme.spacing(3),
+  gap: theme.spacing(2),
   borderRadius: 16,
   alignItems: 'center'
 }));
@@ -28,7 +28,7 @@ const ChainImage = styled(YupImage)(({ theme }) => ({
   transform: 'translate(5px, 5px)'
 }));
 
-const Erc20Token = ({ name, image, chain, chainImage, balance }) => (
+const Erc20Token = ({ name, image, chain, symbol, chainImage, balance }) => (
   <TokenRoot>
     <Box position="relative" display="flex">
       <TokenImage src={image} alt={name} />
@@ -52,7 +52,7 @@ const Erc20Token = ({ name, image, chain, chainImage, balance }) => (
     </Box>
     <Box>
       <Typography align="right">
-        {convertTokenBalance(balance)}
+        {convertTokenBalance(balance)} {symbol}
       </Typography>
     </Box>
   </TokenRoot>
