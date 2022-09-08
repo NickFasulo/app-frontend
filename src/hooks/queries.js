@@ -340,3 +340,13 @@ export const useCollectionPosts = (id) =>
       }
     }
   );
+
+export const useWalletInfo = (ethAddress) => {
+  const { data } = useQuery([REACT_QUERY_KEYS.WALLET_INFO, ethAddress], () =>
+    callYupApi({
+      url: `/profile/${ethAddress}`
+    })
+  );
+
+  return data;
+};

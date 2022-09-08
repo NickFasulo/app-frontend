@@ -85,3 +85,5 @@ export const isYoutubeUrl = (url) => {
 };
 
 export const getInitial = (name) => name?.toUpperCase().substring(0, 1);
+
+export const convertTokenBalance = (balance) => Number(balance).toFixed(4);
