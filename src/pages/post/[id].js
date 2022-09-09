@@ -14,6 +14,7 @@ import { usePost } from '../../hooks/queries';
 import withSuspense from '../../hoc/withSuspense';
 import { LOADER_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
 import callYupApi from '../../apis/base_api';
+import PostCard from '../../components/PostCard/PostCard';
 
 function PostDetails() {
   const router = useRouter();
@@ -32,7 +33,7 @@ function PostDetails() {
         <YupContainer>
           <GridLayout
             contentLeft={<PostDisplay post={post} />}
-            contentRight={<FeedCategoryList />}
+            contentRight={<PostCard post={post} />}
           />
           <CreateCollectionFab />
         </YupContainer>
