@@ -1,4 +1,6 @@
-import { Avatar, Chip, Grid, Stack, styled } from "@mui/material"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Avatar, Chip, Grid, Icon, Stack, styled } from "@mui/material"
+import { faLink, faPlus, faFlag, faStar } from "@fortawesome/pro-regular-svg-icons"
 import useAccount from "../../hooks/useAccount"
 import ThumbnailIcon from "../CustomWeb3PostEmbed/ThumbnailIcon"
 import VoteComp from "../VoteComp/VoteComp"
@@ -8,6 +10,9 @@ const Card = styled(Grid)(({ theme }) => ({
     border: `1px solid ${theme.palette.M750}`,
     borderRadius: "16px",
     padding: '20px'
+}))
+const YupChip = styled(Chip)(({ theme }) => ({
+    padding: '1rem 0.5rem'
 }))
 
 function PostCard({ post }) {
@@ -34,15 +39,18 @@ function PostCard({ post }) {
                             <Grid container direction='column' rowSpacing={1}  >
                                 <Grid item>
                                     <Stack direction="row" spacing={1}>
-                                        <Chip avatar={<ThumbnailIcon protocol={post?.web3Preview?.protocol} />}
-                                            label="Chip Filled" component="a" href="#basic-chip" clickable />
-                                        <Chip label="Chip Filled" component="a" href="#basic-chip" clickable />
-                                        <Chip label="Chip Filled" component="a" href="#basic-chip" clickable />
+                                        <YupChip avatar={<ThumbnailIcon protocol={post?.web3Preview?.protocol} />}
+                                            label="Source" component="a" href={post.url} clickable />
+                                        <YupChip avatar={<FontAwesomeIcon icon={faLink} />} label="Some other link" component="a" href="#basic-chip" clickable />
+
+                                        <YupChip avatar={<FontAwesomeIcon icon={faPlus} />} label="Collect" component="a" href="#basic-chip" clickable />
                                     </Stack>
                                 </Grid>
-                                <Grid item><Stack direction="row" spacing={1}>
-                                    <Chip label="Chip Filled" />
-                                </Stack>
+                                <Grid item>
+                                    <Stack direction="row" spacing={1}>
+                                        <YupChip avatar={<FontAwesomeIcon icon={faFlag} />} label="Report" clickable />
+                                        <YupChip avatar={<FontAwesomeIcon icon={faStar} />} label="Something else" clickable />
+                                    </Stack>
                                 </Grid>
 
                             </Grid>
