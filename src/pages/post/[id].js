@@ -32,7 +32,9 @@ function PostDetails() {
   const metaOg = {};
   const metaTwitter = {};
   const metaOther = {};
-  let metaTitle, metaDescription, metaImage;
+  let metaTitle;
+  let metaDescription;
+  let metaImage;
 
   if (isWeb3) {
     const { web3Preview = {} } = post;
