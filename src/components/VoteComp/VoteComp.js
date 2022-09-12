@@ -90,7 +90,7 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
   }, [newRating, lastClicked]);
 
   useEffect(() => {
-    // if (shouldSubmit) handleDefaultVote();
+    if (shouldSubmit) handleDefaultVote();
   }, [shouldSubmit]);
 
   useEffect(() => {

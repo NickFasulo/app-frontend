@@ -267,7 +267,7 @@ function VoteButton({
   // This resets mousedown for whatever reason...
   const transition = useTransition(
     isLongPress || isClicked
-      ? [rating !== 0 && (rating * userInfluence).toFixed(0)]
+      ? [rating !== 0 && (rating)]
       : [],
     {
       config: { mass: 0.7, tension: 300, friction: 35, clamp: true },
@@ -324,8 +324,8 @@ function VoteButton({
         ? faThumbsUpSolid
         : faThumbsUp
       : (isHovered || isVoted) && account && account.name
-      ? faThumbsDownSolid
-      : faThumbsDown;
+        ? faThumbsDownSolid
+        : faThumbsDown;
   return (
     <Grid
       container
@@ -375,7 +375,7 @@ function VoteButton({
       </Grid>
       <Grid xs={4} className={classes.postWeight} item>
         <StyledPostStats
-          totalVoters={totalVoters + web3Likes + rating}
+          totalVoters={totalVoters + web3Likes + (rating * userInfluence.toFixed(0))}
           weight={Number(formattedWeight)}
           isShown={isShown}
         />
