@@ -280,7 +280,9 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
 
   return (
     <ErrorBoundary>
-      <FlexBox sx={{ columnGap: (theme) => theme.spacing(3), maxWidth: '100px' }} >
+      <FlexBox
+        sx={{ columnGap: (theme) => theme.spacing(3), maxWidth: '100px' }}
+      >
         <VoteButton
           userInfluence={account?.weight}
           category={category}
@@ -342,7 +344,7 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
           web3Likes={getWeb3Dislikes(postInfo)}
         />
       </FlexBox>
-    </ErrorBoundary >
+    </ErrorBoundary>
   );
 }
 

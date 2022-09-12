@@ -18,7 +18,7 @@ const styles = (theme) => ({
   article: {
     background: theme.palette.M900,
     border: `1px solid ${theme.palette.M750}`,
-    borderRadius: "16px",
+    borderRadius: '16px',
     overflow: 'hidden',
     backdropFilter: 'blur(24px)',
     boxShadow: `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
