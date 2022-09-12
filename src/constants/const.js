@@ -8,6 +8,8 @@ export const DEFAULT_NOTIFICATION_URL =
 
 export const COLLECTION_COVER_IMAGE_COUNT = 4;
 
+export const COMPANY_NAME = 'Yup';
+
 export const TUTORIAL_VISIBLE_PERIOD = 30 * 1000;
 export const MENU_ANIMATION_DURATION = 500;
 export const ETH_NOTIFICATION_INTERVAL = 3 * 24 * 60 * 60 * 1000;
