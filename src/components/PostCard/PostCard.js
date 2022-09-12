@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Avatar, Chip, Grid, Icon, Stack, styled } from "@mui/material"
+import { Avatar, Chip, Grid, Icon, Stack, styled, Typography } from "@mui/material"
 import { faLink, faPlus, faFlag, faStar } from "@fortawesome/pro-regular-svg-icons"
 import useAccount from "../../hooks/useAccount"
 import ThumbnailIcon from "../CustomWeb3PostEmbed/ThumbnailIcon"
@@ -14,7 +14,14 @@ const Card = styled(Grid)(({ theme }) => ({
 const YupChip = styled(Chip)(({ theme }) => ({
     padding: '1rem 0.5rem'
 }))
+const YupLabel = styled(Typography)(({ theme }) => ({
+    color: theme.palette.M400,
+}))
 
+const StyledIcon = styled(Typography)(({ theme }) => ({
+    width: '20px',
+    height: '20px'
+}))
 function PostCard({ post }) {
     const { account } = useAccount()
     console.log({ account })
@@ -36,21 +43,37 @@ function PostCard({ post }) {
                         </Grid>
 
                         <Grid item>
-                            <Grid container direction='column' rowSpacing={1}  >
+                            <Grid container direction='column' spacing={1}>
                                 <Grid item>
-                                    <Stack direction="row" spacing={1}>
-                                        <YupChip avatar={<ThumbnailIcon protocol={post?.web3Preview?.protocol} />}
-                                            label="Source" component="a" href={post.url} clickable />
-                                        <YupChip avatar={<FontAwesomeIcon icon={faLink} />} label="Some other link" component="a" href="#basic-chip" clickable />
+                                    <Grid container spacing={1}>
+                                        <Grid item>
+                                            <YupChip avatar={<ThumbnailIcon protocol={post?.web3Preview?.protocol} />}
+                                                label={<YupLabel variant='body2' >Source</YupLabel>} component="a" href={post.url} clickable />
+                                        </Grid>
 
-                                        <YupChip avatar={<FontAwesomeIcon icon={faPlus} />} label="Collect" component="a" href="#basic-chip" clickable />
-                                    </Stack>
+                                        <Grid item>
+                                            <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faLink} />}
+                                                label={<YupLabel variant='body2' >Some other link</YupLabel>}
+                                                component="a" href="#basic-chip" clickable />
+                                        </Grid>
+
+                                        <Grid item>
+                                            <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faPlus} />}
+                                                label={<YupLabel variant='body2' >Collect</YupLabel>}
+                                                component="a" href="#basic-chip" clickable />
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                                 <Grid item>
-                                    <Stack direction="row" spacing={1}>
-                                        <YupChip avatar={<FontAwesomeIcon icon={faFlag} />} label="Report" clickable />
-                                        <YupChip avatar={<FontAwesomeIcon icon={faStar} />} label="Something else" clickable />
-                                    </Stack>
+                                    <Grid container spacing={1}>
+
+                                        <Grid item>
+                                            <YupChip avatar={<FontAwesomeIcon style={{ width: '16px', height: '16px' }} icon={faFlag} />} label={<YupLabel variant='body2' >Report</YupLabel>} clickable />
+                                        </Grid>
+                                        <Grid item>
+                                            <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faStar} />} label={<YupLabel variant='body2' >Something else</YupLabel>} clickable />
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
 
                             </Grid>
