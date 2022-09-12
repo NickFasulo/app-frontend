@@ -1,5 +1,6 @@
 import numeral from 'numeral';
 import moment from 'moment';
+import { webAppUrl } from '../config';
 
 const EMAIL_RE =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i;
@@ -87,3 +88,10 @@ export const isYoutubeUrl = (url) => {
 export const getInitial = (name) => name?.toUpperCase().substring(0, 1);
 
 export const convertTokenBalance = (balance) => Number(balance).toFixed(4);
+
+export const isWeb3Post = (tag) => ['farcaster', 'lens'].includes(tag);
+
+export const summarizeContent = (content) =>
+  (content || '').split(' ').slice(0, 20).join(' ');
+
+export const getAbsolutePath = (relPath) => `${webAppUrl}${relPath}`;
