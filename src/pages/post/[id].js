@@ -83,7 +83,7 @@ function PostDetails() {
         <YupContainer>
           <GridLayout
             contentLeft={<PostDisplay post={post} />}
-            contentRight={<PostCard post={post} />}
+            contentRight={<FeedCategoryList />}
           />
           <CreateCollectionFab />
         </YupContainer>
