@@ -26,13 +26,16 @@ import UserNewConnections from '../../components/UserNewConnections';
 import Link from '../../components/Link';
 import YupHead from '../../components/YupHead';
 import RecommendedPosts from '../../components/RecommendedPosts';
+import UserWallet from '../../components/UserWallet';
 import callYupApi from '../../apis/base_api';
+import { useAuth } from '../../contexts/AuthContext';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
   ANALYTICS: 'analytics',
   COLLECTIONS: 'collections',
-  PEOPLE: 'people'
+  PEOPLE: 'people',
+  WALLET: 'wallet'
 };
 
 function UserAccountPage() {
@@ -42,6 +45,7 @@ function UserAccountPage() {
   const profile = useYupAccount(username);
   const collections = useUserCollections(profile?._id);
   const { windowScrolled } = useAppUtils();
+  const { username: loggedInUsername } = useAuth();
 
   const [selectedTab, setSelectedTab] = useState(PROFILE_TAB_IDS.PROFILE);
 
@@ -83,11 +87,16 @@ function UserAccountPage() {
     );
   }
 
-  const { avatar, quantile } = profile;
+  const { avatar, quantile, ethInfo } = profile;
+  const isMyProfile = username === loggedInUsername;
   const tabs = [
     { label: 'Profile', value: PROFILE_TAB_IDS.PROFILE },
     { label: 'Analytics', value: PROFILE_TAB_IDS.ANALYTICS }
   ];
+
+  if (isMyProfile && ethInfo?.address) {
+    tabs.push({ label: 'Wallet', value: PROFILE_TAB_IDS.WALLET });
+  }
 
   if (isMobile) {
     if (collections.length > 0) {
@@ -168,6 +177,11 @@ function UserAccountPage() {
         {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (
           <YupContainer sx={{ py: 3 }}>
             <UserAnalytics username={username} />
+          </YupContainer>
+        )}
+        {selectedTab === PROFILE_TAB_IDS.WALLET && (
+          <YupContainer sx={{ py: 3 }}>
+            <UserWallet ethAddress={ethInfo?.address} />
           </YupContainer>
         )}
       </YupPageWrapper>

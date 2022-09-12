@@ -26,7 +26,7 @@ function ArticlePost(props) {
           <FullArticle
             description={web3Preview?.content}
             createdAt={createdAt}
-            writerENS={web3Preview?.creator.ens}
+            writerENS={web3Preview?.creator?.ens}
             image={previewData?.img}
             title={previewData?.title}
             url={url}
@@ -38,7 +38,7 @@ function ArticlePost(props) {
           <ArticlePreview
             description={web3Preview?.content}
             createdAt={createdAt}
-            writerENS={web3Preview?.creator.ens}
+            writerENS={web3Preview?.creator?.ens}
             image={previewData?.img}
             title={previewData?.title}
             url={url}

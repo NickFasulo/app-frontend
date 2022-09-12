@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import VoteButton from '../VoteButton/VoteButton';
-import { useInitialVotes } from '../../hooks/queries';
+import { useInitialVotes, useYupAccount } from '../../hooks/queries';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
 import useToast from '../../hooks/useToast';
@@ -12,7 +12,6 @@ import { createVote, editVote, deleteVote } from '../../apis';
 import { FlexBox } from '../styles';
 import { windowExists } from '../../utils/helpers';
 import { useAuth } from '../../contexts/AuthContext';
-import useAccount from '../../hooks/useAccount';
 
 const CREATE_VOTE_LIMIT = 40;
 const ratingConversion = {
@@ -58,9 +57,9 @@ const getWeb3Dislikes = (postInfo) => {
 
   return 0;
 };
-function VoteComp({ postid, url, weights, listType, postInfo, rating }) {
+function VoteComp({ postid, url, weights, postInfo, rating }) {
   const { authInfo, name } = useAuth();
-  const { account } = useAccount();
+  const account = useYupAccount(name);
   const votes = useInitialVotes(postid, name);
   const vote = votes?.[0];
   const [newRating, setNewRating] = useState();
@@ -91,7 +90,7 @@ function VoteComp({ postid, url, weights, listType, postInfo, rating }) {
   }, [newRating, lastClicked]);
 
   useEffect(() => {
-    // if (shouldSubmit) handleDefaultVote();
+    if (shouldSubmit) handleDefaultVote();
   }, [shouldSubmit]);
 
   useEffect(() => {
@@ -281,7 +280,9 @@ function VoteComp({ postid, url, weights, listType, postInfo, rating }) {
 
   return (
     <ErrorBoundary>
-      <FlexBox sx={{ columnGap: (theme) => theme.spacing(3) }}>
+      <FlexBox
+        sx={{ columnGap: (theme) => theme.spacing(3), maxWidth: '100px' }}
+      >
         <VoteButton
           userInfluence={account?.weight}
           category={category}
@@ -305,7 +306,6 @@ function VoteComp({ postid, url, weights, listType, postInfo, rating }) {
               : 0
           }
           postid={postid}
-          listType={listType}
           voterWeight={voterWeight}
           isShown={!isMobile}
           isVoted={lastClicked === 'like' || (!lastClicked && vote?.like)}
@@ -335,7 +335,6 @@ function VoteComp({ postid, url, weights, listType, postInfo, rating }) {
               : 0
           }
           postid={postid}
-          listType={listType}
           voterWeight={voterWeight}
           isShown={!isMobile}
           isVoted={
@@ -358,7 +357,6 @@ VoteComp.propTypes = {
   rating: PropTypes.number.isRequired,
   postType: PropTypes.string,
   postInfo: PropTypes.object.isRequired,
-  listType: PropTypes.string,
   ethAuth: PropTypes.object,
   categories: PropTypes.array
 };
