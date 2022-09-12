@@ -1,9 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Avatar, Chip, Grid, Icon, Stack, styled, Typography } from "@mui/material"
+import { Avatar, Chip, Divider, Grid, Icon, Stack, styled, Typography } from "@mui/material"
 import { faLink, faPlus, faFlag, faStar } from "@fortawesome/pro-regular-svg-icons"
 import useAccount from "../../hooks/useAccount"
 import ThumbnailIcon from "../CustomWeb3PostEmbed/ThumbnailIcon"
 import VoteComp from "../VoteComp/VoteComp"
+import { useFollowers } from "../../hooks/queries"
+import FollowUser from "../FollowUser"
 
 const Card = styled(Grid)(({ theme }) => ({
     background: theme.palette.M900,
@@ -24,7 +26,9 @@ const StyledIcon = styled(Typography)(({ theme }) => ({
 }))
 function PostCard({ post }) {
     const { account } = useAccount()
-    console.log({ account })
+    const id = account?._id?.id
+    const followers = useFollowers(id) || [];
+    console.log({ account, followers })
     return (
         <Card>
             <Grid container direction='column' >
@@ -41,7 +45,12 @@ function PostCard({ post }) {
                                 weights={post?.weights}
                             />
                         </Grid>
+                        {/* <Grid item sx={{
+                            background: " linear-gradient(270deg, rgba(51, 50, 53, 0) 0%, #333235 49.48%, rgba(51, 50, 53, 0) 100%)",
+                            border: "1px solid",
+                            borderImageSource: "linear-gradient(270deg, rgba(51, 50, 53, 0) 0%, #333235 49.48%, rgba(51, 50, 53, 0) 100%)"
 
+                        }} /> */}
                         <Grid item>
                             <Grid container direction='column' spacing={1}>
                                 <Grid item>
@@ -78,6 +87,20 @@ function PostCard({ post }) {
 
                             </Grid>
 
+                        </Grid>
+
+                        <Grid item>
+                            <Divider />
+                        </Grid>
+                        <Grid item>
+                            <Grid container direction='column'>
+                                <Grid item>
+                                    <Typography variant='h6'>Relevant People</Typography>
+                                </Grid>
+                                <Grid item>
+                                    <FollowUser userId={id} />
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
