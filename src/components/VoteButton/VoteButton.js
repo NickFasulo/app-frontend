@@ -192,7 +192,7 @@ function VoteButton({
   setLastClicked,
   lastClicked,
   web3Likes = 0,
-  userInfluence
+  userInfluence = 1
 }) {
   const account = useAuth();
   const { open: openAuthModal } = useAuthModal();
