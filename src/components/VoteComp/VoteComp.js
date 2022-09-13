@@ -122,8 +122,8 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
   }, [newRating, lastClicked]);
 
   useEffect(() => {
-    setUpvotes((post.rawPositiveWeight) || 0);
-    setDownvotes((post.rawNegativeWeight) || 0);
+    setUpvotes(post.rawPositiveWeight ?? post.positiveWeight ?? 0);
+    setDownvotes(post.rawNegativeWeight ?? post.negativeWeight ?? 0);
   }, []);
 
   const fetchActionUsage = async (eosname) => {
@@ -284,7 +284,7 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
         sx={{ columnGap: (theme) => theme.spacing(3), maxWidth: '100px' }}
       >
         <VoteButton
-          userInfluence={account?.weight}
+          userInfluence={account?.weight ?? 1}
           category={category}
           catWeight={weights[category]}
           handleOnclick={increaseRating}
@@ -306,14 +306,13 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
               : 0
           }
           postid={postid}
-          voterWeight={voterWeight}
           isShown={!isMobile}
           isVoted={lastClicked === 'like' || (!lastClicked && vote?.like)}
           postInfo={postInfo}
           web3Likes={getWeb3Likes(postInfo)}
         />
         <VoteButton
-          userInfluence={account?.weight}
+          userInfluence={account?.weight ?? 1}
           category={category}
           catWeight={weights[category]}
           handleOnclick={decreaseRating}
@@ -335,7 +334,6 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
               : 0
           }
           postid={postid}
-          voterWeight={voterWeight}
           isShown={!isMobile}
           isVoted={
             lastClicked === 'dislike' || (!lastClicked && vote && !vote.like)
