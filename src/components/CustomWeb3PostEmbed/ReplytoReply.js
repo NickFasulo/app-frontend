@@ -82,7 +82,7 @@ function Reply({ tweetData, classes }) {
   // REPLYS
   const replyExtendedEntities =
     tweetData.tweetInfo.reply_status &&
-      tweetData.tweetInfo.reply_status.extended_entities
+    tweetData.tweetInfo.reply_status.extended_entities
       ? tweetData.tweetInfo.reply_status.extended_entities
       : false;
   let replyHasMedia;

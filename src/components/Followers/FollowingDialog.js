@@ -7,11 +7,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import YupDialog from '../Miscellaneous/YupDialog';
 import FollowUser from '../FollowUser';
 
-function FollowingDialog({
-  open,
-  onClose,
-  followings
-}) {
+function FollowingDialog({ open, onClose, followings }) {
   return (
     <ErrorBoundary>
       <YupDialog

@@ -88,16 +88,16 @@ function LensPost({
                     <Typography variant="body2">
                       <Grid
                         item
-                      // Enable to style links
-                      //     sx={{ "& *> a": {
-                      //         backgroundImage: "linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)",
-                      //         fontWeight: 700,
-                      //         position: "relative",
-                      //         color: "transparent",
-                      //         WebkitBackgroundClip: "text",
-                      //         backgroundClip: "text",
-                      //         backgroundSize: "300% 100%",
-                      // }  }}
+                        // Enable to style links
+                        //     sx={{ "& *> a": {
+                        //         backgroundImage: "linear-gradient(270deg, #00E08E 0%, #A2CF7E 24.57%, #F0C909 50.35%, #FCA016 75.4%, #EB3650 100%)",
+                        //         fontWeight: 700,
+                        //         position: "relative",
+                        //         color: "transparent",
+                        //         WebkitBackgroundClip: "text",
+                        //         backgroundClip: "text",
+                        //         backgroundSize: "300% 100%",
+                        // }  }}
                       >
                         {/* If text hasnt been changed for Linkpreviews */}
                         {/* disabled! */}

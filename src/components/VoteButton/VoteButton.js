@@ -192,7 +192,7 @@ function VoteButton({
   setLastClicked,
   lastClicked,
   web3Likes = 0,
-  userInfluence
+  userInfluence = 1
 }) {
   const account = useAuth();
   const { open: openAuthModal } = useAuthModal();
@@ -266,9 +266,7 @@ function VoteButton({
 
   // This resets mousedown for whatever reason...
   const transition = useTransition(
-    isLongPress || isClicked
-      ? [rating !== 0 && (rating * userInfluence).toFixed(0)]
-      : [],
+    isLongPress || isClicked ? [rating !== 0 && rating] : [],
     {
       config: { mass: 0.7, tension: 300, friction: 35, clamp: true },
       from: { top: 0, opacity: 0 },
@@ -375,7 +373,9 @@ function VoteButton({
       </Grid>
       <Grid xs={4} className={classes.postWeight} item>
         <StyledPostStats
-          totalVoters={totalVoters + web3Likes + rating}
+          totalVoters={
+            totalVoters + web3Likes + rating * userInfluence.toFixed(0)
+          }
           weight={Number(formattedWeight)}
           isShown={isShown}
         />

@@ -98,44 +98,44 @@ function FarCasterPost({
                     <Grid item="item" xs={12}>
                       {attachments
                         ? attachments.map((attachment) => {
-                          if (isYoutubeUrl(attachment.url)) {
-                            return (
-                              <VideoComponent
-                                key={attachment.url}
-                                url={attachment.url}
-                              />
-                            );
-                          }
-                          if (attachment.images[0]) {
-                            return (
-                              <LinkPreview
-                                key={attachment.url}
-                                size="large"
-                                description={attachment.description || ''}
-                                image={
-                                  attachment.images[0]
-                                    ? attachment.images[0]
-                                    : attachment.url
-                                }
-                                title={attachment.title}
-                                url={attachment.url}
-                              // classes={classes}
-                              />
-                            );
-                          }
-                          if (urlIsImg(attachment.url)) {
-                            return (
-                              <CldImg
-                                key={attachment.url}
-                                style={{ borderRadius: '12px' }}
-                                src={attachment.url}
-                                alt={attachment.title}
-                                isWeb3Post
-                              />
-                            );
-                          }
-                          return null;
-                        })
+                            if (isYoutubeUrl(attachment.url)) {
+                              return (
+                                <VideoComponent
+                                  key={attachment.url}
+                                  url={attachment.url}
+                                />
+                              );
+                            }
+                            if (attachment.images[0]) {
+                              return (
+                                <LinkPreview
+                                  key={attachment.url}
+                                  size="large"
+                                  description={attachment.description || ''}
+                                  image={
+                                    attachment.images[0]
+                                      ? attachment.images[0]
+                                      : attachment.url
+                                  }
+                                  title={attachment.title}
+                                  url={attachment.url}
+                                  // classes={classes}
+                                />
+                              );
+                            }
+                            if (urlIsImg(attachment.url)) {
+                              return (
+                                <CldImg
+                                  key={attachment.url}
+                                  style={{ borderRadius: '12px' }}
+                                  src={attachment.url}
+                                  alt={attachment.title}
+                                  isWeb3Post
+                                />
+                              );
+                            }
+                            return null;
+                          })
                         : null}
                     </Grid>
                   </Grid>

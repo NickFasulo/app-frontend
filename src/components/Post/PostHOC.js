@@ -50,61 +50,61 @@ const styles = (theme) => ({
   }
 });
 
-class PostHOC extends PureComponent {
-  render() {
-    const {
-      classes,
-      account,
-      author,
-      url,
-      votes,
-      postid,
-      weights,
-      quantiles,
-      postType,
-      hideInteractions,
-      rating,
-      post,
-      component: Component
-    } = this.props;
+const PostHOC = (props) => {
+  const {
+    classes,
+    account,
+    author,
+    url,
+    votes,
+    postid,
+    weights,
+    quantiles,
+    postType,
+    hideInteractions,
+    rating,
+    post,
+    component: Component
+  } = props;
 
-    return (
-      <ErrorBoundary>
-        <Fade in timeout={400}>
-          <div className={classes.post}>
+  return (
+    <ErrorBoundary>
+      <Fade in timeout={400}>
+        <div className={classes.post}>
+          {!hideInteractions && (
             <PostHeader
               postid={postid}
               postType={postType}
               hideInteractions={hideInteractions}
               author={author}
             />
-            <div className={classes.article}>
-              <Component {...this.props} />
-              <Typography className={classes.postUrlHeader} variant="h6">
-                <PostGrid
-                  post={post}
-                  account={account}
-                  postid={postid}
-                  url={url}
-                  quantiles={quantiles}
-                  votes={votes}
-                  weights={weights}
-                  postType={postType}
-                  rating={rating}
-                />
-              </Typography>
-            </div>
-            <Divider
-              className={classes.divider}
-              style={{ backgroundColor: '#ffffff05' }}
-              variant="fullWidth"
-            />
+          )}
+          <div className={classes.article}>
+            <Component {...props} />
+            <Typography className={classes.postUrlHeader} variant="h6">
+              <PostGrid
+                post={post}
+                account={account}
+                postid={postid}
+                url={url}
+                quantiles={quantiles}
+                votes={votes}
+                weights={weights}
+                postType={postType}
+                rating={rating}
+              />
+            </Typography>
           </div>
-        </Fade>
-      </ErrorBoundary>
-    );
-  }
-}
+          <Divider
+            className={classes.divider}
+            style={{ backgroundColor: '#ffffff05' }}
+            variant="fullWidth"
+          />
+        </div>
+      </Fade>
+    </ErrorBoundary>
+  );
+};
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state);

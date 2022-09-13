@@ -1,6 +1,7 @@
 import BaseAxios from 'axios';
 
 import { apiBaseUrl } from '../config';
+import { logError } from '../utils/logging';
 
 const axios = BaseAxios.create({
   baseURL: apiBaseUrl,
@@ -11,12 +12,17 @@ export const callYupApi = async (apiConfig) => {
     Accept: 'application/json'
   };
 
-  const response = await axios.request({
-    headers,
-    ...apiConfig
-  });
+  try {
+    const response = await axios.request({
+      headers,
+      ...apiConfig
+    });
 
-  return response.data;
+    return response.data;
+  } catch (err) {
+    logError('Yup api Error:', err);
+    return null;
+  }
 };
 
 export default callYupApi;

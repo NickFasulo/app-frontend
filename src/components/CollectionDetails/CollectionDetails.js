@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { YupContainer, YupPageWrapper } from '../styles';
 import CollectionHeader from './CollectionHeader';
-import CollectionList from './CollectionList';
+import CollectionPostList from './CollectionPostList';
 import useDevice from '../../hooks/useDevice';
 import { useCollection } from '../../hooks/queries';
 import RecommendationList from './RecommendationList';
@@ -26,6 +26,11 @@ function CollectionDetails({ id }) {
   const [selectedTab, setSelectedTab] = useState(COLLECTION_TAB_IDS.FEED);
 
   const isTabMode = !isDesktop;
+
+  if (!collection) {
+    // TODO: Replace with NOT FOUND page.
+    return <div />;
+  }
 
   return (
     <>
@@ -53,13 +58,15 @@ function CollectionDetails({ id }) {
         <YupContainer>
           {isTabMode ? (
             selectedTab === COLLECTION_TAB_IDS.FEED ? (
-              <CollectionList collection={collection} />
+              <CollectionPostList id={id} name={collection.name} />
             ) : (
               <RecommendationList collection={collection} />
             )
           ) : (
             <GridLayout
-              contentLeft={<CollectionList collection={collection} />}
+              contentLeft={
+                <CollectionPostList id={id} name={collection.name} />
+              }
               contentRight={
                 <>
                   <Typography variant="h6" sx={{ pb: 1 }}>

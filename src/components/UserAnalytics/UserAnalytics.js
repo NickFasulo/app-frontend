@@ -5,11 +5,11 @@ import { Grid, Hidden, Typography } from '@mui/material';
 import axios from 'axios';
 import { isSameDay } from 'date-fns';
 import { connect } from 'react-redux';
-import LineChart from "../Charts/LineChart";
-import BarChart from "../Charts/BarChart";
-import DonutChart from "../Charts/DonutChart";
-import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
-import UserAvatar from "../UserAvatar/UserAvatar";
+import LineChart from '../Charts/LineChart';
+import BarChart from '../Charts/BarChart';
+import DonutChart from '../Charts/DonutChart';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import UserAvatar from '../UserAvatar/UserAvatar';
 import { levelColors, Brand, Other } from '../../utils/colors';
 import { setCache, getCache } from '../../utils/cache';
 import { accountInfoSelector } from '../../redux/selectors';
@@ -96,12 +96,12 @@ class UserAnalytics extends Component {
 
   getAllActions = async (voter, start, limit, type, actions) => {
     try {
-      const {data} = await axios.get(
-          `https://eos.hyperion.eosrio.io/v2/history/get_actions?&filter=token.yup&account=${voter}&skip=${start}&limit=${limit}&sort=desc&${type}=${voter}`,
-          {
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-          }
-        );
+      const { data } = await axios.get(
+        `https://eos.hyperion.eosrio.io/v2/history/get_actions?&filter=token.yup&account=${voter}&skip=${start}&limit=${limit}&sort=desc&${type}=${voter}`,
+        {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }
+      );
       actions = actions.concat(data.actions);
       // if (actions.length >= data.total.value) return actions
 
@@ -175,11 +175,11 @@ class UserAnalytics extends Component {
             dailyData[dailyData.length - 1][1] =
               transaction.type === 'incoming'
                 ? +(
-                  dailyData[dailyData.length - 1][1] - transaction.amount
-                ).toFixed(4)
+                    dailyData[dailyData.length - 1][1] - transaction.amount
+                  ).toFixed(4)
                 : +(
-                  dailyData[dailyData.length - 1][1] + transaction.amount
-                ).toFixed(4);
+                    dailyData[dailyData.length - 1][1] + transaction.amount
+                  ).toFixed(4);
           } else {
             dailyData.push([
               new Date(
@@ -189,11 +189,11 @@ class UserAnalytics extends Component {
               ),
               transaction.type === 'incoming'
                 ? +(
-                  dailyData[dailyData.length - 1][1] - transaction.amount
-                ).toFixed(4)
+                    dailyData[dailyData.length - 1][1] - transaction.amount
+                  ).toFixed(4)
                 : +(
-                  dailyData[dailyData.length - 1][1] + transaction.amount
-                ).toFixed(4)
+                    dailyData[dailyData.length - 1][1] + transaction.amount
+                  ).toFixed(4)
             ]);
           }
         }
@@ -267,7 +267,9 @@ class UserAnalytics extends Component {
 
   getDistributions = async (account) => {
     try {
-      const {data} = await axios.get(`${apiBaseUrl}/analytics/distribution/${account}`);
+      const { data } = await axios.get(
+        `${apiBaseUrl}/analytics/distribution/${account}`
+      );
 
       const valuesCat = Object.values(data.categoryDistribution)
         .sort((a, b) => b - a)
@@ -319,8 +321,8 @@ class UserAnalytics extends Component {
       yupBal > 100
         ? MAX_VOTE_LIMIT
         : yupBal < 0.5
-          ? MIN_VOTE_LIMIT
-          : MID_VOTE_LIMIT;
+        ? MIN_VOTE_LIMIT
+        : MID_VOTE_LIMIT;
     let voteCount = 0;
     const actionUsage = (
       await axios.get(
@@ -347,15 +349,14 @@ class UserAnalytics extends Component {
       try {
         const { username } = this.props;
 
-        const account = (
-          await axios.get(`${apiBaseUrl}/levels/user/${username}`)
-        ).data;
+        const account = (await axios.get(`${apiBaseUrl}/accounts/${username}`))
+          .data;
         this.setState({ isLoading: false, account });
         this.ratingPower(account);
         this.getDistributions(account._id);
-        let income = await getCache(`income:${  account._id}`, 24 * 60 * 60000);
+        let income = await getCache(`income:${account._id}`, 24 * 60 * 60000);
         let outgoing = await getCache(
-          `outgoing:${  account._id}`,
+          `outgoing:${account._id}`,
           24 * 60 * 60000
         );
 
@@ -367,7 +368,7 @@ class UserAnalytics extends Component {
             'transfer.from',
             []
           );
-          setCache(`outgoing:${  account._id}`, outgoing);
+          setCache(`outgoing:${account._id}`, outgoing);
         }
         if (!income || !income.length) {
           income = await this.getAllActions(
@@ -377,7 +378,7 @@ class UserAnalytics extends Component {
             'transfer.to',
             []
           );
-          setCache(`income:${  account._id}`, income);
+          setCache(`income:${account._id}`, income);
         }
         this.setState({ totalClaimedRewards: account.total_claimed_rewards });
 
@@ -428,7 +429,8 @@ class UserAnalytics extends Component {
           </PageBody>
         </ErrorBoundary>
       );
-    } if (isLoading) {
+    }
+    if (isLoading) {
       return (
         <div
           style={{

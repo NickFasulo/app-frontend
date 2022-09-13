@@ -196,13 +196,13 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    searchPosts: (searchText, limit) =>
-      dispatch(fetchPostSearchResults(searchText, limit)),
-    searchCollections: (searchText, limit) =>
-      dispatch(fetchCollectionSearchResults(searchText, limit)),
-    searchUsers: (searchText, limit) =>
-      dispatch(fetchUserSearchResults(searchText, limit))
-  });
+  searchPosts: (searchText, limit) =>
+    dispatch(fetchPostSearchResults(searchText, limit)),
+  searchCollections: (searchText, limit) =>
+    dispatch(fetchCollectionSearchResults(searchText, limit)),
+  searchUsers: (searchText, limit) =>
+    dispatch(fetchUserSearchResults(searchText, limit))
+});
 
 SearchBar.propTypes = {
   router: PropTypes.object.isRequired,

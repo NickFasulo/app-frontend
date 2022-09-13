@@ -40,27 +40,23 @@ export const accountInfoSelector = createSelector(
 );
 export const authInfoSelector = createSelector(
   (state) => state.authInfo,
-  (authInfo) => {
-    return authInfo;
-  }
+  (authInfo) => authInfo
 );
 
 export const ethAuthSelector = createSelector([ethSelector], (ethAuth) => {
-  let ethAuthInfo = ethAuth.account ? ethAuth : null;
+  const ethAuthInfo = ethAuth.account ? ethAuth : null;
   return ethAuthInfo;
 });
 
 export const userLevelSelector = createSelector(
   (state) => state.socialLevels.levels[state.authInfo.eosname],
   (level) => {
-    let levelInfo = level ? level.levelInfo : null;
+    const levelInfo = level ? level.levelInfo : null;
     return levelInfo;
   }
 );
 
 export const levelsSelector = createSelector(
   (state) => state.socialLevels.levels,
-  (levels) => {
-    return levels;
-  }
+  (levels) => levels
 );

@@ -12,7 +12,7 @@ import { FEED_CATEGORIES } from '../constants/data';
 export const useCollection = (id) => {
   const { data } = useQuery([REACT_QUERY_KEYS.YUP_COLLECTION, id], () =>
     callYupApi({
-      url: `/collections/name/${id}`,
+      url: `/collections/name-v2/${id}`,
       method: 'GET'
     })
   );
@@ -36,100 +36,81 @@ export const useRecommendation = (params) => {
 export const useInitialVotes = (postid, voter) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.YUP_INITIAL_VOTES, postid, voter],
-    () =>
-      callYupApi({
-        url: `/votes/post/${postid}/voter/${voter}`,
-        method: 'GET'
-      })
-  );
-  return data;
-};
-
-export const useSocialLevel = (voter) => {
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, voter],
     async () => {
-      if (!voter) return null;
-
+      if (!postid || !voter) return [];
       try {
         return await callYupApi({
-          url: `/levels/user/${voter}`,
+          url: `/votes/post/${postid}/voter/${voter}`,
           method: 'GET'
         });
       } catch {
-        return null;
+        return [];
       }
     }
   );
-
   return data;
 };
 
 export const useFollowings = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], async () => {
-    try {
-      return await callYupApi({
-        method: 'GET',
-        url: `/following/${id}`
-      });
-    } catch {
-      return [];
-    }
-  });
+  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], () =>
+    callYupApi({
+      method: 'GET',
+      url: `/following/${id}`
+    })
+  );
 
   return data;
 };
 
 export const useFollowers = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWER, id], async () => {
-    try {
-      return await callYupApi({
-        method: 'GET',
-        url: `/v2/followers/${id}`
-      });
-    } catch {
-      return [];
-    }
-  });
+  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWER, id], () =>
+    callYupApi({
+      method: 'GET',
+      url: `/v2/followers/${id}`
+    })
+  );
 
   return data;
 };
 
-export const useUserPosts = (userId) => useInfiniteQuery(
-  [REACT_QUERY_KEYS.USER_POSTS, userId],
-  ({ pageParam = 0 }) => callYupApi({
-    method: 'GET',
-    url: `/feed/account/${userId}`,
-    params: {
-      start: pageParam,
-      limit: DEFAULT_FEED_PAGE_SIZE
-    }
-  }),
-  {
-    getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage.posts?.length) return undefined;
+export const useUserPosts = (userId) =>
+  useInfiniteQuery(
+    [REACT_QUERY_KEYS.USER_POSTS, userId],
+    ({ pageParam = 0 }) =>
+      callYupApi({
+        method: 'GET',
+        url: `/feed/account/${userId}`,
+        params: {
+          start: pageParam,
+          limit: DEFAULT_FEED_PAGE_SIZE
+        }
+      }),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (!lastPage.posts?.length) return undefined;
 
-      return sum(allPages.map((page) => page.posts?.length || 0));
+        return sum(allPages.map((page) => page.posts?.length || 0));
+      }
     }
-  }
-);
+  );
 
-export const useSearchPosts = (query) => {
+export const useSearchPosts = (query = '') => {
   const searchQuery = query
     .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')
     .replace(/[^a-zA-Z'@ ]/g, '');
 
   return useInfiniteQuery(
     [REACT_QUERY_KEYS.SEARCH_POSTS, query],
-    ({ pageParam = 0 }) => callYupApi({
-      method: 'GET',
-      url: '/search/es/posts',
-      params: {
-        offset: pageParam,
-        searchText: searchQuery,
-        limit: DEFAULT_FEED_PAGE_SIZE
-      }
-    }),
+    ({ pageParam = 0 }) =>
+      callYupApi({
+        method: 'GET',
+        url: '/search/es/posts',
+        params: {
+          offset: pageParam,
+          searchText: searchQuery,
+          limit: DEFAULT_FEED_PAGE_SIZE
+        }
+      }),
     {
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.length) return undefined;
@@ -176,14 +157,12 @@ export const useUserCollections = (userId) => {
     async () => {
       if (!userId) return [];
 
-      try {
-        return await callYupApi({
+      return (
+        (await callYupApi({
           method: 'GET',
           url: `/accounts/${userId}/collections`
-        });
-      } catch {
-        return [];
-      }
+        })) || []
+      );
     }
   );
 
@@ -193,17 +172,13 @@ export const useUserCollections = (userId) => {
 export const useUserNotifications = (username) => {
   const { data } = useQuery(
     [REACT_QUERY_KEYS.USER_NOTIFICATIONS, username],
-    async () => {
+    () => {
       if (!username) return [];
 
-      try {
-        return await callYupApi({
-          method: 'GET',
-          url: `/notifications/${username}`
-        });
-      } catch {
-        return null;
-      }
+      return callYupApi({
+        method: 'GET',
+        url: `/notifications/${username}`
+      });
     }
   );
 
@@ -222,7 +197,6 @@ export const useFarcasterReplyParent = (merkleRoot) => {
     //   method: 'GET',
     //   url: `/notifications/${username}`
     // });
-
   );
 
   return data;
@@ -239,24 +213,26 @@ export const useUserLikes = (userId) => {
 
   return data;
 };
-export const useFetchFeed = ({ feedType }) => useInfiniteQuery(
-  [REACT_QUERY_KEYS.YUP_FEED, feedType],
-  ({ pageParam = 0 }) =>
-    callYupApi({
-      url: `/feed/${isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
+export const useFetchFeed = ({ feedType }) =>
+  useInfiniteQuery(
+    [REACT_QUERY_KEYS.YUP_FEED, feedType],
+    ({ pageParam = 0 }) =>
+      callYupApi({
+        url: `/feed/${
+          isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
         }${feedType}?start=${pageParam}&limit=10`,
-      method: 'GET'
-    }),
-  {
-    refetchOnWindowFocus: false,
-    getPreviousPageParam: (firstPage, pages) =>
-      pages.length > 0 && pages.length - 1 * 10,
-    getNextPageParam: (lastPage, pages) => pages.length * 10
-  }
-);
+        method: 'GET'
+      }),
+    {
+      refetchOnWindowFocus: false,
+      getPreviousPageParam: (firstPage, pages) =>
+        pages.length > 0 && pages.length - 1 * 10,
+      getNextPageParam: (lastPage, pages) => pages.length * 10
+    }
+  );
 
 export const usePost = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.POST, id], async () => {
+  const { data } = useQuery([REACT_QUERY_KEYS.POST, id], () => {
     if (!id) return null;
 
     return callYupApi({
@@ -279,18 +255,98 @@ export const useScore = (address) => {
 };
 
 export const useYupAccount = (userId) => {
+  const { data } = useQuery([REACT_QUERY_KEYS.ACCOUNT, userId], () =>
+    callYupApi({
+      url: `/accounts/${userId}`
+    })
+  );
+
+  return data;
+};
+
+export const useRefetchPostPreview = (post, id) => {
   const { data } = useQuery(
-    [REACT_QUERY_KEYS.ACCOUNT, userId],
+    [REACT_QUERY_KEYS.POST_REFETCH_PREVIEW, id],
     async () => {
+      if (
+        Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 >
+        Date.now()
+      )
+        return null;
+
+      return callYupApi({
+        url: '/posts/re-fetch/preview',
+        method: 'POST',
+        data: { postid: id }
+      });
+    }
+  );
+
+  return data;
+};
+
+export const usePostInteractions = (postid) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.YUP_POSTINTERACTIONS, postid],
+    async () => {
+      if (!postid) return [];
       try {
         return await callYupApi({
-          url: `/accounts/${userId}`
+          url: `/posts/interactions/${postid}`,
+          method: 'POST'
+        });
+      } catch {
+        return [];
+      }
+    }
+  );
+  return data;
+};
+
+export const useLpRewards = (address) => {
+  const { data } = useQuery(
+    [REACT_QUERY_KEYS.LP_REWARDS, address],
+    async () => {
+      if (!address) return null;
+      try {
+        return await callYupApi({
+          url: `/metrics/historic-lp-rewards/${address}`,
+          method: 'GET'
         });
       } catch {
         return null;
       }
     }
   );
+  return data;
+};
+
+export const useCollectionPosts = (id) =>
+  useInfiniteQuery(
+    [REACT_QUERY_KEYS.COLLECTION_POSTS, id],
+    ({ pageParam = 0 }) =>
+      callYupApi({
+        url: `/collections/posts/${id}`,
+        params: {
+          start: pageParam,
+          limit: DEFAULT_FEED_PAGE_SIZE
+        }
+      }),
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if ((lastPage?.length || 0) < DEFAULT_FEED_PAGE_SIZE) return undefined;
+
+        return sum(pages.map((page) => page.length || 0));
+      }
+    }
+  );
+
+export const useWalletInfo = (ethAddress) => {
+  const { data } = useQuery([REACT_QUERY_KEYS.WALLET_INFO, ethAddress], () =>
+    callYupApi({
+      url: `/profile/${ethAddress}`
+    })
+  );
 
   return data;
-}
+};

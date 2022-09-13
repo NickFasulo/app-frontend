@@ -102,9 +102,9 @@ class CourseComp extends Component {
     try {
       const { url } = this.props;
       const courseInfo = (await axios.get(`${apiBaseUrl}/courses/${url}`)).data;
-      const {name} = courseInfo;
+      const { name } = courseInfo;
       const subject = courseInfo.subject.long_name;
-      const {courseId} = courseInfo;
+      const { courseId } = courseInfo;
       const firstCourseName = courseInfo.classes[0].title;
       const daysAndTimes = courseInfo.classes[0].days_times;
       const courseTime = daysAndTimes[0] ? daysAndTimes[0].time : '';

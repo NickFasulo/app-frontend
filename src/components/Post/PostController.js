@@ -1,7 +1,5 @@
-import React, { memo, Component } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
-import axios from 'axios';
 import Post from './Post';
 import PostHOC from './PostHOC';
 import TextPost from './TextPost';
@@ -23,8 +21,10 @@ import TwitchPost from './TwitchPost';
 import InstagramPost from './InstagramPost';
 import AudiusPost from './AudiusPost';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { apiBaseUrl } from '../../config';
 import { isYoutubeUrl } from '../../utils/helpers';
+import { useRefetchPostPreview } from '../../hooks/queries';
+import withSuspense from '../../hoc/withSuspense';
+import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
 
 const COLUMBIA_PROF_TAG = 'columbia-course-registration/professor';
 const COLUMBIA_COURSE_TAG = 'columbia-course-registration/course';
@@ -138,459 +138,97 @@ function isEventPost(tag) {
   return eventPattern.test(tag);
 }
 
-// TODO: Refactor
-class PostController extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
-      return true;
-    }
-    return false;
-  }
+const PostController = ({
+  classes,
+  post,
+  hideInteractions,
+  renderObjects,
+  showFullPost
+}) => {
+  useRefetchPostPreview(post, post._id.postid);
+  if (!post) return null;
 
-  componentDidMount() {
-    const { post } = this.props;
+  const isTextPost =
+    (post.imgHash == null || post.imgHash.trim() === '') &&
+    (post.videoHash == null || post.videoHash.trim() === '');
 
-    if ('previewData' in post && !('img' in post.previewData)) {
-      if (
-        Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 <
-        Date.now()
-      ) {
-        axios.post(`${apiBaseUrl}/posts/re-fetch/preview`, {
-          postid: post._id.postid
-        });
-      }
-    }
-  }
-
-  render() {
-    const { classes, post, hideInteractions, renderObjects, showFullPost } =
-      this.props;
-    if (!post) return null;
-
-    const isTextPost =
-      (post.imgHash == null || post.imgHash.trim() === '') &&
-      (post.videoHash == null || post.videoHash.trim() === '');
-
-    if (post.tag === COLUMBIA_PROF_TAG) {
-      return (
-        <ErrorBoundary>
-          <ProfPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            previewData={post.previewData}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            postType={COLUMBIA_PROF_POST_TYPE}
-            hideInteractions={hideInteractions}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (post.tag === COLUMBIA_COURSE_TAG) {
-      return (
-        <ErrorBoundary>
-          <CoursePost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            previewData={post.previewData}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            rating={post.rating}
-            postHOC={PostHOC}
-            postType={COLUMBIA_COURSE_POST_TYPE}
-            hideInteractions={hideInteractions}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (post.tag === US_PRES_ELECTIONS_TAG) {
-      return (
-        <ErrorBoundary>
-          <TweetPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            previewData={post.previewData}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            tweetObject={post}
-            postType={US_PRES_ELECTIONS_TAG}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isTwitterPost(post.url)) {
-      return (
-        <ErrorBoundary>
-          <TweetPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            previewData={post.previewData}
-            tweetObject={post}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isWeb3Post(post.tag)) {
-      return (
-        <ErrorBoundary>
-          <Web3Post
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            web3Preview={post.web3Preview}
-            tweetObject={post}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-            showFullPost={showFullPost}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isEventPost(post.tag)) {
-      return (
-        <ErrorBoundary>
-          <EventPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            web3Preview={post.web3Preview}
-            tweetObject={post}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isYoutubeUrl(post.url)) {
-      return (
-        <ErrorBoundary>
-          <VideoPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isSoundPost(post.url)) {
-      return (
-        <ErrorBoundary>
-          <SoundPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isSpotifyPost(post.url)) {
-      return (
-        <ErrorBoundary>
-          <SpotifyPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isMusicPost(post.url)) {
-      return (
-        <ErrorBoundary>
-          <MusicPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isTwitchPost(post.url)) {
-      return (
-        <ErrorBoundary>
-          <TwitchPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isInstagramPost(post.url)) {
-      return (
-        <ErrorBoundary>
-          <InstagramPost
-            post={post}
-            url={post.url}
-            comment={post.comment}
-            author={post.author}
-            postid={post._id.postid}
-            previewData={post.previewData}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isNFTPost(post.url)) {
-      return (
-        <ErrorBoundary>
-          <NFTPost
-            post={post}
-            comment={post.comment}
-            key={post._id.postid}
-            postid={post._id.postid}
-            author={post.author}
-            url={post.url}
-            previewData={post.previewData}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isTallPost(post.url)) {
-      return (
-        <ErrorBoundary>
-          <TallPreviewPost
-            post={post}
-            comment={post.comment}
-            key={post._id.postid}
-            postid={post._id.postid}
-            author={post.author}
-            url={post.url}
-            previewData={post.previewData}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isArticlePost(post.url)) {
-      return (
-        <ErrorBoundary>
-          <ArticlePost
-            post={post}
-            comment={post.comment}
-            key={post._id.postid}
-            postid={post._id.postid}
-            author={post.author}
-            url={post.url}
-            previewData={post.previewData}
-            web3Preview={post.web3Preview}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            hideInteractions={hideInteractions}
-            classes={classes}
-            showFullPost={showFullPost}
-          />
-        </ErrorBoundary>
-      );
-    }
-    if (isObjectPost(post.url) || isChannelPost(post.url)) {
-      if (renderObjects) {
-        return (
-          <ErrorBoundary>
-            <ObjectPost
-              post={post}
-              comment={post.comment}
-              key={post._id.postid}
-              postid={post._id.postid}
-              author={post.author}
-              url={post.url}
-              previewData={post.previewData}
-              quantiles={post.quantiles}
-              votes={post.upvotes - post.downvotes}
-              weights={post.weights}
-              postHOC={PostHOC}
-              rating={post.rating}
-              hideInteractions={hideInteractions}
-              classes={classes}
-            />
-          </ErrorBoundary>
-        );
-      }
-      return null;
-    }
-    if (isTextPost) {
-      if (post.previewData == null) {
-        return (
-          <ErrorBoundary>
-            <TextPost
-              post={post}
-              url={post.url}
-              comment={post.comment}
-              key={post._id.postid}
-              author={post.author}
-              postid={post._id.postid}
-              previewData={post.previewData}
-              quantiles={post.quantiles}
-              votes={post.upvotes - post.downvotes}
-              weights={post.weights}
-              postHOC={PostHOC}
-              rating={post.rating}
-              postType={post.tag === MAPS_POST_TYPE ? MAPS_POST_TYPE : null}
-              hideInteractions={hideInteractions}
-              classes={classes}
-            />
-          </ErrorBoundary>
-        );
-      }
-      if (isAudiusPost(post.url)) {
-        return (
-          <ErrorBoundary>
-            <AudiusPost
-              post={post}
-              url={post.url}
-              comment={post.comment}
-              key={post._id.postid}
-              author={post.author}
-              postid={post._id.postid}
-              previewData={post.previewData}
-              quantiles={post.quantiles}
-              votes={post.upvotes - post.downvotes}
-              weights={post.weights}
-              postHOC={PostHOC}
-              rating={post.rating}
-              hideInteractions={hideInteractions}
-              classes={classes}
-            />
-          </ErrorBoundary>
-        );
-      }
-      return (
-        <ErrorBoundary>
-          <LinkPreviewPost
-            post={post}
-            comment={post.comment}
-            key={post._id.postid}
-            postid={post._id.postid}
-            author={post.author}
-            url={post.url}
-            previewData={post.previewData}
-            quantiles={post.quantiles}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      );
-    }
+  if (post.tag === COLUMBIA_PROF_TAG) {
     return (
-      <ErrorBoundary>
-        <Post
+      <FunctionalErrorBoundary>
+        <ProfPost
           post={post}
           url={post.url}
           comment={post.comment}
-          image={post.imgHash}
-          key={post._id.postid}
           author={post.author}
           postid={post._id.postid}
           quantiles={post.quantiles}
-          video={post.videoHash}
+          previewData={post.previewData}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          rating={post.rating}
+          postType={COLUMBIA_PROF_POST_TYPE}
+          hideInteractions={hideInteractions}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (post.tag === COLUMBIA_COURSE_TAG) {
+    return (
+      <FunctionalErrorBoundary>
+        <CoursePost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          previewData={post.previewData}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          rating={post.rating}
+          postHOC={PostHOC}
+          postType={COLUMBIA_COURSE_POST_TYPE}
+          hideInteractions={hideInteractions}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (post.tag === US_PRES_ELECTIONS_TAG) {
+    return (
+      <FunctionalErrorBoundary>
+        <TweetPost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          previewData={post.previewData}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          tweetObject={post}
+          postType={US_PRES_ELECTIONS_TAG}
+          rating={post.rating}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isTwitterPost(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <TweetPost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          previewData={post.previewData}
+          tweetObject={post}
           votes={post.upvotes - post.downvotes}
           weights={post.weights}
           postHOC={PostHOC}
@@ -598,17 +236,363 @@ class PostController extends Component {
           hideInteractions={hideInteractions}
           classes={classes}
         />
-      </ErrorBoundary>
+      </FunctionalErrorBoundary>
     );
   }
-}
+  if (isWeb3Post(post.tag)) {
+    return (
+      <FunctionalErrorBoundary>
+        <Web3Post
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          web3Preview={post.web3Preview}
+          tweetObject={post}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          rating={post.rating}
+          hideInteractions={hideInteractions}
+          classes={classes}
+          showFullPost={showFullPost}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isEventPost(post.tag)) {
+    return (
+      <FunctionalErrorBoundary>
+        <EventPost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          web3Preview={post.web3Preview}
+          tweetObject={post}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          rating={post.rating}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isYoutubeUrl(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <VideoPost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          rating={post.rating}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isSoundPost(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <SoundPost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          rating={post.rating}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isSpotifyPost(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <SpotifyPost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isMusicPost(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <MusicPost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isTwitchPost(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <TwitchPost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          rating={post.rating}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isInstagramPost(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <InstagramPost
+          post={post}
+          url={post.url}
+          comment={post.comment}
+          author={post.author}
+          postid={post._id.postid}
+          previewData={post.previewData}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          rating={post.rating}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isNFTPost(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <NFTPost
+          post={post}
+          comment={post.comment}
+          key={post._id.postid}
+          postid={post._id.postid}
+          author={post.author}
+          url={post.url}
+          previewData={post.previewData}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isTallPost(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <TallPreviewPost
+          post={post}
+          comment={post.comment}
+          key={post._id.postid}
+          postid={post._id.postid}
+          author={post.author}
+          url={post.url}
+          previewData={post.previewData}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isArticlePost(post.url)) {
+    return (
+      <FunctionalErrorBoundary>
+        <ArticlePost
+          post={post}
+          comment={post.comment}
+          key={post._id.postid}
+          postid={post._id.postid}
+          author={post.author}
+          url={post.url}
+          previewData={post.previewData}
+          web3Preview={post.web3Preview}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          hideInteractions={hideInteractions}
+          classes={classes}
+          showFullPost={showFullPost}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  if (isObjectPost(post.url) || isChannelPost(post.url)) {
+    if (renderObjects) {
+      return (
+        <FunctionalErrorBoundary>
+          <ObjectPost
+            post={post}
+            comment={post.comment}
+            key={post._id.postid}
+            postid={post._id.postid}
+            author={post.author}
+            url={post.url}
+            previewData={post.previewData}
+            quantiles={post.quantiles}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            rating={post.rating}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </FunctionalErrorBoundary>
+      );
+    }
+    return null;
+  }
+  if (isTextPost) {
+    if (post.previewData == null) {
+      return (
+        <FunctionalErrorBoundary>
+          <TextPost
+            post={post}
+            url={post.url}
+            comment={post.comment}
+            key={post._id.postid}
+            author={post.author}
+            postid={post._id.postid}
+            previewData={post.previewData}
+            quantiles={post.quantiles}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            rating={post.rating}
+            postType={post.tag === MAPS_POST_TYPE ? MAPS_POST_TYPE : null}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </FunctionalErrorBoundary>
+      );
+    }
+    if (isAudiusPost(post.url)) {
+      return (
+        <FunctionalErrorBoundary>
+          <AudiusPost
+            post={post}
+            url={post.url}
+            comment={post.comment}
+            key={post._id.postid}
+            author={post.author}
+            postid={post._id.postid}
+            previewData={post.previewData}
+            quantiles={post.quantiles}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            rating={post.rating}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </FunctionalErrorBoundary>
+      );
+    }
+    return (
+      <FunctionalErrorBoundary>
+        <LinkPreviewPost
+          post={post}
+          comment={post.comment}
+          key={post._id.postid}
+          postid={post._id.postid}
+          author={post.author}
+          url={post.url}
+          previewData={post.previewData}
+          quantiles={post.quantiles}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          rating={post.rating}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </FunctionalErrorBoundary>
+    );
+  }
+  return (
+    <ErrorBoundary>
+      <Post
+        post={post}
+        url={post.url}
+        comment={post.comment}
+        image={post.imgHash}
+        key={post._id.postid}
+        author={post.author}
+        postid={post._id.postid}
+        quantiles={post.quantiles}
+        video={post.videoHash}
+        votes={post.upvotes - post.downvotes}
+        weights={post.weights}
+        postHOC={PostHOC}
+        rating={post.rating}
+        hideInteractions={hideInteractions}
+        classes={classes}
+      />
+    </ErrorBoundary>
+  );
+};
 
 PostController.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
+  showFullPost: PropTypes.bool,
   hideInteractions: PropTypes.bool,
   renderObjects: PropTypes.bool,
   classes: PropTypes.object.isRequired
 };
-
-export default memo(PostController);
+PostController.defaultProps = {
+  showFullPost: false,
+  hideInteractions: false,
+  renderObjects: false
+};
+export default withSuspense()(memo(PostController));

@@ -13,8 +13,13 @@ export const queryClient = new QueryClient({
   }
 });
 
-queryClient.setMutationDefaults( [MUTATION_KEYS.FOLLOW_UNFOLLOW_USER], {
-  mutationFn: async ({ isFollow, authUserId, followUnfollowUserId, authInfo }) => {
+queryClient.setMutationDefaults([MUTATION_KEYS.FOLLOW_UNFOLLOW_USER], {
+  mutationFn: async ({
+    isFollow,
+    authUserId,
+    followUnfollowUserId,
+    authInfo
+  }) => {
     if (isFollow) {
       return await apiFollowUser(authUserId, followUnfollowUserId, authInfo);
     } else {

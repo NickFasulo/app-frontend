@@ -15,6 +15,10 @@ import {
   usePrepareContractWrite
 } from 'wagmi';
 
+import CountUp from 'react-countup';
+import axios from 'axios';
+import { ethers } from 'ethers';
+import { getPolyContractAddresses } from '@yupio/contract-addresses';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import {
   YupInput,
@@ -23,10 +27,6 @@ import {
 } from '../../components/Miscellaneous';
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json';
 import YUPETH_ABI from '../../abis/YUPETH.json';
-import CountUp from 'react-countup';
-import axios from 'axios';
-import { ethers } from 'ethers';
-import { getPolyContractAddresses } from '@yupio/contract-addresses';
 import { PageBody } from '../pageLayouts';
 import useToast from '../../hooks/useToast';
 import {
@@ -37,6 +37,7 @@ import {
   yupBuyLink,
   yupDocsUrl
 } from '../../config';
+import { useLpRewards } from '../../hooks/queries';
 
 const {
   POLY_LIQUIDITY_REWARDS,
@@ -45,8 +46,8 @@ const {
   ETH_LIQUIDITY_REWARDS
 } = getPolyContractAddresses(Number(polygonConfig.chainId));
 
-const toBaseNum = (num) => num / Math.pow(10, 18);
-const toGwei = (num) => num * Math.pow(10, 18);
+const toBaseNum = (num) => num / 10 ** 18;
+const toGwei = (num) => num * 10 ** 18;
 const formatDecimals = (num) => Number(Number(num).toFixed(5));
 
 const styles = (theme) => ({
@@ -88,7 +89,7 @@ const styles = (theme) => ({
 
 const isInvalidStakeAmt = (amt) => {
   const stakeAmt = Number(amt);
-  return isNaN(stakeAmt) || stakeAmt <= 0;
+  return Number.isNaN(stakeAmt) || stakeAmt <= 0;
 };
 
 const StakingPage = ({ classes }) => {
@@ -112,7 +113,8 @@ const StakingPage = ({ classes }) => {
 
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
-
+  const LpRewards = useLpRewards(address);
+  console.log({ LpRewards }, LpRewards.poly, LpRewards.eth);
   const { config: approveEthConfig } = usePrepareContractWrite({
     addressOrName: ETH_UNI_LP_TOKEN,
     contractInterface: YUPETH_ABI,
@@ -370,7 +372,7 @@ const StakingPage = ({ classes }) => {
     watch: true,
     enabled: !!address
   });
-  console.log({ isLoading }, error);
+  console.log({ ethLpBal }, error);
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab);
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab);
@@ -386,18 +388,6 @@ const StakingPage = ({ classes }) => {
   useEffect(() => {
     getAprs();
   }, []);
-
-  useEffect(() => {
-    if (address && !earnings) {
-      getTotalRewards();
-    }
-  }, [address, earnings]);
-
-  useEffect(() => {
-    if (address && !earnings) {
-      getTotalRewards();
-    }
-  }, [address, earnings]);
 
   useEffect(() => {
     console.log(predictedRewardRate);
@@ -425,7 +415,6 @@ const StakingPage = ({ classes }) => {
       toastInfo(
         'Connect your wallet to see your balance and perform staking actions.'
       );
-      return;
     }
 
     // Poly is default chain now, and users are triggerd a network change by rainbow automatically
@@ -450,57 +439,6 @@ const StakingPage = ({ classes }) => {
       }));
       updateRewardStream();
     }, 1000);
-  };
-
-  const getTotalRewards = async () => {
-    try {
-      const polyRewards = (
-        await axios.post(`${subgraphApiPolygonUrl}`, {
-          query: `{
-          balances(where: {address: "${address}"}) {
-            id
-            address
-            count
-          }
-        }`
-        })
-      ).data;
-
-      const ethRewards = (
-        await axios.post(`${subgraphApiEthUrl}`, {
-          query: `{
-          balances(where: {address: "${address}"}) {
-            id
-            address
-            count
-          }
-        }`
-        })
-      ).data;
-      let earnings = 0;
-      if (
-        ethRewards &&
-        ethRewards.data &&
-        ethRewards.data.balances &&
-        ethRewards.data.balances.length > 0
-      ) {
-        const ethRewardsNum = Number(ethRewards.data.balances[0].count);
-        earnings += ethRewardsNum && ethRewardsNum > 0 ? ethRewardsNum : 0;
-      }
-      if (
-        polyRewards &&
-        polyRewards.data &&
-        polyRewards.data.balances &&
-        polyRewards.data.balances.length > 0
-      ) {
-        const polyRewardsNum = Number(polyRewards.data.balances[0].count);
-        earnings += polyRewardsNum && polyRewardsNum > 0 ? polyRewardsNum : 0;
-      }
-      earnings > 0 && setEarnings(earnings);
-    } catch (err) {
-      toastError('An error occured. Try again later.');
-      console.log('ERR getting token contracts', err);
-    }
   };
 
   const getPredictedRewardRate = async () => {
@@ -650,7 +588,7 @@ const StakingPage = ({ classes }) => {
                       decimals={2}
                       start={0}
                       duration={3}
-                      suffix={'% APR'}
+                      suffix="% APR"
                     />
                   </Typography>
                 </Grid>
@@ -811,7 +749,7 @@ const StakingPage = ({ classes }) => {
                                         <Grid item>
                                           <Typography variant="body2">
                                             {formatDecimals(
-                                              toBaseNum(ethLpBal)
+                                              toBaseNum(ethLpBal || 0)
                                             )}
                                           </Typography>
                                         </Grid>
@@ -830,7 +768,7 @@ const StakingPage = ({ classes }) => {
                                           <Grid item>
                                             <Typography variant="body2">
                                               {formatDecimals(
-                                                toBaseNum(currentStakeEth)
+                                                toBaseNum(currentStakeEth || 0)
                                               )}
                                             </Typography>
                                           </Grid>
@@ -969,7 +907,7 @@ const StakingPage = ({ classes }) => {
                                         <Grid item>
                                           <Typography variant="body2">
                                             {formatDecimals(
-                                              toBaseNum(polyLpBal)
+                                              toBaseNum(polyLpBal || 0)
                                             )}
                                           </Typography>
                                         </Grid>
@@ -988,7 +926,7 @@ const StakingPage = ({ classes }) => {
                                           <Grid item>
                                             <Typography variant="body2">
                                               {formatDecimals(
-                                                toBaseNum(currentStakePoly)
+                                                toBaseNum(currentStakePoly || 0)
                                               )}
                                             </Typography>
                                           </Grid>
@@ -1007,7 +945,7 @@ const StakingPage = ({ classes }) => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item alignSelf={'center'}>
+            <Grid item alignSelf="center">
               <Grid
                 container
                 direction="column"
@@ -1039,7 +977,7 @@ const StakingPage = ({ classes }) => {
                   <Grid item className={classes.counterSizeFixed}>
                     <Typography variant="h3">
                       {toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) === 0 ? (
-                        0 + ' YUP'
+                        `${0} YUP`
                       ) : (
                         <CountUp
                           end={
@@ -1054,7 +992,7 @@ const StakingPage = ({ classes }) => {
                           }
                           decimals={5}
                           duration={1}
-                          suffix={' YUP'}
+                          suffix=" YUP"
                         />
                       )}
                     </Typography>
@@ -1116,8 +1054,8 @@ const StakingPage = ({ classes }) => {
                       <Typography variant="subtitle2">
                         {formatDecimals(
                           toBaseNum(earnings) +
-                            toBaseNum(polyRwrdAmt) +
-                            toBaseNum(ethRwrdAmt) +
+                            LpRewards.poly +
+                            LpRewards.eth +
                             predictedRewards.new
                         )}{' '}
                         YUP Earned in Total

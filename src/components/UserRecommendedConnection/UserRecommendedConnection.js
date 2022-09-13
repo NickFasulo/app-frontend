@@ -37,9 +37,7 @@ function UserRecommendedConnection({ user }) {
         primary={user.fullname || user.username}
       />
       <Box flexGrow={0}>
-        <FollowButton
-          userId={user.eosname}
-        />
+        <FollowButton userId={user.eosname} />
       </Box>
     </StyledListItemButton>
   );

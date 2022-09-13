@@ -1,6 +1,13 @@
 import Head from 'next/head';
 
-function YupHead({ title, description, image, meta }) {
+function YupHead({
+  title,
+  description,
+  image,
+  metaOther,
+  metaOg,
+  metaTwitter
+}) {
   if (!image) {
     image = '/images/metaImages/main-meta.jpg';
   }
@@ -30,8 +37,16 @@ function YupHead({ title, description, image, meta }) {
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@yup_io" />
 
-      {Object.entries(meta || {}).map(([k, v]) => (
-        <meta key={k} name={k} content={v} />
+      {Object.entries(metaOther || {}).map(([k, v]) => (
+        <meta key={k} property={k} content={v} />
+      ))}
+
+      {Object.entries(metaOg || {}).map(([k, v]) => (
+        <meta key={k} property={`og:${k}`} content={v} />
+      ))}
+
+      {Object.entries(metaTwitter || {}).map(([k, v]) => (
+        <meta key={k} name={`twitter:${k}`} content={v} />
       ))}
     </Head>
   );
