@@ -122,8 +122,8 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
   }, [newRating, lastClicked]);
 
   useEffect(() => {
-    setUpvotes((post.catVotes.overall && post.catVotes.overall.up) || 0);
-    setDownvotes((post.catVotes.overall && post.catVotes.overall.down) || 0);
+    setUpvotes((post.rawPositiveWeight) || 0);
+    setDownvotes((post.rawNegativeWeight) || 0);
   }, []);
 
   const fetchActionUsage = async (eosname) => {
