@@ -29,7 +29,7 @@ const Card = styled(Grid)(({ theme }) => ({
   backdropFilter: 'blur(24px)',
   boxShadow: `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
   backgroundSize: 'cover',
-  minWidth: 0,
+  minWidth: 0
 }));
 const YupChip = styled(Chip)(({ theme }) => ({
   padding: '1rem 0.5rem'
