@@ -22,10 +22,14 @@ import { useFollowers } from '../../hooks/queries';
 import FollowUser from '../FollowUser';
 
 const Card = styled(Grid)(({ theme }) => ({
-  background: theme.palette.M900,
-  border: `1px solid ${theme.palette.M750}`,
-  borderRadius: '16px',
-  padding: '20px'
+  border: `1.5px solid ${theme.palette.M700}22`,
+  borderRadius: '12px',
+  overflow: 'hidden',
+  backgroundColor: `${theme.palette.M850}AA`,
+  backdropFilter: 'blur(24px)',
+  boxShadow: `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
+  backgroundSize: 'cover',
+  minWidth: 0,
 }));
 const YupChip = styled(Chip)(({ theme }) => ({
   padding: '1rem 0.5rem'
