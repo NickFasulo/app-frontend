@@ -89,9 +89,7 @@ function UserAccountPage() {
 
   const { avatar, quantile, ethInfo } = profile;
   const isMyProfile = username === loggedInUsername;
-  const tabs = [
-    { label: 'Profile', value: PROFILE_TAB_IDS.PROFILE }
-  ];
+  const tabs = [{ label: 'Profile', value: PROFILE_TAB_IDS.PROFILE }];
 
   if (isMyProfile && ethInfo?.address) {
     tabs.push({ label: 'Wallet', value: PROFILE_TAB_IDS.WALLET });

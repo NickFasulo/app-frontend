@@ -16,7 +16,15 @@ const Tokens = ({ data }) => {
         <>
           <Grid container spacing={1.5} sx={{ mb: 3 }}>
             {(showAll ? filteredData : filteredData.slice(0, 4)).map(
-              ({ name, symbol, image, chain, chainImage, balance, balanceUSD }) => (
+              ({
+                name,
+                symbol,
+                image,
+                chain,
+                chainImage,
+                balance,
+                balanceUSD
+              }) => (
                 <Grid key={name} item xs={12}>
                   <Erc20Token
                     name={name}
@@ -46,12 +54,10 @@ const Tokens = ({ data }) => {
           )}
         </>
       ) : (
-        <Typography>
-          You don't have any tokens in your wallet.
-        </Typography>
+        <Typography>You don't have any tokens in your wallet.</Typography>
       )}
     </>
   );
-}
+};
 
 export default Tokens;
