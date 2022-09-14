@@ -42,7 +42,7 @@ function CollectionDetails({ id }) {
         image={collection.coverImgSrc}
         metaOg={{
           site_name: COMPANY_NAME,
-          url: getAbsolutePath(`/collections/${id}`)
+          url: getAbsolutePath(`/collections/${collection.name}/${id}`)
         }}
       />
       <YupPageWrapper>
