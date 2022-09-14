@@ -29,6 +29,8 @@ import RecommendedPosts from '../../components/RecommendedPosts';
 import UserWallet from '../../components/UserWallet';
 import callYupApi from '../../apis/base_api';
 import { useAuth } from '../../contexts/AuthContext';
+import { COMPANY_NAME } from '../../constants/const';
+import { getAbsolutePath } from '../../utils/helpers';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
@@ -107,11 +109,28 @@ function UserAccountPage() {
     }
   }
 
+  const arrName = profile.fullname ? profile.fullname.split(' ') : [];
+
   return (
     <>
       <YupHead
-        title={`${profile.username} | Yup`}
-        description={`${profile.fullname || profile.username}'s Profile`}
+        title={`${profile.fullname || profile.username} | ${COMPANY_NAME}`}
+        description={`${
+          profile.fullname || profile.username
+        }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
+        metaOg={{
+          url: getAbsolutePath(`/account/${profile.username}`),
+          type: 'profile'
+        }}
+        metaOther={{
+          'profile:username': profile.username,
+          'profile:first_name': arrName.length > 0 ? arrName[0] : undefined,
+          'profile:last_name':
+            arrName.length > 1 ? arrName[arrName.length - 1] : undefined
+        }}
+        metaTwitter={{
+          card: 'summary'
+        }}
       />
       <YupPageWrapper>
         <YupPageHeader scrolled={windowScrolled}>
