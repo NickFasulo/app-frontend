@@ -8,19 +8,19 @@ const Badges = ({ data }) => {
 
   return (
     <>
-      <Typography variant="h6" sx={{ mb: 3 }}>
+      <Typography variant="h6" sx={{ my: 3 }}>
         Badges
       </Typography>
       {data?.length > 0 ? (
         <>
           <Grid container spacing={3}>
-            {data.map(({ description, image, link }) => (
-              <Grid key={description} item xs={6} sm={4} md={6} lg={4}>
-                <PoapBadge image={image} text={description} link={link} />
+            {(showAll ? data : data.slice(-3)).map(({ title, image, link }) => (
+              <Grid key={title} item xs={6} sm={4} md={6} lg={4}>
+                <PoapBadge image={image} text={title} link={link} />
               </Grid>
             ))}
           </Grid>
-          {data.length > 2 && (
+          {data.length > 3 && (
             <FlexBox justifyContent="flex-end">
               <Button
                 sx={{
