@@ -13,6 +13,8 @@ import YupPageTabs from '../YupPageTabs';
 import { LOADER_TYPE } from '../../constants/enum';
 import withSuspense from '../../hoc/withSuspense';
 import GridLayout from '../GridLayout';
+import { COMPANY_NAME } from '../../constants/const';
+import { getAbsolutePath } from '../../utils/helpers';
 
 const COLLECTION_TAB_IDS = {
   FEED: 'feed',
@@ -35,9 +37,13 @@ function CollectionDetails({ id }) {
   return (
     <>
       <YupHead
-        title={`${collection.name} | ${collection.owner}`}
+        title={`${collection.name} by ${collection.owner} | ${COMPANY_NAME}`}
         description={collection.description}
         image={collection.coverImgSrc}
+        metaOg={{
+          site_name: COMPANY_NAME,
+          url: getAbsolutePath(`/collections/${id}`)
+        }}
       />
       <YupPageWrapper>
         <YupPageHeader>
