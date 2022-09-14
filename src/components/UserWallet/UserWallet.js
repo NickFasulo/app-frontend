@@ -14,7 +14,7 @@ const UserWallet = ({ ethAddress }) => {
     <>
       <GridLayout
         contentLeft={
-          <Box>
+          <Box mb={3}>
             {isMobile && <Tokens data={tokens} />}
             <Badges data={poaps} />
             <NFTs data={nfts} />

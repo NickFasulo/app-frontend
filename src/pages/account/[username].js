@@ -90,12 +90,15 @@ function UserAccountPage() {
   const { avatar, quantile, ethInfo } = profile;
   const isMyProfile = username === loggedInUsername;
   const tabs = [
-    { label: 'Profile', value: PROFILE_TAB_IDS.PROFILE },
-    { label: 'Analytics', value: PROFILE_TAB_IDS.ANALYTICS }
+    { label: 'Profile', value: PROFILE_TAB_IDS.PROFILE }
   ];
 
   if (isMyProfile && ethInfo?.address) {
     tabs.push({ label: 'Wallet', value: PROFILE_TAB_IDS.WALLET });
+  }
+
+  if (isMyProfile) {
+    tabs.push({ label: 'Analytics', value: PROFILE_TAB_IDS.ANALYTICS });
   }
 
   if (isMobile) {
@@ -180,7 +183,7 @@ function UserAccountPage() {
           </YupContainer>
         )}
         {selectedTab === PROFILE_TAB_IDS.WALLET && (
-          <YupContainer sx={{ py: 3 }}>
+          <YupContainer>
             <UserWallet ethAddress={ethInfo?.address} />
           </YupContainer>
         )}
