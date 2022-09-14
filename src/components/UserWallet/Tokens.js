@@ -1,6 +1,6 @@
 import { Button, Grid, Typography } from '@mui/material';
-import Erc20Token from '../Erc20Token';
 import { useState } from 'react';
+import Erc20Token from '../Erc20Token';
 import { FlexBox } from '../styles';
 
 const Tokens = ({ data }) => {
@@ -48,7 +48,7 @@ const Tokens = ({ data }) => {
                 color="inherit"
                 onClick={() => setShowAll(!showAll)}
               >
-                {showAll ? 'See less...' : 'See more...'}
+                {showAll ? 'See less' : 'See more'}
               </Button>
             </FlexBox>
           )}

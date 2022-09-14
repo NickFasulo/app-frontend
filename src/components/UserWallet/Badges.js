@@ -1,6 +1,6 @@
 import { Button, Grid, Typography } from '@mui/material';
-import PoapBadge from '../PoapBadge';
 import { useState } from 'react';
+import PoapBadge from '../PoapBadge';
 import { FlexBox } from '../styles';
 
 const Badges = ({ data }) => {
@@ -30,7 +30,7 @@ const Badges = ({ data }) => {
                 color="inherit"
                 onClick={() => setShowAll(!showAll)}
               >
-                {showAll ? 'See less...' : 'See more...'}
+                {showAll ? 'See less' : 'See more'}
               </Button>
             </FlexBox>
           )}

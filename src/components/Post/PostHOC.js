@@ -16,12 +16,11 @@ const styles = (theme) => ({
     userSelect: 'none'
   },
   article: {
-    border: `1.5px solid ${theme.palette.M700}22`,
     borderRadius: '12px',
     overflow: 'hidden',
-    backgroundColor: `${theme.palette.M850}AA`,
+    backgroundColor: `${theme.palette.M900}80`,
     backdropFilter: 'blur(24px)',
-    boxShadow: `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
+    boxShadow: `0px 0px 10px 0px ${theme.palette.M200}05, 0px 0px 0.75px  ${theme.palette.M200}05`,
     backgroundSize: 'cover',
     minWidth: 0,
     [theme.breakpoints.down('sm')]: {
