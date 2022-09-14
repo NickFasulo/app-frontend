@@ -115,7 +115,9 @@ function UserAccountPage() {
     <>
       <YupHead
         title={`${profile.fullname || profile.username} | ${COMPANY_NAME}`}
-        description={`${profile.fullname || profile.username}'s profile at ${COMPANY_NAME}. ${profile.bio}`}
+        description={`${
+          profile.fullname || profile.username
+        }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
         metaOg={{
           url: getAbsolutePath(`/account/${profile.username}`),
           type: 'profile'
@@ -123,7 +125,8 @@ function UserAccountPage() {
         metaOther={{
           'profile:username': profile.username,
           'profile:first_name': arrName.length > 0 ? arrName[0] : undefined,
-          'profile:last_name': arrName.length > 1 ? arrName[arrName.length - 1] : undefined
+          'profile:last_name':
+            arrName.length > 1 ? arrName[arrName.length - 1] : undefined
         }}
         metaTwitter={{
           card: 'summary'
