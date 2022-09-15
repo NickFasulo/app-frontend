@@ -114,7 +114,6 @@ const StakingPage = ({ classes }) => {
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
   const LpRewards = useLpRewards(address);
-  console.log({ LpRewards }, LpRewards.poly, LpRewards.eth);
   const { config: approveEthConfig } = usePrepareContractWrite({
     addressOrName: ETH_UNI_LP_TOKEN,
     contractInterface: YUPETH_ABI,
