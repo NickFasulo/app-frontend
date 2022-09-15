@@ -34,15 +34,15 @@ import FeedHOC from '../Feed/FeedHOC';
 import UserNewConnections from '../UserNewConnections';
 import FeedCategoryList from '../FeedContainer/FeedCategoryList';
 import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
+import { useHomeConfig } from '../../hooks/queries';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
 );
 const getRandomGradientImg = () =>
-  `${
-    DEFAULT_COLLECTION_IMGS[
-      Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
-    ]
+  `${DEFAULT_COLLECTION_IMGS[
+  Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
+  ]
   }`;
 
 function Home({ isUser, userCollections, theme }) {
@@ -51,20 +51,18 @@ function Home({ isUser, userCollections, theme }) {
   const { isMobile } = useDevice();
   const { open: openAuthModal } = useAuthModal();
   const { isLoggedIn, username } = useAuth();
-
-  const [linkItems, setLinkItems] = useState([]);
-  const [cardItems, setCardItems] = useState([]);
+  const { cardItems, linkItems } = useHomeConfig()
   const [recommendedCollections, setRecommendedCollections] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [recommendedFloating, setRecommendeFloating] = useState(false);
   const feedRef = useRef();
   useEffect(() => {
-    axios
-      .get(`${apiBaseUrl}/home-config/v2`)
-      .then(({ data: { cardItems, linkItems } }) => {
-        setCardItems(cardItems);
-        setLinkItems(linkItems);
-      });
+    // axios
+    //   .get(`${apiBaseUrl}/home-config/v2`)
+    //   .then(({ data: { cardItems, linkItems } }) => {
+    //     setCardItems(cardItems);
+    //     setLinkItems(linkItems);
+    //   });
     axios
       .get(`${apiBaseUrl}/collections/recommended?limit=7`)
       .then(({ data: recommendedCollections }) => {
@@ -457,9 +455,8 @@ function Home({ isUser, userCollections, theme }) {
                     recommendedFloating && {
                       position: 'fixed',
                       top: 0,
-                      left: `${
-                        feedRef.current.clientWidth + feedRef.current.offsetLeft
-                      }px`
+                      left: `${feedRef.current.clientWidth + feedRef.current.offsetLeft
+                        }px`
                     }
                   }
                 >
