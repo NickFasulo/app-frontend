@@ -5,13 +5,10 @@ import { REACT_QUERY_KEYS } from '../constants/enum';
 import { useHomeConfig, useRecommendation } from '../hooks/queries';
 
 function Home() {
-  const { cardItems, linkItems } = useHomeConfig()
-  const { recommendedCollections } = useRecommendation({ limit: 7 })
-  console.log({ recommendedCollections, cardItems, linkItems })
-  return <HomeMenu cardItems={cardItems} linkItems={linkItems} />;
+  return <HomeMenu />;
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   // const { username } = context.params;
   const qc = new QueryClient();
   // const profile = await callYupApi({

@@ -28,13 +28,12 @@ import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { generateCollectionUrl } from '../../utils/helpers';
-import { fetchUserCollections } from '../../redux/actions';
 import { useAuth } from '../../contexts/AuthContext';
 import FeedHOC from '../Feed/FeedHOC';
 import UserNewConnections from '../UserNewConnections';
 import FeedCategoryList from '../FeedContainer/FeedCategoryList';
 import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
-import { useHomeConfig } from '../../hooks/queries';
+import { useHomeConfig, useRecommendation } from '../../hooks/queries';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
@@ -45,14 +44,14 @@ const getRandomGradientImg = () =>
   ]
   }`;
 
-function Home({ isUser, userCollections, theme }) {
-  const dispatch = useDispatch();
+function Home({ theme }) {
   const classes = useStyles();
   const { isMobile } = useDevice();
   const { open: openAuthModal } = useAuthModal();
-  const { isLoggedIn, username } = useAuth();
+  // const { isLoggedIn, username } = useAuth();
   const { cardItems, linkItems } = useHomeConfig()
-  const [recommendedCollections, setRecommendedCollections] = useState([]);
+  const { isLoggedIn } = useAuth()
+  const recommendedCollections = useRecommendation({ limit: 7 })
   const [scrollPosition, setScrollPosition] = useState(0);
   const [recommendedFloating, setRecommendeFloating] = useState(false);
   const feedRef = useRef();
@@ -63,15 +62,15 @@ function Home({ isUser, userCollections, theme }) {
     //     setCardItems(cardItems);
     //     setLinkItems(linkItems);
     //   });
-    axios
-      .get(`${apiBaseUrl}/collections/recommended?limit=7`)
-      .then(({ data: recommendedCollections }) => {
-        setRecommendedCollections(recommendedCollections);
-      });
+    // axios
+    //   .get(`${apiBaseUrl}/collections/recommended?limit=7`)
+    //   .then(({ data: recommendedCollections }) => {
+    //     setRecommendedCollections(recommendedCollections);
+    //   });
 
-    if (isLoggedIn) {
-      dispatch(fetchUserCollections(username));
-    }
+    // if (isLoggedIn) {
+    //   dispatch(fetchUserCollections(username));
+    // }
   }, []);
   useEffect(() => {
     const updatePosition = () => {
@@ -111,7 +110,7 @@ function Home({ isUser, userCollections, theme }) {
                       elevation={0}
                       className={classes.bannerCard}
                       style={{
-                        backgroundImage: isUser
+                        backgroundImage: isLoggedIn
                           ? `linear-gradient(to top, #825EC6, ${theme.palette.M700})`
                           : "url('images/feeds/rainbowbanner.svg')"
                       }}
@@ -133,7 +132,7 @@ function Home({ isUser, userCollections, theme }) {
                                 variant="h1"
                                 className={classes.titlePlain}
                               >
-                                {isUser
+                                {isLoggedIn
                                   ? `Farcaster Feed`
                                   : `Social Network for Curators`}
                               </Typography>
@@ -147,7 +146,7 @@ function Home({ isUser, userCollections, theme }) {
                                 variant="subtitle1"
                                 className={classes.subtitle}
                               >
-                                {isUser
+                                {isLoggedIn
                                   ? `Explore Farcaster content`
                                   : `Curate and share content across the web. Earn money and clout for your taste`}
                               </Typography>
@@ -162,12 +161,12 @@ function Home({ isUser, userCollections, theme }) {
                           >
                             <YupImage
                               className={
-                                isUser
+                                isLoggedIn
                                   ? classes.bannerMediaUser
                                   : classes.bannerMediaNews
                               }
                               src={
-                                isUser
+                                isLoggedIn
                                   ? 'images/graphics/farcaster_logo.svg'
                                   : 'images/graphics/coingraphic.png'
                               }
@@ -176,7 +175,7 @@ function Home({ isUser, userCollections, theme }) {
                         </Grid>
                       </CardContent>
                       <CardActions>
-                        {isUser ? (
+                        {isLoggedIn ? (
                           <Link className={classes.link} href="/feed/farcaster">
                             <YupButton
                               size="large"
@@ -296,7 +295,7 @@ function Home({ isUser, userCollections, theme }) {
             </Grid>
             {/* HIDDEN TO FOCUS ON FEED
             {userCollections?.length > 0 && (
-            <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
+            <Grid item xs={12} style={{ display: isLoggedIn ? 'inherit' : 'none' }}>
                 <Grid container direction="row">
                   <Grid item xs={12}>
                     <Fade in style={{ transitionDelay: '50ms' }} timeout={300}>
@@ -476,21 +475,8 @@ function Home({ isUser, userCollections, theme }) {
   );
 }
 
-const mapStateToProps = (state) => {
-  const account = accountInfoSelector(state);
-  const isUser = account && account.name;
-  const { collections: userCollections } =
-    state.userCollections[account && account.name] || {};
-  return {
-    isUser,
-    userCollections
-  };
-};
-
 Home.propTypes = {
-  userCollections: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  isUser: PropTypes.bool.isRequired
 };
 
-export default memo(connect(mapStateToProps)(withTheme(Home)));
+export default memo((withTheme(Home)));
