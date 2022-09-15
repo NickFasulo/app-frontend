@@ -322,8 +322,8 @@ function VoteButton({
         ? faThumbsUpSolid
         : faThumbsUp
       : (isHovered || isVoted) && account && account.name
-        ? faThumbsDownSolid
-        : faThumbsDown;
+      ? faThumbsDownSolid
+      : faThumbsDown;
   return (
     <Grid
       container
