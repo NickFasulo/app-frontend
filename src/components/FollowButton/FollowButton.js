@@ -3,13 +3,11 @@ import { CircularProgress } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContext';
 import { useFollowings } from '../../hooks/queries';
 import { ActionButton } from '../styles';
-import withSuspense from '../../hoc/withSuspense';
 import { MUTATION_KEYS } from '../../constants/enum';
 
 function FollowButton({ userId }) {
   const { userId: myUserId, isLoggedIn, authInfo } = useAuth();
-  const myFollowingUsers = useFollowings(myUserId) || [];
-  const isAlreadyFollowing = myFollowingUsers.includes(userId);
+  const { data: myFollowingUsers } = useFollowings(myUserId) || [];
   const { isLoading, mutate } = useMutation([
     MUTATION_KEYS.FOLLOW_UNFOLLOW_USER
   ]);
@@ -18,6 +16,10 @@ function FollowButton({ userId }) {
   if (!isLoggedIn) {
     return null;
   }
+
+  if (!myFollowingUsers) return null;
+
+  const isAlreadyFollowing = myFollowingUsers.includes(userId);
 
   const handleFollowOrUnfollow = () => {
     mutate({
@@ -47,4 +49,4 @@ function FollowButton({ userId }) {
   );
 }
 
-export default withSuspense()(FollowButton);
+export default FollowButton;

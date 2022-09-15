@@ -1,14 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  Avatar,
-  Chip,
-  Divider,
-  Grid,
-  Icon,
-  Stack,
-  styled,
-  Typography
-} from '@mui/material';
+import { Chip, Divider, Grid, styled, Typography } from '@mui/material';
 import {
   faLink,
   faPlus,
@@ -18,7 +9,6 @@ import {
 import useAccount from '../../hooks/useAccount';
 import ThumbnailIcon from '../CustomWeb3PostEmbed/ThumbnailIcon';
 import VoteComp from '../VoteComp/VoteComp';
-import { useFollowers } from '../../hooks/queries';
 import FollowUser from '../FollowUser';
 
 const Card = styled(Grid)(({ theme }) => ({
@@ -44,8 +34,7 @@ const StyledIcon = styled(Typography)(({ theme }) => ({
 function PostCard({ post }) {
   const { account } = useAccount();
   const id = account?._id?.id;
-  const followers = useFollowers(id) || [];
-  console.log({ account, followers });
+
   return (
     <Card>
       <Grid container direction="column">
