@@ -114,7 +114,6 @@ const StakingPage = ({ classes }) => {
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
   const LpRewards = useLpRewards(address);
-  console.log({ LpRewards }, LpRewards.poly, LpRewards.eth);
   const { config: approveEthConfig } = usePrepareContractWrite({
     addressOrName: ETH_UNI_LP_TOKEN,
     contractInterface: YUPETH_ABI,
@@ -122,7 +121,7 @@ const StakingPage = ({ classes }) => {
     args: [
       ETH_LIQUIDITY_REWARDS,
       !isInvalidStakeAmt(ethStakeInput) &&
-        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+      ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -133,7 +132,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'stake',
     args: [
       !isInvalidStakeAmt(ethStakeInput) &&
-        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+      ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -144,7 +143,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'unstake',
     args: [
       !isInvalidStakeAmt(ethStakeInput) &&
-        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+      ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -161,7 +160,7 @@ const StakingPage = ({ classes }) => {
     args: [
       POLY_LIQUIDITY_REWARDS,
       !isInvalidStakeAmt(polyStakeInput) &&
-        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+      ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -172,7 +171,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'stake',
     args: [
       !isInvalidStakeAmt(polyStakeInput) &&
-        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+      ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -183,7 +182,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'unstake',
     args: [
       !isInvalidStakeAmt(polyStakeInput) &&
-        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+      ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -396,7 +395,7 @@ const StakingPage = ({ classes }) => {
         !polyLpBal ||
         !currentTotalStakePoly ||
         !currentTotalStakeEth,
-      predictedRewardRate)
+        predictedRewardRate)
     ) {
       return;
     }
@@ -1015,32 +1014,32 @@ const StakingPage = ({ classes }) => {
                   {(!isConnected
                     ? true
                     : toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) > 0) && (
-                    <Grid item>
-                      <ConnectButton.Custom>
-                        {({ openConnectModal }) => (
-                          <YupButton
-                            size="large"
-                            variant="contained"
-                            className={classes.submitBtn}
-                            onClick={() => {
-                              if (isConnected) {
-                                collectRewards();
-                              } else {
-                                openConnectModal();
-                              }
-                            }}
-                          >
-                            <Typography
-                              variant="body1"
-                              className={classes.submitBtnTxt}
+                      <Grid item>
+                        <ConnectButton.Custom>
+                          {({ openConnectModal }) => (
+                            <YupButton
+                              size="large"
+                              variant="contained"
+                              className={classes.submitBtn}
+                              onClick={() => {
+                                if (isConnected) {
+                                  collectRewards();
+                                } else {
+                                  openConnectModal();
+                                }
+                              }}
                             >
-                              {isConnected ? 'Collect' : 'Connect'}
-                            </Typography>
-                          </YupButton>
-                        )}
-                      </ConnectButton.Custom>
-                    </Grid>
-                  )}
+                              <Typography
+                                variant="body1"
+                                className={classes.submitBtnTxt}
+                              >
+                                {isConnected ? 'Collect' : 'Connect'}
+                              </Typography>
+                            </YupButton>
+                          )}
+                        </ConnectButton.Custom>
+                      </Grid>
+                    )}
                 </Grid>
                 {earnings && (
                   <Grid
@@ -1054,9 +1053,9 @@ const StakingPage = ({ classes }) => {
                       <Typography variant="subtitle2">
                         {formatDecimals(
                           toBaseNum(earnings) +
-                            LpRewards.poly +
-                            LpRewards.eth +
-                            predictedRewards.new
+                          LpRewards.poly +
+                          LpRewards.eth +
+                          predictedRewards.new
                         )}{' '}
                         YUP Earned in Total
                       </Typography>
