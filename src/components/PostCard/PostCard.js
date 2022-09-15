@@ -22,10 +22,9 @@ import { useFollowers } from '../../hooks/queries';
 import FollowUser from '../FollowUser';
 
 const Card = styled(Grid)(({ theme }) => ({
-  border: `1.5px solid ${theme.palette.M700}22`,
   borderRadius: '12px',
   overflow: 'hidden',
-  backgroundColor: `${theme.palette.M850}AA`,
+  backgroundColor: `${theme.palette.M900}80`,
   backdropFilter: 'blur(24px)',
   boxShadow: `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
   backgroundSize: 'cover',
