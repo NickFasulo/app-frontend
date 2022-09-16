@@ -16,17 +16,21 @@ export async function getServerSideProps(context) {
   // })
 
   // await qc.setQueryData([REACT_QUERY_KEYS.ACCOUNT, username], profile);
-  await qc.prefetchQuery([REACT_QUERY_KEYS.HOME_CONFIG], async () => (
-    (await callYupApi({
-      url: `/home-config/v2`
-    })) || []
-  ))
-  await qc.prefetchQuery([REACT_QUERY_KEYS.YUP_COLLECTION, null, null, null, 7], async () => (
-    (await callYupApi({
-      url: '/collections/recommended',
-      method: 'GET',
-    })) || []
-  ))
+  await qc.prefetchQuery(
+    [REACT_QUERY_KEYS.HOME_CONFIG],
+    async () =>
+      (await callYupApi({
+        url: `/home-config/v2`
+      })) || []
+  );
+  await qc.prefetchQuery(
+    [REACT_QUERY_KEYS.YUP_COLLECTION, null, null, null, 7],
+    async () =>
+      (await callYupApi({
+        url: '/collections/recommended',
+        method: 'GET'
+      })) || []
+  );
 
   return {
     props: {

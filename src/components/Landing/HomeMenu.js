@@ -39,9 +39,10 @@ const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
 );
 const getRandomGradientImg = () =>
-  `${DEFAULT_COLLECTION_IMGS[
-  Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
-  ]
+  `${
+    DEFAULT_COLLECTION_IMGS[
+      Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
+    ]
   }`;
 
 function Home({ theme }) {
@@ -49,9 +50,9 @@ function Home({ theme }) {
   const { isMobile } = useDevice();
   const { open: openAuthModal } = useAuthModal();
   // const { isLoggedIn, username } = useAuth();
-  const { cardItems, linkItems } = useHomeConfig()
-  const { isLoggedIn } = useAuth()
-  const recommendedCollections = useRecommendation({ limit: 7 })
+  const { cardItems, linkItems } = useHomeConfig();
+  const { isLoggedIn } = useAuth();
+  const recommendedCollections = useRecommendation({ limit: 7 });
   const [scrollPosition, setScrollPosition] = useState(0);
   const [recommendedFloating, setRecommendeFloating] = useState(false);
   const feedRef = useRef();
@@ -67,7 +68,6 @@ function Home({ theme }) {
     //   .then(({ data: recommendedCollections }) => {
     //     setRecommendedCollections(recommendedCollections);
     //   });
-
     // if (isLoggedIn) {
     //   dispatch(fetchUserCollections(username));
     // }
@@ -454,8 +454,9 @@ function Home({ theme }) {
                     recommendedFloating && {
                       position: 'fixed',
                       top: 0,
-                      left: `${feedRef.current.clientWidth + feedRef.current.offsetLeft
-                        }px`
+                      left: `${
+                        feedRef.current.clientWidth + feedRef.current.offsetLeft
+                      }px`
                     }
                   }
                 >
@@ -476,7 +477,7 @@ function Home({ theme }) {
 }
 
 Home.propTypes = {
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 };
 
-export default memo((withTheme(Home)));
+export default memo(withTheme(Home));
