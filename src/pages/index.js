@@ -8,7 +8,7 @@ function Home() {
   return <HomeMenu />;
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   // const { username } = context.params;
   const qc = new QueryClient();
   // const profile = await callYupApi({
