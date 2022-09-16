@@ -17,17 +17,15 @@ import { apiUploadProfileImage } from '../../apis';
 import useToast from '../../hooks/useToast';
 import useStyles from './styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
-import useYupAccount from '../../hooks/useAccount';
 import { useAuth } from '../../contexts/AuthContext';
-// TODO: Refactor styling to Mui v5
-function EditProfile({ open: modalOpen, onClose }) {
+
+function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
   const router = useRouter();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { dialogOpen } = router.query;
-  const { authInfo, userId } = useAuth();
-  const { data: account } = useYupAccount(userId);
+  const { authInfo } = useAuth();
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -294,8 +292,6 @@ function EditProfile({ open: modalOpen, onClose }) {
       </YupButton>
     );
   }
-
-  if (!account) return null;
 
   return (
     <ErrorBoundary>
