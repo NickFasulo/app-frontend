@@ -59,3 +59,8 @@ export const LOADER_TYPE = {
   NOTIFICATION: 'notification',
   TOP_BAR: 'topbar'
 };
+
+export const POST_TYPES = {
+  MIRROR: 'mirror',
+  POAP: 'poap'
+};

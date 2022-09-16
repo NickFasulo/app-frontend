@@ -10,17 +10,21 @@ import { useAuth } from "../../contexts/AuthContext"
 import { CollectionPostMenu } from "../Collections"
 
 const Card = styled(Grid)(({ theme }) => ({
-    background: theme.palette.M900,
-    border: `1px solid ${theme.palette.M750}`,
-    borderRadius: "16px",
-    padding: '20px'
-}))
+    borderRadius: '12px',
+    overflow: 'hidden',
+    backgroundColor: `${theme.palette.M900}80`,
+    backdropFilter: 'blur(24px)',
+    boxShadow: `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
+    backgroundSize: 'cover',
+    minWidth: 0,
+    padding: "20px"
+}));
 const YupChip = styled(Chip)(({ theme }) => ({
     padding: '1rem 0.5rem'
-}))
+}));
 const YupLabel = styled(Typography)(({ theme }) => ({
-    color: theme.palette.M400,
-}))
+    color: theme.palette.M400
+}));
 
 const StyledIcon = styled(Typography)(({ theme }) => ({
     width: '20px',
@@ -64,7 +68,7 @@ function PostCard({ post }) {
 
                         }} /> */}
                         <Grid item>
-                            <Grid container direction='column' spacing={1}>
+                            <Grid container direction='column' spacing={3}>
                                 <Grid item>
                                     <Grid container spacing={1}>
                                         <Grid item>
@@ -102,26 +106,44 @@ function PostCard({ post }) {
                                         </Grid>
                                     </Grid>
                                 </Grid> */}
+                                {/* <Grid item>
+                                    <YupChip
+                                        avatar={
+                                            <FontAwesomeIcon
+                                                style={{ width: '20px', height: '20px' }}
+                                                icon={faLink}
+                                            />
+                                        }
+                                        label={
+                                            <YupLabel variant="body2">Some other link</YupLabel>
+                                        }
+                                        component="a"
+                                        href="#basic-chip"
+                                        clickable
+                                    />
+                                </Grid> */}
 
+                                <YupDivider item />
+                                <Grid item>
+                                    <Grid container direction='column' spacing={2}>
+                                        <Grid item>
+                                            <Typography variant='h6'>Relevant People</Typography>
+                                        </Grid>
+                                        <Grid item>
+                                            {followers.map((follower) => <FollowUser noBorder userId={follower} />)}
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
                             </Grid>
+
 
                         </Grid>
 
-                        <YupDivider item />
-                        <Grid item>
-                            <Grid container direction='column' spacing={2}>
-                                <Grid item>
-                                    <Typography variant='h6'>Relevant People</Typography>
-                                </Grid>
-                                <Grid item>
-                                    {followers.map((follower) => <FollowUser noBorder userId={follower} />)}
-                                </Grid>
-                            </Grid>
-                        </Grid>
+
                     </Grid>
                 </Grid>
-            </Grid >
+            </Grid>
         </Card>
-    )
+    );
 }
-export default PostCard
+export default PostCard;
