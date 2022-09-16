@@ -1,12 +1,10 @@
-import React, { PureComponent } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
-import { connect } from 'react-redux';
 import { Divider, Fade, Typography } from '@mui/material';
 import PostHeader from '../PostHeader/PostHeader';
 import PostGrid from '../PostGrid/PostGrid';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { accountInfoSelector } from '../../redux/selectors';
 
 const styles = (theme) => ({
   post: {
@@ -52,7 +50,6 @@ const styles = (theme) => ({
 const PostHOC = (props) => {
   const {
     classes,
-    account,
     author,
     url,
     votes,
@@ -83,7 +80,6 @@ const PostHOC = (props) => {
             <Typography className={classes.postUrlHeader} variant="h6">
               <PostGrid
                 post={post}
-                account={account}
                 postid={postid}
                 url={url}
                 quantiles={quantiles}
@@ -105,13 +101,6 @@ const PostHOC = (props) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const account = accountInfoSelector(state);
-  return {
-    account
-  };
-};
-
 PostHOC.propTypes = {
   post: PropTypes.object.isRequired,
   author: PropTypes.string.isRequired,
@@ -121,13 +110,11 @@ PostHOC.propTypes = {
   weights: PropTypes.object.isRequired,
   quantiles: PropTypes.object.isRequired,
   postid: PropTypes.string.isRequired,
-  account: PropTypes.object,
   hideInteractions: PropTypes.bool,
   component: PropTypes.element.isRequired,
-  previewData: PropTypes.object,
   postType: PropTypes.string,
   rating: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(PostHOC));
+export default withStyles(styles)(PostHOC);
