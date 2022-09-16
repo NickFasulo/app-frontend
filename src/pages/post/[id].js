@@ -77,7 +77,8 @@ function PostDetails() {
       <YupPageWrapper>
         <YupPageHeader scrolled={windowScrolled} noborder>
           <YupContainer>
-            <Typography variant="h5">Post</Typography>
+            <Typography variant="h5">post by {post.author}</Typography>
+            <Typography variant="h5">Curated {post.createdAt}</Typography>
           </YupContainer>
         </YupPageHeader>
         <YupContainer>

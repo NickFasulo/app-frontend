@@ -4,8 +4,10 @@ import { faLink, faPlus, faFlag, faStar } from "@fortawesome/pro-regular-svg-ico
 import useAccount from "../../hooks/useAccount"
 import ThumbnailIcon from "../CustomWeb3PostEmbed/ThumbnailIcon"
 import VoteComp from "../VoteComp/VoteComp"
-import { useFollowers } from "../../hooks/queries"
+import { useFollowers, useYupAccount } from "../../hooks/queries"
 import FollowUser from "../FollowUser"
+import { useAuth } from "../../contexts/AuthContext"
+import { CollectionPostMenu } from "../Collections"
 
 const Card = styled(Grid)(({ theme }) => ({
     background: theme.palette.M900,
@@ -24,11 +26,21 @@ const StyledIcon = styled(Typography)(({ theme }) => ({
     width: '20px',
     height: '20px'
 }))
+
+
+const YupDivider = styled(Grid)(({ theme }) => ({
+    borderWidth: "0 0 1px 0",
+    borderStyle: "solid",
+    borderImage: "linear-gradient(to right, transparent, #7E7C84, transparent) 1"
+}))
 function PostCard({ post }) {
-    const { account } = useAccount()
-    const id = account?._id?.id
-    const followers = useFollowers(id) || [];
-    console.log({ account, followers })
+    const { username } = useAuth();
+    const account = useYupAccount(username)
+    const id = account?._id
+
+    // Just for showing the data, needs to replaced once backend has "Relevant people" functionality
+    const followers = useFollowers(id);
+    console.log({ id, account, followers })
     return (
         <Card>
             <Grid container direction='column' >
@@ -59,21 +71,27 @@ function PostCard({ post }) {
                                             <YupChip avatar={<ThumbnailIcon protocol={post?.web3Preview?.protocol} />}
                                                 label={<YupLabel variant='body2' >Source</YupLabel>} component="a" href={post.url} clickable />
                                         </Grid>
-
+                                        {/* 
                                         <Grid item>
                                             <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faLink} />}
                                                 label={<YupLabel variant='body2' >Some other link</YupLabel>}
                                                 component="a" href="#basic-chip" clickable />
-                                        </Grid>
+                                        </Grid> */}
 
                                         <Grid item>
-                                            <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faPlus} />}
-                                                label={<YupLabel variant='body2' >Collect</YupLabel>}
-                                                component="a" href="#basic-chip" clickable />
+                                            <CollectionPostMenu
+                                                noIcon
+                                                accountName={account && account.name}
+                                                postid={post?._id.postid}
+                                            >
+                                                <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faPlus} />}
+                                                    label={<YupLabel variant='body2' >Collect</YupLabel>}
+                                                    component="a" clickable />
+                                            </CollectionPostMenu>
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                <Grid item>
+                                {/* <Grid item>
                                     <Grid container spacing={1}>
 
                                         <Grid item>
@@ -83,22 +101,20 @@ function PostCard({ post }) {
                                             <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faStar} />} label={<YupLabel variant='body2' >Something else</YupLabel>} clickable />
                                         </Grid>
                                     </Grid>
-                                </Grid>
+                                </Grid> */}
 
                             </Grid>
 
                         </Grid>
 
+                        <YupDivider item />
                         <Grid item>
-                            <Divider />
-                        </Grid>
-                        <Grid item>
-                            <Grid container direction='column'>
+                            <Grid container direction='column' spacing={2}>
                                 <Grid item>
                                     <Typography variant='h6'>Relevant People</Typography>
                                 </Grid>
                                 <Grid item>
-                                    <FollowUser userId={id} />
+                                    {followers.map((follower) => <FollowUser noBorder userId={follower} />)}
                                 </Grid>
                             </Grid>
                         </Grid>
