@@ -7,7 +7,7 @@ function ThumbnailIcon({ protocol }) {
     <img
       src={`/images/icons/${protocol}.svg`}
       height={isMobile ? '12' : '16'}
-      alt="Lens post"
+      alt={`${protocol} post`}
     />
   );
 }

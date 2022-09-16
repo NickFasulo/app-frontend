@@ -37,6 +37,27 @@ const YupDivider = styled(Grid)(({ theme }) => ({
     borderStyle: "solid",
     borderImage: "linear-gradient(to right, transparent, #7E7C84, transparent) 1"
 }))
+const getWeb3Likes = (post) => {
+    if (post.web3Preview?.protocol === 'farcaster') {
+        return post.web3Preview?.meta?.reactions.count;
+    }
+    if (post.web3Preview?.protocol === 'lens') {
+        return post.web3Preview?.meta?.metadata.stats.totalUpvotes;
+    }
+
+    return 0;
+};
+
+const getWeb3Dislikes = (post) => {
+    if (post.web3Preview?.protocol === 'farcaster') {
+        return 0;
+    }
+    if (post.web3Preview?.protocol === 'lens') {
+        return post.web3Preview?.meta?.metadata.stats.totalDownvotes;
+    }
+
+    return 0;
+};
 function PostCard({ post }) {
     const { username } = useAuth();
     const account = useYupAccount(username)
@@ -45,21 +66,31 @@ function PostCard({ post }) {
     // Just for showing the data, needs to replaced once backend has "Relevant people" functionality
     const followers = useFollowers(id);
     console.log({ id, account, followers })
+
+    const likes = getWeb3Likes(post) + getWeb3Dislikes(post) + post.rating.overall.ratingCount
     return (
         <Card>
             <Grid container direction='column' >
                 <Grid item>
                     <Grid container direction='column' rowSpacing={4} >
                         <Grid item>
-                            <VoteComp
-                                postInfo={{ post }}
-                                url={post?.url}
-                                account={account}
-                                postid={post?._id.postid}
-                                quantiles={post?.quantiles}
-                                rating={post?.rating}
-                                weights={post?.weights}
-                            />
+                            <Grid container justifyContent="space-between" >
+                                <Grid item>
+                                    <VoteComp
+                                        postInfo={{ post }}
+                                        url={post?.url}
+                                        account={account}
+                                        postid={post?._id.postid}
+                                        quantiles={post?.quantiles}
+                                        rating={post?.rating}
+                                        weights={post?.weights}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Typography variant='body1' display="inline">{likes} </Typography>
+                                    <Typography variant='body2' display="inline" color='M400'>curated this</Typography>
+                                </Grid>
+                            </Grid>
                         </Grid>
                         {/* <Grid item sx={{
                             background: " linear-gradient(270deg, rgba(51, 50, 53, 0) 0%, #333235 49.48%, rgba(51, 50, 53, 0) 100%)",
