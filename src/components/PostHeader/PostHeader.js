@@ -1,8 +1,6 @@
-import React, { Component, Fragment } from 'react';
-import axios from 'axios';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
-import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
 import withStyles from '@mui/styles/withStyles';
 import Grid from '@mui/material/Grid';
@@ -12,9 +10,6 @@ import { faThumbsDown, faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { levelColors } from '../../utils/colors';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { fetchSocialLevel } from '../../redux/actions';
-import { accountInfoSelector } from '../../redux/selectors';
-import { apiBaseUrl, yupCreator } from '../../config';
 import YupLink from '../YupLink';
 import { usePostInteractions, useYupAccount } from '../../hooks/queries';
 
@@ -56,13 +51,13 @@ const styles = (theme) => ({
 });
 
 const PostHeader = ({ postid, classes, hideInteractions }) => {
-  const postInteractions = usePostInteractions(postid);
-  if (!postInteractions?.length > 0) return;
+  const { data: postInteractions } = usePostInteractions(postid);
   const vote = postInteractions?.[0];
-  const account = useYupAccount(vote?.voter);
-  const formattedVoteTime = moment(vote.timestamp, 'x').fromNow(true);
+  const { data: account } = useYupAccount(vote?.voter);
 
-  if (!account) return;
+  if (!vote || !account) return;
+
+  const formattedVoteTime = moment(vote.timestamp, 'x').fromNow(true);
 
   const voterQuantile = account.quantile;
   const voterLevelColor = voterQuantile

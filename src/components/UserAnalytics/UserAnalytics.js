@@ -4,17 +4,14 @@ import withStyles from '@mui/styles/withStyles';
 import { Grid, Hidden, Typography } from '@mui/material';
 import axios from 'axios';
 import { isSameDay } from 'date-fns';
-import { connect } from 'react-redux';
 import LineChart from '../Charts/LineChart';
 import BarChart from '../Charts/BarChart';
 import DonutChart from '../Charts/DonutChart';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import UserAvatar from '../UserAvatar/UserAvatar';
 import { levelColors, Brand, Other } from '../../utils/colors';
 import { setCache, getCache } from '../../utils/cache';
-import { accountInfoSelector } from '../../redux/selectors';
 import { apiBaseUrl } from '../../config';
-import { FlexBox, TruncateText } from '../styles';
+import { FlexBox } from '../styles';
 import LoadingSpin from '../LoadingSpin';
 import { PageBody } from '../../_pages/pageLayouts';
 import GridLayout from '../GridLayout';
@@ -508,18 +505,9 @@ class UserAnalytics extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const account = accountInfoSelector(state);
-
-  return {
-    account,
-    push: state.scatterInstallation.push
-  };
-};
-
 UserAnalytics.propTypes = {
   classes: PropTypes.object.isRequired,
   username: PropTypes.string.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(UserAnalytics));
+export default withStyles(styles)(UserAnalytics);
