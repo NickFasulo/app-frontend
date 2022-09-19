@@ -21,13 +21,13 @@ import { apiBaseUrl } from '../../config';
 import { YupMenu } from '../styles';
 import useToast from '../../hooks/useToast';
 import { useInitialVotes } from '../../hooks/queries';
-import withSuspense from '../../hoc/withSuspense';
 import { deleteVote } from '../../apis';
 import { useAuth } from '../../contexts/AuthContext';
 
 function CollectionPostMenu({ postid, children }) {
   const { isLoggedIn, authInfo, ...account } = useAuth();
-  const vote = useInitialVotes(postid, account.name)?.[0];
+  const { data: votes } = useInitialVotes(postid, account.name);
+  const vote = votes?.[0];
   const [isLoading, setIsLoading] = useState(false);
   const [hasVote, setHasVote] = useState(Boolean(vote));
   const dispatch = useDispatch();
@@ -170,4 +170,4 @@ CollectionPostMenu.propTypes = {
   postid: PropTypes.string
 };
 
-export default withSuspense()(CollectionPostMenu);
+export default CollectionPostMenu;

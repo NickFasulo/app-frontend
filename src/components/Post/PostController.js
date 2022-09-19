@@ -23,7 +23,6 @@ import AudiusPost from './AudiusPost';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { isYoutubeUrl } from '../../utils/helpers';
 import { useRefetchPostPreview } from '../../hooks/queries';
-import withSuspense from '../../hoc/withSuspense';
 import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
 
 const COLUMBIA_PROF_TAG = 'columbia-course-registration/professor';
@@ -595,4 +594,4 @@ PostController.defaultProps = {
   hideInteractions: false,
   renderObjects: false
 };
-export default withSuspense()(memo(PostController));
+export default memo(PostController);

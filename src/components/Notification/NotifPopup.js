@@ -1,19 +1,18 @@
-import React, { Component, Suspense, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
-import { Paper, Grow, IconButton, Badge, Icon } from '@mui/material';
+import { Paper, Grow, IconButton, Badge } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Downshift from 'downshift';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/pro-light-svg-icons';
 import wallet from '../../eos/scatter/scatter.wallet.js';
 import NotifOutline from './NotifOutline';
-import { ethAuthSelector } from '../../redux/selectors';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { apiBaseUrl } from '../../config';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Notification = React.lazy(() => import('./Notification'));
 
@@ -58,7 +57,8 @@ const styles = (theme) => ({
   }
 });
 
-function NotifPopup({ notifications, ethAuth, classes }) {
+function NotifPopup({ notifications, classes }) {
+  const { authInfo } = useAuth();
   const [open, setOpen] = useState(false);
 
   const handleToggle = () => {
@@ -77,7 +77,7 @@ function NotifPopup({ notifications, ethAuth, classes }) {
     if (notifications[0].type === 'ethaddressmissing') {
       localStorage.setItem('sawEthNotfication', new Date().getTime());
     }
-    if (!ethAuth) {
+    if (!authInfo) {
       const { signature, eosname } = await wallet.scatter.getAuthToken();
       notifications.forEach(async (notif) => {
         const id = notif._id;
@@ -91,7 +91,7 @@ function NotifPopup({ notifications, ethAuth, classes }) {
         }
       });
     } else {
-      const { signature, address } = ethAuth;
+      const { signature, address } = authInfo;
       notifications.forEach(async (notif) => {
         const id = notif._id;
         const res = await axios.post(
@@ -207,17 +207,9 @@ function NotifPopup({ notifications, ethAuth, classes }) {
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const ethAuth = ethAuthSelector(state);
-  return {
-    ethAuth
-  };
-};
-
 NotifPopup.propTypes = {
-  ethAuth: PropTypes.object,
   classes: PropTypes.object.isRequired,
   notifications: PropTypes.array.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(NotifPopup));
+export default withStyles(styles)(NotifPopup);

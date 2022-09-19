@@ -7,24 +7,29 @@ import { CreateCollectionFab } from '../../components/Miscellaneous';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import YupPageHeader from '../../components/YupPageHeader';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
-import FeedCategoryList from '../../components/FeedContainer/FeedCategoryList';
 import { YupPageWrapper, YupContainer } from '../../components/styles';
 import GridLayout from '../../components/GridLayout';
 import { usePost } from '../../hooks/queries';
-import withSuspense from '../../hoc/withSuspense';
-import { LOADER_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
+import { REACT_QUERY_KEYS } from '../../constants/enum';
 import callYupApi from '../../apis/base_api';
 import PostHead from '../../components/Heads/PostHead';
 import PostCard from '../../components/PostCard/PostCard';
-import ThumbnailIcon from '../../components/CustomWeb3PostEmbed/ThumbnailIcon';
 import useDevice from '../../hooks/useDevice';
+import PageLoadingBar from '../../components/PageLoadingBar';
 
 function PostDetails() {
   const router = useRouter();
   const { windowScrolled } = useAppUtils();
-  const { id } = router.query;
-  const post = usePost(id);
   const { isMobile } = useDevice();
+  const { id } = router.query;
+  const { isLoading, data: post } = usePost(id);
+
+  if (isLoading) {
+    return <PageLoadingBar />;
+  }
+
+  // TODO: Redirect to 404
+  if (!post) return null;
 
   return (
     <ErrorBoundary>
@@ -90,4 +95,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default withSuspense(LOADER_TYPE.TOP_BAR)(PostDetails);
+export default PostDetails;

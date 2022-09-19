@@ -5,10 +5,8 @@ import PropTypes from 'prop-types';
 import Comments from '../Comments/Comments';
 import PostGrid from '../PostGrid/PostGrid';
 import withStyles from '@mui/styles/withStyles';
-import { connect } from 'react-redux';
 import InteractionData from '../InteractionData/InteractionData';
 import Divider from '@mui/material/Divider';
-import { TwitterTweetEmbed } from 'react-twitter-embed';
 import Fade from '@mui/material/Fade';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import CustomTweetEmbed from './CustomTweetEmbed';
@@ -320,7 +318,6 @@ class TweetPost extends Component {
   render() {
     const {
       classes,
-      account,
       nickname,
       votes,
       postid,
@@ -348,7 +345,6 @@ class TweetPost extends Component {
             ) : null}
             <div className={classes.postUrlHeader} width="500px">
               <PostGrid
-                account={account}
                 nickname={nickname}
                 postid={postid}
                 quantiles={quantiles}
@@ -369,19 +365,6 @@ class TweetPost extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { nickname } = ownProps;
-
-  return {
-    ...state.scatterRequest,
-    level: state.socialLevels.levels[nickname] || {
-      isLoading: true,
-      error: false,
-      levelInfo: {}
-    }
-  };
-};
-
 TweetPost.propTypes = {
   nickname: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
@@ -389,9 +372,8 @@ TweetPost.propTypes = {
   weights: PropTypes.object.isRequired,
   quantiles: PropTypes.object.isRequired,
   postid: PropTypes.number.isRequired,
-  account: PropTypes.object.isRequired,
   previewData: PropTypes.object,
   url: PropTypes.string.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(TweetPost));
+export default withStyles(styles)(TweetPost);
