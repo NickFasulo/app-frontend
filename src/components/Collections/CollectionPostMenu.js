@@ -89,10 +89,13 @@ function CollectionPostMenu({ postid, children }) {
 
   return (
     <>
-      {children ? (<Grid onClick={(ev) => setAnchorEl(ev.currentTarget)} >{children}</Grid>) : (<IconButton onClick={(ev) => setAnchorEl(ev.currentTarget)}>
-        <IconThreeDots />
-      </IconButton>)
-      }
+      {children ? (
+        <Grid onClick={(ev) => setAnchorEl(ev.currentTarget)}>{children}</Grid>
+      ) : (
+        <IconButton onClick={(ev) => setAnchorEl(ev.currentTarget)}>
+          <IconThreeDots />
+        </IconButton>
+      )}
 
       <YupMenu
         anchorEl={anchorEl}
