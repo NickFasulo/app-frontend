@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { useState } from 'react';
 import NftCard from '../NftCard/NftCard';
+import { useState } from 'react';
 import { FlexBox } from '../styles';
 
 const NFTs = ({ data }) => {
@@ -44,7 +44,7 @@ const NFTs = ({ data }) => {
                 color="inherit"
                 onClick={() => setShowAll(!showAll)}
               >
-                {showAll ? 'See less' : 'See more'}
+                {showAll ? 'See less...' : 'See more...'}
               </Button>
             </FlexBox>
           )}

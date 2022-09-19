@@ -1,16 +1,18 @@
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useMemo } from 'react';
 import { useSearchPosts } from '../../hooks/queries';
 import PostController from '../Post/PostController';
+import withSuspense from '../../hoc/withSuspense';
+import { LOADER_TYPE } from '../../constants/enum';
 import FeedLoader from '../FeedLoader/FeedLoader';
 
 function RecommendedPosts({ query, excludeIds }) {
-  const { hasNextPage, fetchNextPage, data, isLoading } = useSearchPosts(query);
+  const { hasNextPage, fetchNextPage, data } = useSearchPosts(query);
 
-  if (isLoading) {
-    return <FeedLoader />;
-  }
-
-  const posts = data.pages.flat().filter((item) => !!item);
+  const posts = useMemo(
+    () => data.pages.flat().filter((item) => !!item),
+    [data]
+  );
 
   return (
     <InfiniteScroll
@@ -29,4 +31,4 @@ function RecommendedPosts({ query, excludeIds }) {
   );
 }
 
-export default RecommendedPosts;
+export default withSuspense(LOADER_TYPE.FEED)(RecommendedPosts);

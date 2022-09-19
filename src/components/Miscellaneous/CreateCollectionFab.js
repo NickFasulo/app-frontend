@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import withStyles from '@mui/styles/withStyles';
+import { connect } from 'react-redux';
 import { CollectionDialog } from '../Collections';
+import { accountInfoSelector } from '../../redux/selectors';
 import { useAuthModal } from '../../contexts/AuthModalContext';
-import { useAuth } from '../../contexts/AuthContext';
 
 const styles = (theme) => ({
   collectionFab: {
@@ -21,14 +22,13 @@ const styles = (theme) => ({
   }
 });
 
-function CreateCollectionFab({ classes }) {
+function CreateCollectionFab({ classes, account }) {
   const { open: openAuthModal } = useAuthModal();
-  const { isLoggedIn } = useAuth();
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleDialogOpen = () => {
-    if (!isLoggedIn) {
+    if (!account || !account.name) {
       openAuthModal({ noRedirect: true });
     } else {
       setDialogOpen(true);
@@ -38,8 +38,9 @@ function CreateCollectionFab({ classes }) {
 
   return (
     <>
-      {isLoggedIn && (
+      {account && account.name && (
         <CollectionDialog
+          account={account}
           dialogOpen={dialogOpen}
           handleDialogClose={handleDialogClose}
         />
@@ -59,7 +60,17 @@ function CreateCollectionFab({ classes }) {
 }
 
 CreateCollectionFab.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  account: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(CreateCollectionFab);
+const mapStateToProps = (state, ownProps) => {
+  const account = accountInfoSelector(state);
+  return {
+    account
+  };
+};
+
+export default connect(mapStateToProps)(
+  withStyles(styles)(CreateCollectionFab)
+);

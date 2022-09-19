@@ -387,6 +387,7 @@ function VoteButton({
 VoteButton.propTypes = {
   postid: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
+  voterWeight: PropTypes.number.isRequired,
   rating: PropTypes.number.isRequired,
   postInfo: PropTypes.object.isRequired,
   isShown: PropTypes.bool,

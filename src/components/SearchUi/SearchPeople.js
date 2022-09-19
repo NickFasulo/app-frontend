@@ -1,26 +1,16 @@
-import React from 'react';
 import { useSearchPeople } from '../../hooks/queries';
+import withSuspense from '../../hoc/withSuspense';
 import UserConnection from '../UserConnection/UserConnection';
+import { LOADER_TYPE } from '../../constants/enum';
 import { DEFAULT_SEARCH_SIZE } from '../../config';
-import { FlexBox } from '../styles';
-import { UserConnectionSkeleton } from '../Skeletons';
 
 const SearchPeople = ({ searchQuery }) => {
-  const { isLoading, data: people } = useSearchPeople(searchQuery);
-
-  if (isLoading) {
-    return (
-      <FlexBox flexDirection="column" gap={2}>
-        {[...Array(DEFAULT_SEARCH_SIZE).keys()].map((idx) => (
-          <UserConnectionSkeleton key={idx} />
-        ))}
-      </FlexBox>
-    );
-  }
-
-  if (!people) return null;
+  const people = useSearchPeople(searchQuery);
 
   return people.map((user) => <UserConnection user={user} />);
 };
 
-export default SearchPeople;
+export default withSuspense(
+  LOADER_TYPE.USER_CONNECTION,
+  DEFAULT_SEARCH_SIZE
+)(SearchPeople);

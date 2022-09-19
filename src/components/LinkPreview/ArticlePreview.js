@@ -100,12 +100,12 @@ function ArticlePreview({
   return (
     <ErrorBoundary>
       <div className={classes.container} href={url} target="_blank">
-        <div className={classes.previewData}>
-          <Grid container rowSpacing={1}>
-            <Grid item xs={12}>
-              <Grid alignItems="start" container direction="row" spacing={0}>
-                <Grid item xs={10} sm={11}>
-                  <Link href={`/post/${postid}`}>
+        <Link href={`/post/${postid}`}>
+          <div className={classes.previewData}>
+            <Grid container rowSpacing={1}>
+              <Grid item xs={12}>
+                <Grid alignItems="start" container direction="row" spacing={0}>
+                  <Grid item xs={10} sm={11}>
                     <Grid container direction="row">
                       <Grid item xs={12}>
                         <TruncateText variant="h6" lines={2}>
@@ -120,23 +120,20 @@ function ArticlePreview({
                         </Typography>
                       </Grid>
                     </Grid>
-                  </Link>
-                </Grid>
-                <Grid item xs={2} sm={1}>
-                  <Link href={url}>
+                  </Grid>
+                  <Grid item xs={2} sm={1}>
                     <YupImage
                       align="right"
+                      href={url}
                       src={faviconURL}
                       className={classes.linkImg}
                       target="_blank"
                     />
-                  </Link>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Link href={`/post/${postid}`}>
+            <Grid item xs={12}>
               <TruncateText
                 variant="body2"
                 className={classes.description}
@@ -144,9 +141,9 @@ function ArticlePreview({
               >
                 {removeMd(description)}
               </TruncateText>
-            </Link>
-          </Grid>
-        </div>
+            </Grid>
+          </div>
+        </Link>
       </div>
     </ErrorBoundary>
   );

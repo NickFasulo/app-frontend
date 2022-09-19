@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 import ReactCrop from 'react-image-crop';
 import { useDispatch, connect } from 'react-redux';
@@ -17,15 +18,18 @@ import { apiUploadProfileImage } from '../../apis';
 import useToast from '../../hooks/useToast';
 import useStyles from './styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
+import useYupAccount from '../../hooks/useAccount';
+import withSuspense from '../../hoc/withSuspense';
 import { useAuth } from '../../contexts/AuthContext';
-
-function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
+// TODO: Refactor styling to Mui v5
+function EditProfile({ open: modalOpen, onClose }) {
   const router = useRouter();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { dialogOpen } = router.query;
   const { authInfo } = useAuth();
+  const { account } = useYupAccount();
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -446,4 +450,4 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
 
 // TODO: Move to `useSelector`
 
-export default EditProfile;
+export default withSuspense()(EditProfile);

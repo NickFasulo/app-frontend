@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import ProfileHeader from '../../components/ProfileHeader';
 import {
@@ -11,7 +11,8 @@ import {
   YupPageWrapper
 } from '../../components/styles';
 import { useYupAccount, useUserCollections } from '../../hooks/queries';
-import { REACT_QUERY_KEYS } from '../../constants/enum';
+import { LOADER_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
+import withSuspense from '../../hoc/withSuspense';
 import YupPageTabs from '../../components/YupPageTabs';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
 import UserPosts from '../../components/UserPosts';
@@ -28,9 +29,6 @@ import RecommendedPosts from '../../components/RecommendedPosts';
 import UserWallet from '../../components/UserWallet';
 import callYupApi from '../../apis/base_api';
 import { useAuth } from '../../contexts/AuthContext';
-import { COMPANY_NAME } from '../../constants/const';
-import { getAbsolutePath } from '../../utils/helpers';
-import PageLoadingBar from '../../components/PageLoadingBar';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
@@ -44,10 +42,8 @@ function UserAccountPage() {
   const { query } = useRouter();
   const { username } = query;
   const { isMobile } = useDevice();
-  const { isLoading: isLoadingProfile, data: profile } =
-    useYupAccount(username);
-  const { isLoading: isFetchingCollections, data: collections = [] } =
-    useUserCollections(profile?._id);
+  const profile = useYupAccount(username);
+  const collections = useUserCollections(profile?._id);
   const { windowScrolled } = useAppUtils();
   const { username: loggedInUsername } = useAuth();
 
@@ -65,10 +61,6 @@ function UserAccountPage() {
   }, [isMobile, selectedTab]);
 
   if (!username) return null;
-
-  if (isLoadingProfile) {
-    return <PageLoadingBar />;
-  }
 
   // If profile doesn't exist, shows error message
   if (!profile) {
@@ -97,14 +89,13 @@ function UserAccountPage() {
 
   const { avatar, quantile, ethInfo } = profile;
   const isMyProfile = username === loggedInUsername;
-  const tabs = [{ label: 'Profile', value: PROFILE_TAB_IDS.PROFILE }];
+  const tabs = [
+    { label: 'Profile', value: PROFILE_TAB_IDS.PROFILE },
+    { label: 'Analytics', value: PROFILE_TAB_IDS.ANALYTICS }
+  ];
 
   if (isMyProfile && ethInfo?.address) {
     tabs.push({ label: 'Wallet', value: PROFILE_TAB_IDS.WALLET });
-  }
-
-  if (isMyProfile) {
-    tabs.push({ label: 'Analytics', value: PROFILE_TAB_IDS.ANALYTICS });
   }
 
   if (isMobile) {
@@ -115,28 +106,11 @@ function UserAccountPage() {
     }
   }
 
-  const arrName = profile.fullname ? profile.fullname.split(' ') : [];
-
   return (
     <>
       <YupHead
-        title={`${profile.fullname || profile.username} | ${COMPANY_NAME}`}
-        description={`${
-          profile.fullname || profile.username
-        }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
-        metaOg={{
-          url: getAbsolutePath(`/account/${profile.username}`),
-          type: 'profile'
-        }}
-        metaOther={{
-          'profile:username': profile.username,
-          'profile:first_name': arrName.length > 0 ? arrName[0] : undefined,
-          'profile:last_name':
-            arrName.length > 1 ? arrName[arrName.length - 1] : undefined
-        }}
-        metaTwitter={{
-          card: 'summary'
-        }}
+        title={`${profile.username} | Yup`}
+        description={`${profile.fullname || profile.username}'s Profile`}
       />
       <YupPageWrapper>
         <YupPageHeader scrolled={windowScrolled}>
@@ -181,7 +155,7 @@ function UserAccountPage() {
                 </>
               }
               contentRight={
-                (isFetchingCollections || collections.length) > 0 ? (
+                collections.length > 0 ? (
                   <UserCollectionsSection collections={collections} />
                 ) : (
                   <UserNewConnections profile={profile} />
@@ -206,7 +180,7 @@ function UserAccountPage() {
           </YupContainer>
         )}
         {selectedTab === PROFILE_TAB_IDS.WALLET && (
-          <YupContainer>
+          <YupContainer sx={{ py: 3 }}>
             <UserWallet ethAddress={ethInfo?.address} />
           </YupContainer>
         )}
@@ -219,7 +193,7 @@ export async function getServerSideProps(context) {
   const { username } = context.params;
   const qc = new QueryClient();
 
-  await qc.prefetchQuery([REACT_QUERY_KEYS.ACCOUNT, username], () =>
+  await qc.prefetchQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username], () =>
     callYupApi({
       url: `/accounts/${username}`
     })
@@ -232,4 +206,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default UserAccountPage;
+export default withSuspense(LOADER_TYPE.TOP_BAR)(UserAccountPage);

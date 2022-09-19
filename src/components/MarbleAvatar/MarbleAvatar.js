@@ -1,6 +1,7 @@
 import { useTheme } from '@emotion/react';
-import { Grid, Avatar } from '@mui/material';
+import { Grid, Typography, Avatar } from '@mui/material';
 import BoringAvatar from 'boring-avatars';
+import withSuspense from '../../hoc/withSuspense';
 import { useScore } from '../../hooks/queries';
 import { Brand, Other } from '../../utils/colors';
 
@@ -16,15 +17,10 @@ const scoreToColor = (score) =>
     : Brand.red;
 
 function MarbleAvatar(name, isEns) {
-  const { data: scoreData } = useScore(name.name);
-
-  if (!scoreData) return null;
-
-  const { data } = scoreData;
-
+  const { data } = useScore(name.name);
   const socialLevelColor = scoreToColor(data.yup_score);
+  console.log(data, 'Nameeeeeee');
   const theme = useTheme();
-
   return (
     <Grid
       container
@@ -55,4 +51,4 @@ function MarbleAvatar(name, isEns) {
     </Grid>
   );
 }
-export default MarbleAvatar;
+export default withSuspense()(MarbleAvatar);

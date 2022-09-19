@@ -10,7 +10,6 @@ import { getAuth } from '../../utils/authentication';
 import { accountInfoSelector } from '../../redux/selectors';
 import YupDialog from '../Miscellaneous/YupDialog';
 import { apiBaseUrl } from '../../config';
-import { useAuth } from '../../contexts/AuthContext';
 
 const styles = (theme) => ({
   dialog: {
@@ -45,13 +44,12 @@ const styles = (theme) => ({
 function CollectionReorderDialog({
   collection,
   dialogOpen,
-  handleDialogClose
+  handleDialogClose,
+  account
 }) {
-  const { authInfo } = useAuth();
-  const [posts, setPosts] = useState(collection?.posts || []);
-  const [isLoading, setIsLoading] = useState(false);
-
   if (!collection.posts) return null;
+  const [posts, setPosts] = useState(collection.posts);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onDragEndHandler = ({ destination, source }) => {
     if (!destination) return;
@@ -63,9 +61,10 @@ function CollectionReorderDialog({
   const handleCollectionReorder = async () => {
     try {
       setIsLoading(true);
+      const auth = await getAuth(account);
       const params = {
         postIds: posts.map((post) => post && post._id.postid).reverse(),
-        ...authInfo
+        ...auth
       };
       await axios.put(`${apiBaseUrl}/collections/${collection._id}`, params);
       setIsLoading(false);
@@ -114,10 +113,20 @@ function CollectionReorderDialog({
   );
 }
 
+const mapStateToProps = (state, ownProps) => {
+  const account = accountInfoSelector(state);
+  return {
+    account
+  };
+};
+
 CollectionReorderDialog.propTypes = {
   collection: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
-  handleDialogClose: PropTypes.func.isRequired
+  handleDialogClose: PropTypes.func.isRequired,
+  account: PropTypes.object
 };
 
-export default memo(withStyles(styles)(CollectionReorderDialog));
+export default memo(
+  connect(mapStateToProps)(withStyles(styles)(CollectionReorderDialog))
+);

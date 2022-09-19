@@ -11,6 +11,7 @@ import ReactMarkdown from 'react-markdown';
 import LinkPreview from '../components/LinkPreview/LinkPreview';
 import { apiBaseUrl } from '../config';
 import FarCasterPost from '../components/CustomWeb3PostEmbed/FarCasterPost';
+import { SeeMore } from '../components/Miscellaneous';
 import LensPost from '../components/CustomWeb3PostEmbed/LensPost';
 /**
  * - Removes https://t.co/ERYj5p9VHj that comes at end of text field in tweetData object if present

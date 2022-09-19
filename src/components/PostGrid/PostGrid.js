@@ -33,6 +33,7 @@ const styles = (theme) => ({
 });
 
 function PostGrid({
+  account,
   postid,
   quantiles,
   weights,
@@ -67,6 +68,7 @@ function PostGrid({
           <VoteComp
             postInfo={{ post }}
             url={url}
+            account={account}
             postid={postid}
             quantiles={quantiles}
             rating={rating}
@@ -77,7 +79,10 @@ function PostGrid({
           />
         </Grid>
         <Grid item>
-          <CollectionPostMenu postid={postid} />
+          <CollectionPostMenu
+            accountName={account && account.name}
+            postid={postid}
+          />
         </Grid>
       </Grid>
       {rank ? (
@@ -103,11 +108,19 @@ function PostGrid({
 
 PostGrid.propTypes = {
   post: PropTypes.object.isRequired,
+  account: PropTypes.object,
   url: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   postid: PropTypes.string.isRequired,
   weights: PropTypes.object.isRequired,
-  rating: PropTypes.object.isRequired
+  quantiles: PropTypes.object,
+  postType: PropTypes.string,
+  listType: PropTypes.string,
+  rating: PropTypes.object.isRequired,
+  rank: PropTypes.string,
+  categories: PropTypes.array,
+  rankCategory: PropTypes.string,
+  isList: PropTypes.bool
 };
 
 export default withStyles(styles)(PostGrid);

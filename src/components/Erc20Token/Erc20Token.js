@@ -35,7 +35,7 @@ const Erc20Token = ({ name, image, chain, symbol, chainImage, balance }) => (
       {chainImage && <ChainImage src={chainImage} alt={chain} />}
     </Box>
     <Box flexGrow={1}>
-      <Typography variant="body2">{name}</Typography>
+      <Typography variant="h6">{name}</Typography>
       {chain && (
         <Typography
           sx={{

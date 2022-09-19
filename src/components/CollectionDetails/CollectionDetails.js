@@ -10,10 +10,9 @@ import YupHead from '../YupHead';
 import YupPageHeader from '../YupPageHeader';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
 import YupPageTabs from '../YupPageTabs';
+import { LOADER_TYPE } from '../../constants/enum';
+import withSuspense from '../../hoc/withSuspense';
 import GridLayout from '../GridLayout';
-import { COMPANY_NAME } from '../../constants/const';
-import { getAbsolutePath } from '../../utils/helpers';
-import PageLoadingBar from '../PageLoadingBar';
 
 const COLLECTION_TAB_IDS = {
   FEED: 'feed',
@@ -22,30 +21,23 @@ const COLLECTION_TAB_IDS = {
 
 function CollectionDetails({ id }) {
   const { isDesktop } = useDevice();
-  const { isLoading: isFetchingCollection, data: collection } =
-    useCollection(id);
+  const collection = useCollection(id);
   const { windowScrolled } = useAppUtils();
   const [selectedTab, setSelectedTab] = useState(COLLECTION_TAB_IDS.FEED);
 
   const isTabMode = !isDesktop;
 
-  if (isFetchingCollection) {
-    return <PageLoadingBar />;
+  if (!collection) {
+    // TODO: Replace with NOT FOUND page.
+    return <div />;
   }
-
-  // TODO: Show error page
-  if (!collection) return null;
 
   return (
     <>
       <YupHead
-        title={`${collection.name} by ${collection.owner} | ${COMPANY_NAME}`}
+        title={`${collection.name} | ${collection.owner}`}
         description={collection.description}
         image={collection.coverImgSrc}
-        metaOg={{
-          site_name: COMPANY_NAME,
-          url: getAbsolutePath(`/collections/${collection.name}/${id}`)
-        }}
       />
       <YupPageWrapper>
         <YupPageHeader>
@@ -91,4 +83,4 @@ function CollectionDetails({ id }) {
   );
 }
 
-export default CollectionDetails;
+export default withSuspense(LOADER_TYPE.TOP_BAR)(CollectionDetails);

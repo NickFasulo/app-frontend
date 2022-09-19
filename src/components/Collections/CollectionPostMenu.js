@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { MenuItem, IconButton, Divider, Box, Grid } from '@mui/material';
+import { MenuItem, IconButton, Divider, Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,13 +21,13 @@ import { apiBaseUrl } from '../../config';
 import { YupMenu } from '../styles';
 import useToast from '../../hooks/useToast';
 import { useInitialVotes } from '../../hooks/queries';
+import withSuspense from '../../hoc/withSuspense';
 import { deleteVote } from '../../apis';
 import { useAuth } from '../../contexts/AuthContext';
 
-function CollectionPostMenu({ postid, children }) {
+function CollectionPostMenu({ postid }) {
   const { isLoggedIn, authInfo, ...account } = useAuth();
-  const { data: votes } = useInitialVotes(postid, account.name);
-  const vote = votes?.[0];
+  const vote = useInitialVotes(postid, account.name)?.[0];
   const [isLoading, setIsLoading] = useState(false);
   const [hasVote, setHasVote] = useState(Boolean(vote));
   const dispatch = useDispatch();
@@ -89,14 +89,9 @@ function CollectionPostMenu({ postid, children }) {
 
   return (
     <>
-      {children ? (
-        <Grid onClick={(ev) => setAnchorEl(ev.currentTarget)}>{children}</Grid>
-      ) : (
-        <IconButton onClick={(ev) => setAnchorEl(ev.currentTarget)}>
-          <IconThreeDots />
-        </IconButton>
-      )}
-
+      <IconButton onClick={(ev) => setAnchorEl(ev.currentTarget)}>
+        <IconThreeDots />
+      </IconButton>
       <YupMenu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -170,4 +165,4 @@ CollectionPostMenu.propTypes = {
   postid: PropTypes.string
 };
 
-export default CollectionPostMenu;
+export default withSuspense()(CollectionPostMenu);

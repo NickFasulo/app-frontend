@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { collectionsConstants as constants } from '../constants';
+import axios from 'axios';
 import { apiBaseUrl } from '../../config';
 
 export function fetchUserCollections(eosname) {

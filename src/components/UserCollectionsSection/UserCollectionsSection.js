@@ -1,5 +1,8 @@
 import { Grid, Typography } from '@mui/material';
 import { useState } from 'react';
+import withSuspense from '../../hoc/withSuspense';
+import { LOADER_TYPE } from '../../constants/enum';
+import { useUserCollections } from '../../hooks/queries';
 import { FlexBox } from '../styles';
 import CollectionCard from '../CollectionCard';
 import { USER_COLLECTION_PAGE_SIZE } from '../../config';
@@ -51,4 +54,4 @@ function UserCollectionsSection({ collections }) {
   );
 }
 
-export default UserCollectionsSection;
+export default withSuspense(LOADER_TYPE.DEFAULT)(UserCollectionsSection);

@@ -1,9 +1,11 @@
 import { Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
+import ReactPlayer from 'react-player/lazy';
 import LinkPreview from '../LinkPreview/LinkPreview';
 import { CldImg } from '../Miscellaneous';
 import { TruncateText } from '../styles';
+import withSuspense from '../../hoc/withSuspense';
 import Reply from './Reply';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
@@ -147,4 +149,4 @@ function FarCasterPost({
   );
 }
 
-export default FarCasterPost;
+export default withSuspense()(FarCasterPost);
