@@ -75,9 +75,9 @@ const styles = (theme) => ({
   },
   card: {
     padding: 20,
-    background: `${theme.palette.M900}55`,
-    border: `1.5px solid ${theme.palette.M700}`,
-    backdropFilter: 'blur(20px)'
+    background: `${theme.palette.M900}80`,
+    backdropFilter: 'blur(20px)',
+    boxShadow: `0px 0px 10px 0px ${theme.palette.M200}05, 0px 0px 0.75px  ${theme.palette.M200}05`
   },
   counterSizeFixed: {
     width: '360px',
@@ -113,8 +113,8 @@ const StakingPage = ({ classes }) => {
 
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
-  const LpRewards = useLpRewards(address);
-  console.log({ LpRewards }, LpRewards.poly, LpRewards.eth);
+  const { data: LpRewards } = useLpRewards(address);
+
   const { config: approveEthConfig } = usePrepareContractWrite({
     addressOrName: ETH_UNI_LP_TOKEN,
     contractInterface: YUPETH_ABI,
@@ -1042,7 +1042,7 @@ const StakingPage = ({ classes }) => {
                     </Grid>
                   )}
                 </Grid>
-                {earnings && (
+                {earnings && LpRewards && (
                   <Grid
                     item
                     container
@@ -1060,21 +1060,6 @@ const StakingPage = ({ classes }) => {
                         )}{' '}
                         YUP Earned in Total
                       </Typography>
-                      {/* <YupInput
-                                      fullWidth
-                                      id='stake-amount'
-                                      maxLength='10'
-                                      type='number'
-                                      variant='outlined'
-                                      size='small'
-                                      disabled
-                                      value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
-                                      startAdornment={
-                                        <InputAdornment position='start'>
-                                          <img src='public/images/logos/logo_g.svg' />
-                                        </InputAdornment>
-                                            }
-                                          /> */}
                     </Grid>
                   </Grid>
                 )}

@@ -5,16 +5,25 @@ import Badges from './Badges';
 import NFTs from './NFTs';
 import Tokens from './Tokens';
 import useDevice from '../../hooks/useDevice';
+import PageLoadingBar from '../PageLoadingBar';
 
 const UserWallet = ({ ethAddress }) => {
   const { isMobile } = useDevice();
-  const { tokens, nfts, poaps } = useWalletInfo(ethAddress);
+  const { isLoading, data: walletData } = useWalletInfo(ethAddress);
+
+  if (isLoading) {
+    return <PageLoadingBar />;
+  }
+
+  if (!walletData) return null;
+
+  const { tokens, nfts, poaps } = walletData;
 
   return (
     <>
       <GridLayout
         contentLeft={
-          <Box>
+          <Box mb={3}>
             {isMobile && <Tokens data={tokens} />}
             <Badges data={poaps} />
             <NFTs data={nfts} />

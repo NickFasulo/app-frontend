@@ -4,7 +4,6 @@ import { StyledProfileAvatar } from '../TopBarAndDrawer/StyledProfileAvatar';
 import { levelColors } from '../../utils/colors';
 import { MENU_ANIMATION_DURATION } from '../../constants/const';
 import { useYupAccount } from '../../hooks/queries';
-import { withCustomSuspense } from '../../hoc/withSuspense';
 import useDevice from '../../hooks/useDevice';
 import { useSideBar } from './SideBarContext';
 import { MenuItemButton } from './styles';
@@ -16,7 +15,14 @@ function UserMenuItem() {
   const { open, closeSideBar, closeSearch } = useSideBar();
   const { isDesktop } = useDevice();
   const { username } = useAuth();
-  const profile = useYupAccount(username);
+  const { isLoading, data: profile } = useYupAccount(username);
+
+  if (isLoading) {
+    return <YupLogoMenuItem />;
+  }
+
+  // TODO: Redirect to 404
+  if (!profile) return null;
 
   return (
     <MenuItemButton
@@ -71,4 +77,4 @@ function UserMenuItem() {
   );
 }
 
-export default withCustomSuspense(YupLogoMenuItem)(UserMenuItem);
+export default UserMenuItem;

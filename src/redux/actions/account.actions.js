@@ -106,7 +106,7 @@ export function updateAccountInfo(account, update, authInfo) {
       });
 
       queryClient.setQueryData(
-        [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, account.name],
+        [REACT_QUERY_KEYS.ACCOUNT, account.name],
         updatedData
       );
 

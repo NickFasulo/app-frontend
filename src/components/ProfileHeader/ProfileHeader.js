@@ -48,9 +48,9 @@ function ProfileHeader({ profile, hidden }) {
     balance
   } = profile;
   const { isLoggedIn, name: authName } = useAuth();
-  const followings = useFollowings(id) || [];
-  const followers = useFollowers(id) || [];
-  const likeCount = useUserLikes(id);
+  const { data: followings = [] } = useFollowings(id);
+  const { data: followers = [] } = useFollowers(id);
+  const { data: likeCount = 0 } = useUserLikes(id);
   const { data: ensName } = useEnsName({
     address: ethInfo?.address,
     chainId: 1
@@ -95,7 +95,7 @@ function ProfileHeader({ profile, hidden }) {
         },
         onSuccess: (data, ethAddress) => {
           queryClient.setQueryData(
-            [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username],
+            [REACT_QUERY_KEYS.ACCOUNT, username],
             (oldData) => ({
               ...oldData,
               ethInfo: {

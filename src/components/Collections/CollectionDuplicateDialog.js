@@ -1,73 +1,35 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { SnackbarContent, Snackbar, Link, Grid } from '@mui/material';
-import withStyles from '@mui/styles/withStyles';
+import { Grid } from '@mui/material';
 import axios from 'axios';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addUserCollection } from '../../redux/actions';
 import { YupInput, LoaderButton } from '../Miscellaneous';
-import { accountInfoSelector } from '../../redux/selectors';
-import { getAuth } from '../../utils/authentication';
 import YupDialog from '../Miscellaneous/YupDialog';
-import { apiBaseUrl, webAppUrl } from '../../config';
+import { apiBaseUrl } from '../../config';
 import { generateCollectionUrl } from '../../utils/helpers';
+import { useAuth } from '../../contexts/AuthContext';
+import useToast from '../../hooks/useToast';
+import { useRouter } from 'next/router';
 
 const TITLE_LIMIT = 30;
 const DESC_LIMIT = 140;
 
-const styles = (theme) => ({
-  dialog: {
-    marginLeft: '200px',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: 'inherit'
-    }
-  },
-  dialogTitle: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    margin: 0,
-    padding: theme.spacing(1.5)
-  },
-  dialogTitleText: {
-    fontSize: '1.3rem',
-    fontFamily: 'Gilroy',
-    fontWeight: '300',
-    color: theme.palette.M100
-  },
-  dialogContent: {
-    root: {
-      margin: 0,
-      padding: theme.spacing(2),
-      color: theme.palette.M100
-    }
-  },
-  dialogContentText: {
-    root: {
-      paddingBottom: '2rem',
-      paddingTop: '2rem'
-    }
-  },
-  snack: {
-    justifyContent: 'center'
-  }
-});
-
 function CollectionDuplicateDialog({
   collection,
-  classes,
   dialogOpen,
-  handleDialogClose,
-  addCollectionToRedux,
-  account
+  handleDialogClose
 }) {
+  const dispatch = useDispatch();
   const [description, setDescription] = useState(collection.description);
   const [name, setName] = useState(collection.name);
-  const [snackbarMsg, setSnackbarMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [newCollectionInfo, setNewCollectionInfo] = useState({});
+  const { authInfo, userId } = useAuth();
+  const { toastSuccess } = useToast();
+  const { push } = useRouter();
+
   const handleNameChange = ({ target }) => setName(target.value);
   const handleDescriptionChange = ({ target }) => setDescription(target.value);
-  const handleSnackbarOpen = (msg) => setSnackbarMsg(msg);
-  const handleSnackbarClose = () => setSnackbarMsg('');
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !!name) handleCreateNewCollection();
   };
@@ -79,12 +41,12 @@ function CollectionDuplicateDialog({
       }
       setIsLoading(true);
       const postId = collection.postIds.filter((n) => n);
-      const auth = await getAuth(account);
-      const params = { name, description, postId, ...auth };
+      const params = { name, description, postId, ...authInfo };
       const { data } = await axios.post(`${apiBaseUrl}/collections`, params);
-      addCollectionToRedux(auth.eosname, data);
-      setNewCollectionInfo(data);
-      handleSnackbarOpen(`Succesfully duplicated ${name}`);
+      dispatch(addUserCollection(userId, data));
+      toastSuccess(`Succesfully duplicated ${name}`, {
+        onClick: () => push(generateCollectionUrl(data.name, data._id))
+      });
       handleDialogClose();
       setIsLoading(false);
     } catch (err) {
@@ -94,21 +56,6 @@ function CollectionDuplicateDialog({
 
   return (
     <>
-      <Snackbar
-        autoHideDuration={4000}
-        onClose={handleSnackbarClose}
-        open={!!snackbarMsg}
-      >
-        <Link
-          href={generateCollectionUrl(
-            newCollectionInfo.name,
-            newCollectionInfo._id
-          )}
-        >
-          <SnackbarContent className={classes.snack} message={snackbarMsg} />
-        </Link>
-      </Snackbar>
-
       <YupDialog
         headline="Duplicate Collection"
         description="Start here to duplicate the collection."
@@ -162,28 +109,11 @@ function CollectionDuplicateDialog({
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const account = accountInfoSelector(state);
-  return {
-    account
-  };
-};
-
-const mapActionToProps = (dispatch) => ({
-  addCollectionToRedux: (eosname, collection) =>
-    dispatch(addUserCollection(eosname, collection))
-});
-
 CollectionDuplicateDialog.propTypes = {
   collection: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
-  handleDialogClose: PropTypes.func.isRequired,
-  addCollectionToRedux: PropTypes.func.isRequired,
-  account: PropTypes.object
+  handleDialogClose: PropTypes.func.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  mapActionToProps
-)(withStyles(styles)(CollectionDuplicateDialog));
+export default CollectionDuplicateDialog;
