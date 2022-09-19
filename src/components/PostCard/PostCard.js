@@ -152,7 +152,7 @@ function PostCard({ post }) {
                                         href="#basic-chip"
                                         clickable
                                     />
-                                </Grid> */}
+                                </Grid> 
 
                                 <YupDivider item />
                                 <Grid item>
@@ -164,7 +164,7 @@ function PostCard({ post }) {
                                             {followers.map((follower) => <FollowUser noBorder userId={follower} />)}
                                         </Grid>
                                     </Grid>
-                                </Grid>
+                                </Grid> */}
                             </Grid>
 
 

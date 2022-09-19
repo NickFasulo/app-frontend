@@ -20,7 +20,7 @@ export const AppUtilsProvider = ({ children }) => {
 
   useEffect(() => {
     const scrollListener = () => {
-      setWindowScrolled(window.scrollY > 50);
+      setWindowScrolled(window.scrollY > 1);
     };
 
     window.addEventListener('scroll', scrollListener);
