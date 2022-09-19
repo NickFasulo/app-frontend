@@ -10,7 +10,7 @@ import PageLoadingBar from '../components/PageLoadingBar';
 
 const AppUtilsContext = createContext({
   windowScrolled: false,
-  showTopBar: () => { }
+  showTopBar: () => {}
 });
 
 export const AppUtilsProvider = ({ children }) => {

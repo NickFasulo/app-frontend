@@ -40,8 +40,20 @@ function PostDetails() {
               />
               <Grid item>
                 <Grid container direction="column" justifyContent="center">
-                  <Typography variant="h5" color='M100' sx={{ letterSpacing: "0.02em" }}>post by {post.author}</Typography>
-                  <Typography variant="body2" color='M100' sx={{ letterSpacing: "0.01em" }}>Curated {new Date(post.createdAt).toLocaleDateString()}</Typography>
+                  <Typography
+                    variant="h5"
+                    color="M100"
+                    sx={{ letterSpacing: '0.02em' }}
+                  >
+                    post by {post.author}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="M100"
+                    sx={{ letterSpacing: '0.01em' }}
+                  >
+                    Curated {new Date(post.createdAt).toLocaleDateString()}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -55,7 +67,7 @@ function PostDetails() {
           <CreateCollectionFab />
         </YupContainer>
       </YupPageWrapper>
-    </ErrorBoundary >
+    </ErrorBoundary>
   );
 }
 
