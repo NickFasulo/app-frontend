@@ -1,6 +1,7 @@
 import useDevice from '../../hooks/useDevice';
 
 function ThumbnailIcon({ protocol }) {
+  console.log({ protocol });
   const { isMobile } = useDevice();
 
   return (
