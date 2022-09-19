@@ -27,11 +27,11 @@ import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { generateCollectionUrl } from '../../utils/helpers';
-import { fetchUserCollections } from '../../redux/actions';
 import { useAuth } from '../../contexts/AuthContext';
 import FeedHOC from '../Feed/FeedHOC';
 import FeedCategoryList from '../FeedContainer/FeedCategoryList';
 import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
+import { useHomeConfig, useRecommendation } from '../../hooks/queries';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
@@ -44,34 +44,31 @@ const getRandomGradientImg = () =>
   }`;
 
 function Home({ theme }) {
-  const dispatch = useDispatch();
   const classes = useStyles();
   const { isMobile } = useDevice();
   const { open: openAuthModal } = useAuthModal();
-  const { isLoggedIn, username } = useAuth();
-
-  const [linkItems, setLinkItems] = useState([]);
-  const [cardItems, setCardItems] = useState([]);
-  const [recommendedCollections, setRecommendedCollections] = useState([]);
+  // const { isLoggedIn, username } = useAuth();
+  const { cardItems, linkItems } = useHomeConfig();
+  const { isLoggedIn } = useAuth();
+  const recommendedCollections = useRecommendation({ limit: 7 });
   const [scrollPosition, setScrollPosition] = useState(0);
   const [recommendedFloating, setRecommendeFloating] = useState(false);
   const feedRef = useRef();
   useEffect(() => {
-    axios
-      .get(`${apiBaseUrl}/home-config/v2`)
-      .then(({ data: { cardItems, linkItems } }) => {
-        setCardItems(cardItems);
-        setLinkItems(linkItems);
-      });
-    axios
-      .get(`${apiBaseUrl}/collections/recommended?limit=7`)
-      .then(({ data: recommendedCollections }) => {
-        setRecommendedCollections(recommendedCollections);
-      });
-
-    if (isLoggedIn) {
-      dispatch(fetchUserCollections(username));
-    }
+    // axios
+    //   .get(`${apiBaseUrl}/home-config/v2`)
+    //   .then(({ data: { cardItems, linkItems } }) => {
+    //     setCardItems(cardItems);
+    //     setLinkItems(linkItems);
+    //   });
+    // axios
+    //   .get(`${apiBaseUrl}/collections/recommended?limit=7`)
+    //   .then(({ data: recommendedCollections }) => {
+    //     setRecommendedCollections(recommendedCollections);
+    //   });
+    // if (isLoggedIn) {
+    //   dispatch(fetchUserCollections(username));
+    // }
   }, []);
   useEffect(() => {
     const updatePosition = () => {
@@ -296,7 +293,7 @@ function Home({ theme }) {
             </Grid>
             {/* HIDDEN TO FOCUS ON FEED
             {userCollections?.length > 0 && (
-            <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
+            <Grid item xs={12} style={{ display: isLoggedIn ? 'inherit' : 'none' }}>
                 <Grid container direction="row">
                   <Grid item xs={12}>
                     <Fade in style={{ transitionDelay: '50ms' }} timeout={300}>
