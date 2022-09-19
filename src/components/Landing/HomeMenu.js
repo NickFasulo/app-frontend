@@ -14,9 +14,8 @@ import {
 import '../Twitter/twitter.module.css';
 import Tilt from 'react-tilt';
 import axios from 'axios';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Mono } from '../../utils/colors.js';
-import { accountInfoSelector } from '../../redux/selectors';
 import HomeMenuLinkItem from './HomeMenuLinkItem';
 import { YupButton } from '../Miscellaneous';
 import { PageBody } from '../../_pages/pageLayouts';
@@ -30,7 +29,6 @@ import { useAuthModal } from '../../contexts/AuthModalContext';
 import { generateCollectionUrl } from '../../utils/helpers';
 import { useAuth } from '../../contexts/AuthContext';
 import FeedHOC from '../Feed/FeedHOC';
-import UserNewConnections from '../UserNewConnections';
 import FeedCategoryList from '../FeedContainer/FeedCategoryList';
 import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
 import { useHomeConfig, useRecommendation } from '../../hooks/queries';
@@ -39,10 +37,9 @@ const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
 );
 const getRandomGradientImg = () =>
-  `${
-    DEFAULT_COLLECTION_IMGS[
-      Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
-    ]
+  `${DEFAULT_COLLECTION_IMGS[
+  Math.floor(Math.random() * DEFAULT_COLLECTION_IMGS.length)
+  ]
   }`;
 
 function Home({ theme }) {
@@ -454,9 +451,8 @@ function Home({ theme }) {
                     recommendedFloating && {
                       position: 'fixed',
                       top: 0,
-                      left: `${
-                        feedRef.current.clientWidth + feedRef.current.offsetLeft
-                      }px`
+                      left: `${feedRef.current.clientWidth + feedRef.current.offsetLeft
+                        }px`
                     }
                   }
                 >

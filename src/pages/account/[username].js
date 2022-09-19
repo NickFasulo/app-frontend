@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import ProfileHeader from '../../components/ProfileHeader';
 import {
@@ -11,8 +11,7 @@ import {
   YupPageWrapper
 } from '../../components/styles';
 import { useYupAccount, useUserCollections } from '../../hooks/queries';
-import { LOADER_TYPE, REACT_QUERY_KEYS } from '../../constants/enum';
-import withSuspense from '../../hoc/withSuspense';
+import { REACT_QUERY_KEYS } from '../../constants/enum';
 import YupPageTabs from '../../components/YupPageTabs';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
 import UserPosts from '../../components/UserPosts';
@@ -31,6 +30,7 @@ import callYupApi from '../../apis/base_api';
 import { useAuth } from '../../contexts/AuthContext';
 import { COMPANY_NAME } from '../../constants/const';
 import { getAbsolutePath } from '../../utils/helpers';
+import PageLoadingBar from '../../components/PageLoadingBar';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
@@ -44,8 +44,10 @@ function UserAccountPage() {
   const { query } = useRouter();
   const { username } = query;
   const { isMobile } = useDevice();
-  const profile = useYupAccount(username);
-  const collections = useUserCollections(profile?._id);
+  const { isLoading: isLoadingProfile, data: profile } =
+    useYupAccount(username);
+  const { isLoading: isFetchingCollections, data: collections = [] } =
+    useUserCollections(profile?._id);
   const { windowScrolled } = useAppUtils();
   const { username: loggedInUsername } = useAuth();
 
@@ -63,6 +65,10 @@ function UserAccountPage() {
   }, [isMobile, selectedTab]);
 
   if (!username) return null;
+
+  if (isLoadingProfile) {
+    return <PageLoadingBar />;
+  }
 
   // If profile doesn't exist, shows error message
   if (!profile) {
@@ -175,7 +181,7 @@ function UserAccountPage() {
                 </>
               }
               contentRight={
-                collections.length > 0 ? (
+                (isFetchingCollections || collections.length) > 0 ? (
                   <UserCollectionsSection collections={collections} />
                 ) : (
                   <UserNewConnections profile={profile} />
@@ -213,7 +219,7 @@ export async function getServerSideProps(context) {
   const { username } = context.params;
   const qc = new QueryClient();
 
-  await qc.prefetchQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username], () =>
+  await qc.prefetchQuery([REACT_QUERY_KEYS.ACCOUNT, username], () =>
     callYupApi({
       url: `/accounts/${username}`
     })
@@ -226,4 +232,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default withSuspense(LOADER_TYPE.TOP_BAR)(UserAccountPage);
+export default UserAccountPage;

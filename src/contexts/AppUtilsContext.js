@@ -5,8 +5,8 @@ import {
   useEffect,
   useState
 } from 'react';
-import PageLoadingBar from '../components/PageLoadingBar';
 import { useRouter } from 'next/router';
+import PageLoadingBar from '../components/PageLoadingBar';
 
 const AppUtilsContext = createContext({
   windowScrolled: false,
@@ -20,7 +20,7 @@ export const AppUtilsProvider = ({ children }) => {
 
   useEffect(() => {
     const scrollListener = () => {
-      setWindowScrolled(window.scrollY > 100);
+      setWindowScrolled(window.scrollY > 1);
     };
 
     window.addEventListener('scroll', scrollListener);

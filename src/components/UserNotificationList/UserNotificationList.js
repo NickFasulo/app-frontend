@@ -1,9 +1,8 @@
-import { List, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { List, Skeleton, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useYupAccount, useUserNotifications } from '../../hooks/queries';
 import NotificationItem from './NotificationItem';
-import withSuspense from '../../hoc/withSuspense';
-import { LOADER_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
+import { LOCAL_STORAGE_KEYS } from '../../constants/enum';
 import wallet from '../../eos/scatter/scatter.wallet';
 import {
   apiSetNotificationSeenEth,
@@ -12,11 +11,13 @@ import {
 import { ETH_NOTIFICATION_INTERVAL } from '../../constants/const';
 import { ETH_LINK_NOTIFICATION_DATA } from '../../constants/data';
 import { useAuth } from '../../contexts/AuthContext';
+import { FlexBox } from '../styles';
 
 function UserNotificationList() {
   const { username, userId, authInfo } = useAuth();
-  const profile = useYupAccount(username);
-  const notifications = useUserNotifications(userId) || [];
+  const { isLoading: isFetchingProfile, data: profile } =
+    useYupAccount(username);
+  const { isLoading, data: notifications } = useUserNotifications(userId);
   const [showEthLinkNotification, setShowEthLinkNotification] = useState(false);
 
   useEffect(() => {
@@ -70,6 +71,22 @@ function UserNotificationList() {
     }
   }, [profile]);
 
+  if (isLoading || isFetchingProfile) {
+    return (
+      <FlexBox flexDirection="column" gap={2}>
+        {[...Array(5).keys()].map((idx) => (
+          <Skeleton
+            key={idx}
+            variant="rectangular"
+            animation="wave"
+            height={40}
+            sx={{ borderRadius: 1 }}
+          />
+        ))}
+      </FlexBox>
+    );
+  }
+
   if (!notifications.length) {
     return <Typography>No notifications, you are all caught up!</Typography>;
   }
@@ -97,4 +114,4 @@ function UserNotificationList() {
   );
 }
 
-export default withSuspense(LOADER_TYPE.NOTIFICATION, 5)(UserNotificationList);
+export default UserNotificationList;
