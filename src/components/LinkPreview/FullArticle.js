@@ -114,8 +114,7 @@ function FullArticle({ title, description, url, classes, writerENS, postid }) {
                   </Grid>
                 </Grid>
                 <Grid item xs={2} sm={1}>
-                  <Link
-                    href={url}>
+                  <Link href={url}>
                     <YupImage
                       align="right"
                       src={faviconURL}

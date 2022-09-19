@@ -148,7 +148,7 @@ function ArticlePreview({
           </Grid>
         </div>
       </div>
-    </ErrorBoundary >
+    </ErrorBoundary>
   );
 }
 
