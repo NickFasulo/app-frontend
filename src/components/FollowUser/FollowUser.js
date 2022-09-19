@@ -6,7 +6,7 @@ import { getInitial } from '../../utils/helpers';
 import FollowButton from '../FollowButton';
 import { levelColors } from '../../utils/colors';
 
-function FollowUser({ userId }) {
+function FollowUser({ userId, noBorder }) {
   const { data: userProfile } = useYupAccount(userId);
 
   if (!userProfile) return null;
@@ -19,7 +19,7 @@ function FollowUser({ userId }) {
         src={avatar}
         alt={`${fullname || username}'s profile picture`}
         size="md"
-        border={levelColors[quantile || 'none']}
+        border={!noBorder && levelColors[quantile || 'none']}
       >
         {getInitial(username)}
       </ProfilePicture>
