@@ -14,8 +14,9 @@ import {
 import '../Twitter/twitter.module.css';
 import Tilt from 'react-tilt';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Mono } from '../../utils/colors.js';
+import { accountInfoSelector } from '../../redux/selectors';
 import HomeMenuLinkItem from './HomeMenuLinkItem';
 import { YupButton } from '../Miscellaneous';
 import { PageBody } from '../../_pages/pageLayouts';
@@ -27,11 +28,12 @@ import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { generateCollectionUrl } from '../../utils/helpers';
+import { fetchUserCollections } from '../../redux/actions';
 import { useAuth } from '../../contexts/AuthContext';
 import FeedHOC from '../Feed/FeedHOC';
+import UserNewConnections from '../UserNewConnections';
 import FeedCategoryList from '../FeedContainer/FeedCategoryList';
 import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
-import { useHomeConfig, useRecommendation } from '../../hooks/queries';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
@@ -43,32 +45,35 @@ const getRandomGradientImg = () =>
     ]
   }`;
 
-function Home({ theme }) {
+function Home({ isUser, userCollections, theme }) {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { isMobile } = useDevice();
   const { open: openAuthModal } = useAuthModal();
-  // const { isLoggedIn, username } = useAuth();
-  const { cardItems, linkItems } = useHomeConfig();
-  const { isLoggedIn } = useAuth();
-  const recommendedCollections = useRecommendation({ limit: 7 });
+  const { isLoggedIn, username } = useAuth();
+
+  const [linkItems, setLinkItems] = useState([]);
+  const [cardItems, setCardItems] = useState([]);
+  const [recommendedCollections, setRecommendedCollections] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [recommendedFloating, setRecommendeFloating] = useState(false);
   const feedRef = useRef();
   useEffect(() => {
-    // axios
-    //   .get(`${apiBaseUrl}/home-config/v2`)
-    //   .then(({ data: { cardItems, linkItems } }) => {
-    //     setCardItems(cardItems);
-    //     setLinkItems(linkItems);
-    //   });
-    // axios
-    //   .get(`${apiBaseUrl}/collections/recommended?limit=7`)
-    //   .then(({ data: recommendedCollections }) => {
-    //     setRecommendedCollections(recommendedCollections);
-    //   });
-    // if (isLoggedIn) {
-    //   dispatch(fetchUserCollections(username));
-    // }
+    axios
+      .get(`${apiBaseUrl}/home-config/v2`)
+      .then(({ data: { cardItems, linkItems } }) => {
+        setCardItems(cardItems);
+        setLinkItems(linkItems);
+      });
+    axios
+      .get(`${apiBaseUrl}/collections/recommended?limit=7`)
+      .then(({ data: recommendedCollections }) => {
+        setRecommendedCollections(recommendedCollections);
+      });
+
+    if (isLoggedIn) {
+      dispatch(fetchUserCollections(username));
+    }
   }, []);
   useEffect(() => {
     const updatePosition = () => {
@@ -108,7 +113,7 @@ function Home({ theme }) {
                       elevation={0}
                       className={classes.bannerCard}
                       style={{
-                        backgroundImage: isLoggedIn
+                        backgroundImage: isUser
                           ? `linear-gradient(to top, #825EC6, ${theme.palette.M700})`
                           : "url('images/feeds/rainbowbanner.svg')"
                       }}
@@ -130,7 +135,7 @@ function Home({ theme }) {
                                 variant="h1"
                                 className={classes.titlePlain}
                               >
-                                {isLoggedIn
+                                {isUser
                                   ? `Farcaster Feed`
                                   : `Social Network for Curators`}
                               </Typography>
@@ -144,7 +149,7 @@ function Home({ theme }) {
                                 variant="subtitle1"
                                 className={classes.subtitle}
                               >
-                                {isLoggedIn
+                                {isUser
                                   ? `Explore Farcaster content`
                                   : `Curate and share content across the web. Earn money and clout for your taste`}
                               </Typography>
@@ -159,12 +164,12 @@ function Home({ theme }) {
                           >
                             <YupImage
                               className={
-                                isLoggedIn
+                                isUser
                                   ? classes.bannerMediaUser
                                   : classes.bannerMediaNews
                               }
                               src={
-                                isLoggedIn
+                                isUser
                                   ? 'images/graphics/farcaster_logo.svg'
                                   : 'images/graphics/coingraphic.png'
                               }
@@ -173,7 +178,7 @@ function Home({ theme }) {
                         </Grid>
                       </CardContent>
                       <CardActions>
-                        {isLoggedIn ? (
+                        {isUser ? (
                           <Link className={classes.link} href="/feed/farcaster">
                             <YupButton
                               size="large"
@@ -293,7 +298,7 @@ function Home({ theme }) {
             </Grid>
             {/* HIDDEN TO FOCUS ON FEED
             {userCollections?.length > 0 && (
-            <Grid item xs={12} style={{ display: isLoggedIn ? 'inherit' : 'none' }}>
+            <Grid item xs={12} style={{ display: isUser ? 'inherit' : 'none' }}>
                 <Grid container direction="row">
                   <Grid item xs={12}>
                     <Fade in style={{ transitionDelay: '50ms' }} timeout={300}>
@@ -474,8 +479,21 @@ function Home({ theme }) {
   );
 }
 
-Home.propTypes = {
-  theme: PropTypes.object.isRequired
+const mapStateToProps = (state) => {
+  const account = accountInfoSelector(state);
+  const isUser = account && account.name;
+  const { collections: userCollections } =
+    state.userCollections[account && account.name] || {};
+  return {
+    isUser,
+    userCollections
+  };
 };
 
-export default memo(withTheme(Home));
+Home.propTypes = {
+  userCollections: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+  isUser: PropTypes.bool.isRequired
+};
+
+export default memo(connect(mapStateToProps)(withTheme(Home)));

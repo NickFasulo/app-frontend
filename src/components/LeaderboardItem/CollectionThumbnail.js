@@ -3,16 +3,19 @@ import {
   LeaderboardItemThumbnailImage,
   LeaderboardItemThumbnailRoot
 } from './styles';
+import withSuspense from '../../hoc/withSuspense';
+import { LOADER_TYPE } from '../../constants/enum';
 
 function CollectionThumbnail({ url }) {
   const segments = url.split('/');
-  const { data: collection } = useCollection(segments[5]);
+  const collection = useCollection(segments[5]) || {};
+  const { images } = collection;
 
   return (
     <LeaderboardItemThumbnailRoot>
-      <LeaderboardItemThumbnailImage src={collection?.images || []} />
+      <LeaderboardItemThumbnailImage src={images || []} />
     </LeaderboardItemThumbnailRoot>
   );
 }
 
-export default CollectionThumbnail;
+export default withSuspense(LOADER_TYPE.DEFAULT)(CollectionThumbnail);

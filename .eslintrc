@@ -68,6 +68,7 @@
     "react/sort-comp": "warn",
     "import/no-unresolved": "warn",
     "jsx-a11y/iframe-has-title": "warn",
+    "no-const-assign": "warn",
     "react/jsx-no-target-blank": "warn",
     "react/destructuring-assignment": "warn",
     "no-unused-expressions": "warn",

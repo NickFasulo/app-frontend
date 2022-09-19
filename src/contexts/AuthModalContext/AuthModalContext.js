@@ -74,13 +74,13 @@ const AUTH_MODAL_STAGE = {
 export const AuthModalContextProvider = ({ children }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { updateAuthInfo, userId } = useAuth();
+  const { updateAuthInfo } = useAuth();
   const { toastError, toastSuccess } = useToast();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { data: signature, isSuccess, signMessage } = useSignMessage();
   const router = useRouter();
-  const { data: account } = useYupAccount(userId);
+  const { account } = useYupAccount();
   const [modalOpen, setModalOpen] = useState(false);
   const [options, setOptions] = useState({});
   const [stage, setStage] = useState(AUTH_MODAL_STAGE.SIGN_IN);

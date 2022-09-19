@@ -4,10 +4,12 @@ import { SnackbarContent, Snackbar, Grid } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { connect } from 'react-redux';
 import { YupInput, LoaderButton } from '../Miscellaneous';
+import { accountInfoSelector } from '../../redux/selectors';
+import { getAuth } from '../../utils/authentication';
 import YupDialog from '../Miscellaneous/YupDialog';
 import { apiBaseUrl } from '../../config';
-import { useAuth } from '../../contexts/AuthContext';
 
 const TITLE_LIMIT = 30;
 const DESC_LIMIT = 140;
@@ -46,7 +48,8 @@ function CollectionEditDialog({
   collection,
   classes,
   dialogOpen,
-  handleDialogClose
+  handleDialogClose,
+  account
 }) {
   const [description, setDescription] = useState('');
   const [name, setName] = useState('');
@@ -55,7 +58,6 @@ function CollectionEditDialog({
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [deleteButtonText, setDeleteButtonText] = useState('Delete');
   const router = useRouter();
-  const { authInfo, username } = useAuth();
 
   const handleNameChange = ({ target }) => setName(target.value);
   const handleDescriptionChange = ({ target }) => setDescription(target.value);
@@ -65,7 +67,8 @@ function CollectionEditDialog({
   const handleEditCollection = async () => {
     try {
       setIsLoadingUpdate(true);
-      const params = { name, description, ...authInfo };
+      const auth = await getAuth(account);
+      const params = { name, description, ...auth };
       await axios.put(`${apiBaseUrl}/collections/${collection._id}`, params);
       setIsLoadingUpdate(false);
       handleSnackbarOpen('Succesfully updated your collection');
@@ -83,11 +86,13 @@ function CollectionEditDialog({
         setDeleteButtonText('Are you sure?');
         return;
       }
+      const auth = await getAuth(account);
       setIsLoadingDelete(true);
+      const params = { ...auth };
       await axios.delete(`${apiBaseUrl}/collections/${collection._id}`, {
-        data: authInfo
+        data: params
       });
-      await router.push(`/account/${username}`);
+      await router.push(`/account/${account.name}`);
     } catch (err) {
       handleSnackbarOpen('There was a problem deleting your collection');
       console.error(err);
@@ -162,11 +167,21 @@ function CollectionEditDialog({
   );
 }
 
+const mapStateToProps = (state, ownProps) => {
+  const account = accountInfoSelector(state);
+  return {
+    account
+  };
+};
+
 CollectionEditDialog.propTypes = {
   collection: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
-  handleDialogClose: PropTypes.func.isRequired
+  handleDialogClose: PropTypes.func.isRequired,
+  account: PropTypes.object
 };
 
-export default withStyles(styles)(CollectionEditDialog);
+export default connect(mapStateToProps)(
+  withStyles(styles)(CollectionEditDialog)
+);

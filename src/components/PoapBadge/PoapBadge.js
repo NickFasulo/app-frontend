@@ -4,6 +4,7 @@ import { FlexBox, TruncateText } from '../styles';
 import Link from '../Link';
 
 const BadgeContainer = styled('div')(({ theme }) => ({
+  border: `solid 1px ${theme.palette.M750}`,
   backgroundColor: `${theme.palette.M900}88`,
   padding: theme.spacing(3, 2.5),
   borderRadius: 16

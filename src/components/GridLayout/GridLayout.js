@@ -1,12 +1,10 @@
 import { Box, Grid } from '@mui/material';
 import useDevice from '../../hooks/useDevice';
 import { useAppLayout } from '../../contexts/AppLayoutContext';
-import { useAppUtils } from '../../contexts/AppUtilsContext';
 
 function GridLayout({ contentLeft, contentRight, noHideRightContent }) {
   const { isMobile } = useDevice();
   const { headerHeight } = useAppLayout();
-  const { windowScrolled } = useAppUtils();
 
   return (
     <Grid container spacing={3}>
@@ -20,11 +18,11 @@ function GridLayout({ contentLeft, contentRight, noHideRightContent }) {
             display: isMobile && !noHideRightContent ? 'none' : 'block',
             position: isMobile || headerHeight === null ? 'relative' : 'sticky',
             top:
-              isMobile || !windowScrolled
+              isMobile || headerHeight === null
                 ? undefined
-                : (theme) => `calc(${headerHeight}px + ${theme.spacing(2)})`,
+                : (theme) => `calc(${headerHeight}px + ${theme.spacing(3)})`,
             maxHeight: (theme) =>
-              `calc(100vh - ${headerHeight}px - ${theme.spacing(2)})`,
+              `calc(100vh - ${headerHeight}px - ${theme.spacing(3)})`,
             overflowY: 'auto'
           }}
         >

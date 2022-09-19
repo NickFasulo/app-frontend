@@ -32,14 +32,15 @@ const styles = (theme) => ({
   card: {
     width: '100%',
     padding: theme.spacing(2),
-    background: `${theme.palette.M900}80`,
+    background: `${theme.palette.M850}AA`,
     backdropFilter: 'blur(24px)',
     backgroundSize: 'cover',
     margin: 'auto',
     maxWidth: '100%',
     position: 'relative',
     borderRadius: '0.75rem',
-    boxShadow: `0px 0px 10px 0px ${theme.palette.M200}05, 0px 0px 0.75px  ${theme.palette.M200}05`
+    border: `1.5px solid ${theme.palette.M700}22`,
+    boxShadow: `0px 0px 40px ${theme.palette.M900}02`
   },
   chart: {
     margin: '0 0 0.75rem 0'

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
+import { connect } from 'react-redux';
 import { Divider, Fade, Typography } from '@mui/material';
 import PostHeader from '../PostHeader/PostHeader';
 import PostGrid from '../PostGrid/PostGrid';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { accountInfoSelector } from '../../redux/selectors';
 
 const styles = (theme) => ({
   post: {
@@ -14,11 +16,12 @@ const styles = (theme) => ({
     userSelect: 'none'
   },
   article: {
+    border: `1.5px solid ${theme.palette.M700}22`,
     borderRadius: '12px',
     overflow: 'hidden',
-    backgroundColor: `${theme.palette.M900}80`,
+    backgroundColor: `${theme.palette.M850}AA`,
     backdropFilter: 'blur(24px)',
-    boxShadow: `0px 0px 10px 0px ${theme.palette.M200}05, 0px 0px 0.75px  ${theme.palette.M200}05`,
+    boxShadow: `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
     backgroundSize: 'cover',
     minWidth: 0,
     [theme.breakpoints.down('sm')]: {
@@ -50,6 +53,7 @@ const styles = (theme) => ({
 const PostHOC = (props) => {
   const {
     classes,
+    account,
     author,
     url,
     votes,
@@ -80,6 +84,7 @@ const PostHOC = (props) => {
             <Typography className={classes.postUrlHeader} variant="h6">
               <PostGrid
                 post={post}
+                account={account}
                 postid={postid}
                 url={url}
                 quantiles={quantiles}
@@ -101,6 +106,13 @@ const PostHOC = (props) => {
   );
 };
 
+const mapStateToProps = (state, ownProps) => {
+  const account = accountInfoSelector(state);
+  return {
+    account
+  };
+};
+
 PostHOC.propTypes = {
   post: PropTypes.object.isRequired,
   author: PropTypes.string.isRequired,
@@ -110,11 +122,13 @@ PostHOC.propTypes = {
   weights: PropTypes.object.isRequired,
   quantiles: PropTypes.object.isRequired,
   postid: PropTypes.string.isRequired,
+  account: PropTypes.object,
   hideInteractions: PropTypes.bool,
   component: PropTypes.element.isRequired,
+  previewData: PropTypes.object,
   postType: PropTypes.string,
   rating: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(PostHOC);
+export default connect(mapStateToProps)(withStyles(styles)(PostHOC));

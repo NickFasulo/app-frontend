@@ -114,14 +114,13 @@ function FullArticle({ title, description, url, classes, writerENS, postid }) {
                   </Grid>
                 </Grid>
                 <Grid item xs={2} sm={1}>
-                  <Link href={url}>
-                    <YupImage
-                      align="right"
-                      src={faviconURL}
-                      className={classes.linkImg}
-                      target="_blank"
-                    />
-                  </Link>
+                  <YupImage
+                    align="right"
+                    href={url}
+                    src={faviconURL}
+                    className={classes.linkImg}
+                    target="_blank"
+                  />
                 </Grid>
               </Grid>
             </Grid>

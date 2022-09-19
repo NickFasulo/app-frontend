@@ -6,6 +6,7 @@ import { convertIPFSSrcToHttps } from '../../utils/post_helpers';
 
 const CardContainer = styled('div')(({ theme }) => ({
   position: 'relative',
+  border: `solid 1px ${theme.palette.M750}`,
   backgroundColor: `${theme.palette.M900}88`,
   padding: theme.spacing(2.5),
   borderRadius: 16
@@ -13,6 +14,7 @@ const CardContainer = styled('div')(({ theme }) => ({
 
 const CaptionContainer = styled('div')(({ theme }) => ({
   backgroundColor: `${theme.palette.M800}77`,
+  border: `solid 1px ${theme.palette.M750}`,
   borderRadius: 12,
   position: 'absolute',
   left: theme.spacing(4.5),

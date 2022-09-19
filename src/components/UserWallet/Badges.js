@@ -1,6 +1,6 @@
 import { Button, Grid, Typography } from '@mui/material';
-import { useState } from 'react';
 import PoapBadge from '../PoapBadge';
+import { useState } from 'react';
 import { FlexBox } from '../styles';
 
 const Badges = ({ data }) => {
@@ -8,19 +8,19 @@ const Badges = ({ data }) => {
 
   return (
     <>
-      <Typography variant="h6" sx={{ my: 3 }}>
+      <Typography variant="h6" sx={{ mb: 3 }}>
         Badges
       </Typography>
       {data?.length > 0 ? (
         <>
           <Grid container spacing={3}>
-            {(showAll ? data : data.slice(-3)).map(({ title, image, link }) => (
-              <Grid key={title} item xs={6} sm={4} md={6} lg={4}>
-                <PoapBadge image={image} text={title} link={link} />
+            {data.map(({ description, image, link }) => (
+              <Grid key={description} item xs={6} sm={4} md={6} lg={4}>
+                <PoapBadge image={image} text={description} link={link} />
               </Grid>
             ))}
           </Grid>
-          {data.length > 3 && (
+          {data.length > 2 && (
             <FlexBox justifyContent="flex-end">
               <Button
                 sx={{
@@ -30,7 +30,7 @@ const Badges = ({ data }) => {
                 color="inherit"
                 onClick={() => setShowAll(!showAll)}
               >
-                {showAll ? 'See less' : 'See more'}
+                {showAll ? 'See less...' : 'See more...'}
               </Button>
             </FlexBox>
           )}
