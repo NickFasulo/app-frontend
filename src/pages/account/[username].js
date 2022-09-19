@@ -219,7 +219,7 @@ export async function getServerSideProps(context) {
   const { username } = context.params;
   const qc = new QueryClient();
 
-  await qc.prefetchQuery([REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username], () =>
+  await qc.prefetchQuery([REACT_QUERY_KEYS.ACCOUNT, username], () =>
     callYupApi({
       url: `/accounts/${username}`
     })

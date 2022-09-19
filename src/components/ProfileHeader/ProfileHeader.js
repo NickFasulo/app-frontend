@@ -95,7 +95,7 @@ function ProfileHeader({ profile, hidden }) {
         },
         onSuccess: (data, ethAddress) => {
           queryClient.setQueryData(
-            [REACT_QUERY_KEYS.YUP_SOCIAL_LEVEL, username],
+            [REACT_QUERY_KEYS.ACCOUNT, username],
             (oldData) => ({
               ...oldData,
               ethInfo: {

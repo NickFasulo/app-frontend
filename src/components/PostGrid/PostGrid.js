@@ -77,9 +77,7 @@ function PostGrid({
           />
         </Grid>
         <Grid item>
-          <CollectionPostMenu
-            postid={postid}
-          />
+          <CollectionPostMenu postid={postid} />
         </Grid>
       </Grid>
       {rank ? (
