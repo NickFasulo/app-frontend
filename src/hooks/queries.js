@@ -204,8 +204,9 @@ export const useFetchFeed = ({ feedType }) =>
     [REACT_QUERY_KEYS.YUP_FEED, feedType],
     ({ pageParam = 0 }) =>
       callYupApi({
-        url: `/feed/${isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
-          }${feedType}?start=${pageParam}&limit=10`,
+        url: `/feed/${
+          isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
+        }${feedType}?start=${pageParam}&limit=10`,
         method: 'GET'
       }),
     {
