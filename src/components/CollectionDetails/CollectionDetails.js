@@ -10,11 +10,10 @@ import YupHead from '../YupHead';
 import YupPageHeader from '../YupPageHeader';
 import { useAppUtils } from '../../contexts/AppUtilsContext';
 import YupPageTabs from '../YupPageTabs';
-import { LOADER_TYPE } from '../../constants/enum';
-import withSuspense from '../../hoc/withSuspense';
 import GridLayout from '../GridLayout';
 import { COMPANY_NAME } from '../../constants/const';
 import { getAbsolutePath } from '../../utils/helpers';
+import PageLoadingBar from '../PageLoadingBar';
 
 const COLLECTION_TAB_IDS = {
   FEED: 'feed',
@@ -23,16 +22,19 @@ const COLLECTION_TAB_IDS = {
 
 function CollectionDetails({ id }) {
   const { isDesktop } = useDevice();
-  const collection = useCollection(id);
+  const { isLoading: isFetchingCollection, data: collection } =
+    useCollection(id);
   const { windowScrolled } = useAppUtils();
   const [selectedTab, setSelectedTab] = useState(COLLECTION_TAB_IDS.FEED);
 
   const isTabMode = !isDesktop;
 
-  if (!collection) {
-    // TODO: Replace with NOT FOUND page.
-    return <div />;
+  if (isFetchingCollection) {
+    return <PageLoadingBar />;
   }
+
+  // TODO: Show error page
+  if (!collection) return null;
 
   return (
     <>
@@ -89,4 +91,4 @@ function CollectionDetails({ id }) {
   );
 }
 
-export default withSuspense(LOADER_TYPE.TOP_BAR)(CollectionDetails);
+export default CollectionDetails;

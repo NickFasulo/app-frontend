@@ -59,8 +59,8 @@ const getWeb3Dislikes = (postInfo) => {
 };
 function VoteComp({ postid, url, weights, postInfo, rating }) {
   const { authInfo, name } = useAuth();
-  const account = useYupAccount(name);
-  const votes = useInitialVotes(postid, name);
+  const { data: account } = useYupAccount(name);
+  const { data: votes } = useInitialVotes(postid, name);
   const vote = votes?.[0];
   const [newRating, setNewRating] = useState();
   const [lastClicked, setLastClicked] = useState();

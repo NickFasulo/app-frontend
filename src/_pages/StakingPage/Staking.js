@@ -113,7 +113,8 @@ const StakingPage = ({ classes }) => {
 
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
-  const LpRewards = useLpRewards(address);
+  const { data: LpRewards } = useLpRewards(address);
+
   const { config: approveEthConfig } = usePrepareContractWrite({
     addressOrName: ETH_UNI_LP_TOKEN,
     contractInterface: YUPETH_ABI,
@@ -1041,7 +1042,7 @@ const StakingPage = ({ classes }) => {
                     </Grid>
                   )}
                 </Grid>
-                {earnings && (
+                {earnings && LpRewards && (
                   <Grid
                     item
                     container
@@ -1059,21 +1060,6 @@ const StakingPage = ({ classes }) => {
                         )}{' '}
                         YUP Earned in Total
                       </Typography>
-                      {/* <YupInput
-                                      fullWidth
-                                      id='stake-amount'
-                                      maxLength='10'
-                                      type='number'
-                                      variant='outlined'
-                                      size='small'
-                                      disabled
-                                      value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
-                                      startAdornment={
-                                        <InputAdornment position='start'>
-                                          <img src='public/images/logos/logo_g.svg' />
-                                        </InputAdornment>
-                                            }
-                                          /> */}
                     </Grid>
                   </Grid>
                 )}

@@ -4,11 +4,10 @@ import { FlexBox, ProfilePicture } from '../styles';
 import Link from '../Link';
 import { getInitial } from '../../utils/helpers';
 import FollowButton from '../FollowButton';
-import withSuspense from '../../hoc/withSuspense';
 import { levelColors } from '../../utils/colors';
 
-function FollowUser({ userId }) {
-  const userProfile = useYupAccount(userId);
+function FollowUser({ userId, noBorder }) {
+  const { data: userProfile } = useYupAccount(userId);
 
   if (!userProfile) return null;
 
@@ -20,7 +19,7 @@ function FollowUser({ userId }) {
         src={avatar}
         alt={`${fullname || username}'s profile picture`}
         size="md"
-        border={levelColors[quantile || 'none']}
+        border={!noBorder && levelColors[quantile || 'none']}
       >
         {getInitial(username)}
       </ProfilePicture>
@@ -39,4 +38,4 @@ function FollowUser({ userId }) {
   );
 }
 
-export default withSuspense()(FollowUser);
+export default FollowUser;

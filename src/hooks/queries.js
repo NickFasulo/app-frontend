@@ -9,20 +9,18 @@ import {
 } from '../config';
 import { FEED_CATEGORIES } from '../constants/data';
 
-export const useCollection = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.YUP_COLLECTION, id], () =>
+export const useCollection = (id) =>
+  useQuery([REACT_QUERY_KEYS.YUP_COLLECTION, id], () =>
     callYupApi({
       url: `/collections/name-v2/${id}`,
       method: 'GET'
     })
   );
-  return data;
-};
 
 export const useRecommendation = (params) => {
-  const { name, description, id, limit } = params;
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.YUP_COLLECTION, id, name, description, limit],
+  const { name, description, id } = params;
+  return useQuery(
+    [REACT_QUERY_KEYS.RECOMMENDED_COLLECTIONS, id, name, description],
     () =>
       callYupApi({
         url: '/collections/recommended',
@@ -30,48 +28,46 @@ export const useRecommendation = (params) => {
         params
       })
   );
-  return data;
 };
 
-export const useInitialVotes = (postid, voter) => {
-  const { data } = useQuery(
+export const useInitialVotes = (postid, voter) =>
+  useQuery(
     [REACT_QUERY_KEYS.YUP_INITIAL_VOTES, postid, voter],
-    async () => {
-      if (!postid || !voter) return [];
-      try {
-        return await callYupApi({
-          url: `/votes/post/${postid}/voter/${voter}`,
-          method: 'GET'
-        });
-      } catch {
-        return [];
-      }
+    () =>
+      callYupApi({
+        url: `/votes/post/${postid}/voter/${voter}`,
+        method: 'GET'
+      }),
+    {
+      enabled: Boolean(postid && voter)
     }
   );
-  return data;
-};
 
-export const useFollowings = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWING, id], () =>
-    callYupApi({
-      method: 'GET',
-      url: `/following/${id}`
-    })
+export const useFollowings = (id) =>
+  useQuery(
+    [REACT_QUERY_KEYS.FOLLOWING, id],
+    () =>
+      callYupApi({
+        method: 'GET',
+        url: `/following/${id}`
+      }),
+    {
+      enabled: !!id
+    }
   );
 
-  return data;
-};
-
-export const useFollowers = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.FOLLOWER, id], () =>
-    callYupApi({
-      method: 'GET',
-      url: `/v2/followers/${id}`
-    })
+export const useFollowers = (id) =>
+  useQuery(
+    [REACT_QUERY_KEYS.FOLLOWER, id],
+    () =>
+      callYupApi({
+        method: 'GET',
+        url: `/v2/followers/${id}`
+      }),
+    {
+      enabled: !!id
+    }
   );
-
-  return data;
-};
 
 export const useUserPosts = (userId) =>
   useInfiniteQuery(
@@ -121,8 +117,8 @@ export const useSearchPosts = (query = '') => {
   );
 };
 
-export const useSearchPeople = (query, limit) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.SEARCH_PEOPLE, query], () =>
+export const useSearchPeople = (query, limit) =>
+  useQuery([REACT_QUERY_KEYS.SEARCH_PEOPLE, query], () =>
     callYupApi({
       method: 'GET',
       url: '/search/es/users',
@@ -133,11 +129,8 @@ export const useSearchPeople = (query, limit) => {
     })
   );
 
-  return data;
-};
-
-export const useSearchCollections = (query) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.SEARCH_COLLECTIONS, query], () =>
+export const useSearchCollections = (query) =>
+  useQuery([REACT_QUERY_KEYS.SEARCH_COLLECTIONS, query], () =>
     callYupApi({
       method: 'GET',
       url: '/search/es/collections',
@@ -148,42 +141,31 @@ export const useSearchCollections = (query) => {
     })
   );
 
-  return data;
-};
-
-export const useUserCollections = (userId) => {
-  const { data } = useQuery(
+export const useUserCollections = (userId) =>
+  useQuery(
     [REACT_QUERY_KEYS.USER_COLLECTIONS, userId],
-    async () => {
-      if (!userId) return [];
-
-      return (
-        (await callYupApi({
-          method: 'GET',
-          url: `/accounts/${userId}/collections`
-        })) || []
-      );
+    () =>
+      callYupApi({
+        method: 'GET',
+        url: `/accounts/${userId}/collections`
+      }),
+    {
+      enabled: !!userId
     }
   );
 
-  return data;
-};
-
-export const useUserNotifications = (username) => {
-  const { data } = useQuery(
+export const useUserNotifications = (username) =>
+  useQuery(
     [REACT_QUERY_KEYS.USER_NOTIFICATIONS, username],
-    () => {
-      if (!username) return [];
-
-      return callYupApi({
+    () =>
+      callYupApi({
         method: 'GET',
         url: `/notifications/${username}`
-      });
+      }),
+    {
+      enabled: !!username
     }
   );
-
-  return data;
-};
 
 export const useFarcasterReplyParent = (merkleRoot) => {
   const { data } = useQuery(
@@ -202,17 +184,21 @@ export const useFarcasterReplyParent = (merkleRoot) => {
   return data;
 };
 
-export const useUserLikes = (userId) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.USER_LIKES, userId], async () => {
-    const res = await callYupApi({
-      url: `/feed/account/${userId}`
-    });
+export const useUserLikes = (userId) =>
+  useQuery(
+    [REACT_QUERY_KEYS.USER_LIKES, userId],
+    async () => {
+      const res = await callYupApi({
+        url: `/feed/account/${userId}`
+      });
 
-    return res.totalCount;
-  });
+      return res.totalCount;
+    },
+    {
+      enabled: !!userId
+    }
+  );
 
-  return data;
-};
 export const useFetchFeed = ({ feedType }) =>
   useInfiniteQuery(
     [REACT_QUERY_KEYS.YUP_FEED, feedType],
@@ -231,95 +217,79 @@ export const useFetchFeed = ({ feedType }) =>
     }
   );
 
-export const usePost = (id) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.POST, id], () => {
-    if (!id) return null;
-
-    return callYupApi({
-      url: `/posts/post/${id}`
-    });
-  });
-
-  return data;
-};
-
-export const useScore = (address) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.SCORE, address], async () => {
-    if (!address) return null;
-    return callYupApi({
-      url: `/score?address=${address}`
-    });
-  });
-
-  return data;
-};
-
-export const useYupAccount = (userId) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.ACCOUNT, userId], () =>
-    callYupApi({
-      url: `/accounts/${userId}`
-    })
-  );
-
-  return data;
-};
-
-export const useRefetchPostPreview = (post, id) => {
-  const { data } = useQuery(
-    [REACT_QUERY_KEYS.POST_REFETCH_PREVIEW, id],
-    async () => {
-      if (
-        Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 >
-        Date.now()
-      )
-        return null;
-
-      return callYupApi({
-        url: '/posts/re-fetch/preview',
-        method: 'POST',
-        data: { postid: id }
-      });
+export const usePost = (id) =>
+  useQuery(
+    [REACT_QUERY_KEYS.POST, id],
+    () =>
+      callYupApi({
+        url: `/posts/post/${id}`
+      }),
+    {
+      enabled: !!id
     }
   );
 
-  return data;
-};
+export const useScore = (address) =>
+  useQuery(
+    [REACT_QUERY_KEYS.SCORE, address],
+    () =>
+      callYupApi({
+        url: `/score?address=${address}`
+      }),
+    {
+      enabled: !!address
+    }
+  );
 
-export const usePostInteractions = (postid) => {
-  const { data } = useQuery(
+export const useYupAccount = (userId) =>
+  useQuery(
+    [REACT_QUERY_KEYS.ACCOUNT, userId],
+    () =>
+      callYupApi({
+        url: `/accounts/${userId}`
+      }),
+    {
+      enabled: !!userId
+    }
+  );
+
+export const useRefetchPostPreview = (post, id) =>
+  useQuery([REACT_QUERY_KEYS.POST_REFETCH_PREVIEW, id], () => {
+    if (Number(post.previewData.lastUpdated) + 3 * 60 * 60 * 1000 > Date.now())
+      return null;
+
+    return callYupApi({
+      url: '/posts/re-fetch/preview',
+      method: 'POST',
+      data: { postid: id }
+    });
+  });
+
+export const usePostInteractions = (postid) =>
+  useQuery(
     [REACT_QUERY_KEYS.YUP_POSTINTERACTIONS, postid],
-    async () => {
-      if (!postid) return [];
-      try {
-        return await callYupApi({
-          url: `/posts/interactions/${postid}`,
-          method: 'POST'
-        });
-      } catch {
-        return [];
-      }
+    () =>
+      callYupApi({
+        url: `/posts/interactions/${postid}`,
+        method: 'POST'
+      }),
+    {
+      enabled: !!postid
     }
   );
-  return data;
-};
 
-export const useLpRewards = (address) => {
-  const { data } = useQuery(
+export const useLpRewards = (address) =>
+  useQuery(
     [REACT_QUERY_KEYS.LP_REWARDS, address],
-    async () => {
-      if (!address) return null;
-      try {
-        return await callYupApi({
-          url: `/metrics/historic-lp-rewards/${address}`,
-          method: 'GET'
-        });
-      } catch {
-        return null;
-      }
+    () =>
+      callYupApi({
+        url: `/metrics/historic-lp-rewards/${address}`,
+        method: 'GET'
+      }),
+    {
+      enabled: !!address
     }
   );
-  return data;
-};
 
 export const useCollectionPosts = (id) =>
   useInfiniteQuery(
@@ -341,10 +311,22 @@ export const useCollectionPosts = (id) =>
     }
   );
 
-export const useWalletInfo = (ethAddress) => {
-  const { data } = useQuery([REACT_QUERY_KEYS.WALLET_INFO, ethAddress], () =>
+export const useWalletInfo = (ethAddress) =>
+  useQuery(
+    [REACT_QUERY_KEYS.WALLET_INFO, ethAddress],
+    () =>
+      callYupApi({
+        url: `/profile/${ethAddress}`
+      }),
+    {
+      enabled: !!ethAddress
+    }
+  );
+
+export const useHomeConfig = () => {
+  const { data } = useQuery([REACT_QUERY_KEYS.HOME_CONFIG], () =>
     callYupApi({
-      url: `/profile/${ethAddress}`
+      url: `/home-config/v2`
     })
   );
 

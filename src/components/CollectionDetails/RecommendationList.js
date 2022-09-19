@@ -1,11 +1,12 @@
 import { useRecommendation } from '../../hooks/queries';
 import { FlexBox } from '../styles';
 import RecommendedCollections from '../Collections/RecommendedCollections';
-import withSuspense from '../../hoc/withSuspense';
 
 function RecommendationList({ collection }) {
   const { name, description, _id: id } = collection;
-  const recommendation = useRecommendation({ name, description, id });
+  const { data: recommendation } = useRecommendation({ name, description, id });
+
+  if (!recommendation) return null;
 
   return (
     <FlexBox flexDirection="column" className="Tour-RecommendedCollections">
@@ -18,4 +19,4 @@ function RecommendationList({ collection }) {
   );
 }
 
-export default withSuspense()(RecommendationList);
+export default RecommendationList;
