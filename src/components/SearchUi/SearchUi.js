@@ -10,6 +10,8 @@ import SearchPosts from './SearchPosts';
 import SearchPeople from './SearchPeople';
 import SearchCollections from './SearchCollections';
 import { useAppLayout } from '../../contexts/AppLayoutContext';
+import { postEvent } from '../../apis/general';
+import { useAuth } from '../../contexts/AuthContext';
 
 const SEARCH_TAB_IDS = {
   POSTS: 'posts',
@@ -18,12 +20,18 @@ const SEARCH_TAB_IDS = {
 };
 
 function SearchUi({ onClose }) {
+  const { authInfo } = useAuth();
   const { isMobile } = useDevice();
   const { headerHeight } = useAppLayout();
   const [selectedTab, setSelectedTab] = useState(SEARCH_TAB_IDS.POSTS);
   const [searchQuery, setSearchQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
+  const handleSearch = (e) => {
+    console.log(e)
+    setSearchQuery(e)
+    postEvent({ eventData: { searchText: e }, eventType: 'search', accountId: authInfo.eosname, ...authInfo })
+  }
   const handleScroll = (ev) => {
     setScrolled(ev.currentTarget.scrollTop > 0);
   };
@@ -36,7 +44,7 @@ function SearchUi({ onClose }) {
         >
           <Grid container justifyContent="center">
             <Grid item xs={12} sm={10} lg={8}>
-              <SearchInput onSearch={setSearchQuery} />
+              <SearchInput onSearch={handleSearch} />
             </Grid>
           </Grid>
         </YupContainer>
