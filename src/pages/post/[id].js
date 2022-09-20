@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import PostDisplay from '../../components/Post/PostDisplay';
@@ -16,13 +16,25 @@ import PostHead from '../../components/Heads/PostHead';
 import PostCard from '../../components/PostCard/PostCard';
 import useDevice from '../../hooks/useDevice';
 import PageLoadingBar from '../../components/PageLoadingBar';
+import { postEvent } from '../../apis/general';
+import { useAuth } from '../../contexts/AuthContext';
 
 function PostDetails() {
   const router = useRouter();
+  const { authInfo, isLoggedIn } = useAuth();
   const { windowScrolled } = useAppUtils();
   const { isMobile } = useDevice();
   const { id } = router.query;
   const { isLoading, data: post } = usePost(id);
+  const [eventSent, setEventSent] = useState(false)
+
+  useEffect(() => {
+    if (isLoggedIn && !eventSent) {
+      console.log({ isLoggedIn })
+      setEventSent(true)
+      postEvent({ eventData: { postId: id }, eventType: 'view-post', accountId: authInfo.eosname, ...authInfo })
+    }
+  }, [isLoggedIn]);
 
   if (isLoading) {
     return <PageLoadingBar />;
