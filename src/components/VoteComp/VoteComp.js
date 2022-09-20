@@ -181,7 +181,12 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
           rating,
           authInfo
         });
-        postEvent({ eventData: { voteId: sucessVote._id.voteid }, eventType: 'vote', accountId: authInfo.eosname, ...authInfo })
+        postEvent({
+          eventData: { voteId: sucessVote._id.voteid },
+          eventType: 'vote',
+          accountId: authInfo.eosname,
+          ...authInfo
+        });
       } else {
         const sucessVote = await createVote({
           url,
@@ -190,13 +195,23 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
           rating,
           authInfo
         });
-        postEvent({ eventData: { voteId: sucessVote._id.voteid }, eventType: 'vote', accountId: authInfo.eosname, ...authInfo })
+        postEvent({
+          eventData: { voteId: sucessVote._id.voteid },
+          eventType: 'vote',
+          accountId: authInfo.eosname,
+          ...authInfo
+        });
       }
     }
     // //If already voted on, and new rating is the same as old rating -> Deletes existing vote
     else if (vote && prevRating === newRating) {
       await deleteVote({ voteId: vote._id.voteid, authInfo });
-      postEvent({ eventData: { voteId: vote._id.voteid }, eventType: 'vote', accountId: authInfo.eosname, ...authInfo })
+      postEvent({
+        eventData: { voteId: vote._id.voteid },
+        eventType: 'vote',
+        accountId: authInfo.eosname,
+        ...authInfo
+      });
     }
     // //If already voted on, and new rating is different as old rating -> Updates existing vote
     else {
@@ -207,7 +222,12 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
         rating,
         authInfo
       });
-      postEvent({ eventData: { voteId: vote._id.voteid }, eventType: 'vote', accountId: authInfo.eosname, ...authInfo })
+      postEvent({
+        eventData: { voteId: vote._id.voteid },
+        eventType: 'vote',
+        accountId: authInfo.eosname,
+        ...authInfo
+      });
     }
   };
 

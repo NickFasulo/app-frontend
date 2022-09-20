@@ -28,10 +28,15 @@ function SearchUi({ onClose }) {
   const [scrolled, setScrolled] = useState(false);
 
   const handleSearch = (e) => {
-    console.log(e)
-    setSearchQuery(e)
-    postEvent({ eventData: { searchText: e }, eventType: 'search', accountId: authInfo.eosname, ...authInfo })
-  }
+    console.log(e);
+    setSearchQuery(e);
+    postEvent({
+      eventData: { searchText: e },
+      eventType: 'search',
+      accountId: authInfo.eosname,
+      ...authInfo
+    });
+  };
   const handleScroll = (ev) => {
     setScrolled(ev.currentTarget.scrollTop > 0);
   };

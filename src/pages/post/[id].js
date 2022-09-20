@@ -26,13 +26,18 @@ function PostDetails() {
   const { isMobile } = useDevice();
   const { id } = router.query;
   const { isLoading, data: post } = usePost(id);
-  const [eventSent, setEventSent] = useState(false)
+  const [eventSent, setEventSent] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn && !eventSent) {
-      console.log({ isLoggedIn })
-      setEventSent(true)
-      postEvent({ eventData: { postId: id }, eventType: 'view-post', accountId: authInfo.eosname, ...authInfo })
+      console.log({ isLoggedIn });
+      setEventSent(true);
+      postEvent({
+        eventData: { postId: id },
+        eventType: 'view-post',
+        accountId: authInfo.eosname,
+        ...authInfo
+      });
     }
   }, [isLoggedIn]);
 

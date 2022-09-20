@@ -52,14 +52,19 @@ function UserAccountPage() {
     useUserCollections(profile?._id);
   const { windowScrolled } = useAppUtils();
   const { username: loggedInUsername } = useAuth();
-  const [eventSent, setEventSent] = useState(false)
+  const [eventSent, setEventSent] = useState(false);
 
   const [selectedTab, setSelectedTab] = useState(PROFILE_TAB_IDS.PROFILE);
 
   useEffect(() => {
     if (isLoggedIn && !eventSent) {
-      setEventSent(true)
-      postEvent({ eventData: { accountId: profile?._id }, eventType: 'view-account', accountId: authInfo.eosname, ...authInfo })
+      setEventSent(true);
+      postEvent({
+        eventData: { accountId: profile?._id },
+        eventType: 'view-account',
+        accountId: authInfo.eosname,
+        ...authInfo
+      });
     }
   }, [isLoggedIn]);
 
@@ -131,8 +136,9 @@ function UserAccountPage() {
     <>
       <YupHead
         title={`${profile.fullname || profile.username} | ${COMPANY_NAME}`}
-        description={`${profile.fullname || profile.username
-          }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
+        description={`${
+          profile.fullname || profile.username
+        }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
         metaOg={{
           url: getAbsolutePath(`/account/${profile.username}`),
           type: 'profile'
