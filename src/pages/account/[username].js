@@ -31,6 +31,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { COMPANY_NAME } from '../../constants/const';
 import { getAbsolutePath } from '../../utils/helpers';
 import PageLoadingBar from '../../components/PageLoadingBar';
+import { postEvent } from '../../apis/general';
 
 const PROFILE_TAB_IDS = {
   PROFILE: 'profile',
@@ -44,14 +45,28 @@ function UserAccountPage() {
   const { query } = useRouter();
   const { username } = query;
   const { isMobile } = useDevice();
+  const { authInfo, isLoggedIn } = useAuth();
   const { isLoading: isLoadingProfile, data: profile } =
     useYupAccount(username);
   const { isLoading: isFetchingCollections, data: collections = [] } =
     useUserCollections(profile?._id);
   const { windowScrolled } = useAppUtils();
   const { username: loggedInUsername } = useAuth();
+  const [eventSent, setEventSent] = useState(false);
 
   const [selectedTab, setSelectedTab] = useState(PROFILE_TAB_IDS.PROFILE);
+
+  useEffect(() => {
+    if (isLoggedIn && !eventSent) {
+      setEventSent(true);
+      postEvent({
+        eventData: { accountId: profile?._id },
+        eventType: 'view-account',
+        accountId: authInfo.eosname,
+        ...authInfo
+      });
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     // If `Collections` or `People` tab is selected in Desktop mode, switch it to `Profile` tab.
