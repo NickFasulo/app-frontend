@@ -19,7 +19,8 @@ function GridLayout({ contentLeft, contentRight, noHideRightContent }) {
             sx={{
               pb: 3,
               display: isMobile && !noHideRightContent ? 'none' : 'block',
-              position: isMobile || headerHeight === null ? 'relative' : 'sticky',
+              position:
+                isMobile || headerHeight === null ? 'relative' : 'sticky',
               top:
                 isMobile || !windowScrolled
                   ? undefined

@@ -170,8 +170,8 @@ const PostController = ({
             postType={COLUMBIA_PROF_POST_TYPE}
             hideInteractions={hideInteractions}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (post.tag === COLUMBIA_COURSE_TAG) {
@@ -193,8 +193,8 @@ const PostController = ({
             postType={COLUMBIA_COURSE_POST_TYPE}
             hideInteractions={hideInteractions}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (post.tag === US_PRES_ELECTIONS_TAG) {
@@ -218,8 +218,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isTwitterPost(post.url)) {
@@ -242,8 +242,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isWeb3Post(post.tag)) {
@@ -267,8 +267,8 @@ const PostController = ({
             classes={classes}
             showFullPost={showFullPost}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isEventPost(post.tag)) {
@@ -291,8 +291,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isYoutubeUrl(post.url)) {
@@ -313,8 +313,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isSoundPost(post.url)) {
@@ -335,8 +335,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isSpotifyPost(post.url)) {
@@ -356,8 +356,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isMusicPost(post.url)) {
@@ -377,8 +377,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isTwitchPost(post.url)) {
@@ -399,8 +399,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isInstagramPost(post.url)) {
@@ -422,8 +422,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isNFTPost(post.url)) {
@@ -445,8 +445,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isTallPost(post.url)) {
@@ -468,8 +468,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isArticlePost(post.url)) {
@@ -493,8 +493,8 @@ const PostController = ({
             classes={classes}
             showFullPost={showFullPost}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   if (isObjectPost(post.url) || isChannelPost(post.url)) {
@@ -518,8 +518,8 @@ const PostController = ({
               hideInteractions={hideInteractions}
               classes={classes}
             />
-
-          </article></FunctionalErrorBoundary>
+          </article>
+        </FunctionalErrorBoundary>
       );
     }
     return null;
@@ -546,8 +546,8 @@ const PostController = ({
               hideInteractions={hideInteractions}
               classes={classes}
             />
-
-          </article></FunctionalErrorBoundary>
+          </article>
+        </FunctionalErrorBoundary>
       );
     }
     if (isAudiusPost(post.url)) {
@@ -570,8 +570,8 @@ const PostController = ({
               hideInteractions={hideInteractions}
               classes={classes}
             />
-
-          </article></FunctionalErrorBoundary>
+          </article>
+        </FunctionalErrorBoundary>
       );
     }
     return (
@@ -593,8 +593,8 @@ const PostController = ({
             hideInteractions={hideInteractions}
             classes={classes}
           />
-
-        </article></FunctionalErrorBoundary>
+        </article>
+      </FunctionalErrorBoundary>
     );
   }
   return (
