@@ -14,7 +14,7 @@ import { REACT_QUERY_KEYS } from '../../constants/enum';
 
 const TITLE_LIMIT = 30;
 const DESC_LIMIT = 140;
-  ``
+``;
 function CollectionDuplicateDialog({
   collection,
   dialogOpen,
@@ -26,16 +26,17 @@ function CollectionDuplicateDialog({
   const { toastSuccess, toastError } = useToast();
   const { push } = useRouter();
   const { isLoading, mutate } = useMutation(
-    (data) => callYupApi({
-      url: '/collections',
-      method: 'POST',
-      data
-    }),
+    (data) =>
+      callYupApi({
+        url: '/collections',
+        method: 'POST',
+        data
+      }),
     {
       onSuccess: (data) => {
         queryClient.setQueryData(
           [REACT_QUERY_KEYS.USER_COLLECTIONS, userId],
-          (oldData) => oldData ? [data, ...oldData] : undefined
+          (oldData) => (oldData ? [data, ...oldData] : undefined)
         );
 
         toastSuccess(`Successfully duplicated ${data.name}`, {

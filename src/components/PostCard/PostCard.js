@@ -1,8 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Chip, Divider, Grid, styled, Typography } from '@mui/material';
-import {
-  faPlus
-} from '@fortawesome/pro-regular-svg-icons';
+import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 import ThumbnailIcon from '../CustomWeb3PostEmbed/ThumbnailIcon';
 import VoteComp from '../VoteComp/VoteComp';
 import { useFollowers, useYupAccount } from '../../hooks/queries';

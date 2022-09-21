@@ -52,16 +52,17 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
   const [imageRef, setImageRef] = useState(null);
   const [connectModalIsOpen, setConnectModalIsOpen] = useState(false);
   const { mutate } = useMutation(
-    ({ avatar: newAvatar, bio: newBio, fullname }) => callYupApi({
-      url: `/accounts/edit-account/${username}`,
-      method: 'POST',
-      data: {
-        avatar: newAvatar,
-        bio: newBio,
-        fullname,
-        ...authInfo
-      }
-    }),
+    ({ avatar: newAvatar, bio: newBio, fullname }) =>
+      callYupApi({
+        url: `/accounts/edit-account/${username}`,
+        method: 'POST',
+        data: {
+          avatar: newAvatar,
+          bio: newBio,
+          fullname,
+          ...authInfo
+        }
+      }),
     {
       onSuccess: (updatedData) => {
         queryClient.setQueryData(
@@ -69,7 +70,8 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
           updatedData
         );
       },
-      onError: () => toastError('Failed to update account info. Try again later')
+      onError: () =>
+        toastError('Failed to update account info. Try again later')
     }
   );
 

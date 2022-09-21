@@ -14,11 +14,7 @@ import CountUp from 'react-countup';
 import { isAddress } from 'web3-utils';
 import { TwitterShareButton } from 'react-share';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
-import {
-  YupInput,
-  YupButton,
-  LoaderButton
-} from '../components/Miscellaneous';
+import { YupInput, YupButton, LoaderButton } from '../components/Miscellaneous';
 import rollbar from '../utils/rollbar';
 import MetaTags from '../components/Airdrop/MetaTags';
 import { Mono, Prime } from '../utils/colors';
@@ -134,14 +130,10 @@ function Migration({ classes }) {
     try {
       setIsLoading(true);
       const airdrop = (
-        await axios.get(
-          `${apiBaseUrl}/airdrop?eosname=${authInfo.eosname}`
-        )
+        await axios.get(`${apiBaseUrl}/airdrop?eosname=${authInfo.eosname}`)
       ).data;
       const lpAidrop = (
-        await axios.get(
-          `${apiBaseUrl}/lp-airdrop?eosname=${authInfo.eosname}`
-        )
+        await axios.get(`${apiBaseUrl}/lp-airdrop?eosname=${authInfo.eosname}`)
       ).data;
       setAirdrop(airdrop);
       setLpAidrop(lpAidrop);
@@ -153,7 +145,6 @@ function Migration({ classes }) {
 
     setIsLoading(false);
   };
-
 
   const isValidAddress = isAddress(polygonAddress);
 
@@ -232,11 +223,7 @@ function Migration({ classes }) {
                     </Grid>
                     {lpAidrop ? (
                       <Grid item>
-                        <Grid
-                          container
-                          direction="column"
-                          alignItems="center"
-                        >
+                        <Grid container direction="column" alignItems="center">
                           <Grid item>
                             <Typography variant="s1" style={{ opacity: 0.3 }}>
                               &

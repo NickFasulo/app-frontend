@@ -9,7 +9,7 @@ import {
   Stepper,
   Typography
 } from '@mui/material';
-import { useAccount, useSignMessage , useDisconnect } from 'wagmi';
+import { useAccount, useSignMessage, useDisconnect } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/router';
 import { AUTH_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
@@ -137,7 +137,6 @@ export const AuthModalContextProvider = ({ children }) => {
       // Failed to sign the challenge, should try again.
       // Most cases are when the user rejects to sign.
       toastError(err.message || ERROR_SIGN_FAILED);
-
     }
   };
   const handleAuthWithWallet = async () => {

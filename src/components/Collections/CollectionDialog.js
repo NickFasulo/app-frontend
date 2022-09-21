@@ -18,16 +18,17 @@ function CollectionDialog({ postid, dialogOpen, handleDialogClose }) {
   const [description, setDescription] = useState('');
   const [name, setName] = useState('');
   const { isLoading, mutate } = useMutation(
-    (data) => callYupApi({
-      url: '/collections',
-      method: 'POST',
-      data
-    }),
+    (data) =>
+      callYupApi({
+        url: '/collections',
+        method: 'POST',
+        data
+      }),
     {
       onSuccess: (data) => {
         queryClient.setQueryData(
           [REACT_QUERY_KEYS.USER_COLLECTIONS, userId],
-          (oldData) => oldData ? [data, ...oldData] : undefined
+          (oldData) => (oldData ? [data, ...oldData] : undefined)
         );
 
         toastSuccess(`Successfully created ${data.name}`);
