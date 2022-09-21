@@ -8,7 +8,6 @@ import withTheme from '@mui/styles/withTheme';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import numeral from 'numeral';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import Rating from '@mui/material/Rating';
 import equal from 'fast-deep-equal';
 import isEqual from 'lodash/isEqual';
@@ -29,11 +28,6 @@ import {
   animated,
   useSpringRef
 } from '@react-spring/web';
-import { styled } from '@mui/material/styles';
-import { YupButton } from '../Miscellaneous';
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
-import rollbar from '../../utils/rollbar';
-import WelcomeDialog from '../WelcomeDialog/WelcomeDialog';
 import { levelColors } from '../../utils/colors';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';

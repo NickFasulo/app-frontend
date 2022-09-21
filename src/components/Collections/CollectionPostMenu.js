@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MenuItem, IconButton, Divider, Box, Grid } from '@mui/material';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faRectangleHistory,
@@ -13,27 +12,20 @@ import {
 import IconThreeDots from '@mui/icons-material/MoreHoriz';
 import ClipLoader from 'react-spinners/ClipLoader';
 import CollectionDialog from './CollectionDialog';
-import {
-  addPostToCollection,
-  removePostFromCollection
-} from '../../redux/actions';
 import { apiBaseUrl } from '../../config';
 import { YupMenu } from '../styles';
 import useToast from '../../hooks/useToast';
-import { useInitialVotes } from '../../hooks/queries';
+import { useInitialVotes, useUserCollections } from '../../hooks/queries';
 import { deleteVote } from '../../apis';
 import { useAuth } from '../../contexts/AuthContext';
 
 function CollectionPostMenu({ postid, children }) {
-  const { isLoggedIn, authInfo, ...account } = useAuth();
-  const { data: votes } = useInitialVotes(postid, account.name);
+  const { isLoggedIn, authInfo, userId } = useAuth();
+  const { data: votes } = useInitialVotes(postid, userId);
   const vote = votes?.[0];
   const [isLoading, setIsLoading] = useState(false);
   const [hasVote, setHasVote] = useState(Boolean(vote));
-  const dispatch = useDispatch();
-  const collections = useSelector(
-    (state) => state.userCollections[account.name]?.collections
-  );
+  const { data: collections } = useUserCollections(userId);
 
   const { toastSuccess, toastError } = useToast();
 
@@ -49,8 +41,6 @@ function CollectionPostMenu({ postid, children }) {
       await axios.put(`${apiBaseUrl}/collections/${collection._id}`, params);
 
       toastSuccess(`Succesfully added to ${collection.name}`);
-
-      dispatch(addPostToCollection(account.name, collection, postid));
     } catch (err) {
       console.error(err);
       toastError('An error occured. Try again later.');
@@ -69,8 +59,6 @@ function CollectionPostMenu({ postid, children }) {
       );
 
       toastSuccess(`Succesfully removed post from ${collection.name}`);
-
-      dispatch(removePostFromCollection(account.name, collection, postid));
     } catch (err) {
       console.error(err);
       toastError('An error occured. Try again later.');

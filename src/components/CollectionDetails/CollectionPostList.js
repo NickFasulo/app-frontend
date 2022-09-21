@@ -15,8 +15,8 @@ function CollectionPostList({ id, name }) {
   }, [data]);
 
   const isPostAllFetched =
-    data.pages?.length > 0 &&
-    data.pages[data.pages.length - 1].length < DEFAULT_FEED_PAGE_SIZE;
+    data?.pages?.length > 0 &&
+    data?.pages[data.pages.length - 1].length < DEFAULT_FEED_PAGE_SIZE;
 
   return (
     <>

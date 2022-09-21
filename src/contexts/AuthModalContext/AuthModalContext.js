@@ -9,8 +9,7 @@ import {
   Stepper,
   Typography
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { useAccount, useSignMessage } from 'wagmi';
+import { useAccount, useSignMessage, useDisconnect } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/router';
 import { AUTH_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
@@ -40,7 +39,6 @@ import {
   WAIT_FOR_ACCOUNT_CREATION,
   ACCOUNT_CREATED
 } from '../../constants/messages';
-import { updateEthAuthInfo, fetchSocialLevel } from '../../redux/actions';
 import {
   ANALYTICS_SIGN_UP_TYPES,
   trackLogin,
@@ -53,10 +51,9 @@ import AuthMethodButton from '../../components/AuthMethodButton';
 import AuthInput from '../../components/AuthInput/AuthInput';
 import useStyles from './AuthModalStyles';
 import useToast from '../../hooks/useToast';
-import useYupAccount from '../../hooks/useAccount';
-import { useDisconnect } from 'wagmi';
 import { YupDialog } from '../../components/Miscellaneous';
 import { useAuth } from '../AuthContext';
+import { useYupAccount } from '../../hooks/queries';
 
 const defaultContext = {
   open: () => {},
@@ -73,7 +70,6 @@ const AUTH_MODAL_STAGE = {
 
 export const AuthModalContextProvider = ({ children }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { updateAuthInfo, userId } = useAuth();
   const { toastError, toastSuccess } = useToast();
   const { address, isConnected } = useAccount();
@@ -141,7 +137,6 @@ export const AuthModalContextProvider = ({ children }) => {
       // Failed to sign the challenge, should try again.
       // Most cases are when the user rejects to sign.
       toastError(err.message || ERROR_SIGN_FAILED);
-      return;
     }
   };
   const handleAuthWithWallet = async () => {
@@ -195,17 +190,6 @@ export const AuthModalContextProvider = ({ children }) => {
       return;
     }
 
-    // Update redux state
-    dispatch(
-      updateEthAuthInfo({
-        account,
-        address,
-        signature
-      })
-    );
-
-    dispatch(fetchSocialLevel(account._id));
-
     updateAuthInfo({
       authType: AUTH_TYPE.ETH,
       address,
@@ -214,7 +198,6 @@ export const AuthModalContextProvider = ({ children }) => {
       username: account.username
     });
 
-    console.log('CLOSING1');
     // Tract for analytics
     trackLogin(account.username, address);
 
@@ -249,7 +232,6 @@ export const AuthModalContextProvider = ({ children }) => {
         authType: 'ETH',
         signature
       });
-      dispatch(fetchSocialLevel(account._id));
     } catch (err) {
       toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
 
@@ -264,15 +246,6 @@ export const AuthModalContextProvider = ({ children }) => {
     };
 
     localStorage.setItem(LOCAL_STORAGE_KEYS.ETH_AUTH, JSON.stringify(ethAuth));
-
-    // Update redux state
-    dispatch(
-      updateEthAuthInfo({
-        account,
-        address,
-        signature
-      })
-    );
 
     // Tract for analytics
     trackLogin(account.username, address);
@@ -389,14 +362,6 @@ export const AuthModalContextProvider = ({ children }) => {
       JSON.stringify({
         ...ethSignData,
         ...mirrorData
-      })
-    );
-
-    dispatch(fetchSocialLevel(mirrorData.account._id));
-    dispatch(
-      updateEthAuthInfo({
-        ...ethSignData,
-        account: mirrorData.account
       })
     );
 

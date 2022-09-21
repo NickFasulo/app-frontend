@@ -5,16 +5,8 @@ import {
   useEffect,
   useState
 } from 'react';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import scatter from '../eos/scatter/scatter.wallet';
-import {
-  fetchSocialLevel,
-  fetchUserCollections,
-  loginScatter,
-  signalConnection,
-  updateEthAuthInfo
-} from '../redux/actions';
 import { AUTH_TYPE, LOCAL_STORAGE_KEYS } from '../constants/enum';
 import { logError } from '../utils/logging';
 import {
@@ -22,7 +14,6 @@ import {
   apiGetAccountByEthAddress,
   apiVerifyChallenge
 } from '../apis';
-import { accountConstants } from '../redux/constants';
 import useToast from '../hooks/useToast';
 
 const AuthContext = createContext({
@@ -36,7 +27,6 @@ const AuthContext = createContext({
 });
 
 export function AuthProvider({ children }) {
-  const dispatch = useDispatch();
   const router = useRouter();
   const { toastError } = useToast();
 
@@ -49,8 +39,8 @@ export function AuthProvider({ children }) {
       // 1. Check auth through the extension.
       try {
         await scatter.detect(
-          (scatter, account) => dispatch(loginScatter(scatter, account)),
-          (isInstalled) => dispatch(signalConnection(isInstalled))
+          () => {},
+          () => {}
         );
       } catch (err) {
         if (err.message === 'TWO_SCATTERS_INSTALLED') {
@@ -106,16 +96,6 @@ export function AuthProvider({ children }) {
             signature
           });
 
-          // Update redux for eth auth.
-          dispatch(
-            updateEthAuthInfo({
-              address,
-              signature,
-              account
-            })
-          );
-
-          dispatch(fetchSocialLevel(account._id));
           return;
         } catch (err) {
           logError('ETH authentication failed.', err);
@@ -159,12 +139,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (!authInfo.eosname) return;
-    // Store auth info into redux.
-    dispatch({
-      type: accountConstants.FETCH_AUTH_TOKEN_SUCCESS,
-      ...authInfo
-    });
-    dispatch(fetchUserCollections(authInfo.eosname));
 
     // Set as authenticated
     setIsLoggedIn(true);

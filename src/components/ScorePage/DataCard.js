@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { connect } from 'react-redux';
 
 const CustomPaper = styled(Paper)(
   ({ theme }) => `
