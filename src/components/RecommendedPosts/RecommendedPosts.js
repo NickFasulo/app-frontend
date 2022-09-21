@@ -22,7 +22,10 @@ function RecommendedPosts({ query, excludeIds }) {
     >
       {posts.map((post) =>
         (excludeIds || []).includes(post._id.postid) ? null : (
-          <PostController key={post._id.postid} post={post} hideInteractions />
+          <article key={post._id.postid}>
+            <PostController post={post} hideInteractions />
+
+          </article>
         )
       )}
     </InfiniteScroll>
