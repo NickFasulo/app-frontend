@@ -14,7 +14,6 @@ import {
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Drawer, ExternalLinkList } from './styles';
 import MainLink from './MainLink';
 import FeedLink from './FeedLink';
@@ -24,19 +23,17 @@ import { MENU_ANIMATION_DURATION, PRIVACY_URL } from '../../constants/const';
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 import SettingsModal from '../TopBarAndDrawer/SettingsModal';
 import { LOCAL_STORAGE_KEYS } from '../../constants/enum';
-import { logout } from '../../redux/actions';
 import useDevice from '../../hooks/useDevice';
 import MobileMenuFab from './MobileMenuFab';
 import SideBarContext from './SideBarContext';
 import SearchUi from '../SearchUi';
 import UserMenuItem from './UserMenuItem';
 import YupLogoMenuItem from './YupLogoMenuItem';
-import useExtension from '../../hooks/useExtension';
 import { FlexBox } from '../styles';
 import { useAuth } from '../../contexts/AuthContext';
+import scatter from '../../eos/scatter/scatter.wallet';
 
 function SideBar() {
-  const dispatch = useDispatch();
   const { isDesktop } = useDevice();
   const { isLoggedIn, logout: logoutUser } = useAuth();
   const { isLightMode, toggleTheme } = useThemeMode();
@@ -44,7 +41,6 @@ function SideBar() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [feedOpen, setFeedOpen] = useState(false);
-  const { isInstalled: isExtensionInstalled } = useExtension();
 
   const handleLogout = () => {
     localStorage.removeItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
@@ -53,8 +49,6 @@ function SideBar() {
     setSettingsOpen(false);
 
     logoutUser();
-
-    dispatch(logout());
   };
 
   useEffect(() => {
@@ -166,7 +160,7 @@ function SideBar() {
           </>
         )}
         <List>
-          {!isExtensionInstalled && (
+          {!scatter.connected && (
             <MainLink icon={faPlug} text="Extension" to={extensionUrl} />
           )}
           <MainLink

@@ -1,32 +1,52 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { addUserCollection } from '../../redux/actions';
+import { useMutation } from '@tanstack/react-query';
 import { YupInput, LoaderButton } from '../Miscellaneous';
 import YupDialog from '../Miscellaneous/YupDialog';
-import { apiBaseUrl } from '../../config';
 import { generateCollectionUrl } from '../../utils/helpers';
 import { useAuth } from '../../contexts/AuthContext';
 import useToast from '../../hooks/useToast';
 import { useRouter } from 'next/router';
+import callYupApi from '../../apis/base_api';
+import { queryClient } from '../../config/react-query';
+import { REACT_QUERY_KEYS } from '../../constants/enum';
 
 const TITLE_LIMIT = 30;
 const DESC_LIMIT = 140;
-
+  ``
 function CollectionDuplicateDialog({
   collection,
   dialogOpen,
   handleDialogClose
 }) {
-  const dispatch = useDispatch();
   const [description, setDescription] = useState(collection.description);
   const [name, setName] = useState(collection.name);
-  const [isLoading, setIsLoading] = useState(false);
   const { authInfo, userId } = useAuth();
-  const { toastSuccess } = useToast();
+  const { toastSuccess, toastError } = useToast();
   const { push } = useRouter();
+  const { isLoading, mutate } = useMutation(
+    (data) => callYupApi({
+      url: '/collections',
+      method: 'POST',
+      data
+    }),
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData(
+          [REACT_QUERY_KEYS.USER_COLLECTIONS, userId],
+          (oldData) => oldData ? [data, ...oldData] : undefined
+        );
+
+        toastSuccess(`Successfully duplicated ${data.name}`, {
+          onClick: () => push(generateCollectionUrl(data.name, data._id))
+        });
+
+        handleDialogClose();
+      },
+      onError: () => toastError('Failed to duplicate the collections.')
+    }
+  );
 
   const handleNameChange = ({ target }) => setName(target.value);
   const handleDescriptionChange = ({ target }) => setDescription(target.value);
@@ -34,24 +54,9 @@ function CollectionDuplicateDialog({
     if (e.key === 'Enter' && !!name) handleCreateNewCollection();
   };
 
-  const handleCreateNewCollection = async () => {
-    try {
-      if (isLoading) {
-        return;
-      }
-      setIsLoading(true);
-      const postId = collection.postIds.filter((n) => n);
-      const params = { name, description, postId, ...authInfo };
-      const { data } = await axios.post(`${apiBaseUrl}/collections`, params);
-      dispatch(addUserCollection(userId, data));
-      toastSuccess(`Succesfully duplicated ${name}`, {
-        onClick: () => push(generateCollectionUrl(data.name, data._id))
-      });
-      handleDialogClose();
-      setIsLoading(false);
-    } catch (err) {
-      console.error(err);
-    }
+  const handleCreateNewCollection = () => {
+    const postId = collection.postIds.filter((n) => n);
+    mutate({ name, description, postId, ...authInfo });
   };
 
   return (
@@ -111,7 +116,6 @@ function CollectionDuplicateDialog({
 
 CollectionDuplicateDialog.propTypes = {
   collection: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired
 };

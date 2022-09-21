@@ -8,7 +8,6 @@ import withTheme from '@mui/styles/withTheme';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import numeral from 'numeral';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import Rating from '@mui/material/Rating';
 import equal from 'fast-deep-equal';
 import isEqual from 'lodash/isEqual';

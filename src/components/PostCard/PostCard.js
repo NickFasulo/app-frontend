@@ -1,16 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Chip, Divider, Grid, styled, Typography } from '@mui/material';
 import {
-  faLink,
-  faPlus,
-  faFlag,
-  faStar
+  faPlus
 } from '@fortawesome/pro-regular-svg-icons';
-import useAccount from '../../hooks/useAccount';
 import ThumbnailIcon from '../CustomWeb3PostEmbed/ThumbnailIcon';
 import VoteComp from '../VoteComp/VoteComp';
 import { useFollowers, useYupAccount } from '../../hooks/queries';
-import FollowUser from '../FollowUser';
 import { useAuth } from '../../contexts/AuthContext';
 import { CollectionPostMenu } from '../Collections';
 
@@ -126,7 +121,7 @@ function PostCard({ post }) {
                         clickable
                       />
                     </Grid>
-                    {/* 
+                    {/*
                                         <Grid item>
                                             <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faLink} />}
                                                 label={<YupLabel variant='body2' >Some other link</YupLabel>}
@@ -180,7 +175,7 @@ function PostCard({ post }) {
                                         href="#basic-chip"
                                         clickable
                                     />
-                                </Grid> 
+                                </Grid>
 
                                 <YupDivider item />
                                 <Grid item>

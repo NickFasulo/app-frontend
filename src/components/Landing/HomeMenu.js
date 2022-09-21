@@ -13,17 +13,13 @@ import {
 } from '@mui/material';
 import '../Twitter/twitter.module.css';
 import Tilt from 'react-tilt';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { Mono } from '../../utils/colors.js';
-import HomeMenuLinkItem from './HomeMenuLinkItem';
 import { YupButton } from '../Miscellaneous';
 import { PageBody } from '../../_pages/pageLayouts';
 import useStyles from './styles';
 import useDevice from '../../hooks/useDevice';
-import { apiBaseUrl, landingPageUrl } from '../../config';
+import { landingPageUrl } from '../../config';
 import Link from '../Link';
-import { TruncateText } from '../styles';
 import YupImage from '../YupImage';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { generateCollectionUrl } from '../../utils/helpers';

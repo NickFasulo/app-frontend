@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { useAccount, useSignMessage } from 'wagmi';
 
@@ -19,6 +18,7 @@ import {
 
 import { useRouter } from 'next/router';
 
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import AuthMethodButton from '../../components/AuthMethodButton';
 import useStyles from './AuthModalStyles';
 import {
@@ -46,7 +46,6 @@ import {
   WAIT_FOR_ACCOUNT_CREATION
 } from '../../constants/messages';
 import { AUTH_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
-import { updateEthAuthInfo } from '../../redux/actions';
 import {
   ANALYTICS_SIGN_UP_TYPES,
   trackLogin,
@@ -56,7 +55,6 @@ import {
 } from '../../utils/analytics';
 import { isValidEmail } from '../../utils/helpers';
 import AuthInput from '../../components/AuthInput/AuthInput';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const AUTH_MODAL_STAGE = {
   SIGN_IN: 'SIGN_IN',
@@ -66,7 +64,6 @@ const AUTH_MODAL_STAGE = {
 
 const AuthModal = ({ open, onClose, noRedirect }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { address, isConnected } = useAccount();
   const { signMessage } = useSignMessage();
@@ -144,15 +141,6 @@ const AuthModal = ({ open, onClose, noRedirect }) => {
 
       return;
     }
-
-    // Update redux state
-    dispatch(
-      updateEthAuthInfo({
-        account,
-        address,
-        signature
-      })
-    );
 
     // Tract for analytics
     trackLogin(account.username, address);
@@ -266,13 +254,6 @@ const AuthModal = ({ open, onClose, noRedirect }) => {
       JSON.stringify({
         ...ethSignData,
         ...mirrorData
-      })
-    );
-
-    dispatch(
-      updateEthAuthInfo({
-        ...ethSignData,
-        account: mirrorData.account
       })
     );
 
