@@ -67,7 +67,7 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
       onSuccess: (updatedData) => {
         queryClient.setQueryData(
           [REACT_QUERY_KEYS.ACCOUNT, username],
-          (oldData) => oldData ? { ...oldData, ...updatedData } : updatedData
+          (oldData) => (oldData ? { ...oldData, ...updatedData } : updatedData)
         );
       },
       onError: () =>
