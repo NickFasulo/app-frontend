@@ -28,11 +28,6 @@ import {
   animated,
   useSpringRef
 } from '@react-spring/web';
-import { styled } from '@mui/material/styles';
-import { YupButton } from '../Miscellaneous';
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
-import rollbar from '../../utils/rollbar';
-import WelcomeDialog from '../WelcomeDialog/WelcomeDialog';
 import { levelColors } from '../../utils/colors';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';

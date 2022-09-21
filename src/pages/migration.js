@@ -13,17 +13,17 @@ import axios from 'axios';
 import CountUp from 'react-countup';
 import { isAddress } from 'web3-utils';
 import { TwitterShareButton } from 'react-share';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import {
   YupInput,
   YupButton,
   LoaderButton
-} from '../../components/Miscellaneous';
-import rollbar from '../../utils/rollbar';
-import MetaTags from '../../components/Airdrop/MetaTags';
-import { Mono, Prime } from '../../utils/colors';
-import { PageBody } from '../pageLayouts';
-import { apiBaseUrl, webAppUrl } from '../../config';
+} from '../components/Miscellaneous';
+import rollbar from '../utils/rollbar';
+import MetaTags from '../components/Airdrop/MetaTags';
+import { Mono, Prime } from '../utils/colors';
+import { PageBody } from '../_pages/pageLayouts';
+import { apiBaseUrl, webAppUrl } from '../config';
 import { useAuth } from '../contexts/AuthContext';
 import { useAuthModal } from '../contexts/AuthModalContext';
 
