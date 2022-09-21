@@ -6,13 +6,15 @@ import {
   faFlag,
   faStar
 } from '@fortawesome/pro-regular-svg-icons';
+import removeMd from 'remove-markdown';
 import useAccount from '../../hooks/useAccount';
 import ThumbnailIcon from '../CustomWeb3PostEmbed/ThumbnailIcon';
 import VoteComp from '../VoteComp/VoteComp';
-import { useFollowers, useYupAccount } from '../../hooks/queries';
+import { useFollowers, useSearchPeople, useYupAccount } from '../../hooks/queries';
 import FollowUser from '../FollowUser';
 import { useAuth } from '../../contexts/AuthContext';
 import { CollectionPostMenu } from '../Collections';
+import { parseText } from '../../utils/post_helpers';
 
 const Card = styled(Grid)(({ theme }) => ({
   borderRadius: '12px',
@@ -66,7 +68,8 @@ function PostCard({ post }) {
   const { username } = useAuth();
   const account = useYupAccount(username);
   const id = account?._id;
-
+  const parsedText = removeMd(parseText(post.web3Preview.content)).slice(0, 400)
+  const { isLoading, data: people } = useSearchPeople(parsedText);
   // Just for showing the data, needs to replaced once backend has "Relevant people" functionality
   const followers = useFollowers(id);
   console.log({ id, account, followers });
@@ -93,14 +96,14 @@ function PostCard({ post }) {
                     weights={post?.weights}
                   />
                 </Grid>
-                <Grid item>
+                {/* <Grid item>
                   <Typography variant="body1" display="inline">
                     {likes}{' '}
                   </Typography>
                   <Typography variant="body2" display="inline" color="M400">
                     curated this
                   </Typography>
-                </Grid>
+                </Grid> */}
               </Grid>
             </Grid>
             {/* <Grid item sx={{
@@ -181,18 +184,18 @@ function PostCard({ post }) {
                                         clickable
                                     />
                                 </Grid> 
-
-                                <YupDivider item />
-                                <Grid item>
-                                    <Grid container direction='column' spacing={2}>
-                                        <Grid item>
-                                            <Typography variant='h6'>Relevant People</Typography>
-                                        </Grid>
-                                        <Grid item>
-                                            {followers.map((follower) => <FollowUser noBorder userId={follower} />)}
-                                        </Grid>
-                                    </Grid>
-                                </Grid> */}
+*/}
+                <YupDivider item />
+                <Grid item>
+                  <Grid container direction='column' spacing={2}>
+                    <Grid item>
+                      <Typography variant='h6'>Relevant People</Typography>
+                    </Grid>
+                    <Grid item>
+                      {people?.map((follower) => <FollowUser noBorder userId={follower.userId} />)}
+                    </Grid>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>

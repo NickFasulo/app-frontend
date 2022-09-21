@@ -57,26 +57,17 @@ function PostDetails() {
             <Grid container alignItems="center" columnSpacing={1}>
               <img
                 src={`/images/icons/${post?.web3Preview?.protocol}.svg`}
-                height={isMobile ? '42 ' : '56'}
+                height={isMobile ? '32 ' : '32'}
                 alt={`${post?.web3Preview?.protocol} post`}
               />
               <Grid item>
-                <Grid container direction="column" justifyContent="center">
-                  <Typography
-                    variant="h5"
-                    color="M100"
-                    sx={{ letterSpacing: '0.02em' }}
-                  >
-                    post by {post.author}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="M100"
-                    sx={{ letterSpacing: '0.01em' }}
-                  >
-                    Curated {new Date(post.createdAt).toLocaleDateString()}
-                  </Typography>
-                </Grid>
+                <Typography
+                  variant="h5"
+                  color="M100"
+                  sx={{ letterSpacing: '0.02em' }}
+                >
+                  post by {post.author}
+                </Typography>
               </Grid>
             </Grid>
           </YupContainer>
