@@ -34,14 +34,12 @@ function UserPosts({ userId }) {
       scrollThreshold="300px"
     >
       {posts.map((post) => (
-        <article key={post._id.postid}>
-          <PostController
-            post={post}
-            renderObjects
-            hideInteractions
-          />
-
-        </article>
+        <PostController
+          key={post._id.postid}
+          post={post}
+          renderObjects
+          hideInteractions
+        />
       ))}
     </InfiniteScroll>
   );

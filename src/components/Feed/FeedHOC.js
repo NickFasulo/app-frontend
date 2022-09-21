@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Typography } from '@mui/material';
 import clsx from 'clsx';
+import sum from 'lodash/sum';
 import FeedLoader from '../FeedLoader/FeedLoader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
@@ -10,7 +11,6 @@ import PostController from '../Post/PostController';
 import useStyles from './FeedHOCStyles';
 import { logPageView } from '../../utils/analytics';
 import { useFetchFeed } from '../../hooks/queries';
-import sum from 'lodash/sum';
 
 function FeedHOC({ feedType }) {
   const classes = useStyles();
