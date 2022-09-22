@@ -205,7 +205,8 @@ export const useFetchFeed = ({ feedType, accountId }) =>
     ({ pageParam = 0 }) =>
       callYupApi({
         url: `/feed/${isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
-          }${feedType}?start=${pageParam}&limit=10&account=${accountId}`,
+          }${feedType}?start=${pageParam}&limit=10${accountId ? `account=${accountId} ` : ''
+          }`,
         method: 'GET'
       }),
     {
@@ -221,7 +222,7 @@ export const usePost = (id) =>
     [REACT_QUERY_KEYS.POST, id],
     () =>
       callYupApi({
-        url: `/posts/post/${id}`
+        url: `/ posts / post / ${id}`
       }),
     {
       enabled: !!id
@@ -233,7 +234,7 @@ export const useScore = (address) =>
     [REACT_QUERY_KEYS.SCORE, address],
     () =>
       callYupApi({
-        url: `/score?address=${address}`
+        url: `/ score ? address = ${address}`
       }),
     {
       enabled: !!address
@@ -245,7 +246,7 @@ export const useYupAccount = (userId) =>
     [REACT_QUERY_KEYS.ACCOUNT, userId],
     () =>
       callYupApi({
-        url: `/accounts/${userId}`
+        url: `/ accounts / ${userId}`
       }),
     {
       enabled: !!userId
@@ -269,7 +270,7 @@ export const usePostInteractions = (postid) =>
     [REACT_QUERY_KEYS.YUP_POSTINTERACTIONS, postid],
     () =>
       callYupApi({
-        url: `/posts/interactions/${postid}`,
+        url: `/ posts / interactions / ${postid}`,
         method: 'POST'
       }),
     {
@@ -282,7 +283,7 @@ export const useLpRewards = (address) =>
     [REACT_QUERY_KEYS.LP_REWARDS, address],
     () =>
       callYupApi({
-        url: `/metrics/historic-lp-rewards/${address}`,
+        url: `/ metrics / historic - lp - rewards / ${address}`,
         method: 'GET'
       }),
     {
@@ -295,7 +296,7 @@ export const useCollectionPosts = (id) =>
     [REACT_QUERY_KEYS.COLLECTION_POSTS, id],
     ({ pageParam = 0 }) =>
       callYupApi({
-        url: `/collections/posts/${id}`,
+        url: `/ collections / posts / ${id}`,
         params: {
           start: pageParam,
           limit: DEFAULT_FEED_PAGE_SIZE
@@ -315,7 +316,7 @@ export const useWalletInfo = (ethAddress) =>
     [REACT_QUERY_KEYS.WALLET_INFO, ethAddress],
     () =>
       callYupApi({
-        url: `/profile/${ethAddress}`
+        url: `/ profile / ${ethAddress}`
       }),
     {
       enabled: !!ethAddress
@@ -325,7 +326,7 @@ export const useWalletInfo = (ethAddress) =>
 export const useHomeConfig = () => {
   const { data } = useQuery([REACT_QUERY_KEYS.HOME_CONFIG], () =>
     callYupApi({
-      url: `/home-config/v2`
+      url: `/ home - config / v2`
     })
   );
 
