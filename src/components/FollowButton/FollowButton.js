@@ -1,10 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { CircularProgress, IconButton } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faUserPlus,
-  faUserMinus
-} from '@fortawesome/pro-regular-svg-icons';
+import { faUserPlus, faUserCheck } from '@fortawesome/pro-regular-svg-icons';
 import { useAuth } from '../../contexts/AuthContext';
 import { useFollowings } from '../../hooks/queries';
 import { ActionButton } from '../styles';
@@ -12,7 +9,7 @@ import { MUTATION_KEYS } from '../../constants/enum';
 import useDevice from '../../hooks/useDevice';
 
 function FollowButton({ userId }) {
-  const { isTinyDesktop } = useDevice()
+  const { isTinyDesktop } = useDevice();
   const { userId: myUserId, isLoggedIn, authInfo } = useAuth();
   const { data: myFollowingUsers } = useFollowings(myUserId) || [];
   const { isLoading, mutate } = useMutation([
@@ -36,23 +33,22 @@ function FollowButton({ userId }) {
       authInfo
     });
   };
-  if (
-    isTinyDesktop) {
+  if (isTinyDesktop) {
     return (
       <IconButton
-
         size="small"
         onClick={handleFollowOrUnfollow}
-        disabled={isLoading}>
+        disabled={isLoading}
+      >
         {isLoading ? (
           <CircularProgress size={16} />
-        ) : isAlreadyFollowing ?
-          <FontAwesomeIcon icon={faUserMinus} />
-          :
-
+        ) : isAlreadyFollowing ? (
+          <FontAwesomeIcon icon={faUserCheck} />
+        ) : (
           <FontAwesomeIcon icon={faUserPlus} />
-        }
-      </IconButton>)
+        )}
+      </IconButton>
+    );
   }
 
   return (
@@ -65,14 +61,13 @@ function FollowButton({ userId }) {
     >
       {isLoading ? (
         <CircularProgress size={16} />
-      ) : isAlreadyFollowing ? 'Following'
-        :
+      ) : isAlreadyFollowing ? (
+        'Following'
+      ) : (
         'Follow'
-      }
+      )}
     </ActionButton>
   );
-
-
 }
 
 export default FollowButton;

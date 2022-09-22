@@ -55,7 +55,9 @@ function PostDetails() {
       <YupPageWrapper>
         <YupPageHeader scrolled={windowScrolled}>
           <YupContainer sx={{ padding: (theme) => theme.spacing(3) }}>
-            {isMobile ? (<MobilePostHeader post={post} scrolled={windowScrolled} />) : (
+            {isMobile ? (
+              <MobilePostHeader post={post} scrolled={windowScrolled} />
+            ) : (
               <Grid container alignItems="center" columnSpacing={1}>
                 <img
                   src={`/images/icons/${post?.web3Preview?.protocol}.svg`}
@@ -71,7 +73,8 @@ function PostDetails() {
                     post by {post.author}
                   </Typography>
                 </Grid>
-              </Grid>)}
+              </Grid>
+            )}
           </YupContainer>
         </YupPageHeader>
         <YupContainer>

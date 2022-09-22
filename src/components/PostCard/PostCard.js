@@ -10,7 +10,11 @@ import removeMd from 'remove-markdown';
 import useAccount from '../../hooks/useAccount';
 import ThumbnailIcon from '../CustomWeb3PostEmbed/ThumbnailIcon';
 import VoteComp from '../VoteComp/VoteComp';
-import { useFollowers, useSearchPeople, useYupAccount } from '../../hooks/queries';
+import {
+  useFollowers,
+  useSearchPeople,
+  useYupAccount
+} from '../../hooks/queries';
 import FollowUser from '../FollowUser';
 import { useAuth } from '../../contexts/AuthContext';
 import { CollectionPostMenu } from '../Collections';
@@ -69,7 +73,10 @@ function PostCard({ post, withoutVotecomp, relevantLength }) {
   const { username } = useAuth();
   const account = useYupAccount(username);
   const id = account?._id;
-  const parsedText = removeMd(parseText(post.web3Preview.content)).slice(0, 400)
+  const parsedText = removeMd(parseText(post.web3Preview.content)).slice(
+    0,
+    400
+  );
   const { isLoading, data: people } = useSearchPeople(parsedText);
   // Just for showing the data, needs to replaced once backend has "Relevant people" functionality
   const followers = useFollowers(id);
@@ -107,7 +114,8 @@ function PostCard({ post, withoutVotecomp, relevantLength }) {
                   </Typography>
                 </Grid> */}
                 </Grid>
-              </Grid>)}
+              </Grid>
+            )}
             {/* <Grid item sx={{
                             background: " linear-gradient(270deg, rgba(51, 50, 53, 0) 0%, #333235 49.48%, rgba(51, 50, 53, 0) 100%)",
                             border: "1px solid",
@@ -122,12 +130,16 @@ function PostCard({ post, withoutVotecomp, relevantLength }) {
 
                 <YupDivider item />
                 <Grid item>
-                  <Grid container direction='column' spacing={2}>
+                  <Grid container direction="column" spacing={2}>
                     <Grid item>
-                      <Typography variant='h6'>Relevant People</Typography>
+                      <Typography variant="h6">Relevant People</Typography>
                     </Grid>
                     <Grid item>
-                      {(people?.slice(0, relevantLength || people.length).map((follower) => <FollowUser noBorder userId={follower.userId} />))}
+                      {people
+                        ?.slice(0, relevantLength || people.length)
+                        .map((follower) => (
+                          <FollowUser noBorder userId={follower.userId} />
+                        ))}
                     </Grid>
                   </Grid>
                 </Grid>
