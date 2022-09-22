@@ -18,6 +18,7 @@ import useDevice from '../../hooks/useDevice';
 import PageLoadingBar from '../../components/PageLoadingBar';
 import { postEvent } from '../../apis/general';
 import { useAuth } from '../../contexts/AuthContext';
+import MobilePostHeader from '../../components/PostPageHeader/MobilePostHeader';
 
 function PostDetails() {
   const router = useRouter();
@@ -54,22 +55,23 @@ function PostDetails() {
       <YupPageWrapper>
         <YupPageHeader scrolled={windowScrolled}>
           <YupContainer sx={{ padding: (theme) => theme.spacing(3) }}>
-            <Grid container alignItems="center" columnSpacing={1}>
-              <img
-                src={`/images/icons/${post?.web3Preview?.protocol}.svg`}
-                height={isMobile ? '32 ' : '32'}
-                alt={`${post?.web3Preview?.protocol} post`}
-              />
-              <Grid item>
-                <Typography
-                  variant="h5"
-                  color="M100"
-                  sx={{ letterSpacing: '0.02em' }}
-                >
-                  post by {post.author}
-                </Typography>
-              </Grid>
-            </Grid>
+            {isMobile ? (<MobilePostHeader post={post} />) : (
+              <Grid container alignItems="center" columnSpacing={1}>
+                <img
+                  src={`/images/icons/${post?.web3Preview?.protocol}.svg`}
+                  height={isMobile ? '32 ' : '32'}
+                  alt={`${post?.web3Preview?.protocol} post`}
+                />
+                <Grid item>
+                  <Typography
+                    variant="h5"
+                    color="M100"
+                    sx={{ letterSpacing: '0.02em' }}
+                  >
+                    post by {post.author}
+                  </Typography>
+                </Grid>
+              </Grid>)}
           </YupContainer>
         </YupPageHeader>
         <YupContainer>
