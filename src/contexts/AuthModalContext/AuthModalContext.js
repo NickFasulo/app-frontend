@@ -140,7 +140,6 @@ export const AuthModalContextProvider = ({ children }) => {
     }
   };
   const handleAuthWithWallet = async () => {
-    console.log('CLOSING2');
     if (!signature) {
       toastError(ERROR_SIGN_FAILED);
 
@@ -149,17 +148,23 @@ export const AuthModalContextProvider = ({ children }) => {
       return;
     }
 
+    // Save signature data for later use.
+    setEthSignData({ address, signature });
+
     try {
       await apiVerifyChallenge(address, signature);
     } catch (err) {
-      // Verification failed, should try again.
-      toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
+      console.log('amlog', { ... err });
+      if (err?.response?.status === 401) {
+        // If account is not found, request username for Sign-Up.
+        setStage(AUTH_MODAL_STAGE.REQUIRE_USERNAME);
+      } else {
+        // Verification failed, should try again.
+        toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
+      }
 
       return;
     }
-
-    // Save signature data for later use.
-    setEthSignData({ address, signature });
 
     // Store challenge/signature into localStorage for later use.
     const ethAuth = {
