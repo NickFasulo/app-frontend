@@ -1,14 +1,6 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Chip, Divider, Grid, styled, Typography } from '@mui/material';
-import {
-  faLink,
-  faPlus,
-  faFlag,
-  faStar
-} from '@fortawesome/pro-regular-svg-icons';
+
+import { Chip, Grid, styled, Typography } from '@mui/material';
 import removeMd from 'remove-markdown';
-import useAccount from '../../hooks/useAccount';
-import ThumbnailIcon from '../CustomWeb3PostEmbed/ThumbnailIcon';
 import VoteComp from '../VoteComp/VoteComp';
 import {
   useFollowers,
@@ -17,7 +9,6 @@ import {
 } from '../../hooks/queries';
 import FollowUser from '../FollowUser';
 import { useAuth } from '../../contexts/AuthContext';
-import { CollectionPostMenu } from '../Collections';
 import { parseText } from '../../utils/post_helpers';
 import PostChips from '../PostChips/PostChips';
 
