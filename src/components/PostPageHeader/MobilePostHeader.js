@@ -4,7 +4,6 @@ import {
     faChevronUp
 } from '@fortawesome/pro-regular-svg-icons';
 import { useState } from "react";
-import { useAppUtils } from "../../contexts/AppUtilsContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { useYupAccount } from "../../hooks/queries";
 import PostChips from "../PostChips/PostChips";
@@ -25,7 +24,6 @@ export default function MobilePostHeader({ post, scrolled }) {
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
-    const { isMobile } = useAppUtils()
     const { username } = useAuth();
     const account = useYupAccount(username);
     return (
@@ -36,7 +34,7 @@ export default function MobilePostHeader({ post, scrolled }) {
                         <Grid container alignItems="center" columnSpacing={1}>
                             <img
                                 src={`/images/icons/${post?.web3Preview?.protocol}.svg`}
-                                height={isMobile ? '32 ' : '32'}
+                                height="32"
                                 alt={`${post?.web3Preview?.protocol} post`}
                             />
                             <Grid item>
@@ -84,7 +82,7 @@ export default function MobilePostHeader({ post, scrolled }) {
                     horizontal: 'left',
                 }}
             >
-                <PostCard post={post} withoutVotecomp />
+                <PostCard post={post} withoutVotecomp relevantLength={3} />
             </StyledPopover>
 
         </Grid>)

@@ -65,7 +65,7 @@ const getWeb3Dislikes = (post) => {
 
   return 0;
 };
-function PostCard({ post, withoutVotecomp }) {
+function PostCard({ post, withoutVotecomp, relevantLength }) {
   const { username } = useAuth();
   const account = useYupAccount(username);
   const id = account?._id;
@@ -127,7 +127,7 @@ function PostCard({ post, withoutVotecomp }) {
                       <Typography variant='h6'>Relevant People</Typography>
                     </Grid>
                     <Grid item>
-                      {people?.map((follower) => <FollowUser noBorder userId={follower.userId} />)}
+                      {(people?.slice(0, relevantLength || people.length).map((follower) => <FollowUser noBorder userId={follower.userId} />))}
                     </Grid>
                   </Grid>
                 </Grid>
