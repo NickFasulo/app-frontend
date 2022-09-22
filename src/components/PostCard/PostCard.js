@@ -15,6 +15,7 @@ import FollowUser from '../FollowUser';
 import { useAuth } from '../../contexts/AuthContext';
 import { CollectionPostMenu } from '../Collections';
 import { parseText } from '../../utils/post_helpers';
+import PostChips from '../PostChips/PostChips';
 
 const Card = styled(Grid)(({ theme }) => ({
   borderRadius: '12px',
@@ -115,76 +116,9 @@ function PostCard({ post }) {
             <Grid item>
               <Grid container direction="column" spacing={3}>
                 <Grid item>
-                  <Grid container spacing={1}>
-                    <Grid item>
-                      <YupChip
-                        avatar={
-                          <ThumbnailIcon
-                            protocol={post?.web3Preview?.protocol}
-                          />
-                        }
-                        label={<YupLabel variant="body2">Source</YupLabel>}
-                        component="a"
-                        href={post.url}
-                        clickable
-                      />
-                    </Grid>
-                    {/* 
-                                        <Grid item>
-                                            <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faLink} />}
-                                                label={<YupLabel variant='body2' >Some other link</YupLabel>}
-                                                component="a" href="#basic-chip" clickable />
-                                        </Grid> */}
-
-                    <Grid item>
-                      <CollectionPostMenu
-                        noIcon
-                        accountName={account && account.name}
-                        postid={post?._id.postid}
-                      >
-                        <YupChip
-                          avatar={
-                            <FontAwesomeIcon
-                              style={{ width: '20px', height: '20px' }}
-                              icon={faPlus}
-                            />
-                          }
-                          label={<YupLabel variant="body2">Collect</YupLabel>}
-                          component="a"
-                          clickable
-                        />
-                      </CollectionPostMenu>
-                    </Grid>
-                  </Grid>
+                  <PostChips post={post} />
                 </Grid>
-                {/* <Grid item>
-                                    <Grid container spacing={1}>
 
-                                        <Grid item>
-                                            <YupChip avatar={<FontAwesomeIcon style={{ width: '16px', height: '16px' }} icon={faFlag} />} label={<YupLabel variant='body2' >Report</YupLabel>} clickable />
-                                        </Grid>
-                                        <Grid item>
-                                            <YupChip avatar={<FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={faStar} />} label={<YupLabel variant='body2' >Something else</YupLabel>} clickable />
-                                        </Grid>
-                                    </Grid>
-                                </Grid> */}
-                {/* <Grid item>
-                                    <YupChip
-                                        avatar={
-                                            <FontAwesomeIcon
-                                                style={{ width: '20px', height: '20px' }}
-                                                icon={faLink}
-                                            />
-                                        }
-                                        label={
-                                            <YupLabel variant="body2">Some other link</YupLabel>
-                                        }
-                                        component="a"
-                                        href="#basic-chip"
-                                        clickable
-                                    />
-                                </Grid> 
-*/}
                 <YupDivider item />
                 <Grid item>
                   <Grid container direction='column' spacing={2}>
