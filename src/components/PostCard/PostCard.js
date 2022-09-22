@@ -1,4 +1,3 @@
-
 import { Chip, Grid, styled, Typography } from '@mui/material';
 import removeMd from 'remove-markdown';
 import VoteComp from '../VoteComp/VoteComp';
