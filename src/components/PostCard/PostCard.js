@@ -65,7 +65,7 @@ const getWeb3Dislikes = (post) => {
 
   return 0;
 };
-function PostCard({ post }) {
+function PostCard({ post, withoutVotecomp }) {
   const { username } = useAuth();
   const account = useYupAccount(username);
   const id = account?._id;
@@ -84,20 +84,21 @@ function PostCard({ post }) {
       <Grid container direction="column">
         <Grid item>
           <Grid container direction="column" rowSpacing={4}>
-            <Grid item>
-              <Grid container justifyContent="space-between">
-                <Grid item>
-                  <VoteComp
-                    postInfo={{ post }}
-                    url={post?.url}
-                    account={account}
-                    postid={post?._id.postid}
-                    quantiles={post?.quantiles}
-                    rating={post?.rating}
-                    weights={post?.weights}
-                  />
-                </Grid>
-                {/* <Grid item>
+            {!withoutVotecomp && (
+              <Grid item>
+                <Grid container justifyContent="space-between">
+                  <Grid item>
+                    <VoteComp
+                      postInfo={{ post }}
+                      url={post?.url}
+                      account={account}
+                      postid={post?._id.postid}
+                      quantiles={post?.quantiles}
+                      rating={post?.rating}
+                      weights={post?.weights}
+                    />
+                  </Grid>
+                  {/* <Grid item>
                   <Typography variant="body1" display="inline">
                     {likes}{' '}
                   </Typography>
@@ -105,8 +106,8 @@ function PostCard({ post }) {
                     curated this
                   </Typography>
                 </Grid> */}
-              </Grid>
-            </Grid>
+                </Grid>
+              </Grid>)}
             {/* <Grid item sx={{
                             background: " linear-gradient(270deg, rgba(51, 50, 53, 0) 0%, #333235 49.48%, rgba(51, 50, 53, 0) 100%)",
                             border: "1px solid",

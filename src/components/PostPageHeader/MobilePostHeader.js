@@ -1,15 +1,30 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Grid, Typography } from "@mui/material";
+import { Grid, IconButton, Popover, Typography } from "@mui/material";
 import {
     faChevronUp
 } from '@fortawesome/pro-regular-svg-icons';
+import { useState } from "react";
 import { useAppUtils } from "../../contexts/AppUtilsContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { useYupAccount } from "../../hooks/queries";
 import PostChips from "../PostChips/PostChips";
 import VoteComp from "../VoteComp/VoteComp";
+import PostCard from "../PostCard/PostCard";
+import { StyledPopover } from "./StyledPopover";
 
 export default function MobilePostHeader({ post, scrolled }) {
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
     const { isMobile } = useAppUtils()
     const { username } = useAuth();
     const account = useYupAccount(username);
@@ -34,8 +49,11 @@ export default function MobilePostHeader({ post, scrolled }) {
                                 </Typography>
                             </Grid>
                             {scrolled && (
-                                <Grid item>
-                                    <FontAwesomeIcon icon={faChevronUp} />
+                                <Grid item >
+                                    <IconButton onClick={handleClick}>
+
+                                        <FontAwesomeIcon icon={faChevronUp} />
+                                    </IconButton>
                                 </Grid>)}
                         </Grid>
                     </Grid>
@@ -56,5 +74,18 @@ export default function MobilePostHeader({ post, scrolled }) {
                 <Grid item>
                     <PostChips post={post} />
                 </Grid>)}
+            <StyledPopover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+            >
+                <PostCard post={post} withoutVotecomp />
+            </StyledPopover>
+
         </Grid>)
 }
