@@ -17,7 +17,10 @@ function FeedHOC({ feedType }) {
   const classes = useStyles();
   const { authInfo } = useAuth();
 
-  const { data, fetchNextPage, isLoading } = useFetchFeed({ feedType, accountId: authInfo.eosname });
+  const { data, fetchNextPage, isLoading } = useFetchFeed({
+    feedType,
+    accountId: authInfo.eosname
+  });
 
   const postLength = sum((data?.pages || []).map((page) => page?.length || 0));
 
