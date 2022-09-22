@@ -154,7 +154,6 @@ export const AuthModalContextProvider = ({ children }) => {
     try {
       await apiVerifyChallenge(address, signature);
     } catch (err) {
-      console.log('amlog', { ... err });
       if (err?.response?.status === 401) {
         // If account is not found, request username for Sign-Up.
         setStage(AUTH_MODAL_STAGE.REQUIRE_USERNAME);
