@@ -305,9 +305,7 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
 
   return (
     <ErrorBoundary>
-      <FlexBox
-        sx={{ columnGap: (theme) => theme.spacing(3), maxWidth: '100px' }}
-      >
+      <FlexBox sx={{ columnGap: (theme) => theme.spacing(2) }}>
         <VoteButton
           userInfluence={account?.weight ?? 1}
           category={category}

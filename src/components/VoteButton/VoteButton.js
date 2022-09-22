@@ -1,43 +1,22 @@
-import React, { memo, useState, useEffect, useRef } from 'react';
-import { isEmpty } from 'lodash';
-import { withRouter } from 'next/router';
+import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import withTheme from '@mui/styles/withTheme';
-import SnackbarContent from '@mui/material/SnackbarContent';
 import numeral from 'numeral';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import Rating from '@mui/material/Rating';
-import equal from 'fast-deep-equal';
-import isEqual from 'lodash/isEqual';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import Fade from '@mui/material/Fade';
+import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import {
   faThumbsDown as faThumbsDownSolid,
   faThumbsUp as faThumbsUpSolid
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  useTransition,
-  useSpring,
-  useChain,
-  easings,
-  config,
-  animated,
-  useSpringRef
-} from '@react-spring/web';
-import { styled } from '@mui/material/styles';
-import { YupButton } from '../Miscellaneous';
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors';
-import rollbar from '../../utils/rollbar';
-import WelcomeDialog from '../WelcomeDialog/WelcomeDialog';
+import { useTransition, useSpring, easings, animated } from '@react-spring/web';
 import { levelColors } from '../../utils/colors';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';
 import useLongPress from '../../hooks/useLongPress';
+import { FlexBox } from '../styles';
 
 const styles = (theme) => ({
   greenArrow: {
@@ -132,26 +111,20 @@ StyledTooltip.propTypes = {
 
 function PostStats({ classes, isShown, quantile, theme, totalVoters, weight }) {
   return (
-    <Grid itemRef="">
-      <Grid container spacing={0}>
-        <Grid item>
-          <Typography
-            variant="body2"
-            className={classes.weight}
-            style={{
-              color: !isShown ? levelColors[quantile] : theme.palette.M200
-            }}
-            placeholder={weight}
-          >
-            {
-              Math.round(
-                totalVoters ** (1 + 0.001 * weight)
-              ) /* this is a temporary calculation to be expanded on */
-            }
-          </Typography>
-        </Grid>
-      </Grid>
-    </Grid>
+    <Typography
+      variant="body2"
+      className={classes.weight}
+      style={{
+        color: !isShown ? levelColors[quantile] : theme.palette.M200
+      }}
+      placeholder={weight}
+    >
+      {
+        Math.round(
+          totalVoters ** (1 + 0.001 * weight)
+        ) /* this is a temporary calculation to be expanded on */
+      }
+    </Typography>
   );
 }
 
@@ -165,7 +138,6 @@ PostStats.propTypes = {
 
 const postStatStyles = (theme) => ({
   weight: {
-    width: '1rem',
     fontSize: '16px'
   },
   totalVoters: {
@@ -178,10 +150,7 @@ const postStatStyles = (theme) => ({
 
 const StyledPostStats = withTheme(withStyles(postStatStyles)(PostStats));
 
-// TODO: Convert to functional component
 function VoteButton({
-  classes,
-  postInfo,
   isShown,
   type,
   totalVoters,
@@ -198,11 +167,9 @@ function VoteButton({
   const { open: openAuthModal } = useAuthModal();
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [mouseDown, setMouseDown] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [isLongPress, setIsLongPress] = useState(false);
   const [clickFinished, setClickFinished] = useState(false);
-  console.log({ userInfluence });
+
   const onLongPress = (isPressed) => {
     if (account?.name) {
       setIsLongPress(isPressed);
@@ -325,13 +292,7 @@ function VoteButton({
       ? faThumbsDownSolid
       : faThumbsDown;
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      spacing={1}
-      sx={{ position: 'relative' }}
-    >
+    <FlexBox alignItems="center" gap={0.5}>
       {transition((style, item) => (
         <animated.div
           className={styles.item}
@@ -351,36 +312,32 @@ function VoteButton({
           )}
         </animated.div>
       ))}
-      <Grid
-        item
-        sx={{ zIndex: '1000' }}
+      <div
+        style={{ width: '18px', cursor: 'pointer' }}
+        {...longPress}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div style={{ width: '18px', cursor: 'pointer' }} {...longPress}>
-          {isLongPress || isVoted ? (
-            <>
-              {isLongPress ? (
-                <AnimatedIcon style={{ ...hardPressAnimation }} icon={icon} />
-              ) : (
-                <AnimatedIcon style={{ ...clickAnimation }} icon={icon} />
-              )}
-            </>
-          ) : (
-            <AnimatedIcon style={{ ...hover }} icon={icon} />
-          )}
-        </div>
-      </Grid>
-      <Grid xs={4} className={classes.postWeight} item>
-        <StyledPostStats
-          totalVoters={
-            totalVoters + web3Likes + rating * userInfluence.toFixed(0)
-          }
-          weight={Number(formattedWeight)}
-          isShown={isShown}
-        />
-      </Grid>
-    </Grid>
+        {isLongPress || isVoted ? (
+          <>
+            {isLongPress ? (
+              <AnimatedIcon style={{ ...hardPressAnimation }} icon={icon} />
+            ) : (
+              <AnimatedIcon style={{ ...clickAnimation }} icon={icon} />
+            )}
+          </>
+        ) : (
+          <AnimatedIcon style={{ ...hover }} icon={icon} />
+        )}
+      </div>
+      <StyledPostStats
+        totalVoters={
+          totalVoters + web3Likes + rating * userInfluence.toFixed(0)
+        }
+        weight={Number(formattedWeight)}
+        isShown={isShown}
+      />
+    </FlexBox>
   );
 }
 

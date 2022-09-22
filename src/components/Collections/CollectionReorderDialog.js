@@ -1,13 +1,10 @@
 import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@mui/styles/withStyles';
-import { connect } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import axios from 'axios';
 import DraggableCollectionPostItem from './DraggableCollectionPostItem';
 import { LoaderButton } from '../Miscellaneous';
-import { getAuth } from '../../utils/authentication';
-import { accountInfoSelector } from '../../redux/selectors';
 import YupDialog from '../Miscellaneous/YupDialog';
 import { apiBaseUrl } from '../../config';
 import { useAuth } from '../../contexts/AuthContext';

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import ReactCrop from 'react-image-crop';
-import { useDispatch, connect } from 'react-redux';
 import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit';
 import { Grid, IconButton, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
@@ -12,12 +11,15 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import YupDialog from '../Miscellaneous/YupDialog';
 import { YupButton, YupInput } from '../Miscellaneous';
 import UserAvatar from '../UserAvatar/UserAvatar';
-import { updateAccountInfo } from '../../redux/actions';
 import { apiUploadProfileImage } from '../../apis';
 import useToast from '../../hooks/useToast';
 import useStyles from './styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { useMutation } from '@tanstack/react-query';
+import callYupApi from '../../apis/base_api';
+import { queryClient } from '../../config/react-query';
+import { REACT_QUERY_KEYS } from '../../constants/enum';
 
 function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
   const router = useRouter();
@@ -25,10 +27,9 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { dialogOpen } = router.query;
-  const { authInfo } = useAuth();
+  const { username, authInfo } = useAuth();
 
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { toastError } = useToast();
   const { linkEthAddress } = useAuthModal();
   // const { open: openAuthModal } = useAuthModal();
@@ -50,6 +51,29 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
   const [cropTime, setCropTime] = useState(false);
   const [imageRef, setImageRef] = useState(null);
   const [connectModalIsOpen, setConnectModalIsOpen] = useState(false);
+  const { mutate } = useMutation(
+    ({ avatar: newAvatar, bio: newBio, fullname }) =>
+      callYupApi({
+        url: `/accounts/edit-account/${username}`,
+        method: 'POST',
+        data: {
+          avatar: newAvatar,
+          bio: newBio,
+          fullname,
+          ...authInfo
+        }
+      }),
+    {
+      onSuccess: (updatedData) => {
+        queryClient.setQueryData(
+          [REACT_QUERY_KEYS.ACCOUNT, username],
+          (oldData) => (oldData ? { ...oldData, ...updatedData } : updatedData)
+        );
+      },
+      onError: () =>
+        toastError('Failed to update account info. Try again later')
+    }
+  );
 
   const filePreview = files.length > 0 ? files[0].preview : '';
   const filename = files.length > 0 ? files[0].name : '';
@@ -184,7 +208,12 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
         update.fullname = fullName;
       }
 
-      dispatch(updateAccountInfo(account, update, authInfo));
+      mutate({
+        bio,
+        avatar: newAvatar || account.avatar,
+        fullname: fullName
+      });
+
       handleDialogClose();
     } catch (err) {
       handleDialogClose();
@@ -443,7 +472,5 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
     </ErrorBoundary>
   );
 }
-
-// TODO: Move to `useSelector`
 
 export default EditProfile;
