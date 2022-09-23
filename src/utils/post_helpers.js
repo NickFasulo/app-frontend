@@ -27,6 +27,12 @@ export const parseText = (str) => {
     .replace(/&nbsp;/g, ' ');
   return parsed;
 };
+export const parseTextKeepLink = (str) => {
+  const parsed = str
+    .replace(/&amp;/g, '&')
+    .replace(/&nbsp;/g, ' ');
+  return parsed;
+}
 export const convertIPFSSrcToHttps = (src) => {
   if (src.startsWith('ipfs://')) {
     src = `https://ipfs.io/ipfs/${src.substring(7)}`;
