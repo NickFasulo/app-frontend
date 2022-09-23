@@ -21,14 +21,15 @@ const YupLabel = styled(Typography)(({ theme }) => ({
 export default function PostChips({ post }) {
   const { username } = useAuth();
   const account = useYupAccount(username);
+  const protocol = post?.web3Preview?.protocol
   return (
     <Grid container direction="column" spacing={3}>
       <Grid item>
         <Grid container spacing={1}>
           <Grid item>
             <YupChip
-              avatar={<ThumbnailIcon protocol={post?.web3Preview?.protocol} />}
-              label={<YupLabel variant="body2">Source</YupLabel>}
+              avatar={<ThumbnailIcon protocol={protocol} />}
+              label={<YupLabel variant="body2">{protocol.charAt(0).toUpperCase() + protocol.slice(1)}</YupLabel>}
               component="a"
               href={post.url}
               clickable
