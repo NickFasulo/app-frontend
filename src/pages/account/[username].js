@@ -185,15 +185,10 @@ function UserAccountPage() {
           <YupContainer>
             <GridLayout
               contentLeft={
-                <>
-                  <UserPosts userId={profile._id} />
-                  <Typography variant="h6" sx={{ my: 3 }}>
-                    Recommended
-                  </Typography>
-                  <RecommendedPosts
-                    query={`${profile.fullname} ${profile.username} ${profile.bio}`}
-                  />
-                </>
+                <UserPosts
+                  userId={profile._id}
+                  name={`${profile.fullname} ${profile.username} ${profile.bio}`}
+                />
               }
               contentRight={
                 (isFetchingCollections || collections.length) > 0 ? (
