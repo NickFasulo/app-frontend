@@ -5,9 +5,16 @@ import { Typography } from '@mui/material';
 import PostController from '../Post/PostController';
 import ListSkeleton from '../ListSkeleton/ListSkeleton';
 import { useUserPosts } from '../../hooks/queries';
+import InfinitePosts from '../InfinitePosts/InfinitePosts';
+import RecommendedPosts from '../RecommendedPosts';
+import { DEFAULT_FEED_PAGE_SIZE } from '../../config';
 
-function UserPosts({ userId }) {
+function UserPosts({ userId, name }) {
   const { data, hasNextPage, status, fetchNextPage } = useUserPosts(userId);
+
+  const isPostAllFetched =
+    data?.pages?.length > 0 &&
+    data?.pages[data.pages.length - 1].length < DEFAULT_FEED_PAGE_SIZE;
 
   const posts = useMemo(() => {
     if (!data) return [];
@@ -26,22 +33,22 @@ function UserPosts({ userId }) {
   }
 
   return (
-    <InfiniteScroll
-      dataLength={posts.length}
-      next={fetchNextPage}
-      hasMore={hasNextPage}
-      loader={<ListSkeleton />}
-      scrollThreshold="300px"
-    >
-      {posts.map((post) => (
-        <PostController
-          key={post._id.postid}
-          post={post}
-          renderObjects
-          hideInteractions
-        />
-      ))}
-    </InfiniteScroll>
+
+    <>
+      <InfinitePosts
+        posts={posts}
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+      />
+      {isPostAllFetched && (
+        <>
+          <Typography variant="h6" sx={{ my: 2 }}>
+            Recommended
+          </Typography>
+          <RecommendedPosts query={name} />
+        </>
+      )}
+    </>
   );
 }
 

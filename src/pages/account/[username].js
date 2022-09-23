@@ -136,9 +136,8 @@ function UserAccountPage() {
     <>
       <YupHead
         title={`${profile.fullname || profile.username} | ${COMPANY_NAME}`}
-        description={`${
-          profile.fullname || profile.username
-        }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
+        description={`${profile.fullname || profile.username
+          }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
         metaOg={{
           url: getAbsolutePath(`/account/${profile.username}`),
           type: 'profile'
@@ -185,15 +184,7 @@ function UserAccountPage() {
           <YupContainer>
             <GridLayout
               contentLeft={
-                <>
-                  <UserPosts userId={profile._id} />
-                  <Typography variant="h6" sx={{ my: 3 }}>
-                    Recommended
-                  </Typography>
-                  <RecommendedPosts
-                    query={`${profile.fullname} ${profile.username} ${profile.bio}`}
-                  />
-                </>
+                <UserPosts userId={profile._id} name={`${profile.fullname} ${profile.username} ${profile.bio}`} />
               }
               contentRight={
                 (isFetchingCollections || collections.length) > 0 ? (

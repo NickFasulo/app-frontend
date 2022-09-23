@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
+import { useMemo } from 'react';
 import RecommendedPosts from '../RecommendedPosts';
 import { useCollectionPosts } from '../../hooks/queries';
-import { useMemo } from 'react';
 import InfinitePosts from '../InfinitePosts/InfinitePosts';
 import { DEFAULT_FEED_PAGE_SIZE } from '../../config';
 
