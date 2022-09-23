@@ -33,7 +33,6 @@ function UserPosts({ userId, name }) {
   }
 
   return (
-
     <>
       <InfinitePosts
         posts={posts}
