@@ -225,7 +225,7 @@ function Home({ theme }) {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ zIndex: 1 }}>
               <Grid
                 container
                 direction="row"
