@@ -21,7 +21,7 @@ function FollowButton({ userId }) {
 
   const isAlreadyFollowing = myFollowingUsers.includes(userId);
 
-  const handleFollowOrUnfollow = () => {
+  const handleFollowOrUnfollow = (e) => {
     mutate({
       isFollow: !isAlreadyFollowing,
       authUserId: myUserId,
@@ -36,10 +36,15 @@ function FollowButton({ userId }) {
       color="secondary"
       variant="outlined"
       onClick={handleFollowOrUnfollow}
-      disabled={isLoading}
+      disableRipple
     >
       {isLoading ? (
-        <CircularProgress size={16} />
+        <CircularProgress
+          size={16}
+          style={{
+            margin: ' 0 15px'
+          }}
+        />
       ) : isAlreadyFollowing ? (
         'Following'
       ) : (
