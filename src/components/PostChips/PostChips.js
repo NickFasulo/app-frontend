@@ -28,7 +28,11 @@ export default function PostChips({ post }) {
         <Grid container spacing={1}>
           <Grid item>
             <YupChip
-              avatar={<ThumbnailIcon protocol={protocol} />}
+              avatar={<img
+                src={`/images/icons/${protocol}.svg`}
+                height="20px"
+                alt={`${protocol} post`}
+              />}
               label={<YupLabel variant="body2">{protocol.charAt(0).toUpperCase() + protocol.slice(1)}</YupLabel>}
               component="a"
               href={post.url}
