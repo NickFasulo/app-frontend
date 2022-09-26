@@ -39,7 +39,9 @@ function FollowButton({ userId }) {
       disableRipple
     >
       {isLoading ? (
-        <CircularProgress size={16} />
+        <CircularProgress size={16} style={{
+          margin: " 0 15px"
+        }} />
       ) : isAlreadyFollowing ? (
         'Following'
       ) : (
