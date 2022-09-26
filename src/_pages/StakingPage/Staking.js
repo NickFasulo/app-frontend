@@ -2,7 +2,15 @@ import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import withStyles from '@mui/styles/withStyles';
-import { Grid, Typography, Card, Tabs, Tab, InputAdornment, Popover } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  Card,
+  Tabs,
+  Tab,
+  InputAdornment,
+  Popover
+} from '@mui/material';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Helmet } from 'react-helmet';
 import {
@@ -131,7 +139,7 @@ const StakingPage = ({ classes }) => {
     args: [
       ETH_LIQUIDITY_REWARDS,
       !isInvalidStakeAmt(ethStakeInput) &&
-      ethers.utils.parseEther(ethStakeInput.toString()).toString()
+        ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -142,7 +150,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'stake',
     args: [
       !isInvalidStakeAmt(ethStakeInput) &&
-      ethers.utils.parseEther(ethStakeInput.toString()).toString()
+        ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -153,7 +161,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'unstake',
     args: [
       !isInvalidStakeAmt(ethStakeInput) &&
-      ethers.utils.parseEther(ethStakeInput.toString()).toString()
+        ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -170,7 +178,7 @@ const StakingPage = ({ classes }) => {
     args: [
       POLY_LIQUIDITY_REWARDS,
       !isInvalidStakeAmt(polyStakeInput) &&
-      ethers.utils.parseEther(polyStakeInput.toString()).toString()
+        ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -181,7 +189,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'stake',
     args: [
       !isInvalidStakeAmt(polyStakeInput) &&
-      ethers.utils.parseEther(polyStakeInput.toString()).toString()
+        ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -192,7 +200,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'unstake',
     args: [
       !isInvalidStakeAmt(polyStakeInput) &&
-      ethers.utils.parseEther(polyStakeInput.toString()).toString()
+        ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -274,7 +282,7 @@ const StakingPage = ({ classes }) => {
   const {
     data: approvePolyData,
     isLoading: approvePolyLoading,
-    write: approvePoly,
+    write: approvePoly
   } = useContractWrite({
     ...approvePolyConfig,
     onSuccess: () => {
@@ -439,7 +447,7 @@ const StakingPage = ({ classes }) => {
         !polyLpBal ||
         !currentTotalStakePoly ||
         !currentTotalStakeEth,
-        predictedRewardRate)
+      predictedRewardRate)
     ) {
       return;
     }
@@ -525,7 +533,6 @@ const StakingPage = ({ classes }) => {
       .parseEther(ethStakeInput.toString())
       .toString();
     if (isStake) {
-
       if (toBaseNum(ethLpBal) >= stakeAmt) {
         toastError('You dont have enough funds.');
         return;
@@ -556,7 +563,7 @@ const StakingPage = ({ classes }) => {
     const stakeAmt = ethers.utils
       .parseEther(polyStakeInput.toString())
       .toString();
-    console.log(polyLpBal, toBaseNum(polyLpBal), { stakeAmt })
+    console.log(polyLpBal, toBaseNum(polyLpBal), { stakeAmt });
     if (isStake) {
       if (toBaseNum(polyLpBal) >= stakeAmt) {
         toastError('You dont have enough funds.');
@@ -751,7 +758,7 @@ const StakingPage = ({ classes }) => {
                                           value={ethStakeInput}
                                           onChange={handleEthStakeAmountChange}
                                           endAdornment={
-                                            <InputAdornment position='end'>
+                                            <InputAdornment position="end">
                                               <YupButton
                                                 size="xs"
                                                 variant="text"
@@ -911,7 +918,7 @@ const StakingPage = ({ classes }) => {
                                           value={polyStakeInput}
                                           onChange={handlePolyStakeAmountChange}
                                           endAdornment={
-                                            <InputAdornment position='end'>
+                                            <InputAdornment position="end">
                                               <YupButton
                                                 size="xs"
                                                 variant="text"
@@ -922,7 +929,6 @@ const StakingPage = ({ classes }) => {
                                                 Max
                                               </YupButton>
                                             </InputAdornment>
-
                                           }
                                         />
                                       </Grid>
@@ -1030,10 +1036,12 @@ const StakingPage = ({ classes }) => {
                     <Grid item>
                       <Typography variant="h5">Rewards to Collect</Typography>
                     </Grid>
-                    <Grid item
+                    <Grid
+                      item
                       onClick={handlePopoverOpen}
                       onMouseEnter={handlePopoverOpen}
-                      onMouseLeave={handlePopoverClose}>
+                      onMouseLeave={handlePopoverClose}
+                    >
                       <Typography variant="body2">What’s this?</Typography>
                     </Grid>
                   </Grid>
@@ -1047,7 +1055,8 @@ const StakingPage = ({ classes }) => {
                   >
                     <Grid item className={classes.counterSizeFixed}>
                       <Typography variant="h3">
-                        {toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) === 0 ? (
+                        {toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) ===
+                        0 ? (
                           `${0} YUP`
                         ) : (
                           <CountUp
@@ -1086,32 +1095,32 @@ const StakingPage = ({ classes }) => {
                     {(!isConnected
                       ? true
                       : toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) > 0) && (
-                        <Grid item>
-                          <ConnectButton.Custom>
-                            {({ openConnectModal }) => (
-                              <YupButton
-                                size="large"
-                                variant="contained"
-                                className={classes.submitBtn}
-                                onClick={() => {
-                                  if (isConnected) {
-                                    collectRewards();
-                                  } else {
-                                    openConnectModal();
-                                  }
-                                }}
+                      <Grid item>
+                        <ConnectButton.Custom>
+                          {({ openConnectModal }) => (
+                            <YupButton
+                              size="large"
+                              variant="contained"
+                              className={classes.submitBtn}
+                              onClick={() => {
+                                if (isConnected) {
+                                  collectRewards();
+                                } else {
+                                  openConnectModal();
+                                }
+                              }}
+                            >
+                              <Typography
+                                variant="body1"
+                                className={classes.submitBtnTxt}
                               >
-                                <Typography
-                                  variant="body1"
-                                  className={classes.submitBtnTxt}
-                                >
-                                  {isConnected ? 'Collect' : 'Connect'}
-                                </Typography>
-                              </YupButton>
-                            )}
-                          </ConnectButton.Custom>
-                        </Grid>
-                      )}
+                                {isConnected ? 'Collect' : 'Connect'}
+                              </Typography>
+                            </YupButton>
+                          )}
+                        </ConnectButton.Custom>
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
                 {earnings && LpRewards && (
@@ -1126,9 +1135,9 @@ const StakingPage = ({ classes }) => {
                       <Typography variant="subtitle2">
                         {formatDecimals(
                           toBaseNum(earnings) +
-                          LpRewards.poly +
-                          LpRewards.eth +
-                          predictedRewards.new
+                            LpRewards.poly +
+                            LpRewards.eth +
+                            predictedRewards.new
                         )}{' '}
                         YUP Earned in Total
                       </Typography>
@@ -1141,22 +1150,24 @@ const StakingPage = ({ classes }) => {
           <Popover
             id="mouse-over-popover"
             sx={{
-              pointerEvents: 'none',
+              pointerEvents: 'none'
             }}
             open={open}
             anchorEl={anchorEl}
             anchorOrigin={{
               vertical: 'bottom',
-              horizontal: 'left',
+              horizontal: 'left'
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'left',
+              horizontal: 'left'
             }}
             onClose={handlePopoverClose}
             disableRestoreFocus
           >
-            <Typography sx={{ p: 1 }}>These are all the rewards you have earned by providing liquidity.</Typography>
+            <Typography sx={{ p: 1 }}>
+              These are all the rewards you have earned by providing liquidity.
+            </Typography>
           </Popover>
         </PageBody>
       </Grid>

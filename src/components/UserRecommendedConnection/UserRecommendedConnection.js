@@ -18,17 +18,12 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   backdropFilter: 'blur(24px)'
 }));
 
-
 function UserRecommendedConnection({ user }) {
   return (
-    <StyledListItemButton
-      alignItems="center"
-    ><Grid item xs={12}>
-        <Link
-          href={`/account/${user.username}`}>
-
-          <Grid container alignItems='center'>
-
+    <StyledListItemButton alignItems="center">
+      <Grid item xs={12}>
+        <Link href={`/account/${user.username}`}>
+          <Grid container alignItems="center">
             <ListItemAvatar sx={{ mr: 1.5 }}>
               <ConnectionAvatar src={user.avatar} alt={user.fullname}>
                 {user.username[0].toUpperCase()}
@@ -41,7 +36,8 @@ function UserRecommendedConnection({ user }) {
               }}
               primary={user.fullname || user.username}
             />
-          </Grid></Link>
+          </Grid>
+        </Link>
       </Grid>
       <Box flexGrow={0}>
         <FollowButton userId={user.userId} />
