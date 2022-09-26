@@ -198,13 +198,31 @@ const StakingPage = ({ classes }) => {
     data: approveEthData,
     isLoading: approveEthLoading,
     write: approveEth
-  } = useContractWrite(approveEthConfig);
+  } = useContractWrite({
+    ...approveEthConfig,
+    onSuccess: () => {
+      if (!activeEthTab) {
+        stakeEth({
+          args: [ethers.utils.parseEther(ethStakeInput.toString()).toString()]
+        });
+      } else {
+        unstakeEth({
+          args: [ethers.utils.parseEther(ethStakeInput.toString()).toString()]
+        });
+      }
+    },
+    onError: (error) => {
+      toastError(error.message);
+      setIsLoading(false);
+    }
+  });
   const {
-    data: stakeEthDate,
+    data: stakeEthData,
     isLoading: stakeEthLoading,
     write: stakeEth
   } = useContractWrite({
     ...stakeEthConfig,
+
     onSuccess: () => {
       toastInfo('You have succesfully staked your YUP-ETH LP tokens!');
       setIsLoading(false);
@@ -221,7 +239,7 @@ const StakingPage = ({ classes }) => {
   } = useContractWrite({
     ...unstakeEthConfig,
     onSuccess: () => {
-      toastInfo('You have succesfully staked your YUP-ETH LP tokens!');
+      toastInfo('You have succesfully unstaked your YUP-ETH LP tokens!');
       setIsLoading(false);
     },
     onError: (error) => {
@@ -247,8 +265,25 @@ const StakingPage = ({ classes }) => {
   const {
     data: approvePolyData,
     isLoading: approvePolyLoading,
-    write: approvePoly
-  } = useContractWrite(approvePolyConfig);
+    write: approvePoly,
+  } = useContractWrite({
+    ...approvePolyConfig,
+    onSuccess: () => {
+      if (!activePolyTab) {
+        stakePoly({
+          args: [ethers.utils.parseEther(polyStakeInput.toString()).toString()]
+        });
+      } else {
+        unstakePoly({
+          args: [ethers.utils.parseEther(polyStakeInput.toString()).toString()]
+        });
+      }
+    },
+    onError: (error) => {
+      toastError(error.message);
+      setIsLoading(false);
+    }
+  });
   const {
     data: stakePolyDate,
     isLoading: stakePolyLoading,
@@ -372,7 +407,6 @@ const StakingPage = ({ classes }) => {
     watch: true,
     enabled: !!address
   });
-  console.log({ ethLpBal }, error);
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab);
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab);
@@ -483,23 +517,23 @@ const StakingPage = ({ classes }) => {
       .toString();
     if (isStake) {
 
-      if (toBaseNum(ethLpBal) < stakeAmt) {
+      if (toBaseNum(ethLpBal) >= stakeAmt) {
         toastError('You dont have enough funds.');
         return;
       }
       approveEth(ETH_LIQUIDITY_REWARDS, stakeAmt);
-      stakeEth({
-        args: [stakeAmt]
-      });
+      // stakeEth({
+      //   args: [stakeAmt]
+      // });
     } else {
-      if (toBaseNum(currentStakeEth) < stakeAmt) {
+      if (toBaseNum(currentStakeEth) >= stakeAmt) {
         toastError('You dont have enough funds.');
         return;
       }
       approveEth(ETH_LIQUIDITY_REWARDS, stakeAmt);
-      unstakeEth({
-        args: [stakeAmt]
-      });
+      // unstakeEth({
+      //   args: [stakeAmt]
+      // });
     }
   };
 
@@ -508,33 +542,30 @@ const StakingPage = ({ classes }) => {
       toastError('Please enter a valid amount.');
       return;
     }
-    if (toBaseNum(polyLpBal) <= 0) {
-      toastError('You dont have enough funds.');
-      return;
-    }
     setIsLoading(true);
     const isStake = !activePolyTab;
     const stakeAmt = ethers.utils
       .parseEther(polyStakeInput.toString())
       .toString();
+    console.log(polyLpBal, toBaseNum(polyLpBal), { stakeAmt })
     if (isStake) {
-      if (toBaseNum(polyLpBal) < stakeAmt) {
+      if (toBaseNum(polyLpBal) >= stakeAmt) {
         toastError('You dont have enough funds.');
         return;
       }
       approvePoly(POLY_LIQUIDITY_REWARDS, stakeAmt);
-      stakePoly({
-        args: [stakeAmt]
-      });
+      // stakePoly({
+      //   args: [stakeAmt]
+      // });
     } else {
-      if (toBaseNum(currentStakePoly) < stakeAmt) {
+      if (toBaseNum(currentStakePoly) >= stakeAmt) {
         toastError('You dont have enough funds.');
         return;
       }
       approvePoly(POLY_LIQUIDITY_REWARDS, stakeAmt);
-      unstakePoly({
-        args: [stakeAmt]
-      });
+      // unstakePoly({
+      //   args: [stakeAmt]
+      // });
     }
   };
 
