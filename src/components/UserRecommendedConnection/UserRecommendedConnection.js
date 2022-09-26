@@ -1,5 +1,6 @@
 import {
   Box,
+  Grid,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
@@ -17,24 +18,31 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   backdropFilter: 'blur(24px)'
 }));
 
+
 function UserRecommendedConnection({ user }) {
-  console.log({ user })
   return (
     <StyledListItemButton
       alignItems="center"
-    >
-      <ListItemAvatar sx={{ mr: 1.5 }}>
-        <ConnectionAvatar src={user.avatar} alt={user.fullname}>
-          {user.username[0].toUpperCase()}
-        </ConnectionAvatar>
-      </ListItemAvatar>
-      <ListItemText
-        style={{
-          textOverflow: 'ellipsis',
-          overflow: 'hidden'
-        }}
-        primary={user.fullname || user.username}
-      />
+    ><Grid item xs={12}>
+        <Link
+          href={`/account/${user.username}`}>
+
+          <Grid container alignItems='center'>
+
+            <ListItemAvatar sx={{ mr: 1.5 }}>
+              <ConnectionAvatar src={user.avatar} alt={user.fullname}>
+                {user.username[0].toUpperCase()}
+              </ConnectionAvatar>
+            </ListItemAvatar>
+            <ListItemText
+              style={{
+                textOverflow: 'ellipsis',
+                overflow: 'hidden'
+              }}
+              primary={user.fullname || user.username}
+            />
+          </Grid></Link>
+      </Grid>
       <Box flexGrow={0}>
         <FollowButton userId={user.userId} />
       </Box>

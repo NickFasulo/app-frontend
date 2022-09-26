@@ -21,7 +21,7 @@ function FollowButton({ userId }) {
 
   const isAlreadyFollowing = myFollowingUsers.includes(userId);
 
-  const handleFollowOrUnfollow = () => {
+  const handleFollowOrUnfollow = (e) => {
     mutate({
       isFollow: !isAlreadyFollowing,
       authUserId: myUserId,
