@@ -1,9 +1,9 @@
 import { styled } from '@mui/material';
 
 export const YupPageHeaderRoot = styled('div')(
-  ({ theme, scrolled, noborder }) => ({
-    backgroundColor: scrolled ? `${theme.palette.M850}20` : 'transparent',
-    backdropFilter: scrolled ? 'blur(12px)' : 'none',
+  ({ theme, noborder }) => ({
+    backgroundColor: 'transparent',
+    backdropFilter: 'none',
     position: 'sticky',
     top: 0,
     width: '100%',
