@@ -481,13 +481,22 @@ const StakingPage = ({ classes }) => {
     const stakeAmt = ethers.utils
       .parseEther(ethStakeInput.toString())
       .toString();
-    approveEth(ETH_LIQUIDITY_REWARDS, stakeAmt);
     if (isStake) {
+
+      if (toBaseNum(ethLpBal) < stakeAmt) {
+        toastError('You dont have enough funds.');
+        return;
+      }
+      approveEth(ETH_LIQUIDITY_REWARDS, stakeAmt);
       stakeEth({
         args: [stakeAmt]
       });
     } else {
-      console.log(stakeAmt);
+      if (toBaseNum(currentStakeEth) < stakeAmt) {
+        toastError('You dont have enough funds.');
+        return;
+      }
+      approveEth(ETH_LIQUIDITY_REWARDS, stakeAmt);
       unstakeEth({
         args: [stakeAmt]
       });
@@ -499,18 +508,30 @@ const StakingPage = ({ classes }) => {
       toastError('Please enter a valid amount.');
       return;
     }
-
+    if (toBaseNum(polyLpBal) <= 0) {
+      toastError('You dont have enough funds.');
+      return;
+    }
     setIsLoading(true);
     const isStake = !activePolyTab;
     const stakeAmt = ethers.utils
       .parseEther(polyStakeInput.toString())
       .toString();
-    approvePoly(POLY_LIQUIDITY_REWARDS, stakeAmt);
     if (isStake) {
+      if (toBaseNum(polyLpBal) < stakeAmt) {
+        toastError('You dont have enough funds.');
+        return;
+      }
+      approvePoly(POLY_LIQUIDITY_REWARDS, stakeAmt);
       stakePoly({
         args: [stakeAmt]
       });
     } else {
+      if (toBaseNum(currentStakePoly) < stakeAmt) {
+        toastError('You dont have enough funds.');
+        return;
+      }
+      approvePoly(POLY_LIQUIDITY_REWARDS, stakeAmt);
       unstakePoly({
         args: [stakeAmt]
       });
