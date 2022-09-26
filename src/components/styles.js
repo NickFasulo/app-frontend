@@ -33,12 +33,12 @@ export const PageLayout = styled('div')(({ theme }) => ({
 export const TruncateText = styled(Typography)(({ lines }) =>
   lines
     ? {
-        overflow: 'hidden',
-        display: '-webkit-box',
-        textOverflow: 'ellipsis',
-        '-webkit-box-orient': 'vertical',
-        '-webkit-line-clamp': `${lines || 1}`
-      }
+      overflow: 'hidden',
+      display: '-webkit-box',
+      textOverflow: 'ellipsis',
+      '-webkit-box-orient': 'vertical',
+      '-webkit-line-clamp': `${lines || 1}`
+    }
     : null
 );
 

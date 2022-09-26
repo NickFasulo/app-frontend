@@ -36,7 +36,7 @@ function FollowButton({ userId }) {
       color="secondary"
       variant="outlined"
       onClick={handleFollowOrUnfollow}
-      disabled={isLoading}
+      disableRipple
     >
       {isLoading ? (
         <CircularProgress size={16} />
