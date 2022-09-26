@@ -12,11 +12,7 @@ function YupPageHeader({ children, ...restProps }) {
   }, [height]);
 
   return (
-    <YupPageHeaderRoot
-      ref={ref}
-      className="page-header"
-      {...restProps}
-    >
+    <YupPageHeaderRoot ref={ref} className="page-header" {...restProps}>
       {children}
     </YupPageHeaderRoot>
   );

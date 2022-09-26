@@ -26,12 +26,13 @@ export const AppUtilsProvider = ({ children }) => {
       const headerElem = document.getElementsByClassName('page-header')?.[0];
 
       if (headerElem) {
-        headerElem.style.backgroundColor = isScrolled ? `${theme.palette.M850}20` : 'transparent';
+        headerElem.style.backgroundColor = isScrolled
+          ? `${theme.palette.M850}20`
+          : 'transparent';
         headerElem.style.backdropFilter = isScrolled ? 'blur(12px)' : 'none';
       }
 
       setWindowScrolled(isScrolled);
-
     };
 
     window.addEventListener('scroll', scrollListener);
