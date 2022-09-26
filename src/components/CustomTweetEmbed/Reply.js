@@ -278,7 +278,12 @@ function Reply({ tweetData, classes }) {
               ) : (
                 replyHasVideo &&
                 replyMediaURL && (
-                  <Grid item className={classes.replyImageContainer} xs={12}>
+                  <Grid
+                    item
+                    className={classes.replyImageContainer}
+                    xs={12}
+                    sx={{ mb: 2 }}
+                  >
                     <TweetVidPlayer url={replyMediaURL} />
                   </Grid>
                 )
