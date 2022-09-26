@@ -21,7 +21,7 @@ export const callYupApi = async (apiConfig) => {
     return response.data;
   } catch (err) {
     logError('Yup api Error:', err);
-    return null;
+    throw err;
   }
 };
 

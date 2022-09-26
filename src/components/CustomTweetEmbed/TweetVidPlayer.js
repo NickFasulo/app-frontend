@@ -9,7 +9,6 @@ function TweetVidPlayer({ url }) {
       controls
       url={url}
       width="100%"
-      height="98%"
       style={{ borderRadius: 12, overflow: 'hidden' }}
     />
   );

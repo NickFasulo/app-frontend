@@ -1,5 +1,5 @@
-import GridLayout from '../GridLayout';
 import { Box } from '@mui/material';
+import GridLayout from '../GridLayout';
 import { useWalletInfo } from '../../hooks/queries';
 import Badges from './Badges';
 import NFTs from './NFTs';
@@ -23,7 +23,7 @@ const UserWallet = ({ ethAddress }) => {
     <>
       <GridLayout
         contentLeft={
-          <Box mb={3}>
+          <Box mb={10}>
             {isMobile && <Tokens data={tokens} />}
             <Badges data={poaps} />
             <NFTs data={nfts} />
