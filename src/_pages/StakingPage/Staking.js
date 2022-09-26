@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import withStyles from '@mui/styles/withStyles';
-import { Grid, Typography, Card, Tabs, Tab } from '@mui/material';
+import { Grid, Typography, Card, Tabs, Tab, InputAdornment } from '@mui/material';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Helmet } from 'react-helmet';
 import {
@@ -122,7 +122,7 @@ const StakingPage = ({ classes }) => {
     args: [
       ETH_LIQUIDITY_REWARDS,
       !isInvalidStakeAmt(ethStakeInput) &&
-        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+      ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -133,7 +133,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'stake',
     args: [
       !isInvalidStakeAmt(ethStakeInput) &&
-        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+      ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -144,7 +144,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'unstake',
     args: [
       !isInvalidStakeAmt(ethStakeInput) &&
-        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+      ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -161,7 +161,7 @@ const StakingPage = ({ classes }) => {
     args: [
       POLY_LIQUIDITY_REWARDS,
       !isInvalidStakeAmt(polyStakeInput) &&
-        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+      ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -172,7 +172,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'stake',
     args: [
       !isInvalidStakeAmt(polyStakeInput) &&
-        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+      ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -183,7 +183,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'unstake',
     args: [
       !isInvalidStakeAmt(polyStakeInput) &&
-        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+      ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -396,7 +396,7 @@ const StakingPage = ({ classes }) => {
         !polyLpBal ||
         !currentTotalStakePoly ||
         !currentTotalStakeEth,
-      predictedRewardRate)
+        predictedRewardRate)
     ) {
       return;
     }
@@ -690,14 +690,16 @@ const StakingPage = ({ classes }) => {
                                           value={ethStakeInput}
                                           onChange={handleEthStakeAmountChange}
                                           endAdornment={
-                                            <YupButton
-                                              size="xs"
-                                              variant="text"
-                                              color="secondary"
-                                              onClick={handleEthStakeMax}
-                                            >
-                                              Max
-                                            </YupButton>
+                                            <InputAdornment position='end'>
+                                              <YupButton
+                                                size="xs"
+                                                variant="text"
+                                                color="secondary"
+                                                onClick={handleEthStakeMax}
+                                              >
+                                                Max
+                                              </YupButton>
+                                            </InputAdornment>
                                           }
                                         />
                                       </Grid>
@@ -848,14 +850,18 @@ const StakingPage = ({ classes }) => {
                                           value={polyStakeInput}
                                           onChange={handlePolyStakeAmountChange}
                                           endAdornment={
-                                            <YupButton
-                                              size="xs"
-                                              variant="text"
-                                              onClick={handlePolyStakeMax}
-                                              className={classes.maxBtn}
-                                            >
-                                              Max
-                                            </YupButton>
+                                            <InputAdornment position='end'>
+                                              <YupButton
+                                                size="xs"
+                                                variant="text"
+                                                color="secondary"
+                                                onClick={handlePolyStakeMax}
+                                                className={classes.maxBtn}
+                                              >
+                                                Max
+                                              </YupButton>
+                                            </InputAdornment>
+
                                           }
                                         />
                                       </Grid>
@@ -1015,32 +1021,32 @@ const StakingPage = ({ classes }) => {
                   {(!isConnected
                     ? true
                     : toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) > 0) && (
-                    <Grid item>
-                      <ConnectButton.Custom>
-                        {({ openConnectModal }) => (
-                          <YupButton
-                            size="large"
-                            variant="contained"
-                            className={classes.submitBtn}
-                            onClick={() => {
-                              if (isConnected) {
-                                collectRewards();
-                              } else {
-                                openConnectModal();
-                              }
-                            }}
-                          >
-                            <Typography
-                              variant="body1"
-                              className={classes.submitBtnTxt}
+                      <Grid item>
+                        <ConnectButton.Custom>
+                          {({ openConnectModal }) => (
+                            <YupButton
+                              size="large"
+                              variant="contained"
+                              className={classes.submitBtn}
+                              onClick={() => {
+                                if (isConnected) {
+                                  collectRewards();
+                                } else {
+                                  openConnectModal();
+                                }
+                              }}
                             >
-                              {isConnected ? 'Collect' : 'Connect'}
-                            </Typography>
-                          </YupButton>
-                        )}
-                      </ConnectButton.Custom>
-                    </Grid>
-                  )}
+                              <Typography
+                                variant="body1"
+                                className={classes.submitBtnTxt}
+                              >
+                                {isConnected ? 'Collect' : 'Connect'}
+                              </Typography>
+                            </YupButton>
+                          )}
+                        </ConnectButton.Custom>
+                      </Grid>
+                    )}
                 </Grid>
                 {earnings && LpRewards && (
                   <Grid
@@ -1054,9 +1060,9 @@ const StakingPage = ({ classes }) => {
                       <Typography variant="subtitle2">
                         {formatDecimals(
                           toBaseNum(earnings) +
-                            LpRewards.poly +
-                            LpRewards.eth +
-                            predictedRewards.new
+                          LpRewards.poly +
+                          LpRewards.eth +
+                          predictedRewards.new
                         )}{' '}
                         YUP Earned in Total
                       </Typography>
