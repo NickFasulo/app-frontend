@@ -207,7 +207,7 @@ export const useFetchFeed = ({ feedType, accountId }) =>
         url: `/feed/${
           isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
         }${feedType}?start=${pageParam}&limit=10${
-          accountId ? `account=${accountId} ` : ''
+          accountId ? `&account=${accountId} ` : ''
         }`,
         method: 'GET'
       }),
