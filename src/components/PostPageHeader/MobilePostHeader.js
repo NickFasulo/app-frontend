@@ -25,7 +25,7 @@ export default function MobilePostHeader({ post, scrolled }) {
   const id = open ? 'simple-popover' : undefined;
   const { username } = useAuth();
   const account = useYupAccount(username);
-  console.log({ open })
+  console.log({ open });
   return (
     <Grid container direction="column" rowSpacing={2}>
       <Grid item>
@@ -50,8 +50,10 @@ export default function MobilePostHeader({ post, scrolled }) {
                 <Grid item>
                   <IconButton onClick={handleClick}>
                     {open ? (
-                      <FontAwesomeIcon icon={faChevronUp} />) : (
-                      <FontAwesomeIcon icon={faChevronDown} />)}
+                      <FontAwesomeIcon icon={faChevronUp} />
+                    ) : (
+                      <FontAwesomeIcon icon={faChevronDown} />
+                    )}
                   </IconButton>
                 </Grid>
               )}
