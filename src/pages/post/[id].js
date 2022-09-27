@@ -19,6 +19,7 @@ import PageLoadingBar from '../../components/PageLoadingBar';
 import { postEvent } from '../../apis/general';
 import { useAuth } from '../../contexts/AuthContext';
 import MobilePostHeader from '../../components/PostPageHeader/MobilePostHeader';
+import { firstLetterUpperCase } from '../../utils/helpers';
 
 function PostDetails() {
   const router = useRouter();
@@ -69,7 +70,7 @@ function PostDetails() {
                     color="M100"
                     sx={{ letterSpacing: '0.02em' }}
                   >
-                    post by {post.author}
+                    {firstLetterUpperCase(post?.web3Preview?.protocol)} Post
                   </Typography>
                 </Grid>
               </Grid>
