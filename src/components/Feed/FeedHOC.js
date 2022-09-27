@@ -11,11 +11,16 @@ import PostController from '../Post/PostController';
 import useStyles from './FeedHOCStyles';
 import { logPageView } from '../../utils/analytics';
 import { useFetchFeed } from '../../hooks/queries';
+import { useAuth } from '../../contexts/AuthContext';
 
 function FeedHOC({ feedType }) {
   const classes = useStyles();
+  const { authInfo } = useAuth();
 
-  const { data, fetchNextPage, isLoading } = useFetchFeed({ feedType });
+  const { data, fetchNextPage, isLoading } = useFetchFeed({
+    feedType,
+    accountId: authInfo.eosname
+  });
 
   const postLength = sum((data?.pages || []).map((page) => page?.length || 0));
 

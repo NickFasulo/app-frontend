@@ -9,7 +9,7 @@ const Tokens = ({ data }) => {
 
   return (
     <>
-      <Typography variant="h6" sx={{ mb: 3, mt: 1.5 }}>
+      <Typography variant="h6" sx={{ my: 3 }}>
         Tokens
       </Typography>
       {filteredData.length > 0 ? (

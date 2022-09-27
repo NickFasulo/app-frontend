@@ -199,14 +199,16 @@ export const useUserLikes = (userId) =>
     }
   );
 
-export const useFetchFeed = ({ feedType }) =>
+export const useFetchFeed = ({ feedType, accountId }) =>
   useInfiniteQuery(
-    [REACT_QUERY_KEYS.YUP_FEED, feedType],
+    [REACT_QUERY_KEYS.YUP_FEED, feedType, accountId],
     ({ pageParam = 0 }) =>
       callYupApi({
         url: `/feed/${
           isStaging && feedType !== FEED_CATEGORIES.RECENT.id ? 'staging:' : ''
-        }${feedType}?start=${pageParam}&limit=10`,
+        }${feedType}?start=${pageParam}&limit=10${
+          accountId ? `&account=${accountId} ` : ''
+        }`,
         method: 'GET'
       }),
     {

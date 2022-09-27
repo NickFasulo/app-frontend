@@ -7,7 +7,12 @@ import { TruncateText } from '../styles';
 import Reply from './Reply';
 import Avatar from './Avatar';
 import HeaderSection from './HeaderSection';
-import { parseText, linkMentions, urlIsImg } from '../../utils/post_helpers';
+import {
+  parseText,
+  linkMentions,
+  urlIsImg,
+  parseTextKeepLink
+} from '../../utils/post_helpers';
 import { isYoutubeUrl } from '../../utils/helpers';
 import VideoComponent from '../VideoComponent';
 
@@ -22,11 +27,11 @@ function FarCasterPost({
   const web3Preview = post;
   const { id } = post;
   // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
-  const parsedText = parseText(text);
+  const parsedText = parseTextKeepLink(text);
   const parsedTextWithMentions = parsedText
     .split(' ')
     .map((string) => linkMentions(string, 'farcaster://profiles/'));
-  console.log({ parsedTextWithMentions, parsedText });
+  console.log({ text, parsedTextWithMentions, parsedText });
   const { parents } = post.meta;
   const isReply = parents?.length > 0;
   // const isReplyToReply = parents.length > 1

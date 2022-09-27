@@ -193,7 +193,6 @@ function CustomTweetEmbed(props) {
   const reply = tweetData.tweetInfo.in_reply_to_status_id
     ? !isEmpty(tweetData.tweetInfo.reply_status)
     : false;
-
   return (
     <Fade in timeout={1000}>
       <div>
