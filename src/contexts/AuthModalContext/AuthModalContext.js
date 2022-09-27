@@ -409,7 +409,7 @@ export const AuthModalContextProvider = ({ children }) => {
             <ConnectButton.Custom>
               {({ openConnectModal }) => (
                 <AuthMethodButton
-                  text="ConnectWallet"
+                  text="Wallet"
                   imageUrl="/images/icons/wallet_connect.png"
                   onClick={() => {
                     setCurrAuthMethod(AUTH_TYPE.ETH);
