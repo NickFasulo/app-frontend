@@ -28,7 +28,7 @@ export default function PostChips({ post }) {
         <Grid container spacing={1}>
           <Grid item>
             <YupChip
-              avatar={<img
+              icon={<img
                 src={`/images/icons/${protocol}.svg`}
                 height="20px"
                 alt={`${protocol} post`}
@@ -53,9 +53,9 @@ export default function PostChips({ post }) {
               postid={post?._id.postid}
             >
               <YupChip
-                avatar={
+                icon={
                   <FontAwesomeIcon
-                    style={{ width: '20px', height: '20px' }}
+                    style={{ width: '18px', height: '18px' }}
                     icon={faPlus}
                   />
                 }

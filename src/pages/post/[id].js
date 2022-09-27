@@ -31,7 +31,6 @@ function PostDetails() {
 
   useEffect(() => {
     if (isLoggedIn && !eventSent) {
-      console.log({ isLoggedIn });
       setEventSent(true);
       postEvent({
         eventData: { postId: id },
