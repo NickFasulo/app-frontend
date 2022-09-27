@@ -70,7 +70,7 @@ const AUTH_MODAL_STAGE = {
 
 export const AuthModalContextProvider = ({ children }) => {
   const classes = useStyles();
-  const { updateAuthInfo, userId } = useAuth();
+  const { updateAuthInfo, userId, isLoggedIn } = useAuth();
   const { toastError, toastSuccess } = useToast();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
@@ -94,6 +94,12 @@ export const AuthModalContextProvider = ({ children }) => {
       }
     }
   }, [isConnected, currAuthMethod, linkEth]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      disconnect();
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     // If `Connect Wallet` button is clicked and wallet is connect, start auth with ETH.
