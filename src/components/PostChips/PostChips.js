@@ -11,6 +11,7 @@ import ThumbnailIcon from '../CustomWeb3PostEmbed/ThumbnailIcon';
 
 import { useYupAccount } from '../../hooks/queries';
 import { useAuth } from '../../contexts/AuthContext';
+import { firstLetterUpperCase } from '../../utils/helpers';
 
 const YupChip = styled(Chip)(({ theme }) => ({
   padding: '1rem 0.5rem'
@@ -33,7 +34,7 @@ export default function PostChips({ post }) {
                 height="20px"
                 alt={`${protocol} post`}
               />}
-              label={<YupLabel variant="body2">{protocol.charAt(0).toUpperCase() + protocol.slice(1)}</YupLabel>}
+              label={<YupLabel variant="body2">{firstLetterUpperCase(protocol)}</YupLabel>}
               component="a"
               href={post.url}
               clickable

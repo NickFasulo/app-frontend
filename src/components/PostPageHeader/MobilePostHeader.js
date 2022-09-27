@@ -8,6 +8,7 @@ import PostChips from '../PostChips/PostChips';
 import VoteComp from '../VoteComp/VoteComp';
 import PostCard from '../PostCard/PostCard';
 import { StyledPopover } from './StyledPopover';
+import { firstLetterUpperCase } from '../../utils/helpers';
 
 export default function MobilePostHeader({ post, scrolled }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -42,7 +43,7 @@ export default function MobilePostHeader({ post, scrolled }) {
                   color="M100"
                   sx={{ letterSpacing: '0.02em' }}
                 >
-                  post by {post.author}
+                  {firstLetterUpperCase(post?.web3Preview?.protocol)} Post
                 </Typography>
               </Grid>
               {scrolled && (
