@@ -163,7 +163,7 @@ function VoteButton({
   web3Likes = 0,
   userInfluence = 1
 }) {
-  const account = useAuth();
+  const { isLoggedIn } = useAuth();
   const { open: openAuthModal } = useAuthModal();
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -171,15 +171,19 @@ function VoteButton({
   const [clickFinished, setClickFinished] = useState(false);
 
   const onLongPress = (isPressed) => {
-    if (account?.name) {
+    if (isLoggedIn) {
       setIsLongPress(isPressed);
+    } else {
+      openAuthModal({ noRedirect: true });
     }
   };
   const onClick = () => {
-    if (account?.name) {
+    if (isLoggedIn) {
       setIsClicked(true);
       setLastClicked();
       handleOnclick();
+    } else {
+      openAuthModal({ noRedirect: true });
     }
   };
   const defaultOptions = {
@@ -197,7 +201,7 @@ function VoteButton({
 
   useEffect(() => {
     let interval;
-    if (isLongPress && (!account || !account.name)) {
+    if (isLongPress && !isLoggedIn) {
       openAuthModal({ noRedirect: true });
     } else if (isLongPress) {
       setLastClicked();
@@ -252,7 +256,7 @@ function VoteButton({
       width: isHovered ? '18px' : '16px',
       height: isHovered ? '18px' : '16px',
       transform:
-        isHovered && account && account.name
+        isHovered && isLoggedIn
           ? type === 'like'
             ? 'rotate(-15deg)'
             : 'rotate(15deg)'
@@ -285,14 +289,14 @@ function VoteButton({
   const formattedWeight = totalVoters === 0 ? 0 : formatWeight(catWeight);
   const icon =
     type === 'like'
-      ? (isHovered || isVoted) && account && account.name
+      ? (isHovered || isVoted) && isLoggedIn
         ? faThumbsUpSolid
         : faThumbsUp
-      : (isHovered || isVoted) && account && account.name
+      : (isHovered || isVoted) && isLoggedIn
       ? faThumbsDownSolid
       : faThumbsDown;
   return (
-    <FlexBox alignItems="center" gap={0.5}>
+    <FlexBox alignItems="center" gap={0.5} position="relative">
       {transition((style, item) => (
         <animated.div
           className={styles.item}
@@ -305,11 +309,7 @@ function VoteButton({
             ...style
           }}
         >
-          {item && (
-            <Grid item>
-              <Typography variant="label">x{item}</Typography>
-            </Grid>
-          )}
+          {item && <Typography variant="label">x{item}</Typography>}
         </animated.div>
       ))}
       <div
