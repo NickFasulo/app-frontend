@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Grid, IconButton, Popover, Typography } from '@mui/material';
-import { faChevronUp } from '@fortawesome/pro-regular-svg-icons';
+import { faChevronUp, faChevronDown } from '@fortawesome/pro-regular-svg-icons';
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useYupAccount } from '../../hooks/queries';
@@ -24,6 +24,7 @@ export default function MobilePostHeader({ post, scrolled }) {
   const id = open ? 'simple-popover' : undefined;
   const { username } = useAuth();
   const account = useYupAccount(username);
+  console.log({ open })
   return (
     <Grid container direction="column" rowSpacing={2}>
       <Grid item>
@@ -47,7 +48,9 @@ export default function MobilePostHeader({ post, scrolled }) {
               {scrolled && (
                 <Grid item>
                   <IconButton onClick={handleClick}>
-                    <FontAwesomeIcon icon={faChevronUp} />
+                    {open ? (
+                      <FontAwesomeIcon icon={faChevronUp} />) : (
+                      <FontAwesomeIcon icon={faChevronDown} />)}
                   </IconButton>
                 </Grid>
               )}
