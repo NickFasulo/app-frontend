@@ -19,28 +19,28 @@ export const FEED_CATEGORIES = {
     id: 'dailyhits',
     title: 'Daily Hits',
     image: ImgFeedDailyHits,
-    metaTitle: 'Daily Hits • Yup',
+    metaTitle: 'Daily Hits | Yup',
     description: 'Top content of the day based on general influence'
   },
   POPULAR: {
     id: 'latenightcool',
     title: 'Popular',
     image: ImgFeedPopular,
-    metaTitle: 'Popular • Yup',
+    metaTitle: 'Popular | Yup',
     description: 'Top content based on the like category'
   },
   CRYPTO: {
     id: 'crypto',
     title: 'Crypto',
     image: ImgFeedCrypto,
-    metaTitle: 'Crypto • Yup',
+    metaTitle: 'Crypto | Yup',
     description: 'The top crypto content out there'
   },
   NFT: {
     id: 'nfts',
     title: 'NFT Gallery',
     image: ImgFeedNft,
-    metaTitle: 'NFTs • Yup',
+    metaTitle: 'NFTs | Yup',
     description: 'Non-fungibility for days'
   },
   MIRROR: {
@@ -76,7 +76,7 @@ export const FEED_CATEGORIES = {
     id: '',
     title: '',
     image: ImgFeedDailyHits,
-    metaTitle: 'Yup • Social Network for Curators',
+    metaTitle: 'Social Network for Curators | Yup',
     description: 'Yup • Social Layer for the Internet'
   }
 };
