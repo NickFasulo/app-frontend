@@ -228,20 +228,25 @@ export const AuthModalContextProvider = ({ children }) => {
       return;
     }
 
-    try {
-      await apiVerifyChallenge(address, signature);
-    } catch (err) {
-      // Verification failed, should try again.
-      toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
+    // This currently has no effect, need to update when we have new auth system
 
-      return;
-    }
+    // try {
+    //   await apiVerifyChallenge(address, signature);
+    // } catch (err) {
+    //   // Verification failed, should try again.
+    //   toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
+    //   return;
+    // }
+
     try {
-      await apiSetETHAddress(address, {
-        eosname: account._id,
-        signature,
-        ...authInfo
-      });
+      await apiSetETHAddress(
+        address,
+        {
+          eosname: account._id,
+          signature: authInfo.signature,
+          authType: authInfo.authType,
+          ethSignature: signature,
+        });
     } catch (err) {
       toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
 

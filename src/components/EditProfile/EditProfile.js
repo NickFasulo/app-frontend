@@ -432,7 +432,7 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
                 variant="outlined"
               />
             </Grid>
-            {ethAddress ? (
+            {!ethAddress ? (
               <Grid item>
                 <YupInput
                   autoFocus
