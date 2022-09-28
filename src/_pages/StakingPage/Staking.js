@@ -139,7 +139,7 @@ const StakingPage = ({ classes }) => {
     args: [
       ETH_LIQUIDITY_REWARDS,
       !isInvalidStakeAmt(ethStakeInput) &&
-        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+      ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -150,7 +150,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'stake',
     args: [
       !isInvalidStakeAmt(ethStakeInput) &&
-        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+      ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -161,7 +161,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'unstake',
     args: [
       !isInvalidStakeAmt(ethStakeInput) &&
-        ethers.utils.parseEther(ethStakeInput.toString()).toString()
+      ethers.utils.parseEther(ethStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(ethStakeInput)
   });
@@ -178,7 +178,7 @@ const StakingPage = ({ classes }) => {
     args: [
       POLY_LIQUIDITY_REWARDS,
       !isInvalidStakeAmt(polyStakeInput) &&
-        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+      ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -189,7 +189,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'stake',
     args: [
       !isInvalidStakeAmt(polyStakeInput) &&
-        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+      ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -200,7 +200,7 @@ const StakingPage = ({ classes }) => {
     functionName: 'unstake',
     args: [
       !isInvalidStakeAmt(polyStakeInput) &&
-        ethers.utils.parseEther(polyStakeInput.toString()).toString()
+      ethers.utils.parseEther(polyStakeInput.toString()).toString()
     ],
     enabled: !isInvalidStakeAmt(polyStakeInput)
   });
@@ -447,7 +447,7 @@ const StakingPage = ({ classes }) => {
         !polyLpBal ||
         !currentTotalStakePoly ||
         !currentTotalStakeEth,
-      predictedRewardRate)
+        predictedRewardRate)
     ) {
       return;
     }
@@ -533,7 +533,8 @@ const StakingPage = ({ classes }) => {
       .parseEther(ethStakeInput.toString())
       .toString();
     if (isStake) {
-      if (toBaseNum(ethLpBal) >= stakeAmt) {
+      console.log(toBaseNum(ethLpBal), Number(ethStakeInput))
+      if (toBaseNum(ethLpBal) < Number(ethStakeInput)) {
         toastError('You dont have enough funds.');
         return;
       }
@@ -542,7 +543,7 @@ const StakingPage = ({ classes }) => {
       //   args: [stakeAmt]
       // });
     } else {
-      if (toBaseNum(currentStakeEth) >= stakeAmt) {
+      if (toBaseNum(currentStakeEth) < Number(ethStakeInput)) {
         toastError('You dont have enough funds.');
         return;
       }
@@ -563,9 +564,9 @@ const StakingPage = ({ classes }) => {
     const stakeAmt = ethers.utils
       .parseEther(polyStakeInput.toString())
       .toString();
-    console.log(polyLpBal, toBaseNum(polyLpBal), { stakeAmt });
+    console.log(toBaseNum(polyLpBal), Number(polyStakeInput), { stakeAmt });
     if (isStake) {
-      if (toBaseNum(polyLpBal) >= stakeAmt) {
+      if (toBaseNum(polyLpBal) < Number(polyStakeInput)) {
         toastError('You dont have enough funds.');
         return;
       }
@@ -574,7 +575,7 @@ const StakingPage = ({ classes }) => {
       //   args: [stakeAmt]
       // });
     } else {
-      if (toBaseNum(currentStakePoly) >= stakeAmt) {
+      if (toBaseNum(currentStakePoly) < Number(polyStakeInput)) {
         toastError('You dont have enough funds.');
         return;
       }
@@ -1056,7 +1057,7 @@ const StakingPage = ({ classes }) => {
                     <Grid item className={classes.counterSizeFixed}>
                       <Typography variant="h3">
                         {toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) ===
-                        0 ? (
+                          0 ? (
                           `${0} YUP`
                         ) : (
                           <CountUp
@@ -1095,32 +1096,32 @@ const StakingPage = ({ classes }) => {
                     {(!isConnected
                       ? true
                       : toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) > 0) && (
-                      <Grid item>
-                        <ConnectButton.Custom>
-                          {({ openConnectModal }) => (
-                            <YupButton
-                              size="large"
-                              variant="contained"
-                              className={classes.submitBtn}
-                              onClick={() => {
-                                if (isConnected) {
-                                  collectRewards();
-                                } else {
-                                  openConnectModal();
-                                }
-                              }}
-                            >
-                              <Typography
-                                variant="body1"
-                                className={classes.submitBtnTxt}
+                        <Grid item>
+                          <ConnectButton.Custom>
+                            {({ openConnectModal }) => (
+                              <YupButton
+                                size="large"
+                                variant="contained"
+                                className={classes.submitBtn}
+                                onClick={() => {
+                                  if (isConnected) {
+                                    collectRewards();
+                                  } else {
+                                    openConnectModal();
+                                  }
+                                }}
                               >
-                                {isConnected ? 'Collect' : 'Connect'}
-                              </Typography>
-                            </YupButton>
-                          )}
-                        </ConnectButton.Custom>
-                      </Grid>
-                    )}
+                                <Typography
+                                  variant="body1"
+                                  className={classes.submitBtnTxt}
+                                >
+                                  {isConnected ? 'Collect' : 'Connect'}
+                                </Typography>
+                              </YupButton>
+                            )}
+                          </ConnectButton.Custom>
+                        </Grid>
+                      )}
                   </Grid>
                 </Grid>
                 {earnings && LpRewards && (
@@ -1135,9 +1136,9 @@ const StakingPage = ({ classes }) => {
                       <Typography variant="subtitle2">
                         {formatDecimals(
                           toBaseNum(earnings) +
-                            LpRewards.poly +
-                            LpRewards.eth +
-                            predictedRewards.new
+                          LpRewards.poly +
+                          LpRewards.eth +
+                          predictedRewards.new
                         )}{' '}
                         YUP Earned in Total
                       </Typography>
