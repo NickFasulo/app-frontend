@@ -91,7 +91,7 @@ function Home({ theme }) {
         title="Yup"
         description="Social Network for Curators"
         metaOg={{
-          "site_name": "Yup"
+          site_name: 'Yup'
         }}
       />
       <div className={classes.container}>
