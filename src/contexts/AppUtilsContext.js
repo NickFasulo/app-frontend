@@ -35,10 +35,12 @@ export const AppUtilsProvider = ({ children }) => {
       setWindowScrolled(isScrolled);
     };
 
+    scrollListener();
+
     window.addEventListener('scroll', scrollListener);
 
     return () => window.removeEventListener('scroll', scrollListener);
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     setTopBarVisible(false);

@@ -436,7 +436,7 @@ function Home({ theme }) {
                   timeout={200}
                   ref={feedRef}
                 >
-                  <Grid item xs={12} sm={7} md={8}>
+                  <Grid item xs={12} md={8} lg={7}>
                     <FeedHOC feedType="dailyhits" />
                   </Grid>
                 </Fade>
@@ -454,7 +454,7 @@ function Home({ theme }) {
                     }
                   }
                 >
-                  <Grid item xs={12} sm={5} md={4}>
+                  <Grid item xs={12} md={4} lg={5}>
                     <Typography variant="h6" sx={{ pb: 1 }}>
                       Recommended
                     </Typography>

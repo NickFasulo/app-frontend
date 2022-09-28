@@ -2,7 +2,7 @@ import { styled } from '@mui/material';
 import Image from 'next/image';
 
 export const HeaderRoot = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 0, 3, 0),
+  padding: theme.spacing(0, 0, 1.5, 0),
   [theme.breakpoints.down('md')]: {
     paddingLeft: theme.spacing(3)
   }
