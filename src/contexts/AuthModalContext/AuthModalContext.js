@@ -70,7 +70,7 @@ const AUTH_MODAL_STAGE = {
 
 export const AuthModalContextProvider = ({ children }) => {
   const classes = useStyles();
-  const { updateAuthInfo, userId, isLoggedIn } = useAuth();
+  const { authInfo, updateAuthInfo, userId, isLoggedIn } = useAuth();
   const { toastError, toastSuccess } = useToast();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
@@ -228,19 +228,22 @@ export const AuthModalContextProvider = ({ children }) => {
       return;
     }
 
-    try {
-      await apiVerifyChallenge(address, signature);
-    } catch (err) {
-      // Verification failed, should try again.
-      toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
+    // This currently has no effect, need to update when we have new auth system
 
-      return;
-    }
+    // try {
+    //   await apiVerifyChallenge(address, signature);
+    // } catch (err) {
+    //   // Verification failed, should try again.
+    //   toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
+    //   return;
+    // }
+
     try {
       await apiSetETHAddress(address, {
         eosname: account._id,
-        authType: 'ETH',
-        signature
+        signature: authInfo.signature,
+        authType: authInfo.authType,
+        ethSignature: signature
       });
     } catch (err) {
       toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
