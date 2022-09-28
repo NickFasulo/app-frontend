@@ -56,8 +56,8 @@ import { useAuth } from '../AuthContext';
 import { useYupAccount } from '../../hooks/queries';
 
 const defaultContext = {
-  open: () => {},
-  startEthAuth: () => {}
+  open: () => { },
+  startEthAuth: () => { }
 };
 
 const AuthModalContext = React.createContext(defaultContext);
@@ -70,7 +70,7 @@ const AUTH_MODAL_STAGE = {
 
 export const AuthModalContextProvider = ({ children }) => {
   const classes = useStyles();
-  const { updateAuthInfo, userId, isLoggedIn } = useAuth();
+  const { authInfo, updateAuthInfo, userId, isLoggedIn } = useAuth();
   const { toastError, toastSuccess } = useToast();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
@@ -239,8 +239,8 @@ export const AuthModalContextProvider = ({ children }) => {
     try {
       await apiSetETHAddress(address, {
         eosname: account._id,
-        authType: 'ETH',
-        signature
+        signature,
+        ...authInfo
       });
     } catch (err) {
       toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
