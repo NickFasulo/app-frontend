@@ -432,7 +432,7 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
                 variant="outlined"
               />
             </Grid>
-            {!ethAddress ? (
+            {ethAddress ? (
               <Grid item>
                 <YupInput
                   autoFocus
@@ -459,7 +459,8 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
                       }}
                       variant="outlined"
                       color="secondary"
-                    >Connect Eth
+                    >
+                      Connect Eth
                     </YupButton>
                   )}
                 </ConnectButton.Custom>

@@ -56,8 +56,8 @@ import { useAuth } from '../AuthContext';
 import { useYupAccount } from '../../hooks/queries';
 
 const defaultContext = {
-  open: () => { },
-  startEthAuth: () => { }
+  open: () => {},
+  startEthAuth: () => {}
 };
 
 const AuthModalContext = React.createContext(defaultContext);
@@ -239,14 +239,12 @@ export const AuthModalContextProvider = ({ children }) => {
     // }
 
     try {
-      await apiSetETHAddress(
-        address,
-        {
-          eosname: account._id,
-          signature: authInfo.signature,
-          authType: authInfo.authType,
-          ethSignature: signature,
-        });
+      await apiSetETHAddress(address, {
+        eosname: account._id,
+        signature: authInfo.signature,
+        authType: authInfo.authType,
+        ethSignature: signature
+      });
     } catch (err) {
       toastError(ERROR_CONNECT_WALLET_TRY_AGAIN);
 
