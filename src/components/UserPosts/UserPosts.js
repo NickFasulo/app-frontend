@@ -1,7 +1,7 @@
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useMemo } from 'react';
 import flatten from 'lodash/flatten';
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import PostController from '../Post/PostController';
 import ListSkeleton from '../ListSkeleton/ListSkeleton';
 import { useUserPosts } from '../../hooks/queries';
@@ -14,8 +14,9 @@ function UserPosts({ userId, name }) {
 
   const isPostAllFetched =
     data?.pages?.length > 0 &&
-    data?.pages[data.pages.length - 1].length < DEFAULT_FEED_PAGE_SIZE;
+    data?.pages[data.pages.length - 1].posts.length < DEFAULT_FEED_PAGE_SIZE;
 
+  console.log({ status, isPostAllFetched, posts }, data?.pages?.length, data?.pages[data.pages.length - 1].length, DEFAULT_FEED_PAGE_SIZE, isPostAllFetched || !posts)
   const posts = useMemo(() => {
     if (!data) return [];
 
@@ -28,25 +29,26 @@ function UserPosts({ userId, name }) {
     return <ListSkeleton />;
   }
 
-  if (posts.length === 0) {
-    return <Typography variant="h6">User has no posts.</Typography>;
-  }
 
   return (
     <>
-      <InfinitePosts
-        posts={posts}
-        hasNextPage={hasNextPage}
-        fetchNextPage={fetchNextPage}
-      />
-      {isPostAllFetched && (
-        <>
-          <Typography variant="h6" sx={{ my: 2 }}>
+      {(posts.length > 0) && (
+        < InfinitePosts
+          posts={posts}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+        />
+
+      )}
+      {(isPostAllFetched || posts?.length === 0) && (
+        <Grid item>
+          < Typography variant="h6" sx={{ my: 2 }}>
             Recommended
           </Typography>
           <RecommendedPosts query={name} />
-        </>
+        </Grid>
       )}
+
     </>
   );
 }

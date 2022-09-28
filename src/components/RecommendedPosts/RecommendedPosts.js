@@ -5,7 +5,7 @@ import FeedLoader from '../FeedLoader/FeedLoader';
 
 function RecommendedPosts({ query, excludeIds }) {
   const { hasNextPage, fetchNextPage, data, isLoading } = useSearchPosts(query);
-
+  console.log('HEREEEEEEEEEE')
   if (isLoading) {
     return <FeedLoader />;
   }
