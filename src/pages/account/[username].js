@@ -136,8 +136,9 @@ function UserAccountPage() {
     <>
       <YupHead
         title={`${profile.fullname || profile.username} | ${COMPANY_NAME}`}
-        description={`${profile.fullname || profile.username
-          }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
+        description={`${
+          profile.fullname || profile.username
+        }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
         metaOg={{
           url: getAbsolutePath(`/account/${profile.username}`),
           type: 'profile'

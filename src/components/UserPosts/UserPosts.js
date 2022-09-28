@@ -16,7 +16,6 @@ function UserPosts({ userId, name }) {
     data?.pages?.length > 0 &&
     data?.pages[data.pages.length - 1].posts.length < DEFAULT_FEED_PAGE_SIZE;
 
-  console.log({ status, isPostAllFetched, posts }, data?.pages?.length, data?.pages[data.pages.length - 1].length, DEFAULT_FEED_PAGE_SIZE, isPostAllFetched || !posts)
   const posts = useMemo(() => {
     if (!data) return [];
 
@@ -29,26 +28,23 @@ function UserPosts({ userId, name }) {
     return <ListSkeleton />;
   }
 
-
   return (
     <>
-      {(posts.length > 0) && (
-        < InfinitePosts
+      {posts.length > 0 && (
+        <InfinitePosts
           posts={posts}
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
         />
-
       )}
       {(isPostAllFetched || posts?.length === 0) && (
         <Grid item>
-          < Typography variant="h6" sx={{ my: 2 }}>
+          <Typography variant="h6" sx={{ my: 2 }}>
             Recommended
           </Typography>
           <RecommendedPosts query={name} />
         </Grid>
       )}
-
     </>
   );
 }
