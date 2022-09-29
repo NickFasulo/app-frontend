@@ -14,7 +14,6 @@ function GridLayout({ contentLeft, contentRight, noHideRightContent }) {
         {contentLeft}
       </Grid>
       <Grid item xs={12} md={4} lg={5}>
-        <aside>
           <Box
             sx={{
               pb: 3,
@@ -30,9 +29,10 @@ function GridLayout({ contentLeft, contentRight, noHideRightContent }) {
               overflowY: 'auto'
             }}
           >
+          <aside>
             {contentRight}
-          </Box>
         </aside>
+          </Box>
       </Grid>
     </Grid>
   );
