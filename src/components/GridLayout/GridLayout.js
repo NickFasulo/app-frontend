@@ -14,25 +14,22 @@ function GridLayout({ contentLeft, contentRight, noHideRightContent }) {
         {contentLeft}
       </Grid>
       <Grid item xs={12} md={4} lg={5}>
-          <Box
-            sx={{
-              pb: 3,
-              display: isMobile && !noHideRightContent ? 'none' : 'block',
-              position:
-                isMobile || headerHeight === null ? 'relative' : 'sticky',
-              top:
-                isMobile || !windowScrolled
-                  ? undefined
-                  : (theme) => `calc(${headerHeight}px + ${theme.spacing(2)})`,
-              maxHeight: (theme) =>
-                `calc(100vh - ${headerHeight}px - ${theme.spacing(2)})`,
-              overflowY: 'auto'
-            }}
-          >
-          <aside>
-            {contentRight}
-        </aside>
-          </Box>
+        <Box
+          sx={{
+            pb: 3,
+            display: isMobile && !noHideRightContent ? 'none' : 'block',
+            position: isMobile || headerHeight === null ? 'relative' : 'sticky',
+            top:
+              isMobile || !windowScrolled
+                ? undefined
+                : (theme) => `calc(${headerHeight}px + ${theme.spacing(2)})`,
+            maxHeight: (theme) =>
+              `calc(100vh - ${headerHeight}px - ${theme.spacing(2)})`,
+            overflowY: 'auto'
+          }}
+        >
+          <aside>{contentRight}</aside>
+        </Box>
       </Grid>
     </Grid>
   );
