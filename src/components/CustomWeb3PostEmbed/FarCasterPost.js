@@ -27,17 +27,14 @@ function FarCasterPost({
   const isReply = parents?.length > 0;
   // const isReplyToReply = parents.length > 1
 
-  const textLines = parsedText
-    .split('\n')
-    .map((line, idx) => (
-      <>
-        {idx > 0 && <br />}
-        {line
-          .split(' ')
-          .map((word) => linkMentions(word, 'farcaster://profiles/'))
-        }
-      </>
-    ));
+  const textLines = parsedText.split('\n').map((line, idx) => (
+    <>
+      {idx > 0 && <br />}
+      {line
+        .split(' ')
+        .map((word) => linkMentions(word, 'farcaster://profiles/'))}
+    </>
+  ));
 
   if (isReply) {
     return (
@@ -94,9 +91,7 @@ function FarCasterPost({
                             {textLines}
                           </TruncateText>
                         ) : (
-                          <Typography variant="body2">
-                            {textLines}
-                          </Typography>
+                          <Typography variant="body2">{textLines}</Typography>
                         )}
                       </Grid>
                     </Link>
