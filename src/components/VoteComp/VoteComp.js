@@ -12,6 +12,7 @@ import { createVote, editVote, deleteVote } from '../../apis';
 import { FlexBox } from '../styles';
 import { windowExists } from '../../utils/helpers';
 import { useAuth } from '../../contexts/AuthContext';
+import { postEvent } from '../../apis/general';
 
 const CREATE_VOTE_LIMIT = 40;
 const ratingConversion = {
@@ -59,8 +60,8 @@ const getWeb3Dislikes = (postInfo) => {
 };
 function VoteComp({ postid, url, weights, postInfo, rating }) {
   const { authInfo, name } = useAuth();
-  const account = useYupAccount(name);
-  const votes = useInitialVotes(postid, name);
+  const { data: account } = useYupAccount(name);
+  const { data: votes } = useInitialVotes(postid, name);
   const vote = votes?.[0];
   const [newRating, setNewRating] = useState();
   const [lastClicked, setLastClicked] = useState();
@@ -122,8 +123,8 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
   }, [newRating, lastClicked]);
 
   useEffect(() => {
-    setUpvotes((post.catVotes.overall && post.catVotes.overall.up) || 0);
-    setDownvotes((post.catVotes.overall && post.catVotes.overall.down) || 0);
+    setUpvotes(post.rawPositiveWeight ?? post.positiveWeight ?? 0);
+    setDownvotes(post.rawNegativeWeight ?? post.negativeWeight ?? 0);
   }, []);
 
   const fetchActionUsage = async (eosname) => {
@@ -173,26 +174,44 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
     const like = newRating > 2;
     if (vote == null || vote._id == null) {
       if (postid) {
-        await createVote({
+        const sucessVote = await createVote({
           postid,
           voter: name,
           like,
           rating,
           authInfo
         });
+        postEvent({
+          eventData: { voteId: sucessVote._id.voteid },
+          eventType: 'vote',
+          accountId: authInfo.eosname,
+          ...authInfo
+        });
       } else {
-        await createVote({
+        const sucessVote = await createVote({
           url,
           voter: name,
           like,
           rating,
           authInfo
         });
+        postEvent({
+          eventData: { voteId: sucessVote._id.voteid },
+          eventType: 'vote',
+          accountId: authInfo.eosname,
+          ...authInfo
+        });
       }
     }
     // //If already voted on, and new rating is the same as old rating -> Deletes existing vote
     else if (vote && prevRating === newRating) {
       await deleteVote({ voteId: vote._id.voteid, authInfo });
+      postEvent({
+        eventData: { voteId: vote._id.voteid },
+        eventType: 'vote',
+        accountId: authInfo.eosname,
+        ...authInfo
+      });
     }
     // //If already voted on, and new rating is different as old rating -> Updates existing vote
     else {
@@ -202,6 +221,12 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
         like,
         rating,
         authInfo
+      });
+      postEvent({
+        eventData: { voteId: vote._id.voteid },
+        eventType: 'vote',
+        accountId: authInfo.eosname,
+        ...authInfo
       });
     }
   };
@@ -280,11 +305,9 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
 
   return (
     <ErrorBoundary>
-      <FlexBox
-        sx={{ columnGap: (theme) => theme.spacing(3), maxWidth: '100px' }}
-      >
+      <FlexBox sx={{ columnGap: (theme) => theme.spacing(2) }}>
         <VoteButton
-          userInfluence={account?.weight}
+          userInfluence={account?.weight ?? 1}
           category={category}
           catWeight={weights[category]}
           handleOnclick={increaseRating}
@@ -306,14 +329,13 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
               : 0
           }
           postid={postid}
-          voterWeight={voterWeight}
           isShown={!isMobile}
           isVoted={lastClicked === 'like' || (!lastClicked && vote?.like)}
           postInfo={postInfo}
           web3Likes={getWeb3Likes(postInfo)}
         />
         <VoteButton
-          userInfluence={account?.weight}
+          userInfluence={account?.weight ?? 1}
           category={category}
           catWeight={weights[category]}
           handleOnclick={decreaseRating}
@@ -335,7 +357,6 @@ function VoteComp({ postid, url, weights, postInfo, rating }) {
               : 0
           }
           postid={postid}
-          voterWeight={voterWeight}
           isShown={!isMobile}
           isVoted={
             lastClicked === 'dislike' || (!lastClicked && vote && !vote.like)

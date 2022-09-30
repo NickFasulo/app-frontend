@@ -1,71 +1,32 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Typography } from '@mui/material';
 import clsx from 'clsx';
+import sum from 'lodash/sum';
 import FeedLoader from '../FeedLoader/FeedLoader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { fetchFeed } from '../../redux/actions';
 
 import PostController from '../Post/PostController';
 
 import useStyles from './FeedHOCStyles';
 import { logPageView } from '../../utils/analytics';
 import { useFetchFeed } from '../../hooks/queries';
-import withSuspense from '../../hoc/withSuspense';
+import { useAuth } from '../../contexts/AuthContext';
 
 function FeedHOC({ feedType }) {
   const classes = useStyles();
-  const [postLength, setPostLength] = useState(0);
+  const { authInfo } = useAuth();
 
-  const {
-    data,
-    // error,
-    fetchNextPage
-    // hasNextPage,
-    // isFetching,
-    // isFetchingNextPage,
-    // hasPreviousPage,
-    // status
-  } = useFetchFeed({ feedType });
-  const calcPostLength = () => {
-    if (data) {
-      data.pages.map((page) => {
-        setPostLength(postLength + page.length);
-      });
-    }
-  };
-  useMemo(() => {
-    calcPostLength();
-  }, [data]);
+  const { data, fetchNextPage, isLoading } = useFetchFeed({
+    feedType,
+    accountId: authInfo.eosname
+  });
+
+  const postLength = sum((data?.pages || []).map((page) => page?.length || 0));
 
   const handleFetchNext = () => {
     fetchNextPage();
   };
-  // Fetches initial posts, if there are none
-  // const fetchPosts = () => {
-  //   if (!feedInfo) {
-  //     return;
-  //   }
-
-  //   const { posts, limit } = feedInfo;
-
-  //   if (posts.length < limit) {
-  //     dispatch(fetchFeed(feedType, 0, limit));
-  //   }
-  // };
-
-  // // Increases start value, to fetch next posts
-  // const fetchPostsScroll = () => {
-  //   const { start, limit } = feedInfo;
-
-  //   // If start is zero, fetchPosts is called. Temporary solution.
-  //   if (!start) {
-  //     return;
-  //   }
-
-  //   dispatch(fetchFeed(feedType, start, limit));
-  // };
 
   useEffect(() => {
     const element = document.querySelector('.infinite-scroll-component');
@@ -77,6 +38,12 @@ function FeedHOC({ feedType }) {
     // fetchPosts();
     logPageView(feedType);
   }, [feedType]);
+
+  if (isLoading) {
+    return <FeedLoader />;
+  }
+
+  if (!data) return null;
 
   if (data.pages.length === 0) {
     return (
@@ -115,4 +82,4 @@ function FeedHOC({ feedType }) {
   );
 }
 
-export default withSuspense()(FeedHOC);
+export default FeedHOC;

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
+import { useMemo } from 'react';
 import RecommendedPosts from '../RecommendedPosts';
 import { useCollectionPosts } from '../../hooks/queries';
-import { useMemo } from 'react';
 import InfinitePosts from '../InfinitePosts/InfinitePosts';
 import { DEFAULT_FEED_PAGE_SIZE } from '../../config';
 
@@ -15,8 +15,8 @@ function CollectionPostList({ id, name }) {
   }, [data]);
 
   const isPostAllFetched =
-    data.pages?.length > 0 &&
-    data.pages[data.pages.length - 1].length < DEFAULT_FEED_PAGE_SIZE;
+    data?.pages?.length > 0 &&
+    data?.pages[data.pages.length - 1].length < DEFAULT_FEED_PAGE_SIZE;
 
   return (
     <>

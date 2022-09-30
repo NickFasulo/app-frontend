@@ -1,64 +1,43 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
-import axios from 'axios';
-import { connect } from 'react-redux';
 import { Grid } from '@mui/material';
-import { addUserCollection } from '../../redux/actions';
+import { useMutation } from '@tanstack/react-query';
 import { YupInput, LoaderButton } from '../Miscellaneous';
-import { accountInfoSelector } from '../../redux/selectors';
 import YupDialog from '../Miscellaneous/YupDialog';
-import { apiBaseUrl } from '../../config';
 import { useAuth } from '../../contexts/AuthContext';
 import useToast from '../../hooks/useToast';
+import callYupApi from '../../apis/base_api';
+import { queryClient } from '../../config/react-query';
+import { REACT_QUERY_KEYS } from '../../constants/enum';
 
 const TITLE_LIMIT = 30;
 const DESC_LIMIT = 140;
 
-const styles = (theme) => ({
-  dialog: {
-    marginLeft: '200px',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: 'inherit'
-    }
-  },
-  dialogTitle: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    margin: 0,
-    padding: theme.spacing(1.5)
-  },
-  dialogTitleText: {
-    fontSize: '1.3rem',
-    fontFamily: 'Gilroy',
-    fontWeight: '300',
-    color: theme.palette.M100
-  },
-  dialogContent: {
-    root: {
-      margin: 0,
-      padding: theme.spacing(2),
-      color: theme.palette.M100
-    }
-  },
-  dialogContentText: {
-    root: {
-      paddingBottom: '2rem',
-      paddingTop: '2rem'
-    }
-  }
-});
-
-function CollectionDialog({
-  postid,
-  classes,
-  dialogOpen,
-  handleDialogClose,
-  addCollectionToRedux
-}) {
-  const { authInfo } = useAuth();
+function CollectionDialog({ postid, dialogOpen, handleDialogClose }) {
+  const { authInfo, userId } = useAuth();
   const [description, setDescription] = useState('');
   const [name, setName] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, mutate } = useMutation(
+    (data) =>
+      callYupApi({
+        url: '/collections',
+        method: 'POST',
+        data
+      }),
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData(
+          [REACT_QUERY_KEYS.USER_COLLECTIONS, userId],
+          (oldData) => (oldData ? [data, ...oldData] : undefined)
+        );
+
+        toastSuccess(`Successfully created ${data.name}`);
+
+        handleDialogClose();
+      },
+      onError: () => toastError('There was a problem creating your collection')
+    }
+  );
 
   const { toastSuccess, toastError } = useToast();
 
@@ -68,26 +47,15 @@ function CollectionDialog({
     if (e.key === 'Enter' && !!name) handleCreateNewCollection();
   };
   const handleCreateNewCollection = async () => {
-    try {
-      if (isLoading) return;
-      setIsLoading(true);
-      const postId = postid === 'routeFromUrl' ? undefined : postid;
-      const params = {
-        name,
-        description,
-        postId,
-        eosname: authInfo.eosname,
-        ...authInfo
-      };
-      const { data } = await axios.post(`${apiBaseUrl}/collections`, params);
-      addCollectionToRedux(authInfo.eosname, data);
-      toastSuccess(`Succesfully created ${name}`);
-      handleDialogClose();
-      setIsLoading(false);
-    } catch (err) {
-      setIsLoading(false);
-      toastError(`There was a problem creating your collection`);
-    }
+    const postId = postid === 'routeFromUrl' ? undefined : postid;
+
+    mutate({
+      name,
+      description,
+      postId,
+      eosname: authInfo.eosname,
+      ...authInfo
+    });
   };
 
   return (
@@ -141,28 +109,10 @@ function CollectionDialog({
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const account = accountInfoSelector(state);
-  return {
-    account
-  };
-};
-
-const mapActionToProps = (dispatch) => ({
-  addCollectionToRedux: (eosname, collection) =>
-    dispatch(addUserCollection(eosname, collection))
-});
-
 CollectionDialog.propTypes = {
   postid: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
-  handleDialogClose: PropTypes.func.isRequired,
-  addCollectionToRedux: PropTypes.func.isRequired,
-  account: PropTypes.object
+  handleDialogClose: PropTypes.func.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  mapActionToProps
-)(withStyles(styles)(CollectionDialog));
+export default CollectionDialog;

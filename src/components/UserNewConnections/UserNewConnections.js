@@ -3,7 +3,9 @@ import { useSearchPeople } from '../../hooks/queries';
 import UserRecommendedConnection from '../UserRecommendedConnection';
 
 function UserNewConnections({ profile }) {
-  const people = useSearchPeople(profile.bio, 6);
+  const { data: people } = useSearchPeople(profile.bio, 6);
+
+  if (!people) return null;
 
   return (
     <>

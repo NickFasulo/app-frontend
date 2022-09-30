@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Grid, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { connect } from 'react-redux';
 import CountUp from 'react-countup';
 import { Brand, Other } from '../../utils/colors';
 import { useThemeMode } from '../../contexts/ThemeModeContext';

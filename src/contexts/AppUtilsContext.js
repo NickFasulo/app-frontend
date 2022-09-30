@@ -5,8 +5,9 @@ import {
   useEffect,
   useState
 } from 'react';
-import PageLoadingBar from '../components/PageLoadingBar';
 import { useRouter } from 'next/router';
+import { useTheme } from '@mui/styles';
+import PageLoadingBar from '../components/PageLoadingBar';
 
 const AppUtilsContext = createContext({
   windowScrolled: false,
@@ -15,18 +16,30 @@ const AppUtilsContext = createContext({
 
 export const AppUtilsProvider = ({ children }) => {
   const { asPath } = useRouter();
+  const theme = useTheme();
   const [windowScrolled, setWindowScrolled] = useState(false);
   const [topBarVisible, setTopBarVisible] = useState(false);
-
   useEffect(() => {
     const scrollListener = () => {
-      setWindowScrolled(window.scrollY > 100);
+      const isScrolled = window.scrollY > 0;
+      const headerElem = document.getElementsByClassName('page-header')?.[0];
+
+      if (headerElem) {
+        headerElem.style.backgroundColor = isScrolled
+          ? `${theme.palette.M850}20`
+          : 'transparent';
+        headerElem.style.backdropFilter = isScrolled ? 'blur(12px)' : 'none';
+      }
+
+      setWindowScrolled(isScrolled);
     };
+
+    scrollListener();
 
     window.addEventListener('scroll', scrollListener);
 
     return () => window.removeEventListener('scroll', scrollListener);
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     setTopBarVisible(false);

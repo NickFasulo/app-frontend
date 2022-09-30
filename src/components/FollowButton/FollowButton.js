@@ -3,13 +3,11 @@ import { CircularProgress } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContext';
 import { useFollowings } from '../../hooks/queries';
 import { ActionButton } from '../styles';
-import withSuspense from '../../hoc/withSuspense';
 import { MUTATION_KEYS } from '../../constants/enum';
 
 function FollowButton({ userId }) {
   const { userId: myUserId, isLoggedIn, authInfo } = useAuth();
-  const myFollowingUsers = useFollowings(myUserId) || [];
-  const isAlreadyFollowing = myFollowingUsers.includes(userId);
+  const { data: myFollowingUsers } = useFollowings(myUserId) || [];
   const { isLoading, mutate } = useMutation([
     MUTATION_KEYS.FOLLOW_UNFOLLOW_USER
   ]);
@@ -19,7 +17,11 @@ function FollowButton({ userId }) {
     return null;
   }
 
-  const handleFollowOrUnfollow = () => {
+  if (!myFollowingUsers) return null;
+
+  const isAlreadyFollowing = myFollowingUsers.includes(userId);
+
+  const handleFollowOrUnfollow = (e) => {
     mutate({
       isFollow: !isAlreadyFollowing,
       authUserId: myUserId,
@@ -34,10 +36,15 @@ function FollowButton({ userId }) {
       color="secondary"
       variant="outlined"
       onClick={handleFollowOrUnfollow}
-      disabled={isLoading}
+      disableRipple
     >
       {isLoading ? (
-        <CircularProgress size={16} />
+        <CircularProgress
+          size={16}
+          style={{
+            margin: ' 0 15px'
+          }}
+        />
       ) : isAlreadyFollowing ? (
         'Following'
       ) : (
@@ -47,4 +54,4 @@ function FollowButton({ userId }) {
   );
 }
 
-export default withSuspense()(FollowButton);
+export default FollowButton;

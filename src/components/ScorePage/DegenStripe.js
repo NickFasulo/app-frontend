@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
-import { connect } from 'react-redux';
 import { styled } from '@mui/system';
 import { Brand, Other } from '../../utils/colors';
 

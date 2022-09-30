@@ -11,7 +11,6 @@ import ReactMarkdown from 'react-markdown';
 import LinkPreview from '../components/LinkPreview/LinkPreview';
 import { apiBaseUrl } from '../config';
 import FarCasterPost from '../components/CustomWeb3PostEmbed/FarCasterPost';
-import { SeeMore } from '../components/Miscellaneous';
 import LensPost from '../components/CustomWeb3PostEmbed/LensPost';
 /**
  * - Removes https://t.co/ERYj5p9VHj that comes at end of text field in tweetData object if present
@@ -26,6 +25,10 @@ export const parseText = (str) => {
     .replace(re, '')
     .replace(/&amp;/g, '&')
     .replace(/&nbsp;/g, ' ');
+  return parsed;
+};
+export const parseTextKeepLink = (str) => {
+  const parsed = str.replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
   return parsed;
 };
 export const convertIPFSSrcToHttps = (src) => {
