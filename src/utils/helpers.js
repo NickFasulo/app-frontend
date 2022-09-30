@@ -87,4 +87,4 @@ export const summarizeContent = (content) =>
 
 export const getAbsolutePath = (relPath) => `${webAppUrl}${relPath}`;
 export const firstLetterUpperCase = (str) =>
-  str.charAt(0).toUpperCase() + str.slice(1);
+  str && str.charAt(0).toUpperCase() + str.slice(1);

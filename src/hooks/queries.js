@@ -324,13 +324,3 @@ export const useWalletInfo = (ethAddress) =>
       enabled: !!ethAddress
     }
   );
-
-export const useHomeConfig = () => {
-  const { data } = useQuery([REACT_QUERY_KEYS.HOME_CONFIG], () =>
-    callYupApi({
-      url: `/home-config/v2`
-    })
-  );
-
-  return data;
-};
