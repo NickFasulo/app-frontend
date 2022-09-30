@@ -4,7 +4,6 @@ import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
 
 // util
-import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util';
 
 // components
 import LinkPreview from './LinkPreview';
@@ -12,6 +11,7 @@ import HeaderSection from './HeaderSection';
 import Avatar from './Avatar';
 import YupImage from '../YupImage';
 import YupTweetImg from '../YupImage/YupTweetImg';
+import { fetchLinkPreviewData, linkMentions, parseText } from '../../utils/post_helpers';
 
 function Original({ tweetData, classes }) {
   const { url } = tweetData;

@@ -11,7 +11,6 @@ import {
   parseText,
   linkMentions,
   urlIsImg,
-  parseTextKeepLink
 } from '../../utils/post_helpers';
 import { isYoutubeUrl } from '../../utils/helpers';
 import VideoComponent from '../VideoComponent';
@@ -27,11 +26,10 @@ function FarCasterPost({
   const web3Preview = post;
   const { id } = post;
   // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
-  const parsedText = parseTextKeepLink(text);
+  const parsedText = parseText(text);
   const parsedTextWithMentions = parsedText
     .split(' ')
     .map((string) => linkMentions(string, 'farcaster://profiles/'));
-  console.log({ text, parsedTextWithMentions, parsedText });
   const { parents } = post.meta;
   const isReply = parents?.length > 0;
   // const isReplyToReply = parents.length > 1
@@ -137,7 +135,14 @@ function FarCasterPost({
                                 />
                               );
                             }
-                            return null;
+                            return <LinkPreview
+                                  key={attachment.url}
+                                  size="large"
+                                  description={attachment.description || ''}
+                                  title={attachment.title}
+                                  url={attachment.url}
+                                  // classes={classes}
+                                />
                           })
                         : null}
                     </Grid>

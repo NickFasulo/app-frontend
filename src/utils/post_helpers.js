@@ -20,6 +20,7 @@ import LensPost from '../components/CustomWeb3PostEmbed/LensPost';
  * @param {*} str text string to parse
  */
 export const parseText = (str) => {
+  if(!str) return
   const re = /http\S+/g;
   const parsed = str
     .replace(re, '')
@@ -161,7 +162,6 @@ export const fetchLinkPreviewData = async (passedURL) => {
 export const urlIsImg = (url) => {
   const re = /\.(jpeg|jpg|gif|png)$/;
   const match = re.test(url);
-  console.log(url, match, 'TEST');
   return match;
 };
 export const getAllLinks = (text) => {
