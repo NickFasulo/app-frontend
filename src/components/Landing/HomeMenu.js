@@ -27,7 +27,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import FeedHOC from '../Feed/FeedHOC';
 import FeedCategoryList from '../FeedContainer/FeedCategoryList';
 import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
-import { useHomeConfig, useRecommendation } from '../../hooks/queries';
+import {  useRecommendation } from '../../hooks/queries';
 import YupHead from '../YupHead';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
@@ -45,28 +45,11 @@ function Home({ theme }) {
   const { isMobile } = useDevice();
   const { open: openAuthModal } = useAuthModal();
   // const { isLoggedIn, username } = useAuth();
-  const { cardItems, linkItems } = useHomeConfig();
   const { isLoggedIn } = useAuth();
   const recommendedCollections = useRecommendation({ limit: 7 });
   const [scrollPosition, setScrollPosition] = useState(0);
   const [recommendedFloating, setRecommendeFloating] = useState(false);
   const feedRef = useRef();
-  useEffect(() => {
-    // axios
-    //   .get(`${apiBaseUrl}/home-config/v2`)
-    //   .then(({ data: { cardItems, linkItems } }) => {
-    //     setCardItems(cardItems);
-    //     setLinkItems(linkItems);
-    //   });
-    // axios
-    //   .get(`${apiBaseUrl}/collections/recommended?limit=7`)
-    //   .then(({ data: recommendedCollections }) => {
-    //     setRecommendedCollections(recommendedCollections);
-    //   });
-    // if (isLoggedIn) {
-    //   dispatch(fetchUserCollections(username));
-    // }
-  }, []);
   useEffect(() => {
     const updatePosition = () => {
       setScrollPosition(window.pageYOffset);
@@ -231,68 +214,6 @@ function Home({ theme }) {
                     </Card>
                   </Fade>
                 </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ zIndex: 1 }}>
-              <Grid
-                container
-                direction="row"
-                spacing={3}
-                alignItems="flex-start"
-              >
-                {cardItems &&
-                  cardItems.map((item, index) => (
-                    <Grid
-                      item
-                      key={index}
-                      xs={6}
-                      sm={3}
-                      className={classes.imageCardGrid}
-                    >
-                      <Link href={item.route} className={classes.link}>
-                        <Grid
-                          container
-                          direction="column"
-                          alignItems="stretch"
-                          spacing={1}
-                        >
-                          <Fade
-                            in
-                            style={{
-                              transitionDelay: `${50 * index - index}ms`
-                            }}
-                            timeout={200}
-                          >
-                            <Grid item>
-                              <Tilt
-                                options={{
-                                  max: 10,
-                                  scale: 1.1,
-                                  perspective: 2000
-                                }}
-                              >
-                                <Card
-                                  elevation={0}
-                                  style={{
-                                    backgroundImage: `url(${item.imgSrc})`
-                                  }}
-                                  alt={item.title}
-                                  className={classes.imageCard}
-                                >
-                                  <Typography
-                                    variant="h6"
-                                    style={{ color: Mono.M50 }}
-                                  >
-                                    {item.title}
-                                  </Typography>
-                                </Card>
-                              </Tilt>
-                            </Grid>
-                          </Fade>
-                        </Grid>
-                      </Link>
-                    </Grid>
-                  ))}
               </Grid>
             </Grid>
             {/* HIDDEN TO FOCUS ON FEED
