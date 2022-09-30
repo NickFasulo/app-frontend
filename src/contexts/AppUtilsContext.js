@@ -19,7 +19,6 @@ export const AppUtilsProvider = ({ children }) => {
   const theme = useTheme();
   const [windowScrolled, setWindowScrolled] = useState(false);
   const [topBarVisible, setTopBarVisible] = useState(false);
-
   useEffect(() => {
     const scrollListener = () => {
       const isScrolled = window.scrollY > 0;
@@ -35,10 +34,12 @@ export const AppUtilsProvider = ({ children }) => {
       setWindowScrolled(isScrolled);
     };
 
+    scrollListener();
+
     window.addEventListener('scroll', scrollListener);
 
     return () => window.removeEventListener('scroll', scrollListener);
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     setTopBarVisible(false);

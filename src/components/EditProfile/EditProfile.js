@@ -7,6 +7,7 @@ import DoneIcon from '@mui/icons-material/Done';
 
 import { useAccount, useDisconnect } from 'wagmi';
 import { useRouter } from 'next/router';
+import { useMutation } from '@tanstack/react-query';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import YupDialog from '../Miscellaneous/YupDialog';
 import { YupButton, YupInput } from '../Miscellaneous';
@@ -16,7 +17,6 @@ import useToast from '../../hooks/useToast';
 import useStyles from './styles';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { useMutation } from '@tanstack/react-query';
 import callYupApi from '../../apis/base_api';
 import { queryClient } from '../../config/react-query';
 import { REACT_QUERY_KEYS } from '../../constants/enum';
@@ -460,7 +460,7 @@ function EditProfile({ open: modalOpen, onClose, accountInfo: account }) {
                       variant="outlined"
                       color="secondary"
                     >
-                      {!ethAddress ? 'Connect Eth' : 'Change Eth'}
+                      Connect Eth
                     </YupButton>
                   )}
                 </ConnectButton.Custom>

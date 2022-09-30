@@ -28,6 +28,7 @@ import FeedHOC from '../Feed/FeedHOC';
 import FeedCategoryList from '../FeedContainer/FeedCategoryList';
 import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
 import { useHomeConfig, useRecommendation } from '../../hooks/queries';
+import YupHead from '../YupHead';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
   (_, i) => `/images/gradients/gradient${i + 1}.webp`
@@ -86,6 +87,13 @@ function Home({ theme }) {
   }, [scrollPosition]);
   return (
     <FunctionalErrorBoundary>
+      <YupHead
+        title="Yup"
+        description="Social Network for Curators"
+        metaOg={{
+          site_name: 'Yup'
+        }}
+      />
       <div className={classes.container}>
         <PageBody pageClass={classes.page}>
           <Grid
@@ -436,7 +444,7 @@ function Home({ theme }) {
                   timeout={200}
                   ref={feedRef}
                 >
-                  <Grid item xs={12} sm={7} md={8}>
+                  <Grid item xs={12} md={8} lg={7}>
                     <FeedHOC feedType="dailyhits" />
                   </Grid>
                 </Fade>
@@ -454,7 +462,7 @@ function Home({ theme }) {
                     }
                   }
                 >
-                  <Grid item xs={12} sm={5} md={4}>
+                  <Grid item xs={12} md={4} lg={5}>
                     <Typography variant="h6" sx={{ pb: 1 }}>
                       Recommended
                     </Typography>

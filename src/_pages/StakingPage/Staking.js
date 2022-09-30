@@ -533,7 +533,7 @@ const StakingPage = ({ classes }) => {
       .parseEther(ethStakeInput.toString())
       .toString();
     if (isStake) {
-      if (toBaseNum(ethLpBal) >= stakeAmt) {
+      if (toBaseNum(ethLpBal) < Number(ethStakeInput)) {
         toastError('You dont have enough funds.');
         return;
       }
@@ -542,7 +542,7 @@ const StakingPage = ({ classes }) => {
       //   args: [stakeAmt]
       // });
     } else {
-      if (toBaseNum(currentStakeEth) >= stakeAmt) {
+      if (toBaseNum(currentStakeEth) < Number(ethStakeInput)) {
         toastError('You dont have enough funds.');
         return;
       }
@@ -563,9 +563,8 @@ const StakingPage = ({ classes }) => {
     const stakeAmt = ethers.utils
       .parseEther(polyStakeInput.toString())
       .toString();
-    console.log(polyLpBal, toBaseNum(polyLpBal), { stakeAmt });
     if (isStake) {
-      if (toBaseNum(polyLpBal) >= stakeAmt) {
+      if (toBaseNum(polyLpBal) < Number(polyStakeInput)) {
         toastError('You dont have enough funds.');
         return;
       }
@@ -574,7 +573,7 @@ const StakingPage = ({ classes }) => {
       //   args: [stakeAmt]
       // });
     } else {
-      if (toBaseNum(currentStakePoly) >= stakeAmt) {
+      if (toBaseNum(currentStakePoly) < Number(polyStakeInput)) {
         toastError('You dont have enough funds.');
         return;
       }
