@@ -4,7 +4,11 @@ import { Link, Typography, Grid } from '@mui/material';
 import TweetVidPlayer from './TweetVidPlayer';
 
 // util
-import { parseText, linkMentions, fetchLinkPreviewData } from '../../utils/post_helpers';
+import {
+  parseText,
+  linkMentions,
+  fetchLinkPreviewData
+} from '../../utils/post_helpers';
 
 // components
 import LinkPreview from './LinkPreview';

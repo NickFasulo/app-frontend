@@ -20,7 +20,7 @@ import LensPost from '../components/CustomWeb3PostEmbed/LensPost';
  * @param {*} str text string to parse
  */
 export const parseText = (str) => {
-  if(!str) return
+  if (!str) return;
   const re = /http\S+/g;
   const parsed = str
     .replace(re, '')

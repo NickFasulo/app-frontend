@@ -27,7 +27,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import FeedHOC from '../Feed/FeedHOC';
 import FeedCategoryList from '../FeedContainer/FeedCategoryList';
 import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundary';
-import {  useRecommendation } from '../../hooks/queries';
+import { useRecommendation } from '../../hooks/queries';
 import YupHead from '../YupHead';
 
 const DEFAULT_COLLECTION_IMGS = [...Array(5)].map(
