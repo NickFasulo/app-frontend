@@ -23,12 +23,21 @@ function FarCasterPost({
   const { id } = post;
   // const replyParent = useFarcasterReplyParent(post?.meta?.replyParentMerkleRoot)
   const parsedText = parseText(text);
-  const parsedTextWithMentions = parsedText
-    .split(' ')
-    .map((string) => linkMentions(string, 'farcaster://profiles/'));
   const { parents } = post.meta;
   const isReply = parents?.length > 0;
   // const isReplyToReply = parents.length > 1
+
+  const textLines = parsedText
+    .split('\n')
+    .map((line, idx) => (
+      <>
+        {idx > 0 && <br />}
+        {line
+          .split(' ')
+          .map((word) => linkMentions(word, 'farcaster://profiles/'))
+        }
+      </>
+    ));
 
   if (isReply) {
     return (
@@ -82,11 +91,11 @@ function FarCasterPost({
                       <Grid item="item" xs={12}>
                         {showFullPost ? (
                           <TruncateText variant="body2" lines={7}>
-                            {parsedTextWithMentions}
+                            {textLines}
                           </TruncateText>
                         ) : (
                           <Typography variant="body2">
-                            {parsedTextWithMentions}
+                            {textLines}
                           </Typography>
                         )}
                       </Grid>
