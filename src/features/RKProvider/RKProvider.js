@@ -9,8 +9,10 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { WagmiConfig, chain, createClient, configureChains } from 'wagmi';
 
-import { alchemyApiKeys, ethereumConfig, polygonConfig } from '../../config';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
+import merge from 'lodash/merge';
+
+import { alchemyApiKeys, ethereumConfig, polygonConfig } from '../../config';
 
 import '@rainbow-me/rainbowkit/styles.css';
 
@@ -50,21 +52,24 @@ const RKProvider = ({ children }) => {
   const { palette } = useTheme();
 
   const rkDefaultTheme = palette.mode === 'light' ? lightTheme : darkTheme;
-  const rkTheme = rkDefaultTheme({
-    colors: {
-      accentColor: palette.P500,
-      modalBackground: `${palette.M500}44;`, // backdrop-filter: blur(20px);
-      modalBackdrop: `${palette.M800}88;`,
-      modalTextSecondary: palette.M300,
-      modalText: palette.M50
-    },
-    fonts: {
-      body: 'Gilroy'
-    },
-    radii: {
-      modal: '16px'
+  const rkTheme = merge(
+    rkDefaultTheme(),
+    {
+      colors: {
+        accentColor: palette.P500,
+        modalBackground: `${palette.M800}`, // backdrop-filter: blur(20px);
+        modalBackdrop: `${palette.M800}88`,
+        modalTextSecondary: palette.M300,
+        modalText: palette.M50
+      },
+      fonts: {
+        body: 'Gilroy'
+      },
+      radii: {
+        modal: '16px'
+      }
     }
-  });
+  );
 
   return (
     <WagmiConfig client={wagmiClient}>
