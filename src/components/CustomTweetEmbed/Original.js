@@ -109,19 +109,29 @@ function Original({ tweetData, classes }) {
                     </Link>
                   </Grid>
                   <Grid item="item" xs={12}>
-                    {previewData &&
+                    {entitiesURLS &&
                       !hasMedia &&
                       !mediaURL &&
                       !tweetData.excludeTweet && (
                         <div>
-                          <LinkPreview
-                            size="large"
-                            description={previewData.description || ''}
-                            image={previewData.img}
-                            title={previewData.title}
-                            url={url}
-                            classes={classes}
-                          />
+                          {previewData ? (
+                            <LinkPreview
+                              size="large"
+                              description={previewData?.description || ''}
+                              image={previewData?.img}
+                              title={previewData?.title}
+                              url={entities.urls[0].expanded_url}
+                              classes={classes}
+                            />
+                          ) : (
+                            <Link
+                              target="_blank"
+                              href={entities.urls[0].expanded_url}
+                              rel="noreferrer"
+                            >
+                              {entities.urls[0].expanded_url}
+                            </Link>
+                          )}
                         </div>
                       )}
 

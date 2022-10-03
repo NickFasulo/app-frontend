@@ -317,16 +317,26 @@ function Reply({ tweetData, classes }) {
                     </Link>
                   </Grid>
                   <Grid item>
-                    {previewData && !replyHasMedia && !mediaURL && (
+                    {entitiesURLS && !replyHasMedia && !mediaURL && (
                       <Grid>
-                        <LinkPreview
-                          size="large"
-                          classes={classes}
-                          description={previewData && previewData.description}
-                          image={previewData && previewData.img}
-                          title={previewData && previewData.title}
-                          url={url}
-                        />
+                        {previewData ? (
+                          <LinkPreview
+                            size="large"
+                            classes={classes}
+                            description={previewData && previewData.description}
+                            image={previewData && previewData.img}
+                            title={previewData && previewData.title}
+                            url={entities.urls[0].expanded_url}
+                          />
+                        ) : (
+                          <Link
+                            target="_blank"
+                            href={entities.urls[0].expanded_url}
+                            rel="noreferrer"
+                          >
+                            {entities.urls[0].expanded_url}
+                          </Link>
+                        )}
                       </Grid>
                     )}
                     {hasPhoto && mediaURL ? (
