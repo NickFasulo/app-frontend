@@ -6,10 +6,12 @@ export async function middleware(request) {
   const { url } = request;
   const { isBot } = request.ua;
   const { search } = request.nextUrl;
+  const isLinkPreviewUA = request.ua.ua.toLowerCase().includes('linkpreview');
 
   if (
-    (isBot || /_escaped_fragment_/.test(search)) &&
-    !NON_SSR_REGEX.test(url)
+    ((isBot || /_escaped_fragment_/.test(search)) &&
+      !NON_SSR_REGEX.test(url)) ||
+    isLinkPreviewUA
   ) {
     return fetch(`https://service.prerender.io/${url}`, {
       headers: {
