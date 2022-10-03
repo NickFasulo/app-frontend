@@ -128,7 +128,7 @@ function Reply({ tweetData, classes }) {
     replyStatusText = '';
   }
 
-  const text = parseText(replyStatusText);  
+  const text = parseText(replyStatusText);
   const replyTweetText = text.split('\n').map((line, idx) => (
     <>
       {idx > 0 && <br />}
