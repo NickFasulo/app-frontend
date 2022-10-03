@@ -29,6 +29,7 @@ function PostDetails() {
   const { id } = router.query;
   const { isLoading, data: post } = usePost(id);
   const [eventSent, setEventSent] = useState(false);
+  console.log({post})
   useEffect(() => {
     if (isLoggedIn && !eventSent) {
       setEventSent(true);
