@@ -2,7 +2,6 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 import callYupApi from '../apis/base_api';
 import HomeMenu from '../components/Landing/HomeMenu';
 import { REACT_QUERY_KEYS } from '../constants/enum';
-import { useHomeConfig, useRecommendation } from '../hooks/queries';
 
 function Home() {
   return <HomeMenu />;

@@ -18,6 +18,8 @@ import useDevice from '../../hooks/useDevice';
 import PageLoadingBar from '../../components/PageLoadingBar';
 import { postEvent } from '../../apis/general';
 import { useAuth } from '../../contexts/AuthContext';
+import MobilePostHeader from '../../components/PostPageHeader/MobilePostHeader';
+import { firstLetterUpperCase } from '../../utils/helpers';
 
 function PostDetails() {
   const router = useRouter();
@@ -27,10 +29,8 @@ function PostDetails() {
   const { id } = router.query;
   const { isLoading, data: post } = usePost(id);
   const [eventSent, setEventSent] = useState(false);
-
   useEffect(() => {
     if (isLoggedIn && !eventSent) {
-      console.log({ isLoggedIn });
       setEventSent(true);
       postEvent({
         eventData: { postId: id },
@@ -54,31 +54,26 @@ function PostDetails() {
       <YupPageWrapper>
         <YupPageHeader scrolled={windowScrolled}>
           <YupContainer sx={{ padding: (theme) => theme.spacing(3) }}>
-            <Grid container alignItems="center" columnSpacing={1}>
-              <img
-                src={`/images/icons/${post?.web3Preview?.protocol}.svg`}
-                height={isMobile ? '42 ' : '56'}
-                alt={`${post?.web3Preview?.protocol} post`}
-              />
-              <Grid item>
-                <Grid container direction="column" justifyContent="center">
+            {isMobile ? (
+              <MobilePostHeader post={post} scrolled={windowScrolled} />
+            ) : (
+              <Grid container alignItems="center" columnSpacing={1}>
+                <img
+                  src={`/images/icons/${post?.web3Preview?.protocol}.svg`}
+                  height={isMobile ? '32 ' : '32'}
+                  alt={`${post?.web3Preview?.protocol} post`}
+                />
+                <Grid item>
                   <Typography
                     variant="h5"
                     color="M100"
                     sx={{ letterSpacing: '0.02em' }}
                   >
-                    post by {post.author}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="M100"
-                    sx={{ letterSpacing: '0.01em' }}
-                  >
-                    Curated {new Date(post.createdAt).toLocaleDateString()}
+                    {firstLetterUpperCase(post?.web3Preview?.protocol)} Post
                   </Typography>
                 </Grid>
               </Grid>
-            </Grid>
+            )}
           </YupContainer>
         </YupPageHeader>
         <YupContainer>

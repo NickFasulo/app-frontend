@@ -9,9 +9,7 @@ export const isValidEmail = (email) => EMAIL_RE.test(email);
 const MIRROR_REGEX =
   /^((http:|https:)([/][/]))?(www.)?[a-z]*?.mirror.xyz(\/)?[^/]*[/]?$/;
 
-export const windowExists = () => {
-  return typeof window !== 'undefined';
-};
+export const windowExists = () => typeof window !== 'undefined';
 
 export const getDefaultImage = () =>
   `https://app-gradients.s3.amazonaws.com/gradient${
@@ -40,9 +38,8 @@ export const isCollectionUrl = (url) => {
   return url.match(regExp);
 };
 
-export const generateCollectionUrl = (name, id) => {
-  return `/collections/${encodeURIComponent(name)}/${id}`;
-};
+export const generateCollectionUrl = (name, id) =>
+  `/collections/${encodeURIComponent(name)}/${id}`;
 
 export const isUrl = (url) => {
   try {
@@ -52,11 +49,8 @@ export const isUrl = (url) => {
   }
 };
 
-export const calc2dArrayItemsCount = (arr) => {
-  return arr
-    .map((item) => item.length || 0)
-    .reduce((prev, curr) => prev + curr, 0);
-};
+export const calc2dArrayItemsCount = (arr) =>
+  arr.map((item) => item.length || 0).reduce((prev, curr) => prev + curr, 0);
 
 export const formatDate = (dateStr) => moment(new Date(dateStr)).fromNow(true);
 
@@ -74,11 +68,8 @@ export const formatDecimal = (decimal) => numeral(decimal).format('0,0.00');
 export const formatWeight = (weight) =>
   numeral(Math.floor(weight)).format('0,0');
 
-const genRegEx = (arrOfURLs) => {
-  return new RegExp(
-    `^((http:|https:)([/][/]))?(www.)?(${arrOfURLs.join('|')})`
-  );
-};
+const genRegEx = (arrOfURLs) =>
+  new RegExp(`^((http:|https:)([/][/]))?(www.)?(${arrOfURLs.join('|')})`);
 
 export const isYoutubeUrl = (url) => {
   const ytPattern = genRegEx(['youtube.com/watch?', 'youtu.be/']);
@@ -95,3 +86,5 @@ export const summarizeContent = (content) =>
   (content || '').split(' ').slice(0, 20).join(' ');
 
 export const getAbsolutePath = (relPath) => `${webAppUrl}${relPath}`;
+export const firstLetterUpperCase = (str) =>
+  str && str.charAt(0).toUpperCase() + str.slice(1);
