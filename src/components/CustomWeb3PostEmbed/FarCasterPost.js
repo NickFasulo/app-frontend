@@ -46,7 +46,6 @@ function FarCasterPost({
   // else if(isReplyToReply){
   //   return <Reply></ReplyToReply>
   // }
-
   return (
     <Grid item="item" xs={12}>
       <Grid container="container" direction="row" spacing={1}>
@@ -67,6 +66,7 @@ function FarCasterPost({
                 handle={web3Preview.creator.handle}
                 address={web3Preview.creator.address}
                 protocol={web3Preview.protocol}
+                url={web3Preview.url}
                 tweetLink={id}
                 createdAt={web3Preview.createdAt}
               />

@@ -43,6 +43,7 @@ export default function PostChips({ post }) {
               }
               component="a"
               href={post.url}
+              target="_blank"
               clickable
             />
           </Grid>
