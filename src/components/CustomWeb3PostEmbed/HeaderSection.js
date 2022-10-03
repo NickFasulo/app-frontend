@@ -17,7 +17,8 @@ function HeaderSection({
   hideBird,
   replyParentUsername,
   createdAt,
-  meta
+  meta,
+  url
 }) {
   let web3PostIcon;
 
@@ -31,7 +32,7 @@ function HeaderSection({
     web3PostIcon = classes.web3PostIcon;
   }
 
-  let thumbnailLink;
+  let thumbnailLink = url;
 
   if (protocol === 'farcaster' && meta?.merkleRoot) {
     thumbnailLink = `farcaster://casts/${meta.merkleRoot}/${meta.merkleRoot}`;
