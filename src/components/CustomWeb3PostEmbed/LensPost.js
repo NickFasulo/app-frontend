@@ -67,6 +67,7 @@ function LensPost({
                 replyParentUsername={post.meta.replyParentUsername?.username}
                 tweetLink={post.id}
                 createdAt={post.createdAt}
+                url={url}
               />
             </Grid>
             <Grid item="item" xs={12}>
