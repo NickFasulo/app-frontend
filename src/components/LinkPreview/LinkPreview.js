@@ -58,13 +58,12 @@ const styles = (theme) => ({
     position: 'relative',
     textShadow: `0px 0px 5px ${theme.palette.M900}aa`,
     color: theme.palette.M100,
-    opacity: 0.9
+    opacity: 1
   },
   description: {
     position: 'relative',
     textShadow: `0px 0px 5px ${theme.palette.M900}88`,
-    margin: '0.25rem 0',
-    fontWeight: '300'
+    margin: '0.25rem 0'
   },
   url: {
     position: 'relative',
@@ -115,13 +114,13 @@ function LinkPreview({ image, title, description, url, classes }) {
             />
             <div className={classes.previewDataContainer}>
               <div className={classes.previewData}>
-                <Grid alignItems="center" container direction="row" spacing={2}>
-                  <Grid item xs={2} sm={1}>
+                <Grid alignItems="center" container direction="row" spacing={1}>
+                  <Grid item>
                     <YupImage
                       align="right"
                       src={faviconURL}
                       style={{
-                        width: '100%',
+                        width: `16px`,
                         aspectRatio: '1 / 1',
                         border: 'none',
                         borderRadius: 12
@@ -129,7 +128,7 @@ function LinkPreview({ image, title, description, url, classes }) {
                       target="_blank"
                     />
                   </Grid>
-                  <Grid item xs={10} sm={11}>
+                  <Grid item xs>
                     <Typography variant="h6" className={classes.title}>
                       <TruncateText lines={2}>{title}</TruncateText>
                     </Typography>

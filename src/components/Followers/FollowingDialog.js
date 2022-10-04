@@ -19,7 +19,7 @@ function FollowingDialog({ open, onClose, followings }) {
       >
         <Grid container direction="column">
           {!followings?.length ? (
-            <Typography variant="h5" style={{ textAlign: 'center' }}>
+            <Typography variant="h6" style={{ textAlign: 'center' }}>
               No users are being followed
             </Typography>
           ) : (
