@@ -126,7 +126,7 @@ export const linkMentions = (word, url) => {
     word = parseTags(word);
     return (
       <>
-        <Typography variant="body3" display="inline">
+        <Typography variant="body1" display="inline">
           {word}
         </Typography>
         <i> </i>

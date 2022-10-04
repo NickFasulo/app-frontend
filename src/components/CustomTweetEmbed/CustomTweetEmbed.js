@@ -138,7 +138,7 @@ const styles = (theme) => ({
     minHeight: 150,
     overflow: 'hidden',
     marginBottom: 25,
-    boxShadow: `0px 0px 3px #AAAAA0`,
+    boxShadow: `0px 0px 10px 0px ${theme.palette.M200}05, 0px 0px 0.75px  ${theme.palette.M200}05`,
     borderRadius: 20
   },
   LinkPreviewURL: {
@@ -156,13 +156,16 @@ const styles = (theme) => ({
   },
   LinkPreviewContentLarge: {
     flexDirection: 'column',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    padding: '8px'
   },
   LinkPreviewMainLarge: {
     overflow: 'hidden',
     marginBottom: 25,
     flexDirection: 'column',
-    boxShadow: `0px 0px 3px #AAAAA0`,
+    backgroundColor: `${theme.palette.M900}80`,
+    backdropFilter: 'blur(24px)',
+    boxShadow: `0px 0px 10px 0px ${theme.palette.M200}05, 0px 0px 0.75px  ${theme.palette.M200}05`,
     borderRadius: 12
   },
   LinkPreviewAnchor: {
