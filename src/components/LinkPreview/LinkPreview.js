@@ -46,7 +46,7 @@ const styles = (theme) => ({
   },
   previewContainer: {
     textDecoration: 'none',
-    padding: '8px',
+    padding: '8px 8px 0px 8px',
     color: theme.palette.M100,
     '&:visited': {
       textDecoration: 'none',
@@ -88,7 +88,7 @@ const styles = (theme) => ({
     bottom: 0,
     left: 0,
     padding: `${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(
-      3
+      1.5
     )} ${theme.spacing(2)}`,
     width: '100%'
   }
