@@ -161,7 +161,7 @@ const styles = (theme) => ({
   },
   LinkPreviewMainLarge: {
     overflow: 'hidden',
-    marginBottom: 25,
+    marginBottom: 12,
     flexDirection: 'column',
     backgroundColor: `${theme.palette.M900}80`,
     backdropFilter: 'blur(24px)',
