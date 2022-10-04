@@ -52,7 +52,7 @@ const styles = (theme) => ({
     margin: '0 0 5px 5px'
   },
   Skeleton: {
-    background: `${theme.palette.M800}AA`
+    background: `${theme.palette.M900}80`
   }
 });
 
