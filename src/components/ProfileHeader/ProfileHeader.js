@@ -86,7 +86,7 @@ function ProfileHeader({ profile, hidden }) {
         await apiSetETHAddress(ethAddress, {
           eosname: id,
           signature: authInfo.signature,
-          ethSignature:signature
+          ethSignature: signature
         });
       },
       {

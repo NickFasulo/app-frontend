@@ -48,12 +48,14 @@ function LinkPreview({ description, image, title, url, classes, size }) {
               : classes.LinkPreviewContent
           }
         >
-          <Typography variant='body1' className={classes.LinkPreviewTitle}>{title}</Typography>
-          <Typography variant='body2' className={classes.LinkPreviewText}>
+          <Typography variant="body1" className={classes.LinkPreviewTitle}>
+            {title}
+          </Typography>
+          <Typography variant="body2" className={classes.LinkPreviewText}>
             {`${description && description.substring(0, 50)}...` ||
               `${url && url.substring(0, 50)}...`}{' '}
           </Typography>
-          <Typography variant='bodyS2' className={classes.LinkPreviewURL}>
+          <Typography variant="bodyS2" className={classes.LinkPreviewURL}>
             {url && getDomain(url)}
           </Typography>
         </div>

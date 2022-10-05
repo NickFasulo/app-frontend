@@ -126,13 +126,13 @@ function PostCard({ post, withoutVotecomp, relevantLength }) {
                     </Grid>
                     <Grid item>
                       <Grid container direction="column" rowSpacing={2}>
-                          {people
-                            ?.slice(0, relevantLength || people.length)
-                            .map((follower) => (
-                             <Grid item>
+                        {people
+                          ?.slice(0, relevantLength || people.length)
+                          .map((follower) => (
+                            <Grid item>
                               <FollowUser noBorder userId={follower.userId} />
                             </Grid>
-                            ))}
+                          ))}
                       </Grid>
                     </Grid>
                   </Grid>
