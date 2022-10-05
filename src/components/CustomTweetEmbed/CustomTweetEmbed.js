@@ -105,7 +105,7 @@ const styles = (theme) => ({
     height: 100
   },
   mainReplyContainer: {
-    padding: '16px',
+    padding: '16px 16px 0',
     borderBottomLeftRadius: '12px',
     borderBottomRightRadius: '12px',
     textAlign: 'left',
