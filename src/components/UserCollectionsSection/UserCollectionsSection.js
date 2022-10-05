@@ -22,7 +22,7 @@ function UserCollectionsSection({ collections }) {
         sx={{ mb: 1.5 }}
       >
         <FlexBox alignItems="center">
-          <Typography variant="h5">Collections</Typography>
+          <Typography variant="h6">Collections</Typography>
           <Typography
             variant="body2"
             sx={{
