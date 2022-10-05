@@ -537,14 +537,14 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         }
       },
       h4: {
-        fontWeight: 400,
+        fontWeight: 500,
         fontSize: '2.125rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
         userSelect: 'none'
       },
       capsized_h4: {
-        fontWeight: 400,
+        fontWeight: 500,
         fontSize: '2.125rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
