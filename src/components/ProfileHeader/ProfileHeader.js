@@ -183,7 +183,7 @@ function ProfileHeader({ profile, hidden }) {
                 target="_blank"
               />
             )}
-            {!isMobile && isMyProfile && ethInfo?.address && (
+            {!isMobile && isMyProfile && !ethInfo?.address && (
               <Chip
                 icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
                 label={
