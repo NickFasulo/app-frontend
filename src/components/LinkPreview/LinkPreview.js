@@ -136,7 +136,7 @@ function LinkPreview({ image, title, description, url, classes }) {
                 </Grid>
                 <Grid direction="row" spacing={1}>
                   <Grid item xs>
-                    <TruncateText lines={4}>
+                    <TruncateText lines={3}>
                       <Typography
                         variant="body2"
                         className={classes.description}
