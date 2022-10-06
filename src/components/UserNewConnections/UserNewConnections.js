@@ -1,16 +1,17 @@
 import { List, Typography } from '@mui/material';
-import { useSearchPeople } from '../../hooks/queries';
+import { useSearchPeople, useYupAccount } from '../../hooks/queries';
 import UserRecommendedConnection from '../UserRecommendedConnection';
 
-function UserNewConnections({ profile }) {
-  const { data: people } = useSearchPeople(profile.bio, 6);
+function UserNewConnections({ username }) {
+  const { data: profile } = useYupAccount(username);
+  const { data: people } = useSearchPeople(profile?.bio, 6);
 
-  if (!people) return null;
+  if (!profile || !people) return null;
 
   return (
     <>
       <Typography variant="h5" sx={{ mb: 2 }}>
-        Who to follow
+        People to follow
       </Typography>
       <List
         sx={{
