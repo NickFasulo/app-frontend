@@ -19,6 +19,7 @@ import { useAppUtils } from '../contexts/AppUtilsContext';
 import Link from '../components/Link';
 import { landingPageUrl } from '../config';
 import { useAuthModal } from '../contexts/AuthModalContext';
+import YupHead from '../components/YupHead';
 
 export default function HomePage() {
   const { isMobile } = useDevice();
@@ -34,149 +35,158 @@ export default function HomePage() {
   }, []);
 
   return (
-    <YupContainer>
-      {isLoggedIn ? (
-        <HomePageUserHeader />
-      ) : (
-        <Grid container sx={{ mb: 3 }}>
-          <Grid
-            item
-            xs={12}
-            md={8}
-            lg={7}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: isMobile && 'center'
-            }}
-          >
-            <GradientTypography variant="h3">
-              Web3 Social Network
-            </GradientTypography>
-            <Typography variant="h6" sx={{ mb: 3 }}>
-              Aggregated & Curated Web3 Content
-            </Typography>
-            <FlexBox gap={2}>
-              <Button
-                variant="contained"
-                sx={{ width: 200 }}
-                onClick={openAuthModal}
-              >
-                Connect
-              </Button>
-              <Button
-                variant="outlined"
-                sx={{ width: 200 }}
-                component={Link}
-                href={landingPageUrl}
-                target="_blank"
-              >
-                Learn More
-              </Button>
-            </FlexBox>
-          </Grid>
-          {!isMobile && (
+    <>
+      <YupHead
+        title="Yup"
+        description="Social Network for Curators"
+        metaOg={{
+          site_name: 'Yup'
+        }}
+      />
+      <YupContainer>
+        {isLoggedIn ? (
+          <HomePageUserHeader />
+        ) : (
+          <Grid container sx={{ mb: 3 }}>
             <Grid
               item
-              md={4}
-              lg={5}
+              xs={12}
+              md={8}
+              lg={7}
               sx={{
                 display: 'flex',
-                justifyContent: 'flex-end'
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: isMobile && 'center'
               }}
             >
-              <lottie-player
-                src="https://assets4.lottiefiles.com/packages/lf20_whnsteqb.json"
-                background="transparent"
-                speed="1.01"
-                style={{
-                  height: 400
-                }}
-                loop
-                autoplay
-              />
-            </Grid>
-          )}
-        </Grid>
-      )}
-      <GridLayout
-        contentLeft={
-          <>
-            {!isMobile && (
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Feed
-              </Typography>
-            )}
-            <FeedHOC feedType="dailyhits" />
-          </>
-        }
-        contentRight={
-          <>
-            {isLoggedIn || !windowScrolled ? (
+              <GradientTypography variant="h3">
+                Web3 Social Network
+              </GradientTypography>
               <Typography variant="h6" sx={{ mb: 3 }}>
-                Explore Yup
+                Aggregated & Curated Web3 Content
               </Typography>
-            ) : (
-              <YupCard
-                display="flex"
-                alignItems="center"
-                flexWrap="wrap"
-                gap={2}
-              >
-                <Typography variant="h6">New to Yup?</Typography>
-                <FlexBox
-                  gap={2}
-                  flexGrow={1}
-                  justifyContent="flex-end"
-                  sx={(theme) => ({
-                    [theme.breakpoints.down('lg')]: {
-                      flexDirection: 'column'
-                    }
-                  })}
+              <FlexBox gap={2}>
+                <Button
+                  variant="contained"
+                  sx={{ width: 200 }}
+                  onClick={openAuthModal}
                 >
-                  <Button variant="contained" onClick={openAuthModal}>
-                    Connect
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    component={Link}
-                    href={landingPageUrl}
-                    target="_blank"
-                  >
-                    Learn More
-                  </Button>
-                </FlexBox>
-              </YupCard>
+                  Connect
+                </Button>
+                <Button
+                  variant="outlined"
+                  sx={{ width: 200 }}
+                  component={Link}
+                  href={landingPageUrl}
+                  target="_blank"
+                >
+                  Learn More
+                </Button>
+              </FlexBox>
+            </Grid>
+            {!isMobile && (
+              <Grid
+                item
+                md={4}
+                lg={5}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-end'
+                }}
+              >
+                <lottie-player
+                  src="https://assets4.lottiefiles.com/packages/lf20_whnsteqb.json"
+                  background="transparent"
+                  speed="1.01"
+                  style={{
+                    height: 400
+                  }}
+                  loop
+                  autoplay
+                />
+              </Grid>
             )}
-            {isLoggedIn && <PeopleToFollow />}
-            <FlexBox flexDirection="column" gap={2} sx={{ mt: 2 }}>
-              <YupLinkCard
-                to="/feed/farcaster"
-                title="Farcaster Feed"
-                description="Explorer Farcaster content"
-                image="/images/png/feed-farcaster.png"
-              />
-              <YupLinkCard
-                to="/feed/dailyhits"
-                title="Your Daily Hits"
-                description="See relevant content"
-                image={
-                  isLightMode
-                    ? '/images/png/feed-dailyhit.png'
-                    : '/images/png/feed-dailyhit-dark.png'
-                }
-              />
-              <YupLinkCard
-                to="/leaderboard?site=all&subject=collections&category=overall"
-                title="Collections"
-                description="See the top collections made by Yup users"
-                image="/images/png/collections.png"
-              />
-            </FlexBox>
-          </>
-        }
-      />
-    </YupContainer>
+          </Grid>
+        )}
+        <GridLayout
+          contentLeft={
+            <>
+              {!isMobile && (
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Feed
+                </Typography>
+              )}
+              <FeedHOC feedType="dailyhits" />
+            </>
+          }
+          contentRight={
+            <>
+              {isLoggedIn || !windowScrolled ? (
+                <Typography variant="h6" sx={{ mb: 3 }}>
+                  Explore Yup
+                </Typography>
+              ) : (
+                <YupCard
+                  display="flex"
+                  alignItems="center"
+                  flexWrap="wrap"
+                  gap={2}
+                >
+                  <Typography variant="h6">New to Yup?</Typography>
+                  <FlexBox
+                    gap={2}
+                    flexGrow={1}
+                    justifyContent="flex-end"
+                    sx={(theme) => ({
+                      [theme.breakpoints.down('lg')]: {
+                        flexDirection: 'column'
+                      }
+                    })}
+                  >
+                    <Button variant="contained" onClick={openAuthModal}>
+                      Connect
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      component={Link}
+                      href={landingPageUrl}
+                      target="_blank"
+                    >
+                      Learn More
+                    </Button>
+                  </FlexBox>
+                </YupCard>
+              )}
+              {isLoggedIn && <PeopleToFollow />}
+              <FlexBox flexDirection="column" gap={2} sx={{ mt: 2 }}>
+                <YupLinkCard
+                  to="/feed/farcaster"
+                  title="Farcaster Feed"
+                  description="Explorer Farcaster content"
+                  image="/images/png/feed-farcaster.png"
+                />
+                <YupLinkCard
+                  to="/feed/dailyhits"
+                  title="Your Daily Hits"
+                  description="See relevant content"
+                  image={
+                    isLightMode
+                      ? '/images/png/feed-dailyhit.png'
+                      : '/images/png/feed-dailyhit-dark.png'
+                  }
+                />
+                <YupLinkCard
+                  to="/leaderboard?site=all&subject=collections&category=overall"
+                  title="Collections"
+                  description="See the top collections made by Yup users"
+                  image="/images/png/collections.png"
+                />
+              </FlexBox>
+            </>
+          }
+        />
+      </YupContainer>
+    </>
   );
 }
