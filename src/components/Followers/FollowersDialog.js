@@ -20,7 +20,7 @@ function FollowersDialog({ open, onClose, followers }) {
       >
         <Grid container direction="column">
           {!followers?.length ? (
-            <Typography variant="subtitle1">No followers</Typography>
+            <Typography variant="h6">No followers</Typography>
           ) : (
             followers.map((follower) => <FollowUser userId={follower} />)
           )}

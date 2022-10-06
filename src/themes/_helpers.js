@@ -153,10 +153,10 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
           root: {
             borderRadius: '100px',
             border: 'none',
-            boxShadow: `8px 8px 30px 0 ${palette.M100}04, -8px -8px 15px 0 ${palette.M100}02, inset 8px 8px 30px 0 ${palette.M100}04, inset -8px -8px 15px 0 ${palette.M100}02`,
+            boxShadow: `8px 8px 10px 0 ${palette.M100}04, -3px -3px 5px 0 ${palette.M100}01, inset 4px 4px 4px 0 ${palette.M100}04, inset -8px -8px 5px 0 ${palette.M100}002`,
             '&:hover': {
               boxShadow:
-                '-8px -8px 30px 0 rgba(0, 0, 0, 0.04), 8px 8px 15px 0 rgba(170, 170, 170, 0.02), inset -8px -8px 30px 0 rgba(0, 0, 0, 0.04), inset 8px 8px 15px 0 rgba(170, 170, 170, 0.02)',
+                '-3px -3px 10px 0 rgba(0, 0, 0, 0.01), 8px 8px 5px 0 rgba(170, 170, 170, 0.001), inset -4px -4px 10px 0 rgba(0, 0, 0, 0.02), inset 8px 8px 5px 0 rgba(170, 170, 170, 0.001)',
               backgroundColor: 'inherit'
             }
           }
@@ -425,11 +425,11 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       },
       MuiSkeleton: {
         styleOverrides: {
-          background: `${palette.M850}55`,
+          backgroundColor: `${palette.M900}55`,
           wave: {
-            background: `${palette.M700}55`,
+            background: `${palette.M900}55`,
             '&::after': {
-              background: `linear-gradient(90deg, transparent, ${palette.M800}, transparent)`
+              background: `linear-gradient(90deg, transparent, ${palette.M900}80, transparent)`
             }
           }
         }
@@ -537,14 +537,14 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         }
       },
       h4: {
-        fontWeight: 400,
+        fontWeight: 500,
         fontSize: '2.125rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
         userSelect: 'none'
       },
       capsized_h4: {
-        fontWeight: 400,
+        fontWeight: 500,
         fontSize: '2.125rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,

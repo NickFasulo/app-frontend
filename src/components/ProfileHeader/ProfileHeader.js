@@ -47,7 +47,7 @@ function ProfileHeader({ profile, hidden }) {
     weight: influence,
     balance
   } = profile;
-  const { isLoggedIn, name: authName } = useAuth();
+  const { isLoggedIn, authInfo, name: authName } = useAuth();
   const { data: followings = [] } = useFollowings(id);
   const { data: followers = [] } = useFollowers(id);
   const { data: likeCount = 0 } = useUserLikes(id);
@@ -85,7 +85,8 @@ function ProfileHeader({ profile, hidden }) {
 
         await apiSetETHAddress(ethAddress, {
           eosname: id,
-          signature
+          signature: authInfo.signature,
+          ethSignature: signature
         });
       },
       {

@@ -80,7 +80,7 @@ function PostCard({ post, withoutVotecomp, relevantLength }) {
     <Card>
       <Grid container direction="column">
         <Grid item>
-          <Grid container direction="column" rowSpacing={4}>
+          <Grid container direction="column" rowSpacing={2}>
             {!withoutVotecomp && (
               <Grid item>
                 <Grid container justifyContent="space-between">
@@ -113,23 +113,27 @@ function PostCard({ post, withoutVotecomp, relevantLength }) {
 
                         }} /> */}
             <Grid item>
-              <Grid container direction="column" spacing={3}>
+              <Grid container direction="column" rowSpacing={2}>
                 <Grid item>
                   <PostChips post={post} />
                 </Grid>
 
                 <YupDivider item />
                 <Grid item>
-                  <Grid container direction="column" spacing={2}>
+                  <Grid container direction="column" rowSpacing={2}>
                     <Grid item>
                       <Typography variant="h6">Relevant People</Typography>
                     </Grid>
                     <Grid item>
-                      {people
-                        ?.slice(0, relevantLength || people.length)
-                        .map((follower) => (
-                          <FollowUser noBorder userId={follower.userId} />
-                        ))}
+                      <Grid container direction="column" rowSpacing={2}>
+                        {people
+                          ?.slice(0, relevantLength || people.length)
+                          .map((follower) => (
+                            <Grid item>
+                              <FollowUser noBorder userId={follower.userId} />
+                            </Grid>
+                          ))}
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>

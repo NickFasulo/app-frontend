@@ -100,7 +100,7 @@ function FullArticle({ title, description, url, classes, writerENS, postid }) {
                 <Grid item xs={10} sm={11}>
                   <Grid container direction="row">
                     <Grid item xs={12}>
-                      <TruncateText variant="h4" lines={2}>
+                      <TruncateText variant="h4" lines={3}>
                         {title.split(/[|]|[—]+/g, 1)}
                       </TruncateText>
                     </Grid>

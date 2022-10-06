@@ -28,7 +28,7 @@ const styles = (theme) => ({
     color: theme.palette.M300
   },
   Skeleton: {
-    background: `${theme.palette.M600}AA`
+    background: `${theme.palette.M900}80`
   }
 });
 
