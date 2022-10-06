@@ -130,7 +130,9 @@ function LinkPreview({ image, title, description, url, classes }) {
                   </Grid>
                   <Grid item xs>
                     <Typography variant="h6" className={classes.title}>
-                      <TruncateText variant="h6" lines={2}>{title}</TruncateText>
+                      <TruncateText variant="h6" lines={2}>
+                        {title}
+                      </TruncateText>
                     </Typography>
                   </Grid>
                 </Grid>
