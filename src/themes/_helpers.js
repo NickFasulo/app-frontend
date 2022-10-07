@@ -187,7 +187,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         styleOverrides: {
           root: {
             textTransform: 'capitalize',
-            fontSize: '1.2rem',
+            fontSize: '0.9375rem',
             '&.Mui-selected': {
               color: palette.M100
             }
