@@ -50,7 +50,7 @@ function UserAccountPage() {
     useYupAccount(username);
   const { isLoading: isFetchingCollections, data: collections = [] } =
     useUserCollections(profile?._id);
-    console.log({isFetchingCollections})
+  console.log({ isFetchingCollections });
   const { windowScrolled } = useAppUtils();
   const { username: loggedInUsername } = useAuth();
   const [eventSent, setEventSent] = useState(false);
@@ -193,7 +193,10 @@ function UserAccountPage() {
               }
               contentRight={
                 (isFetchingCollections || collections.length) > 0 ? (
-                  <UserCollectionsSection isFetchingCollections={isFetchingCollections} collections={collections} />
+                  <UserCollectionsSection
+                    isFetchingCollections={isFetchingCollections}
+                    collections={collections}
+                  />
                 ) : (
                   <UserNewConnections username={username} />
                 )
