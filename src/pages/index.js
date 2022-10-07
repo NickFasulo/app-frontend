@@ -59,37 +59,36 @@ export default function HomePage() {
                 justifyContent: 'center',
                 alignItems: isMobile && 'center'
               }}
-              >
-                <Grid container direction='column' rowSpacing={2}>
-                  <Grid item>
-                    <GradientTypography variant="capsized_h2">
-                      Web3 Social Network
-                    </GradientTypography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="capsized_body2" sx={{ mb: 3 }}>
-                      Aggregated content from your friends and favorite creators on top platforms. Curate and share across the web. Earn money and clout for your taste
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <FlexBox gap={2} sx={{width: 240}}>
-                      <Button
-                        variant="contained"
-                        onClick={openAuthModal}
-                      >
-                        Connect
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        component={Link}
-                        href={landingPageUrl}
-                        target="_blank"
-                      >
-                        Learn More
-                      </Button>
-                    </FlexBox>
-                  </Grid>
+            >
+              <Grid container direction="column" rowSpacing={2}>
+                <Grid item>
+                  <GradientTypography variant="capsized_h2">
+                    Web3 Social Network
+                  </GradientTypography>
                 </Grid>
+                <Grid item>
+                  <Typography variant="capsized_body2" sx={{ mb: 3 }}>
+                    Aggregated content from your friends and favorite creators
+                    on top platforms. Curate and share across the web. Earn
+                    money and clout for your taste
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <FlexBox gap={2} sx={{ width: 240 }}>
+                    <Button variant="contained" onClick={openAuthModal}>
+                      Connect
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      component={Link}
+                      href={landingPageUrl}
+                      target="_blank"
+                    >
+                      Learn More
+                    </Button>
+                  </FlexBox>
+                </Grid>
+              </Grid>
             </Grid>
             {!isMobile && (
               <Grid
