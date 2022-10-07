@@ -4,8 +4,10 @@ import { FlexBox } from '../styles';
 import CollectionCard from '../CollectionCard';
 import { USER_COLLECTION_PAGE_SIZE } from '../../config';
 import CollectionPagination from './CollectionPagination';
+import UserCollectionSkeleton from '../Skeletons/UserCollectionSkeleton';
 
-function UserCollectionsSection({ collections }) {
+function UserCollectionsSection({ isFetchingCollections, collections }) {
+  if (isFetchingCollections) return <UserCollectionSkeleton />;
   const [page, setPage] = useState(0);
 
   const pageStartIndex = page * USER_COLLECTION_PAGE_SIZE;
