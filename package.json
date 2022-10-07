@@ -27,6 +27,7 @@
     "@fortawesome/pro-regular-svg-icons": "^6.2.0",
     "@fortawesome/pro-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
+    "@lottiefiles/lottie-player": "^1.5.7",
     "@mui/icons-material": "^5.6.2",
     "@mui/lab": "^5.0.0-alpha.78",
     "@mui/material": "^5.6.2",
