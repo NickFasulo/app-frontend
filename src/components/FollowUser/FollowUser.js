@@ -24,7 +24,7 @@ function FollowUser({ userId, noBorder }) {
         {getInitial(username)}
       </ProfilePicture>
       <Link
-        href={`/accounts/${username}`}
+        href={`/account/${username}`}
         style={{
           flexGrow: 1
         }}
