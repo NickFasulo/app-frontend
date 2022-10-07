@@ -122,7 +122,7 @@ function PostCard({ post, withoutVotecomp, relevantLength }) {
                 <Grid item>
                   <Grid container direction="column" rowSpacing={2}>
                     <Grid item>
-                      <Typography variant="h6">Relevant People</Typography>
+                      <Typography variant="capsized_subtitle2">Relevant People</Typography>
                     </Grid>
                     <Grid item>
                       <Grid container direction="column" rowSpacing={2}>

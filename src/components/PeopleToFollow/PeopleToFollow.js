@@ -13,7 +13,7 @@ export default function PeopleToFollow() {
 
   return (
     <YupCard>
-      <Typography variant="h6" sx={{ mb: 2 }}>
+      <Typography variant="subtitle1" sx={{ mb: 2 }}>
         People to Follow
       </Typography>
       <FlexBox flexDirection="column" gap={0.5}>
