@@ -3,7 +3,6 @@ import YupImage from '../YupImage';
 import { convertTokenBalance } from '../../utils/helpers';
 
 const TokenRoot = styled('div')(({ theme }) => ({
-  border: `solid 1px ${theme.palette.M750}`,
   backgroundColor: `${theme.palette.M900}88`,
   padding: theme.spacing(2.5),
   display: 'flex',

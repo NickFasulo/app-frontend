@@ -195,7 +195,7 @@ function UserAccountPage() {
                 (isFetchingCollections || collections.length) > 0 ? (
                   <UserCollectionsSection isFetchingCollections={isFetchingCollections} collections={collections} />
                 ) : (
-                  <UserNewConnections profile={profile} />
+                  <UserNewConnections username={username} />
                 )
               }
             />
@@ -208,7 +208,7 @@ function UserAccountPage() {
         )}
         {selectedTab === PROFILE_TAB_IDS.PEOPLE && (
           <YupContainer sx={{ pt: 3 }}>
-            <UserNewConnections profile={profile} />
+            <UserNewConnections username={username} />
           </YupContainer>
         )}
         {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (

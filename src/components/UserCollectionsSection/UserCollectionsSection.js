@@ -21,10 +21,10 @@ function UserCollectionsSection({ isFetchingCollections,  collections }) {
       <FlexBox
         justifyContent="space-between"
         alignItems="center"
-        sx={{ mb: 2.5 }}
+        sx={{ mb: 1.5 }}
       >
         <FlexBox alignItems="center">
-          <Typography variant="h5">Collections</Typography>
+          <Typography variant="h6">Collections</Typography>
           <Typography
             variant="body2"
             sx={{

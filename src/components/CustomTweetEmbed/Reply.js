@@ -129,7 +129,12 @@ function Reply({ tweetData, classes }) {
   }
 
   const text = parseText(replyStatusText);
-  const replyTweetText = text.split(' ').map((string) => linkMentions(string));
+  const replyTweetText = text.split('\n').map((line, idx) => (
+    <>
+      {idx > 0 && <br />}
+      {line.split(' ').map((string) => linkMentions(string))}
+    </>
+  ));
 
   // REPLY CUSTOM HEADER STYLING CONFIG
   const { userAvatar } = classes;
@@ -317,16 +322,26 @@ function Reply({ tweetData, classes }) {
                     </Link>
                   </Grid>
                   <Grid item>
-                    {previewData && !replyHasMedia && !mediaURL && (
+                    {entitiesURLS && !replyHasMedia && !mediaURL && (
                       <Grid>
-                        <LinkPreview
-                          size="large"
-                          classes={classes}
-                          description={previewData && previewData.description}
-                          image={previewData && previewData.img}
-                          title={previewData && previewData.title}
-                          url={url}
-                        />
+                        {previewData ? (
+                          <LinkPreview
+                            size="large"
+                            classes={classes}
+                            description={previewData && previewData.description}
+                            image={previewData && previewData.img}
+                            title={previewData && previewData.title}
+                            url={entities.urls[0].expanded_url}
+                          />
+                        ) : (
+                          <Link
+                            target="_blank"
+                            href={entities.urls[0].expanded_url}
+                            rel="noreferrer"
+                          >
+                            {entities.urls[0].expanded_url}
+                          </Link>
+                        )}
                       </Grid>
                     )}
                     {hasPhoto && mediaURL ? (
