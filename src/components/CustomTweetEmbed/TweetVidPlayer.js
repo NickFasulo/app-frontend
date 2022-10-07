@@ -1,15 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactPlayer from 'react-player/lazy';
+import { styled } from '@mui/material';
+
+const StyledReactPlayer = styled(ReactPlayer)(({ theme }) => ({
+  '& video': {
+    width: '100%',
+    height: 'auto',
+    maxHeight: 400,
+    borderRadius: 12
+  }
+}));
 
 function TweetVidPlayer({ url }) {
   if (!url) return null;
   return (
-    <ReactPlayer
+    <StyledReactPlayer
       controls
       url={url}
       width="100%"
-      style={{ borderRadius: 12, overflow: 'hidden', maxHeight: '400px' }}
+      height="auto"
     />
   );
 }
