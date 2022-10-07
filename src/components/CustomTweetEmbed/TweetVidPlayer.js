@@ -14,14 +14,7 @@ const StyledReactPlayer = styled(ReactPlayer)(({ theme }) => ({
 
 function TweetVidPlayer({ url }) {
   if (!url) return null;
-  return (
-    <StyledReactPlayer
-      controls
-      url={url}
-      width="100%"
-      height="auto"
-    />
-  );
+  return <StyledReactPlayer controls url={url} width="100%" height="auto" />;
 }
 TweetVidPlayer.propTypes = {
   url: PropTypes.string.isRequired
