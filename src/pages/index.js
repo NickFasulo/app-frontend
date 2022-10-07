@@ -59,31 +59,37 @@ export default function HomePage() {
                 justifyContent: 'center',
                 alignItems: isMobile && 'center'
               }}
-            >
-              <GradientTypography variant="h3">
-                Web3 Social Network
-              </GradientTypography>
-              <Typography variant="h6" sx={{ mb: 3 }}>
-                Aggregated & Curated Web3 Content
-              </Typography>
-              <FlexBox gap={2}>
-                <Button
-                  variant="contained"
-                  sx={{ width: 200 }}
-                  onClick={openAuthModal}
-                >
-                  Connect
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{ width: 200 }}
-                  component={Link}
-                  href={landingPageUrl}
-                  target="_blank"
-                >
-                  Learn More
-                </Button>
-              </FlexBox>
+              >
+                <Grid container direction='column' rowSpacing={2}>
+                  <Grid item>
+                    <GradientTypography variant="capsized_h2">
+                      Web3 Social Network
+                    </GradientTypography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="capsized_body2" sx={{ mb: 3 }}>
+                      Aggregated content from your friends and favorite creators on top platforms. Curate and share across the web. Earn money and clout for your taste
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <FlexBox gap={2} sx={{width: 240}}>
+                      <Button
+                        variant="contained"
+                        onClick={openAuthModal}
+                      >
+                        Connect
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        component={Link}
+                        href={landingPageUrl}
+                        target="_blank"
+                      >
+                        Learn More
+                      </Button>
+                    </FlexBox>
+                  </Grid>
+                </Grid>
             </Grid>
             {!isMobile && (
               <Grid
@@ -123,7 +129,7 @@ export default function HomePage() {
           contentRight={
             <>
               {isLoggedIn || !windowScrolled ? (
-                <Typography variant="h6" sx={{ mb: 3 }}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
                   Explore Yup
                 </Typography>
               ) : (

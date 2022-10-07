@@ -479,12 +479,12 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         userSelect: 'none',
         '&::before': {
           content: '""',
-          marginBottom: '-0.1665em',
+          marginBottom: '-0.1665rem',
           display: 'table'
         },
         '&::after': {
           content: '""',
-          marginTop: '-0.1835em',
+          marginTop: '-0.1835rem',
           display: 'table'
         }
       },
@@ -503,12 +503,12 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         userSelect: 'none',
         '&::before': {
           content: '""',
-          marginBottom: '-0.45em',
+          marginBottom: '-0.45rem',
           display: 'table'
         },
         '&::after': {
           content: '""',
-          marginTop: '-0.26em',
+          marginTop: '-0.26rem',
           display: 'table'
         }
       },
