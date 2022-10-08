@@ -21,20 +21,24 @@ export default function HomePageUserHeader() {
       <GradientTypography variant="h3">
         {fullname || username}
       </GradientTypography>
-      <FlexBox alignItems="center">
-        <Typography variant="body2" sx={{ mr: 2 }}>
+      <FlexBox alignItems="center" gap={2}>
+        <FlexBox alignmItems="center">
           <YupCountUp
             end={score || 1}
-            duration={2}
+            duration={0.5}
             useEasing={false}
             color={userColor}
           />
-          Yup Score
-        </Typography>
-        <YupLogoEmoji />
-        <Typography variant="body2" sx={{ ml: 1, color: '' }}>
-          {formatDecimal(balance?.YUP || 0)}
-        </Typography>
+          <Typography variant="body2">
+            Yup Score
+          </Typography>
+        </FlexBox>
+        <FlexBox alignItems="center">
+          <YupLogoEmoji />
+          <Typography variant="body2" sx={{ ml: 1, color: '' }}>
+            {formatDecimal(balance?.YUP || 0)}
+          </Typography>
+        </FlexBox>
       </FlexBox>
     </FlexBox>
   );

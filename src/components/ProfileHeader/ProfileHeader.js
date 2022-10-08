@@ -213,24 +213,32 @@ function ProfileHeader({ profile, hidden }) {
               />
             )}
           </FlexBox>
-          <FlexBox alignItems="center">
-            <Typography variant="body2" sx={{ mr: 2 }}>
-              <YupCountUp
-                end={yupScore}
-                duration={2}
-                useEasing={false}
-                color={userColor}
-              />
-              Yup Score
-            </Typography>
-            <Typography variant="body2" sx={{ mr: 2 }}>
-              <YupCountUp end={influence} duration={2} useEasing={false} />
-              Influence
-            </Typography>
-            <YupLogoEmoji />
-            <Typography variant="body2" sx={{ ml: 1, color: '' }}>
-              {formatDecimal(balance?.YUP || 0)}
-            </Typography>
+          <FlexBox alignItems="center" gap={2}>
+            <FlexBox alignItems="center">
+              <Typography variant="body2" sx={{ mr: 1 }}>
+                <YupCountUp
+                  end={yupScore}
+                  duration={0.5}
+                  useEasing={false}
+                  color={userColor}
+                />
+              </Typography>
+              <Typography variant="body2" sx={{ mr: 2 }}>
+                Yup Score
+              </Typography>
+            </FlexBox>
+            <FlexBox alignItems="center">
+              <Typography variant="body2" sx={{ mr: 0.5 }} >
+                <YupCountUp end={influence} duration={0.5} useEasing={false} />
+                Influence
+              </Typography>
+            </FlexBox>
+            <FlexBox alignItems="center">
+              <YupLogoEmoji />
+              <Typography variant="body2" sx={{ ml: 1, color: '' }}>
+                {formatDecimal(balance?.YUP || 0)}
+              </Typography>
+            </FlexBox>
           </FlexBox>
           {!isDesktop && <FollowerSection />}
         </FlexBox>
