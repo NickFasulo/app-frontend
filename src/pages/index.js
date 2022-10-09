@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography, Grow, Zoom } from '@mui/material';
 import { useEffect } from 'react';
 import {
   FlexBox,
@@ -61,32 +61,42 @@ export default function HomePage() {
               }}
             >
               <Grid container direction="column" rowSpacing={2}>
+                  <Grid item>
+                    <Zoom in timeout={500}>
+                      <GradientTypography variant="capsized_h2">
+                        Web3 Social Network
+                      </GradientTypography>
+                    </Zoom>
+                  </Grid>
+                  <Grid item>
+                    <Zoom in timeout={700}>
+                      <Typography variant="capsized_body2" sx={{ mb: 3 }}>
+                        Aggregated content from your friends and favorite creators
+                        on top platforms. Curate and share across the web. Earn
+                        money and clout for your taste
+                      </Typography>
+                    </Zoom>
+                  </Grid>
                 <Grid item>
-                  <GradientTypography variant="capsized_h2">
-                    Web3 Social Network
-                  </GradientTypography>
-                </Grid>
-                <Grid item>
-                  <Typography variant="capsized_body2" sx={{ mb: 3 }}>
-                    Aggregated content from your friends and favorite creators
-                    on top platforms. Curate and share across the web. Earn
-                    money and clout for your taste
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <FlexBox gap={2} sx={{ width: 240 }}>
-                    <Button variant="contained" onClick={openAuthModal}>
-                      Connect
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      component={Link}
-                      href={landingPageUrl}
-                      target="_blank"
-                    >
-                      Learn More
-                    </Button>
-                  </FlexBox>
+                <Zoom in timeout={1000}>
+                    <FlexBox gap={2} sx={{ width: 240 }}>
+                      <Zoom in timeout={600}>
+                        <Button variant="contained" onClick={openAuthModal}>
+                          Connect
+                        </Button>
+                      </Zoom>
+                      <Zoom in timeout={700}>
+                        <Button
+                          variant="outlined"
+                          component={Link}
+                          href={landingPageUrl}
+                          target="_blank"
+                        >
+                          Learn More
+                        </Button>
+                      </Zoom>
+                    </FlexBox>
+                  </Zoom>
                 </Grid>
               </Grid>
             </Grid>
@@ -99,17 +109,19 @@ export default function HomePage() {
                   display: 'flex',
                   justifyContent: 'flex-end'
                 }}
-              >
-                <lottie-player
-                  src="https://assets4.lottiefiles.com/packages/lf20_whnsteqb.json"
-                  background="transparent"
-                  speed="1.01"
-                  style={{
-                    height: 400
-                  }}
-                  loop
-                  autoplay
-                />
+                >
+                <Zoom in timeout={1400}>
+                  <lottie-player
+                    src="https://assets4.lottiefiles.com/packages/lf20_whnsteqb.json"
+                    background="transparent"
+                    speed="1.01"
+                    style={{
+                      height: 400
+                    }}
+                    loop
+                    autoplay
+                  />
+                </Zoom>
               </Grid>
             )}
           </Grid>
@@ -132,61 +144,69 @@ export default function HomePage() {
                   Explore Yup
                 </Typography>
               ) : (
-                <YupCard
-                  display="flex"
-                  alignItems="center"
-                  flexWrap="wrap"
-                  gap={2}
-                >
-                  <Typography variant="h6">New to Yup?</Typography>
-                  <FlexBox
+                <Grow in out>
+                  <YupCard
+                    display="flex"
+                    alignItems="center"
+                    flexWrap="wrap"
                     gap={2}
-                    flexGrow={1}
-                    justifyContent="flex-end"
-                    sx={(theme) => ({
-                      [theme.breakpoints.down('lg')]: {
-                        flexDirection: 'column'
-                      }
-                    })}
                   >
-                    <Button variant="contained" onClick={openAuthModal}>
-                      Connect
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      component={Link}
-                      href={landingPageUrl}
-                      target="_blank"
+                    <Typography variant="h6">New to Yup?</Typography>
+                    <FlexBox
+                      gap={2}
+                      flexGrow={1}
+                      justifyContent="flex-end"
+                      sx={(theme) => ({
+                        [theme.breakpoints.down('lg')]: {
+                          flexDirection: 'column'
+                        }
+                      })}
                     >
-                      Learn More
-                    </Button>
-                  </FlexBox>
-                </YupCard>
+                      <Button variant="contained" onClick={openAuthModal}>
+                        Connect
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        component={Link}
+                        href={landingPageUrl}
+                        target="_blank"
+                      >
+                        Learn More
+                      </Button>
+                    </FlexBox>
+                  </YupCard>
+                </Grow>
               )}
               {isLoggedIn && <PeopleToFollow />}
               <FlexBox flexDirection="column" gap={2} sx={{ mt: 2 }}>
-                <YupLinkCard
-                  to="/feed/farcaster"
-                  title="Farcaster Feed"
-                  description="Explorer Farcaster content"
-                  image="/images/png/feed-farcaster.png"
-                />
-                <YupLinkCard
-                  to="/feed/dailyhits"
-                  title="Your Daily Hits"
-                  description="See relevant content"
-                  image={
-                    isLightMode
-                      ? '/images/png/feed-dailyhit.png'
-                      : '/images/png/feed-dailyhit-dark.png'
-                  }
-                />
-                <YupLinkCard
-                  to="/leaderboard?site=all&subject=collections&category=overall"
-                  title="Collections"
-                  description="See the top collections made by Yup users"
-                  image="/images/png/collections.png"
-                />
+                <Zoom in timeout={700}>
+                  <YupLinkCard
+                    to="/feed/farcaster"
+                    title="Farcaster Feed"
+                    description="Explorer Farcaster content"
+                    image="/images/png/feed-farcaster.png"
+                  />
+                </Zoom>
+                <Zoom in timeout={800}>
+                  <YupLinkCard
+                    to="/feed/dailyhits"
+                    title="Your Daily Hits"
+                    description="See relevant content"
+                    image={
+                      isLightMode
+                        ? '/images/png/feed-dailyhit.png'
+                        : '/images/png/feed-dailyhit-dark.png'
+                    }
+                  />
+                </Zoom>
+                <Zoom in timeout={900}>
+                  <YupLinkCard
+                    to="/leaderboard?site=all&subject=collections&category=overall"
+                    title="Collections"
+                    description="See the top collections made by Yup users"
+                    image="/images/png/collections.png"
+                  />
+                </Zoom>
               </FlexBox>
             </>
           }
