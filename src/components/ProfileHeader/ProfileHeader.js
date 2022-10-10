@@ -164,7 +164,7 @@ function ProfileHeader({ profile, hidden }) {
               {isLoggedIn && !isMyProfile && <FollowButton userId={id} />}
             </FlexBox>
           </FlexBox>
-          <FlexBox gap={1.5} flexDirection="column" >
+          <FlexBox gap={1.5} flexDirection="column">
             <FlexBox columnGap={1}>
               {!isMobile && (
                 <Chip
@@ -229,10 +229,13 @@ function ProfileHeader({ profile, hidden }) {
                 </Typography>
               </FlexBox>
               <FlexBox alignItems="center">
-                <YupCountUp end={influence} duration={0.5} useEasing={false} sx={{ mr: 0.75 }} />
-                <Typography variant="body2">
-                  Influence
-                </Typography>
+                <YupCountUp
+                  end={influence}
+                  duration={0.5}
+                  useEasing={false}
+                  sx={{ mr: 0.75 }}
+                />
+                <Typography variant="body2">Influence</Typography>
               </FlexBox>
               <FlexBox alignItems="center">
                 <YupLogoEmoji />
@@ -243,7 +246,7 @@ function ProfileHeader({ profile, hidden }) {
             </FlexBox>
           </FlexBox>
           {!isDesktop && <FollowerSection />}
-      </FlexBox>
+        </FlexBox>
       </FlexBox>
       <EditProfile
         open={editModalOpen}
