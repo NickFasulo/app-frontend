@@ -61,34 +61,34 @@ export default function HomePage() {
               }}
             >
               <Grid container direction="column" rowSpacing={2}>
-                  <Grid item>
-                    <Zoom in timeout={500}>
-                      <GradientTypography variant="capsized_h2">
-                        Web3 Social Network
-                      </GradientTypography>
-                    </Zoom>
-                  </Grid>
-                  <Grid item>
-                      <Typography variant="capsized_body2" sx={{ mb: 3 }}>
-                        Aggregated content from your friends and favorite creators
-                        on top platforms. Curate and share across the web. Earn
-                        money and clout for your taste
-                      </Typography>
-                  </Grid>
                 <Grid item>
-                    <FlexBox gap={2} sx={{ width: 240 }}>
-                        <Button variant="contained" onClick={openAuthModal}>
-                          Connect
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          component={Link}
-                          href={landingPageUrl}
-                          target="_blank"
-                        >
-                          Learn More
-                        </Button>
-                    </FlexBox>
+                  <Zoom in timeout={500}>
+                    <GradientTypography variant="capsized_h2">
+                      Web3 Social Network
+                    </GradientTypography>
+                  </Zoom>
+                </Grid>
+                <Grid item>
+                  <Typography variant="capsized_body2" sx={{ mb: 3 }}>
+                    Aggregated content from your friends and favorite creators
+                    on top platforms. Curate and share across the web. Earn
+                    money and clout for your taste
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <FlexBox gap={2} sx={{ width: 240 }}>
+                    <Button variant="contained" onClick={openAuthModal}>
+                      Connect
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      component={Link}
+                      href={landingPageUrl}
+                      target="_blank"
+                    >
+                      Learn More
+                    </Button>
+                  </FlexBox>
                 </Grid>
               </Grid>
             </Grid>
@@ -101,7 +101,7 @@ export default function HomePage() {
                   display: 'flex',
                   justifyContent: 'flex-end'
                 }}
-                >
+              >
                 <Zoom in timeout={1400}>
                   <lottie-player
                     src="https://assets4.lottiefiles.com/packages/lf20_whnsteqb.json"
@@ -171,28 +171,28 @@ export default function HomePage() {
               )}
               {isLoggedIn && <PeopleToFollow />}
               <FlexBox flexDirection="column" gap={2} sx={{ mt: 2 }}>
-                  <YupLinkCard
-                    to="/feed/farcaster"
-                    title="Farcaster Feed"
-                    description="Explorer Farcaster content"
-                    image="/images/png/feed-farcaster.png"
-                  />
-                  <YupLinkCard
-                    to="/feed/dailyhits"
-                    title="Your Daily Hits"
-                    description="See relevant content"
-                    image={
-                      isLightMode
-                        ? '/images/png/feed-dailyhit.png'
-                        : '/images/png/feed-dailyhit-dark.png'
-                    }
-                  />
-                  <YupLinkCard
-                    to="/leaderboard?site=all&subject=collections&category=overall"
-                    title="Collections"
-                    description="See the top collections made by Yup users"
-                    image="/images/png/collections.png"
-                  />
+                <YupLinkCard
+                  to="/feed/farcaster"
+                  title="Farcaster Feed"
+                  description="Explorer Farcaster content"
+                  image="/images/png/feed-farcaster.png"
+                />
+                <YupLinkCard
+                  to="/feed/dailyhits"
+                  title="Your Daily Hits"
+                  description="See relevant content"
+                  image={
+                    isLightMode
+                      ? '/images/png/feed-dailyhit.png'
+                      : '/images/png/feed-dailyhit-dark.png'
+                  }
+                />
+                <YupLinkCard
+                  to="/leaderboard?site=all&subject=collections&category=overall"
+                  title="Collections"
+                  description="See the top collections made by Yup users"
+                  image="/images/png/collections.png"
+                />
               </FlexBox>
             </>
           }

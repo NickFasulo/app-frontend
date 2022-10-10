@@ -228,7 +228,7 @@ function ProfileHeader({ profile, hidden }) {
               </Typography>
             </FlexBox>
             <FlexBox alignItems="center">
-              <Typography variant="body2" sx={{ mr: 0.5 }} >
+              <Typography variant="body2" sx={{ mr: 0.5 }}>
                 <YupCountUp end={influence} duration={0.5} useEasing={false} />
                 Influence
               </Typography>
