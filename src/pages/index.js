@@ -45,7 +45,8 @@ export default function HomePage() {
       />
       <YupContainer>
         {isLoggedIn ? (
-          <HomePageUserHeader />
+          < div />
+          /* <HomePageUserHeader /> */
         ) : (
           <Grid container sx={{ mb: 3 }}>
             <Grid
@@ -123,7 +124,7 @@ export default function HomePage() {
             <>
               {!isMobile && (
                 <Typography variant="h6" sx={{ mb: 2 }}>
-                  Feed
+                  Home
                 </Typography>
               )}
               <FeedHOC feedType="dailyhits" />
