@@ -164,84 +164,86 @@ function ProfileHeader({ profile, hidden }) {
               {isLoggedIn && !isMyProfile && <FollowButton userId={id} />}
             </FlexBox>
           </FlexBox>
-          <FlexBox columnGap={1}>
-            {!isMobile && (
-              <Chip
-                label={`@${username}`}
-                clickable
-                component="a"
-                target="_blank"
-              />
-            )}
-            {!isMobile && ethInfo?.address && (
-              <Chip
-                icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
-                label={ensName || shortenEthAddress(ethInfo.address)}
-                clickable
-                component="a"
-                href={etherscanUrl(ethInfo.address)}
-                target="_blank"
-              />
-            )}
-            {!isMobile && isMyProfile && !ethInfo?.address && (
-              <Chip
-                icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
-                label={
-                  isUpdatingEthAddress ? (
-                    <CircularProgress
-                      size={15}
-                      sx={{ verticalAlign: 'middle' }}
-                      color="inherit"
-                    />
-                  ) : (
-                    'Connect Wallet'
-                  )
-                }
-                disabled={isUpdatingEthAddress}
-                clickable
-                onClick={handleConnectWallet}
-              />
-            )}
-            {!isMobile && twitterInfo?.username && (
-              <Chip
-                icon={<FontAwesomeIcon icon={faTwitter} />}
-                label={`@${twitterInfo.username}`}
-                clickable
-                component="a"
-                href={twitterUrl(twitterInfo.username)}
-                target="_blank"
-              />
-            )}
-          </FlexBox>
-          <FlexBox alignItems="center" gap={2}>
-            <FlexBox alignItems="center">
-              <Typography variant="body2" sx={{ mr: 1 }}>
-                <YupCountUp
-                  end={yupScore}
-                  duration={0.5}
-                  useEasing={false}
-                  color={userColor}
+          <FlexBox gap={1.5} flexDirection="column" >
+            <FlexBox columnGap={1}>
+              {!isMobile && (
+                <Chip
+                  label={`@${username}`}
+                  clickable
+                  component="a"
+                  target="_blank"
                 />
-              </Typography>
-              <Typography variant="body2" sx={{ mr: 2 }}>
-                Yup Score
-              </Typography>
+              )}
+              {!isMobile && ethInfo?.address && (
+                <Chip
+                  icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
+                  label={ensName || shortenEthAddress(ethInfo.address)}
+                  clickable
+                  component="a"
+                  href={etherscanUrl(ethInfo.address)}
+                  target="_blank"
+                />
+              )}
+              {!isMobile && isMyProfile && !ethInfo?.address && (
+                <Chip
+                  icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
+                  label={
+                    isUpdatingEthAddress ? (
+                      <CircularProgress
+                        size={15}
+                        sx={{ verticalAlign: 'middle' }}
+                        color="inherit"
+                      />
+                    ) : (
+                      'Connect Wallet'
+                    )
+                  }
+                  disabled={isUpdatingEthAddress}
+                  clickable
+                  onClick={handleConnectWallet}
+                />
+              )}
+              {!isMobile && twitterInfo?.username && (
+                <Chip
+                  icon={<FontAwesomeIcon icon={faTwitter} />}
+                  label={`@${twitterInfo.username}`}
+                  clickable
+                  component="a"
+                  href={twitterUrl(twitterInfo.username)}
+                  target="_blank"
+                />
+              )}
             </FlexBox>
-            <FlexBox alignItems="center">
-              <Typography variant="body2" sx={{ mr: 0.5 }}>
-                <YupCountUp end={influence} duration={0.5} useEasing={false} />
-                Influence
-              </Typography>
-            </FlexBox>
-            <FlexBox alignItems="center">
-              <YupLogoEmoji />
-              <Typography variant="body2" sx={{ ml: 1, color: '' }}>
-                {formatDecimal(balance?.YUP || 0)}
-              </Typography>
+            <FlexBox alignItems="center" gap={2}>
+              <FlexBox alignItems="center">
+                <Typography variant="body2" sx={{ mr: 0.75 }}>
+                  <YupCountUp
+                    end={yupScore}
+                    duration={0.5}
+                    useEasing={false}
+                    color={userColor}
+                  />
+                </Typography>
+                <Typography variant="body2" sx={{ mr: 2 }}>
+                  Yup Score
+                </Typography>
+              </FlexBox>
+              <FlexBox alignItems="center">
+                <YupCountUp end={influence} duration={0.5} useEasing={false} sx={{ mr: 0.75 }} />
+                <Typography variant="body2">
+                  Influence
+                </Typography>
+              </FlexBox>
+              <FlexBox alignItems="center">
+                <YupLogoEmoji />
+                <Typography variant="body2" sx={{ ml: 1, color: '' }}>
+                  {formatDecimal(balance?.YUP || 0)}
+                </Typography>
+              </FlexBox>
             </FlexBox>
           </FlexBox>
           {!isDesktop && <FollowerSection />}
-        </FlexBox>
+      </FlexBox>
       </FlexBox>
       <EditProfile
         open={editModalOpen}
