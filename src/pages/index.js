@@ -69,23 +69,17 @@ export default function HomePage() {
                     </Zoom>
                   </Grid>
                   <Grid item>
-                    <Zoom in timeout={700}>
                       <Typography variant="capsized_body2" sx={{ mb: 3 }}>
                         Aggregated content from your friends and favorite creators
                         on top platforms. Curate and share across the web. Earn
                         money and clout for your taste
                       </Typography>
-                    </Zoom>
                   </Grid>
                 <Grid item>
-                <Zoom in timeout={1000}>
                     <FlexBox gap={2} sx={{ width: 240 }}>
-                      <Zoom in timeout={600}>
                         <Button variant="contained" onClick={openAuthModal}>
                           Connect
                         </Button>
-                      </Zoom>
-                      <Zoom in timeout={700}>
                         <Button
                           variant="outlined"
                           component={Link}
@@ -94,9 +88,7 @@ export default function HomePage() {
                         >
                           Learn More
                         </Button>
-                      </Zoom>
                     </FlexBox>
-                  </Zoom>
                 </Grid>
               </Grid>
             </Grid>
@@ -179,15 +171,12 @@ export default function HomePage() {
               )}
               {isLoggedIn && <PeopleToFollow />}
               <FlexBox flexDirection="column" gap={2} sx={{ mt: 2 }}>
-                <Zoom in timeout={700}>
                   <YupLinkCard
                     to="/feed/farcaster"
                     title="Farcaster Feed"
                     description="Explorer Farcaster content"
                     image="/images/png/feed-farcaster.png"
                   />
-                </Zoom>
-                <Zoom in timeout={800}>
                   <YupLinkCard
                     to="/feed/dailyhits"
                     title="Your Daily Hits"
@@ -198,15 +187,12 @@ export default function HomePage() {
                         : '/images/png/feed-dailyhit-dark.png'
                     }
                   />
-                </Zoom>
-                <Zoom in timeout={900}>
                   <YupLinkCard
                     to="/leaderboard?site=all&subject=collections&category=overall"
                     title="Collections"
                     description="See the top collections made by Yup users"
                     image="/images/png/collections.png"
                   />
-                </Zoom>
               </FlexBox>
             </>
           }
