@@ -19,7 +19,6 @@ import {
   apiGetChallenge,
   apiGetOAuthChallenge,
   apiGetTwitterAuthInfo,
-  apiInviteEmail,
   apiMirrorAccount,
   apiRequestWhitelist,
   apiSetETHAddress,
@@ -288,24 +287,6 @@ export const AuthModalContextProvider = ({ children }) => {
     }
   };
 
-  const handleSignUpWithEmail = async () => {
-    if (!isValidEmail(email)) {
-      toastError(ERROR_INVALID_EMAIL);
-
-      return;
-    }
-
-    await apiInviteEmail(email);
-
-    // Show success notification
-    toastSuccess(INVITE_EMAIL_SUCCESS);
-
-    trackSignUpAttempt(ANALYTICS_SIGN_UP_TYPES.EMAIL, email);
-
-    // Close Modal
-    handleCloseModal();
-  };
-
   const handleRequestWhitelist = async () => {
     if (!isValidEmail(email)) {
       toastError(ERROR_INVALID_EMAIL);
@@ -427,14 +408,6 @@ export const AuthModalContextProvider = ({ children }) => {
               text="Twitter"
               imageUrl="/images/icons/twitter.svg"
               onClick={handleAuthWithTwitter}
-            />
-          </Grid>
-          <Grid item>
-            <AuthInput
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onEnter={handleSignUpWithEmail}
             />
           </Grid>
         </Grid>
