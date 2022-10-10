@@ -19,25 +19,15 @@ function MyApp({
   emotionCache = clientSideEmotionCache,
   pageProps
 }) {
-  const account = useAuth();
-  const { isLoggedIn, userId, authInfo } = account;
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => setIsMounted(true), []);
-  useEffect(() => {
-    if (userId) {
-      LogRocket.identify(userId, {
-        name: authInfo.username
-      });
-    }
-  },
-    [userId]);
 
   if (!isMounted) {
     return null;
   }
   // only initialize when in the browser
-  if (typeof window !== 'undefined') {
+  if (isMounted) {
     LogRocket.init('rohogp/yup');
     // plugins should also only be initialized when in the browser
     setupLogRocketReact(LogRocket);

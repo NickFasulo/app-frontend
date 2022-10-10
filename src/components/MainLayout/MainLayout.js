@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import LogRocket from 'logrocket';
 import SideBar from '../SideBar';
 import BackgroundGradients from '../BackgroundGradients';
 import { useAuth } from '../../contexts/AuthContext';
@@ -12,10 +13,18 @@ import { FunctionalErrorBoundary } from '../ErrorBoundary/FunctionalErrorBoundar
 function MainLayout({ children }) {
   const router = useRouter();
   const { toastInfo } = useToast();
-  const { isCheckingAuth } = useAuth();
+  const { isLoggedIn, userId, authInfo, isCheckingAuth } = useAuth();
 
   const showHeader = router.pathname !== '/score/[address]';
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      console.log("IDENTIFY")
+      LogRocket.identify(userId, {
+        name: authInfo.username
+      });
+    }
+  }, [isLoggedIn]);
   useEffect(() => {
     // Check Brave browser
     (async function checkBrave() {
