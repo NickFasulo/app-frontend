@@ -29,9 +29,7 @@ export default function HomePageUserHeader() {
             useEasing={false}
             color={userColor}
           />
-          <Typography variant="body2">
-            Yup Score
-          </Typography>
+          <Typography variant="body2">Yup Score</Typography>
         </FlexBox>
         <FlexBox alignItems="center">
           <YupLogoEmoji />
