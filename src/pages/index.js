@@ -45,8 +45,7 @@ export default function HomePage() {
       />
       <YupContainer>
         {isLoggedIn ? (
-          < div />
-          /* <HomePageUserHeader /> */
+          <HomePageUserHeader />
         ) : (
           <Grid container sx={{ mb: 3 }}>
             <Grid
