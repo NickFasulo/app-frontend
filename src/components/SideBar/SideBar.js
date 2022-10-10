@@ -32,6 +32,7 @@ import YupLogoMenuItem from './YupLogoMenuItem';
 import { FlexBox } from '../styles';
 import { useAuth } from '../../contexts/AuthContext';
 import scatter from '../../eos/scatter/scatter.wallet';
+import { useRouter } from 'next/router';
 
 function SideBar() {
   const { isDesktop } = useDevice();
@@ -41,6 +42,7 @@ function SideBar() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [feedOpen, setFeedOpen] = useState(false);
+  const router = useRouter();
 
   const handleLogout = () => {
     localStorage.removeItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
@@ -58,6 +60,10 @@ function SideBar() {
       document.body.style.overflowY = 'auto';
     }
   }, [searchOpen, isDesktop, open]);
+
+  useEffect(() => {
+    setSearchOpen(false);
+  }, [router.asPath]);
 
   return (
     <SideBarContext.Provider
