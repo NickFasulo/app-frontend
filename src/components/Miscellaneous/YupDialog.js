@@ -69,7 +69,7 @@ function YupDialog(props) {
   return (
     <Dialog {...restProps}>
       <DialogTitle style={{ paddingBottom: '10px' }}>
-        <Grid container justifyContent='space-between' alignItems='center'>
+        <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h6">{headline}</Typography>
           </Grid>

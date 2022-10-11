@@ -55,8 +55,8 @@ import { useAuth } from '../AuthContext';
 import { useYupAccount } from '../../hooks/queries';
 
 const defaultContext = {
-  open: () => { },
-  startEthAuth: () => { }
+  open: () => {},
+  startEthAuth: () => {}
 };
 
 const AuthModalContext = React.createContext(defaultContext);

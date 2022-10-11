@@ -19,7 +19,7 @@ function MainLayout({ children }) {
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log("IDENTIFY")
+      console.log('IDENTIFY');
       LogRocket.identify(userId, {
         name: authInfo.username
       });
