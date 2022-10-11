@@ -4,10 +4,13 @@ import Head from 'next/head';
 import { QueryClientProvider, Hydrate } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import LogRocket from 'logrocket';
+import setupLogRocketReact from 'logrocket-react';
 import { queryClient } from '../config/react-query';
 import Providers from '../providers';
 import createEmotionCache from '../createEmotionCache';
 import MainLayout from '../components/MainLayout';
+import { useAuth } from '../contexts/AuthContext';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -23,7 +26,12 @@ function MyApp({
   if (!isMounted) {
     return null;
   }
-
+  // only initialize when in the browser
+  if (isMounted) {
+    LogRocket.init('yvaqq9/yup');
+    // plugins should also only be initialized when in the browser
+    setupLogRocketReact(LogRocket);
+  }
   return (
     <CacheProvider value={emotionCache}>
       <Head>
