@@ -14,6 +14,7 @@ import {
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { Drawer, ExternalLinkList } from './styles';
 import MainLink from './MainLink';
 import FeedLink from './FeedLink';
@@ -32,7 +33,6 @@ import YupLogoMenuItem from './YupLogoMenuItem';
 import { FlexBox } from '../styles';
 import { useAuth } from '../../contexts/AuthContext';
 import scatter from '../../eos/scatter/scatter.wallet';
-import { useRouter } from 'next/router';
 
 function SideBar() {
   const { isDesktop } = useDevice();
@@ -97,7 +97,6 @@ function SideBar() {
             text="Collections"
             to="/leaderboard?site=all&subject=collections&category=overall"
           />
-          <MainLink icon={faCoins} text="Staking" to="/staking" />
         </List>
         {open && (
           <>
@@ -155,7 +154,8 @@ function SideBar() {
             {isDesktop && (
               <Grow in={open} timeout={MENU_ANIMATION_DURATION}>
                 <ExternalLinkList>
-                  <ExternalLink text="Main site" to={landingPageUrl} />
+                  <ExternalLink text="About" to={landingPageUrl} />
+                  <ExternalLink text="Staking" to="/staking" />
                   <ExternalLink text="Explorer" to="https://yup.live" />
                   <ExternalLink text="Blog" to="https://blog.yup.io" />
                   <ExternalLink text="Docs" to="https://docs.yup.io" />
