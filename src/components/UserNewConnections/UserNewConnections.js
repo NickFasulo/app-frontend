@@ -10,8 +10,8 @@ function UserNewConnections({ username }) {
 
   return (
     <>
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        People to follow
+      <Typography variant="h6" sx={{ mb: 2 }}>
+        People to Follow
       </Typography>
       <List
         sx={{

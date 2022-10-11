@@ -138,7 +138,7 @@ function ProfileHeader({ profile, hidden }) {
       }}
     >
       <FlexBox columnGap={4}>
-        <ProfilePicture src={avatar} alt={username} border={userColor}>
+        <ProfilePicture src={avatar} alt={username}>
           {username?.toUpperCase().substring(0, 1)}
         </ProfilePicture>
         <FlexBox flexGrow={1} flexDirection="column" rowGap={1}>
@@ -164,80 +164,85 @@ function ProfileHeader({ profile, hidden }) {
               {isLoggedIn && !isMyProfile && <FollowButton userId={id} />}
             </FlexBox>
           </FlexBox>
-          <FlexBox columnGap={1}>
-            {!isMobile && (
-              <Chip
-                label={`@${username}`}
-                clickable
-                component="a"
-                target="_blank"
-              />
-            )}
-            {!isMobile && ethInfo?.address && (
-              <Chip
-                icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
-                label={ensName || shortenEthAddress(ethInfo.address)}
-                clickable
-                component="a"
-                href={etherscanUrl(ethInfo.address)}
-                target="_blank"
-              />
-            )}
-            {!isMobile && isMyProfile && !ethInfo?.address && (
-              <Chip
-                icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
-                label={
-                  isUpdatingEthAddress ? (
-                    <CircularProgress
-                      size={15}
-                      sx={{ verticalAlign: 'middle' }}
-                      color="inherit"
-                    />
-                  ) : (
-                    'Connect Wallet'
-                  )
-                }
-                disabled={isUpdatingEthAddress}
-                clickable
-                onClick={handleConnectWallet}
-              />
-            )}
-            {!isMobile && twitterInfo?.username && (
-              <Chip
-                icon={<FontAwesomeIcon icon={faTwitter} />}
-                label={`@${twitterInfo.username}`}
-                clickable
-                component="a"
-                href={twitterUrl(twitterInfo.username)}
-                target="_blank"
-              />
-            )}
-          </FlexBox>
-          <FlexBox alignItems="center" gap={2}>
-            <FlexBox alignItems="center">
-              <Typography variant="body2" sx={{ mr: 1 }}>
+          <FlexBox gap={1.5} flexDirection="column">
+            <FlexBox columnGap={1}>
+              {!isMobile && (
+                <Chip
+                  label={`@${username}`}
+                  clickable
+                  component="a"
+                  target="_blank"
+                />
+              )}
+              {!isMobile && ethInfo?.address && (
+                <Chip
+                  icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
+                  label={ensName || shortenEthAddress(ethInfo.address)}
+                  clickable
+                  component="a"
+                  href={etherscanUrl(ethInfo.address)}
+                  target="_blank"
+                />
+              )}
+              {!isMobile && isMyProfile && !ethInfo?.address && (
+                <Chip
+                  icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
+                  label={
+                    isUpdatingEthAddress ? (
+                      <CircularProgress
+                        size={15}
+                        sx={{ verticalAlign: 'middle' }}
+                        color="inherit"
+                      />
+                    ) : (
+                      'Connect Wallet'
+                    )
+                  }
+                  disabled={isUpdatingEthAddress}
+                  clickable
+                  onClick={handleConnectWallet}
+                />
+              )}
+              {!isMobile && twitterInfo?.username && (
+                <Chip
+                  icon={<FontAwesomeIcon icon={faTwitter} />}
+                  label={`@${twitterInfo.username}`}
+                  clickable
+                  component="a"
+                  href={twitterUrl(twitterInfo.username)}
+                  target="_blank"
+                />
+              )}
+            </FlexBox>
+            <FlexBox alignItems="center" gap={2}>
+              <FlexBox alignItems="center">
+                <Typography variant="body2" sx={{ mr: 0.75 }}>
+                  <YupCountUp
+                    end={yupScore}
+                    duration={0.5}
+                    useEasing={false}
+                    color={userColor}
+                  />
+                </Typography>
+                <Typography variant="body2" sx={{ mr: 2 }}>
+                  Yup Score
+                </Typography>
+              </FlexBox>
+              <FlexBox alignItems="center">
                 <YupCountUp
-                  end={yupScore}
+                  end={influence}
                   duration={0.5}
                   useEasing={false}
-                  color={userColor}
+                  sx={{ mr: 0.75 }}
                 />
-              </Typography>
-              <Typography variant="body2" sx={{ mr: 2 }}>
-                Yup Score
-              </Typography>
-            </FlexBox>
-            <FlexBox alignItems="center">
-              <Typography variant="body2" sx={{ mr: 0.5 }} >
-                <YupCountUp end={influence} duration={0.5} useEasing={false} />
-                Influence
-              </Typography>
-            </FlexBox>
-            <FlexBox alignItems="center">
-              <YupLogoEmoji />
-              <Typography variant="body2" sx={{ ml: 1, color: '' }}>
-                {formatDecimal(balance?.YUP || 0)}
-              </Typography>
+                <Typography variant="body2">Influence</Typography>
+              </FlexBox>
+              <FlexBox alignItems="center">
+                <YupLogoEmoji />
+                <Typography variant="body2" sx={{ ml: 1, color: '' }}>
+                  {formatDecimal(balance?.YUP || 0)}
+                </Typography>
+              </FlexBox>
             </FlexBox>
           </FlexBox>
           {!isDesktop && <FollowerSection />}

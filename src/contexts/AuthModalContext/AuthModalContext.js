@@ -19,7 +19,6 @@ import {
   apiGetChallenge,
   apiGetOAuthChallenge,
   apiGetTwitterAuthInfo,
-  apiInviteEmail,
   apiMirrorAccount,
   apiRequestWhitelist,
   apiSetETHAddress,
@@ -288,24 +287,6 @@ export const AuthModalContextProvider = ({ children }) => {
     }
   };
 
-  const handleSignUpWithEmail = async () => {
-    if (!isValidEmail(email)) {
-      toastError(ERROR_INVALID_EMAIL);
-
-      return;
-    }
-
-    await apiInviteEmail(email);
-
-    // Show success notification
-    toastSuccess(INVITE_EMAIL_SUCCESS);
-
-    trackSignUpAttempt(ANALYTICS_SIGN_UP_TYPES.EMAIL, email);
-
-    // Close Modal
-    handleCloseModal();
-  };
-
   const handleRequestWhitelist = async () => {
     if (!isValidEmail(email)) {
       toastError(ERROR_INVALID_EMAIL);
@@ -413,7 +394,7 @@ export const AuthModalContextProvider = ({ children }) => {
               {({ openConnectModal }) => (
                 <AuthMethodButton
                   text="Wallet"
-                  imageUrl="/images/icons/wallet_connect.png"
+                  imageUrl="/images/icons/ethereum.svg"
                   onClick={() => {
                     setCurrAuthMethod(AUTH_TYPE.ETH);
                     openConnectModal();
@@ -427,14 +408,6 @@ export const AuthModalContextProvider = ({ children }) => {
               text="Twitter"
               imageUrl="/images/icons/twitter.svg"
               onClick={handleAuthWithTwitter}
-            />
-          </Grid>
-          <Grid item>
-            <AuthInput
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onEnter={handleSignUpWithEmail}
             />
           </Grid>
         </Grid>
@@ -503,7 +476,7 @@ export const AuthModalContextProvider = ({ children }) => {
       {children}
 
       <YupDialog
-        headline="Sign Up / Login"
+        headline="Connect"
         description={
           <Hidden lgDown>
             {stage === AUTH_MODAL_STAGE.SIGN_IN

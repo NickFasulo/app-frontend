@@ -15,9 +15,9 @@ export const SearchLayout = styled('div')(({ theme }) => ({
 }));
 
 export const StyledInput = styled(Input)(({ theme }) => ({
-  padding: theme.spacing(2.5, 3),
-  background: theme.palette.M700,
-  borderRadius: 100,
+  padding: theme.spacing(1.5, 2),
+  background: theme.palette.M800,
+  borderRadius: 12,
   '&::after, &::before': {
     borderBottom: 'none !important'
   },
