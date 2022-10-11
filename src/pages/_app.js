@@ -28,7 +28,7 @@ function MyApp({
   }
   // only initialize when in the browser
   if (isMounted) {
-    LogRocket.init('rohogp/yup');
+    LogRocket.init('yvaqq9/yup');
     // plugins should also only be initialized when in the browser
     setupLogRocketReact(LogRocket);
   }
