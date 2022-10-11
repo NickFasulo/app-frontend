@@ -138,7 +138,7 @@ function ProfileHeader({ profile, hidden }) {
       }}
     >
       <FlexBox columnGap={4}>
-        <ProfilePicture src={avatar} alt={username} border={userColor}>
+        <ProfilePicture src={avatar} alt={username}>
           {username?.toUpperCase().substring(0, 1)}
         </ProfilePicture>
         <FlexBox flexGrow={1} flexDirection="column" rowGap={1}>

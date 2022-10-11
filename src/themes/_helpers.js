@@ -350,7 +350,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
             backgroundImage: 'none',
             backgroundColor: `${palette.M800}cc`,
             border: `1px solid ${palette.M800}`,
-            borderRadius: '25px',
+            borderRadius: '16px',
             backdropFilter: 'blur(45px)',
             boxShadow: `0 0 20px 6px ${palette.M100}05`,
             width: '460px',

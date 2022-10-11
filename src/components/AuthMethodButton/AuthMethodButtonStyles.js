@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     padding: theme.spacing(1.5, 2.5)
   },
   icon: {
-    width: 20,
+    width: 16,
     float: 'right'
   },
   text: {

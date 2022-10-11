@@ -394,7 +394,7 @@ export const AuthModalContextProvider = ({ children }) => {
               {({ openConnectModal }) => (
                 <AuthMethodButton
                   text="Wallet"
-                  imageUrl="/images/icons/wallet_connect.png"
+                  imageUrl="/images/icons/ethereum.svg"
                   onClick={() => {
                     setCurrAuthMethod(AUTH_TYPE.ETH);
                     openConnectModal();
@@ -476,7 +476,7 @@ export const AuthModalContextProvider = ({ children }) => {
       {children}
 
       <YupDialog
-        headline="Sign Up / Login"
+        headline="Connect"
         description={
           <Hidden lgDown>
             {stage === AUTH_MODAL_STAGE.SIGN_IN
