@@ -51,22 +51,23 @@ export default function HomePage() {
           site_name: 'Yup'
         }}
       />
+      {isLoggedIn && (
+        <YupPageHeader sx={{ mb: 3 }}>
+          <YupPageTabs
+            tabs={[
+              { label: 'Home', value: FEED_CATEGORIES.DAILY_HIT.id },
+              { label: 'Farcaster', value: FEED_CATEGORIES.FARCASTER.id },
+              { label: 'Lens', value: FEED_CATEGORIES.LENS.id },
+              { label: 'Mirror', value: FEED_CATEGORIES.MIRROR.id },
+              { label: 'NFTs', value: FEED_CATEGORIES.NFT.id }
+            ]}
+            value={selectedTab}
+            onChange={setSelectedTab}
+          />
+        </YupPageHeader>
+      )}
       <YupContainer>
-        {isLoggedIn ? (
-          <YupPageHeader sx={{ mb: 3 }}>
-            <YupPageTabs
-              tabs={[
-                { label: 'Home', value: FEED_CATEGORIES.DAILY_HIT.id },
-                { label: 'Farcaster', value: FEED_CATEGORIES.FARCASTER.id },
-                { label: 'Lens', value: FEED_CATEGORIES.LENS.id },
-                { label: 'Mirror', value: FEED_CATEGORIES.MIRROR.id },
-                { label: 'NFTs', value: FEED_CATEGORIES.NFT.id }
-              ]}
-              value={selectedTab}
-              onChange={setSelectedTab}
-            />
-          </YupPageHeader>
-        ) : (
+        {!isLoggedIn && (
           <Grid container sx={{ mb: 3 }}>
             <Grid
               item
