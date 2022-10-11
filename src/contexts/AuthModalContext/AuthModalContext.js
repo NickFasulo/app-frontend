@@ -214,8 +214,8 @@ export const AuthModalContextProvider = ({ children }) => {
     handleCloseModal();
 
     if (!options.noRedirect) {
-      // Redirect to profile page
-      router.push(`/account/${account.username}`);
+      // Redirect to the home page
+      router.push(`/`);
     }
   };
   const handleLinkEthAddress = async () => {
