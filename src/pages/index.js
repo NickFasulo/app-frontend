@@ -1,5 +1,5 @@
 import { Button, Grid, Typography, Grow, Zoom } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FlexBox,
   GradientTypography,
@@ -11,7 +11,6 @@ import FeedHOC from '../components/Feed/FeedHOC';
 import YupLinkCard from '../components/YupLinkCard';
 import { useAppLayout } from '../contexts/AppLayoutContext';
 import { useAuth } from '../contexts/AuthContext';
-import HomePageUserHeader from '../components/HomePageUserHeader';
 import PeopleToFollow from '../components/PeopleToFollow/PeopleToFollow';
 import { useThemeMode } from '../contexts/ThemeModeContext';
 import useDevice from '../hooks/useDevice';
@@ -20,19 +19,28 @@ import Link from '../components/Link';
 import { landingPageUrl } from '../config';
 import { useAuthModal } from '../contexts/AuthModalContext';
 import YupHead from '../components/YupHead';
+import YupPageHeader from '../components/YupPageHeader';
+import YupPageTabs from '../components/YupPageTabs';
+import { FEED_CATEGORIES } from '../constants/data';
 
 export default function HomePage() {
   const { isMobile } = useDevice();
   const { isLightMode } = useThemeMode();
   const { setHeaderHeight } = useAppLayout();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isCheckingAuth } = useAuth();
   const { windowScrolled } = useAppUtils();
   const { open: openAuthModal } = useAuthModal();
+  const [selectedTab, setSelectedTab] = useState(FEED_CATEGORIES.DAILY_HIT.id);
 
   useEffect(() => {
     import('@lottiefiles/lottie-player');
-    setHeaderHeight(0);
   }, []);
+
+  useEffect(() => {
+    if (!isCheckingAuth && !isLoggedIn) {
+      setHeaderHeight(0);
+    }
+  }, [isCheckingAuth, isLoggedIn]);
 
   return (
     <>
@@ -45,7 +53,19 @@ export default function HomePage() {
       />
       <YupContainer>
         {isLoggedIn ? (
-          <HomePageUserHeader />
+          <YupPageHeader sx={{ mb: 3 }}>
+            <YupPageTabs
+              tabs={[
+                { label: 'Home', value: FEED_CATEGORIES.DAILY_HIT.id },
+                { label: 'Farcaster', value: FEED_CATEGORIES.FARCASTER.id },
+                { label: 'Lens', value: FEED_CATEGORIES.LENS.id },
+                { label: 'Mirror', value: FEED_CATEGORIES.MIRROR.id },
+                { label: 'NFTs', value: FEED_CATEGORIES.NFT.id }
+              ]}
+              value={selectedTab}
+              onChange={setSelectedTab}
+            />
+          </YupPageHeader>
         ) : (
           <Grid container sx={{ mb: 3 }}>
             <Grid
@@ -121,12 +141,7 @@ export default function HomePage() {
         <GridLayout
           contentLeft={
             <>
-              {!isMobile && (
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  Home
-                </Typography>
-              )}
-              <FeedHOC feedType="dailyhits" />
+              <FeedHOC feedType={isLoggedIn ? selectedTab : 'dailyhits'} />
             </>
           }
           contentRight={

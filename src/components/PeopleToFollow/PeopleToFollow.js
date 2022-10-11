@@ -7,7 +7,7 @@ import FollowUser from '../FollowUser';
 export default function PeopleToFollow() {
   const { username } = useAuth();
   const { data: profile } = useYupAccount(username);
-  const { data: people } = useSearchPeople(profile?.bio, 5);
+  const { data: people } = useSearchPeople(profile?.bio, 3);
 
   if (!profile || !people) return null;
 
