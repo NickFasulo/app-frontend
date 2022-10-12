@@ -76,7 +76,7 @@ const styles = (theme) => ({
     textAlign: 'left',
     borderRadius: '0.75rem',
     zIndex: 5,
-    background: `${theme.palette.M800}AA`,
+    background: `${theme.palette.M900}AA`,
     padding: '2% 3% 2% 3%',
     width: '100%',
     backdropFilter: 'blur(40px)',

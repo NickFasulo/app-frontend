@@ -52,7 +52,7 @@ export default function HomePage() {
         }}
       />
       {isLoggedIn && (
-        <YupPageHeader sx={{ mb: 3 }}>
+        <YupPageHeader sx={{ mb: 0.5 }}>
           <YupPageTabs
             tabs={[
               { label: 'Home', value: FEED_CATEGORIES.DAILY_HIT.id },
@@ -141,9 +141,7 @@ export default function HomePage() {
         )}
         <GridLayout
           contentLeft={
-            <>
-              <FeedHOC feedType={isLoggedIn ? selectedTab : 'dailyhits'} />
-            </>
+            <FeedHOC feedType={isLoggedIn ? selectedTab : 'dailyhits'} />
           }
           contentRight={
             <>
