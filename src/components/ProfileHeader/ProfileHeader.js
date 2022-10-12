@@ -170,7 +170,7 @@ function ProfileHeader({ profile, hidden }) {
             <FlexBox columnGap={1}>
               {!isMobile && (
                 <Chip
-                  label={`@${username}`}
+                  label={`${username}`}
                   clickable
                   component="a"
                   target="_blank"
@@ -208,7 +208,7 @@ function ProfileHeader({ profile, hidden }) {
               {!isMobile && twitterInfo?.username && (
                 <Chip
                   icon={<FontAwesomeIcon icon={faTwitter} />}
-                  label={`@${twitterInfo.username}`}
+                  label={`${twitterInfo.username}`}
                   clickable
                   component="a"
                   href={twitterUrl(twitterInfo.username)}
@@ -218,7 +218,7 @@ function ProfileHeader({ profile, hidden }) {
               {!isMobile && ethInfo?.address && (
                 <Chip
                   icon={<FontAwesomeIcon size="12" icon={faComment} />}
-                  label='Chat'
+                  label='DM'
                   clickable
                   component="a"
                   href={blockscanUrl(ethInfo.address)}
