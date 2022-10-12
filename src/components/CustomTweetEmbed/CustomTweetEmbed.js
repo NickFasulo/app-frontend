@@ -146,7 +146,9 @@ const styles = (theme) => ({
   },
   LinkPreviewImageLarge: {
     width: '100%',
-    borderRadius: '12px 12px 0px 0px'
+    borderRadius: '12px 12px 0px 0px',
+    maxHeight: 240,
+    objectFit: 'cover'
   },
   LinkPreviewImageSmallContainer: {
     height: '100%'
