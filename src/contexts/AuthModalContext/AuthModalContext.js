@@ -14,7 +14,6 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/router';
 import { AUTH_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
 import {
-  apiCheckWhitelist,
   apiGetAccountByEthAddress,
   apiGetChallenge,
   apiGetOAuthChallenge,
@@ -55,8 +54,8 @@ import { useAuth } from '../AuthContext';
 import { useYupAccount } from '../../hooks/queries';
 
 const defaultContext = {
-  open: () => {},
-  startEthAuth: () => {}
+  open: () => { },
+  startEthAuth: () => { }
 };
 
 const AuthModalContext = React.createContext(defaultContext);
@@ -183,18 +182,7 @@ export const AuthModalContextProvider = ({ children }) => {
     try {
       account = await apiGetAccountByEthAddress(address);
     } catch {
-      // Check if the address is whitelisted
-      try {
-        await apiCheckWhitelist(address);
-
-        // ETH address is whitelisted.
-        // Then require user to enter a unique username to finish Sign-Up process.
-        setStage(AUTH_MODAL_STAGE.REQUIRE_USERNAME);
-      } catch {
-        // ETH address is not whitelisted.
-        // Then require user to enter an email to be notified when the address is whitelisted.
-        setStage(AUTH_MODAL_STAGE.REQUIRE_EMAIL);
-      }
+      setStage(AUTH_MODAL_STAGE.REQUIRE_USERNAME);
 
       return;
     }
