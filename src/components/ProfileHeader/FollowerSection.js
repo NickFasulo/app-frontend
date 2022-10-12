@@ -11,7 +11,15 @@ function FollowerSection({ rating, followers, followings }) {
 
   return (
     <>
-      <FlexBox columnGap={2.5}>
+      <FlexBox
+        columnGap={2.5}
+        sx={(theme) => ({
+          [theme.breakpoints.down('sm')]: {
+            rowGap: 1,
+            flexWrap: 'wrap'
+          }
+        })}
+      >
         <NumberText
           number={numeral(rating).format('0a').toUpperCase()}
           text="Likes"
