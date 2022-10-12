@@ -16,7 +16,7 @@ export const ANALYTICS_SIGN_UP_TYPES = {
 
 const track = (type, data) => {
   if (!window.location.href.startsWith(webAppUrl)) {
-    return ;
+    return;
   }
 
   if (window.analytics) {
