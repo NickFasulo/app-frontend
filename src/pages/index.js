@@ -45,10 +45,11 @@ export default function HomePage() {
   return (
     <>
       <YupHead
-        title="Yup"
-        description="Social Network for Curators"
+        title="Yup - Web3 Social Network"
+        description="Follow your friends's web3 activity, curate top content from your favorite platforms."
         metaOg={{
-          site_name: 'Yup'
+          site_name: 'Yup',
+          site_description: "Follow your friends's web3 activity, curate top content from your favorite platforms."
         }}
       />
       {isLoggedIn && (
@@ -91,9 +92,7 @@ export default function HomePage() {
                 </Grid>
                 <Grid item>
                   <Typography variant="capsized_body2" sx={{ mb: 3 }}>
-                    Aggregated content from your friends and favorite creators
-                    on top platforms. Curate and share across the web. Earn
-                    money and clout for your taste
+                    Follow your friends's web3 activity, curate top content from your favorite platforms.
                   </Typography>
                 </Grid>
                 <Grid item>
