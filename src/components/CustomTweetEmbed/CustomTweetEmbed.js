@@ -157,7 +157,7 @@ const styles = (theme) => ({
   LinkPreviewContentLarge: {
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    padding: '8px'
+    padding: theme.spacing(1, 1.5, 1, 1.5)
   },
   LinkPreviewMainLarge: {
     overflow: 'hidden',
