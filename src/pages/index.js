@@ -45,28 +45,30 @@ export default function HomePage() {
   return (
     <>
       <YupHead
-        title="Yup"
-        description="Social Network for Curators"
+        title="Yup - Web3 Social Network"
+        description="Follow your friends's web3 activity, curate top content from your favorite platforms."
         metaOg={{
-          site_name: 'Yup'
+          site_name: 'Yup',
+          site_description: "Follow your friends's web3 activity, curate top content from your favorite platforms."
         }}
       />
+      {isLoggedIn && (
+        <YupPageHeader sx={{ mb: 0.5 }}>
+          <YupPageTabs
+            tabs={[
+              { label: 'Home', value: FEED_CATEGORIES.DAILY_HIT.id },
+              { label: 'Farcaster', value: FEED_CATEGORIES.FARCASTER.id },
+              { label: 'Lens', value: FEED_CATEGORIES.LENS.id },
+              { label: 'Mirror', value: FEED_CATEGORIES.MIRROR.id },
+              { label: 'NFTs', value: FEED_CATEGORIES.NFT.id }
+            ]}
+            value={selectedTab}
+            onChange={setSelectedTab}
+          />
+        </YupPageHeader>
+      )}
       <YupContainer>
-        {isLoggedIn ? (
-          <YupPageHeader sx={{ mb: 3 }}>
-            <YupPageTabs
-              tabs={[
-                { label: 'Home', value: FEED_CATEGORIES.DAILY_HIT.id },
-                { label: 'Farcaster', value: FEED_CATEGORIES.FARCASTER.id },
-                { label: 'Lens', value: FEED_CATEGORIES.LENS.id },
-                { label: 'Mirror', value: FEED_CATEGORIES.MIRROR.id },
-                { label: 'NFTs', value: FEED_CATEGORIES.NFT.id }
-              ]}
-              value={selectedTab}
-              onChange={setSelectedTab}
-            />
-          </YupPageHeader>
-        ) : (
+        {!isLoggedIn && (
           <Grid container sx={{ mb: 3 }}>
             <Grid
               item
@@ -90,9 +92,7 @@ export default function HomePage() {
                 </Grid>
                 <Grid item>
                   <Typography variant="capsized_body2" sx={{ mb: 3 }}>
-                    Aggregated content from your friends and favorite creators
-                    on top platforms. Curate and share across the web. Earn
-                    money and clout for your taste
+                    Follow your friends's web3 activity, curate top content from your favorite platforms.
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -140,9 +140,7 @@ export default function HomePage() {
         )}
         <GridLayout
           contentLeft={
-            <>
-              <FeedHOC feedType={isLoggedIn ? selectedTab : 'dailyhits'} />
-            </>
+            <FeedHOC feedType={isLoggedIn ? selectedTab : 'dailyhits'} />
           }
           contentRight={
             <>

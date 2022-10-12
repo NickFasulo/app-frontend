@@ -146,7 +146,9 @@ const styles = (theme) => ({
   },
   LinkPreviewImageLarge: {
     width: '100%',
-    borderRadius: '12px 12px 0px 0px'
+    borderRadius: '12px 12px 0px 0px',
+    maxHeight: 240,
+    objectFit: 'cover'
   },
   LinkPreviewImageSmallContainer: {
     height: '100%'
@@ -157,7 +159,7 @@ const styles = (theme) => ({
   LinkPreviewContentLarge: {
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    padding: '8px'
+    padding: theme.spacing(1, 1.5, 1, 1.5)
   },
   LinkPreviewMainLarge: {
     overflow: 'hidden',

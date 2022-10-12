@@ -541,6 +541,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontSize: '2.125rem',
         lineHeight: '125%',
         color: `${palette.M50}EE`,
+        letterSpacing: '0.02em',
         userSelect: 'none'
       },
       capsized_h4: {
@@ -549,6 +550,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         lineHeight: '125%',
         color: `${palette.M50}EE`,
         userSelect: 'none',
+        letterSpacing: '0.02em',
         '&::before': {
           content: '""',
           marginBottom: '-0.212em',
@@ -564,6 +566,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 700,
         fontSize: '1.5rem',
         lineHeight: '125%',
+        letterSpacing: '0.02em',
         color: `${palette.M50}EE`,
         userSelect: 'none'
       },
@@ -571,6 +574,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 700,
         fontSize: '1.5rem',
         lineHeight: '125%',
+        letterSpacing: '0.02em',
         color: `${palette.M50}EE`,
         userSelect: 'none',
         '&::before': {
@@ -588,12 +592,14 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 600,
         fontSize: '1.25rem',
         lineHeight: '125%',
+        letterSpacing: '0.02em',
         color: `${palette.M50}EE`
       },
       capsized_h6: {
         fontWeight: 600,
         fontSize: '1.25rem',
         lineHeight: '125%',
+        letterSpacing: '0.02em',
         color: `${palette.M50}EE`,
         '&::before': {
           content: '""',
@@ -676,12 +682,14 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 400,
         fontSize: '15px',
         lineHeight: '135%',
+        letterSpacing: '0.01em',
         color: `${palette.M50}EE`
       },
       capsized_body2: {
         fontWeight: 400,
         fontSize: '15px',
         lineHeight: '100%',
+        letterSpacing: '0.01em',
         color: `${palette.M50}DE`,
         '&::before': {
           content: '""',
@@ -698,6 +706,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 800,
         fontSize: '15px',
         lineHeight: '135%',
+        letterSpacing: '0.025em',
         color: `${palette.M50}EE`
       },
       capsized_body3: {
@@ -720,12 +729,14 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 600,
         fontSize: '12px',
         lineHeight: '135%',
+        letterSpacing: '0.04em',
         color: `${palette.M50}EE`
       },
       bodyS2: {
         fontWeight: 400,
         fontSize: '12px',
         lineHeight: '135%',
+        letterSpacing: '0.04em',
         color: `${palette.M50}EE`
       },
       url: {

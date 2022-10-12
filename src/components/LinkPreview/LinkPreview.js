@@ -76,7 +76,7 @@ const styles = (theme) => ({
     textAlign: 'left',
     borderRadius: '0.75rem',
     zIndex: 5,
-    background: `${theme.palette.M800}AA`,
+    background: `${theme.palette.M900}AA`,
     padding: '2% 3% 2% 3%',
     width: '100%',
     backdropFilter: 'blur(40px)',
@@ -130,7 +130,7 @@ function LinkPreview({ image, title, description, url, classes }) {
                   </Grid>
                   <Grid item xs>
                     <Typography variant="h6" className={classes.title}>
-                      <TruncateText variant="h6" lines={2}>
+                      <TruncateText variant="subtitle2" lines={2}>
                         {title}
                       </TruncateText>
                     </Typography>
