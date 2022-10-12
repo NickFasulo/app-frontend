@@ -124,14 +124,14 @@ const PostHeader = ({ postid, classes, hideInteractions }) => {
               {' '}
               {hideInteractions ? null : (
                 <Grid item>
-                  <Typography variant="bodyS2" className={classes.voterOpacity}> 
+                  <Typography variant="bodyS2" className={classes.voterOpacity}>
                     <VoterHeader />
                   </Typography>
                 </Grid>
               )}
               <Grid item>
-                <Typography variant="bodyS2" className={classes.voterOpacity}> 
-                 {vote.like ? 'liked this' : 'disliked this'}
+                <Typography variant="bodyS2" className={classes.voterOpacity}>
+                  {vote.like ? 'liked this' : 'disliked this'}
                 </Typography>
               </Grid>
             </Grid>
