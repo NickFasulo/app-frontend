@@ -64,7 +64,10 @@ export default function HomePage() {
               { label: 'NFTs', value: FEED_CATEGORIES.NFT.id }
             ]}
             value={selectedTab}
-            onChange={setSelectedTab}
+            onChange={(activeTab) => {
+              window.scrollTo({ top: 0 });
+              setSelectedTab(activeTab);
+            }}
           />
         </YupPageHeader>
       )}
