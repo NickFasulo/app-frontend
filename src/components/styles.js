@@ -124,9 +124,8 @@ ActionButton.defaultProps = {
 export const YupCountUp = styled(CountUp)(({ color, theme }) => ({
   marginRight: theme.spacing(0),
   color,
-  fontSize: 24,
-  width: '1.7rem',
-  fontWeight: 700
+  fontSize: 20,
+  fontWeight: 600
 }));
 
 export const YupCard = styled(Box)(({ theme }) => ({

@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/pro-regular-svg-icons';
 import { faEthereum, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { Chip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -21,7 +22,8 @@ import {
   etherscanUrl,
   formatDecimal,
   shortenEthAddress,
-  twitterUrl
+  twitterUrl,
+  blockscanUrl
 } from '../../utils/helpers';
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
@@ -164,7 +166,7 @@ function ProfileHeader({ profile, hidden }) {
               {isLoggedIn && !isMyProfile && <FollowButton userId={id} />}
             </FlexBox>
           </FlexBox>
-          <FlexBox gap={1.5} flexDirection="column">
+          <FlexBox gap={2} flexDirection="column">
             <FlexBox columnGap={1}>
               {!isMobile && (
                 <Chip
@@ -213,22 +215,31 @@ function ProfileHeader({ profile, hidden }) {
                   target="_blank"
                 />
               )}
+              {!isMobile && ethInfo?.address && (
+                <Chip
+                  icon={<FontAwesomeIcon size="12" icon={faComment} />}
+                  label='Chat'
+                  clickable
+                  component="a"
+                  href={blockscanUrl(ethInfo.address)}
+                  target="_blank"
+                />
+              )}
             </FlexBox>
             <FlexBox alignItems="center" gap={2}>
-              <FlexBox alignItems="center">
+              <FlexBox alignItems="baseline">
                 <Typography variant="body2" sx={{ mr: 0.75 }}>
                   <YupCountUp
                     end={yupScore}
                     duration={0.5}
                     useEasing={false}
-                    color={userColor}
                   />
                 </Typography>
-                <Typography variant="body2" sx={{ mr: 2 }}>
+                <Typography variant="body2" sx={{ mr: 0 }}>
                   Yup Score
                 </Typography>
               </FlexBox>
-              <FlexBox alignItems="center">
+              <FlexBox alignItems="baseline">
                 <YupCountUp
                   end={influence}
                   duration={0.5}
@@ -237,12 +248,7 @@ function ProfileHeader({ profile, hidden }) {
                 />
                 <Typography variant="body2">Influence</Typography>
               </FlexBox>
-              <FlexBox alignItems="center">
-                <YupLogoEmoji />
-                <Typography variant="body2" sx={{ ml: 1, color: '' }}>
-                  {formatDecimal(balance?.YUP || 0)}
-                </Typography>
-              </FlexBox>
+              {}
             </FlexBox>
           </FlexBox>
           {!isDesktop && <FollowerSection />}
