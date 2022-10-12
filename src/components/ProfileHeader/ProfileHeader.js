@@ -220,10 +220,10 @@ function ProfileHeader({ profile, hidden }) {
                   target="_blank"
                 />
               )}
-              {!isMobile && ethInfo?.address && (
+              {!isMobile && !isMyProfile && ethInfo?.address && (
                 <Chip
                   icon={<FontAwesomeIcon size="12" icon={faComment} />}
-                  label="DM"
+                  label="Chat"
                   clickable
                   component="a"
                   href={blockscanUrl(ethInfo.address)}
