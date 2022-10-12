@@ -139,11 +139,16 @@ function ProfileHeader({ profile, hidden }) {
         display: hidden ? 'none' : 'block'
       }}
     >
-      <FlexBox columnGap={4}>
+      <FlexBox columnGap={4} alignItems="center">
         <ProfilePicture src={avatar} alt={username}>
           {username?.toUpperCase().substring(0, 1)}
         </ProfilePicture>
-        <FlexBox flexGrow={1} flexDirection="column" rowGap={1}>
+        <FlexBox
+          flexGrow={1}
+          flexDirection="column"
+          rowGap={1}
+          overflow="hidden"
+        >
           <FlexBox alignItems="center">
             <FlexBox flexGrow={1} alignItems="center" columnGap={1.5}>
               <GradientTypography variant="h3">
@@ -215,7 +220,7 @@ function ProfileHeader({ profile, hidden }) {
                   target="_blank"
                 />
               )}
-              {!isMobile && ethInfo?.address && (
+              {!isMobile && !isMyProfile && ethInfo?.address && (
                 <Chip
                   icon={<FontAwesomeIcon size="12" icon={faComment} />}
                   label="Chat"
@@ -226,7 +231,12 @@ function ProfileHeader({ profile, hidden }) {
                 />
               )}
             </FlexBox>
-            <FlexBox alignItems="center" gap={2}>
+            <FlexBox
+              alignItems="center"
+              columnGap={2}
+              rowGap={1}
+              flexWrap="wrap"
+            >
               <FlexBox alignItems="baseline">
                 <Typography variant="body2" sx={{ mr: 0.75 }}>
                   <YupCountUp end={yupScore} duration={0.5} useEasing={false} />
