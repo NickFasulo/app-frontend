@@ -218,7 +218,7 @@ function ProfileHeader({ profile, hidden }) {
               {!isMobile && ethInfo?.address && (
                 <Chip
                   icon={<FontAwesomeIcon size="12" icon={faComment} />}
-                  label="DM"
+                  label="Chat"
                   clickable
                   component="a"
                   href={blockscanUrl(ethInfo.address)}
