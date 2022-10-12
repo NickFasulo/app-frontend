@@ -142,7 +142,9 @@ function UserAccountPage() {
         }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
         metaOg={{
           url: getAbsolutePath(`/account/${profile.username}`),
-          description: `${ profile.fullname || profile.username }'s profile at ${COMPANY_NAME}. ${profile.bio}`,
+          description: `${
+            profile.fullname || profile.username
+          }'s profile at ${COMPANY_NAME}. ${profile.bio}`,
           type: 'profile'
         }}
         metaOther={{

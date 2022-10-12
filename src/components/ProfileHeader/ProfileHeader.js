@@ -218,7 +218,7 @@ function ProfileHeader({ profile, hidden }) {
               {!isMobile && ethInfo?.address && (
                 <Chip
                   icon={<FontAwesomeIcon size="12" icon={faComment} />}
-                  label='DM'
+                  label="DM"
                   clickable
                   component="a"
                   href={blockscanUrl(ethInfo.address)}
@@ -229,11 +229,7 @@ function ProfileHeader({ profile, hidden }) {
             <FlexBox alignItems="center" gap={2}>
               <FlexBox alignItems="baseline">
                 <Typography variant="body2" sx={{ mr: 0.75 }}>
-                  <YupCountUp
-                    end={yupScore}
-                    duration={0.5}
-                    useEasing={false}
-                  />
+                  <YupCountUp end={yupScore} duration={0.5} useEasing={false} />
                 </Typography>
                 <Typography variant="body2" sx={{ mr: 0 }}>
                   Yup Score

@@ -1,3 +1,5 @@
+import { isProduction, webAppUrl } from '../config';
+
 const TRACK_APPLICATION = 'Web App';
 const TRACK_DATA_TYPE = {
   LOGIN: 'ETH Login',
@@ -13,11 +15,17 @@ export const ANALYTICS_SIGN_UP_TYPES = {
 };
 
 const track = (type, data) => {
-  if (!window.analytics) {
+  if (!window.location.href.startsWith(webAppUrl)) {
     return;
   }
 
-  window.analytics.track(type, data);
+  if (window.analytics) {
+    window.analytics.track(type, data);
+  }
+
+  if (window.mixpanel) {
+    window.mixpanel.track(type, data);
+  }
 };
 
 export const trackLogin = (username, ethAddress) => {

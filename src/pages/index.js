@@ -49,7 +49,8 @@ export default function HomePage() {
         description="Follow your friends's web3 activity, curate top content from your favorite platforms."
         metaOg={{
           site_name: 'Yup',
-          site_description: "Follow your friends's web3 activity, curate top content from your favorite platforms."
+          site_description:
+            "Follow your friends's web3 activity, curate top content from your favorite platforms."
         }}
       />
       {isLoggedIn && (
@@ -92,7 +93,8 @@ export default function HomePage() {
                 </Grid>
                 <Grid item>
                   <Typography variant="capsized_body2" sx={{ mb: 3 }}>
-                    Follow your friends's web3 activity, curate top content from your favorite platforms.
+                    Follow your friends's web3 activity, curate top content from
+                    your favorite platforms.
                   </Typography>
                 </Grid>
                 <Grid item>
