@@ -29,7 +29,7 @@ function FollowUser({ userId, noBorder }) {
           flexGrow: 1
         }}
       >
-        <Typography>{username || userId}</Typography>
+        <Typography>{fullname || userId}</Typography>
       </Link>
       <Box>
         <FollowButton userId={userId} />

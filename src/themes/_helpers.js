@@ -659,7 +659,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       body1: {
         fontWeight: 600,
         fontSize: '15px',
-        letterSpacing: '1%',
+        letterSpacing: '0.5%',
         lineHeight: '135%',
         color: `${palette.M50}EE`
       },

@@ -60,7 +60,7 @@ const PostHeader = ({ postid, classes, hideInteractions }) => {
     : levelColors.sixth;
 
   const voterAvatar = account.avatar;
-  const voterUsername = account.username;
+  const voterFullname = account.fullname;
 
   const voterIsTracked = account.twitterInfo.isTracked;
   const voterIsMirror = account.twitterInfo.isMirror;
@@ -70,7 +70,7 @@ const PostHeader = ({ postid, classes, hideInteractions }) => {
   const headerDisplayName =
     voterIsMirror && voterIsTracked
       ? voterTwitterUsername
-      : voterUsername || vote.voter;
+      : voterFullname || vote.voter;
   console.log({ account }, voterAvatar);
 
   const VoterHeader = (props) => (
@@ -78,7 +78,7 @@ const PostHeader = ({ postid, classes, hideInteractions }) => {
       <Grid className={classes.keyUser} item>
         <YupLink
           style={{ textDecoration: 'none', color: '#fff' }}
-          href={`/account/${voterUsername || vote.voter}`}
+          href={`/account/${voterFullname || vote.voter}`}
         >
           <Typography variant="bodyS1" sx={{ mr: 0.5 }}>
             {headerDisplayName}

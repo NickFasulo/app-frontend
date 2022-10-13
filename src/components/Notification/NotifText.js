@@ -52,18 +52,14 @@ function NotifText(props) {
             style={
               invokerWeight !== 0
                 ? {
-                    textDecoration: 'underline',
-                    textDecorationColor: underlineColor
+                    textDecoration: 'none'
                   }
                 : null
             }
           >
             {invoker}
           </p>
-          &nbsp; {notif.like ? 'liked' : 'disliked'} &nbsp;
-          <FontAwesomeIcon
-            icon={notifVotes[0].like ? faThumbsUp : faThumbsDown}
-          />
+          &nbsp;{notif.like ? 'liked' : 'disliked'}
           &nbsp;
           <em>
             {notif.post && notif.post.previewData
@@ -91,7 +87,7 @@ function NotifText(props) {
           >
             {invoker}
           </p>
-          &nbsp; {notif.like ? 'liked' : 'disliked'} &nbsp;
+          {notif.like ? 'liked' : 'disliked'} &nbsp;
           <FontAwesomeIcon icon={notif.like ? faThumbsUp : faThumbsDown} />
           &nbsp;
           <em>

@@ -112,7 +112,7 @@ function YupReactMarkdown({
                     );
                   } else {
                     elem = (
-                      <Typography variant="body3" display="inline">
+                      <Typography variant="body1" display="inline">
                         <Link href={props.href}>{text}</Link>
                       </Typography>
                     );
