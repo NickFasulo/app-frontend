@@ -114,8 +114,9 @@ function PostStats({ classes, isShown, quantile, theme, totalVoters, weight }) {
     <Typography
       variant="body2"
       className={classes.weight}
-      style={{
-        color: !isShown ? levelColors[quantile] : theme.palette.M200
+      sx={{
+        color: !isShown ? levelColors[quantile] : theme.palette.M200,
+        lineHeight: '100%'
       }}
       placeholder={weight}
     >
@@ -296,7 +297,7 @@ function VoteButton({
       ? faThumbsDownSolid
       : faThumbsDown;
   return (
-    <FlexBox alignItems="center" gap={0.5} position="relative">
+    <FlexBox alignItems="baseline" gap={0.5} position="relative">
       {transition((style, item) => (
         <animated.div
           className={styles.item}

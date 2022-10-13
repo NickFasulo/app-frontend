@@ -27,7 +27,7 @@ export default function YupLinkCard({ to, title, description, image }) {
         <Typography variant="h5" gutter>
           {title}
         </Typography>
-        <Typography>{description}</Typography>
+        <Typography variant="body2">{description}</Typography>
         <CardImage src={image} alt={title} />
       </CardRoot>
     </Link>

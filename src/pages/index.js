@@ -151,7 +151,7 @@ export default function HomePage() {
             <>
               {isLoggedIn || !windowScrolled ? (
                 <Typography variant="h6" sx={{ mb: 2 }}>
-                  Explore Yup
+                  Explore
                 </Typography>
               ) : (
                 <Grow in out>
@@ -192,7 +192,7 @@ export default function HomePage() {
                 <YupLinkCard
                   to="/feed/farcaster"
                   title="Farcaster Feed"
-                  description="Explorer Farcaster content"
+                  description="Explore Farcaster content"
                   image="/images/png/feed-farcaster.png"
                 />
                 <YupLinkCard

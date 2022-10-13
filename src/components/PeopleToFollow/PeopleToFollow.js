@@ -16,7 +16,7 @@ export default function PeopleToFollow() {
       <Typography variant="subtitle2" sx={{ mb: 2 }}>
         People to Follow
       </Typography>
-      <FlexBox flexDirection="column" gap={0.5}>
+      <FlexBox flexDirection="column" gap={2}>
         {people.map((follower) => (
           <FollowUser key={follower.userId} noBorder userId={follower.userId} />
         ))}

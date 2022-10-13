@@ -659,6 +659,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
       body1: {
         fontWeight: 600,
         fontSize: '15px',
+        letterSpacing: '1%',
         lineHeight: '135%',
         color: `${palette.M50}EE`
       },
@@ -682,7 +683,7 @@ export const createThemeWithPalette = ({ palette, ...restPalette }) =>
         fontWeight: 400,
         fontSize: '15px',
         lineHeight: '135%',
-        letterSpacing: '0.01em',
+        letterSpacing: '1%',
         color: `${palette.M50}EE`
       },
       capsized_body2: {
