@@ -60,6 +60,7 @@ const PostHeader = ({ postid, classes, hideInteractions }) => {
     : levelColors.sixth;
 
   const voterAvatar = account.avatar;
+  const voterUsername = account.username;
   const voterFullname = account.fullname;
 
   const voterIsTracked = account.twitterInfo.isTracked;
@@ -78,7 +79,7 @@ const PostHeader = ({ postid, classes, hideInteractions }) => {
       <Grid className={classes.keyUser} item>
         <YupLink
           style={{ textDecoration: 'none', color: '#fff' }}
-          href={`/account/${voterFullname || vote.voter}`}
+          href={`/account/${voterUsername || vote.voter}`}
         >
           <Typography variant="bodyS1" sx={{ mr: 0.5 }}>
             {headerDisplayName}
