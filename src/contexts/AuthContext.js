@@ -65,6 +65,9 @@ export function AuthProvider({ children }) {
         }
       }
 
+      // If user's not signed-in with ETH, tries checking auth async because checking through extension takes a lot of time.
+      setIsCheckingAuth(false);
+
       // 2. Check auth through the extension.
       try {
         await scatter.detect(
@@ -133,7 +136,6 @@ export function AuthProvider({ children }) {
 
       // Set not-authenticated
       setIsLoggedIn(false);
-      setIsCheckingAuth(false);
     })();
   }, []);
 
