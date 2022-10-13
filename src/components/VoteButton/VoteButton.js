@@ -138,8 +138,7 @@ PostStats.propTypes = {
 };
 
 const postStatStyles = (theme) => ({
-  weight: {
-  },
+  weight: {},
   totalVoters: {
     color: theme.palette.M300,
     opacity: 0.3,
