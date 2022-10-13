@@ -36,7 +36,36 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     (async function checkAuth() {
-      // 1. Check auth through the extension.
+      // 1. Check auth through ETH
+      const ethAuthInfo = localStorage.getItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
+
+      if (ethAuthInfo) {
+        try {
+          const { address, signature } = JSON.parse(ethAuthInfo);
+
+          // Check if signature is valid
+          await apiVerifyChallenge(address, signature);
+
+          // Get ETH account info
+          const account = await apiGetAccountByEthAddress(address);
+
+          setAuthInfo({
+            authType: AUTH_TYPE.ETH,
+            eosname: account._id,
+            username: account.username,
+            address,
+            signature
+          });
+
+          return;
+        } catch (err) {
+          logError('ETH authentication failed.', err);
+
+          localStorage.removeItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
+        }
+      }
+
+      // 2. Check auth through the extension.
       try {
         await scatter.detect(
           () => {},
@@ -72,35 +101,6 @@ export function AuthProvider({ children }) {
           return () => clearTimeout(timer);
         } catch (err) {
           logError('Scatter authentication failed.', err);
-        }
-      }
-
-      // 2. Check auth through ETH
-      const ethAuthInfo = localStorage.getItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
-
-      if (ethAuthInfo) {
-        try {
-          const { address, signature } = JSON.parse(ethAuthInfo);
-
-          // Check if signature is valid
-          await apiVerifyChallenge(address, signature);
-
-          // Get ETH account info
-          const account = await apiGetAccountByEthAddress(address);
-
-          setAuthInfo({
-            authType: AUTH_TYPE.ETH,
-            eosname: account._id,
-            username: account.username,
-            address,
-            signature
-          });
-
-          return;
-        } catch (err) {
-          logError('ETH authentication failed.', err);
-
-          localStorage.removeItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
         }
       }
 
