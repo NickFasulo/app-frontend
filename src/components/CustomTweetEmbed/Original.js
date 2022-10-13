@@ -82,8 +82,12 @@ function Original({ tweetData, classes }) {
   } else {
     initialText = '';
   }
-
-  const tweetText = text.split(' ').map((string) => linkMentions(string));
+  const tweetText = text.split('\n').map((line, idx) => (
+    <>
+      {idx > 0 && <br />}
+      {line.split(' ').map((string) => linkMentions(string))}
+    </>
+  ));
 
   return (
     <Grid container="container" className={classes.container}>

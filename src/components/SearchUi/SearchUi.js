@@ -90,7 +90,7 @@ function SearchUi({ onClose }) {
             <Grid container spacing={3}>
               {/* Posts */}
               <Grid item md={8} lg={7}>
-                <Typography variant="h5" sx={{ mt: 2 }}>
+                <Typography variant="h6" sx={{ my: 2 }}>
                   Posts
                 </Typography>
                 <SearchPosts searchQuery={searchQuery} />
@@ -106,11 +106,11 @@ function SearchUi({ onClose }) {
                     height: headerHeight && `calc(100vh - ${headerHeight}px)`
                   }}
                 >
-                  <Typography variant="h5" sx={{ mb: 3 }}>
+                  <Typography variant="h6" sx={{ mb: 3 }}>
                     People
                   </Typography>
                   <SearchPeople searchQuery={searchQuery} />
-                  <Typography variant="h5" sx={{ my: 3 }}>
+                  <Typography variant="h6" sx={{ my: 3 }}>
                     Collections
                   </Typography>
                   <SearchCollections searchQuery={searchQuery} />

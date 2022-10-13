@@ -36,7 +36,39 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     (async function checkAuth() {
-      // 1. Check auth through the extension.
+      // 1. Check auth through ETH
+      const ethAuthInfo = localStorage.getItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
+
+      if (ethAuthInfo) {
+        try {
+          const { address, signature } = JSON.parse(ethAuthInfo);
+
+          // Check if signature is valid
+          await apiVerifyChallenge(address, signature);
+
+          // Get ETH account info
+          const account = await apiGetAccountByEthAddress(address);
+
+          setAuthInfo({
+            authType: AUTH_TYPE.ETH,
+            eosname: account._id,
+            username: account.username,
+            address,
+            signature
+          });
+
+          return;
+        } catch (err) {
+          logError('ETH authentication failed.', err);
+
+          localStorage.removeItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
+        }
+      }
+
+      // If user's not signed-in with ETH, tries checking auth async because checking through extension takes a lot of time.
+      setIsCheckingAuth(false);
+
+      // 2. Check auth through the extension.
       try {
         await scatter.detect(
           () => {},
@@ -75,35 +107,6 @@ export function AuthProvider({ children }) {
         }
       }
 
-      // 2. Check auth through ETH
-      const ethAuthInfo = localStorage.getItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
-
-      if (ethAuthInfo) {
-        try {
-          const { address, signature } = JSON.parse(ethAuthInfo);
-
-          // Check if signature is valid
-          await apiVerifyChallenge(address, signature);
-
-          // Get ETH account info
-          const account = await apiGetAccountByEthAddress(address);
-
-          setAuthInfo({
-            authType: AUTH_TYPE.ETH,
-            eosname: account._id,
-            username: account.username,
-            address,
-            signature
-          });
-
-          return;
-        } catch (err) {
-          logError('ETH authentication failed.', err);
-
-          localStorage.removeItem(LOCAL_STORAGE_KEYS.ETH_AUTH);
-        }
-      }
-
       // 3. Check auth through Twitter
       const twitterAuthInfo = localStorage.getItem(
         LOCAL_STORAGE_KEYS.TWITTER_INFO
@@ -133,7 +136,6 @@ export function AuthProvider({ children }) {
 
       // Set not-authenticated
       setIsLoggedIn(false);
-      setIsCheckingAuth(false);
     })();
   }, []);
 

@@ -14,7 +14,7 @@ const Tokens = ({ data }) => {
       </Typography>
       {filteredData.length > 0 ? (
         <>
-          <Grid container spacing={1.5} sx={{ mb: 3 }}>
+          <Grid container spacing={1.5} sx={{ mb: 1 }}>
             {(showAll ? filteredData : filteredData.slice(0, 4)).map(
               ({
                 name,

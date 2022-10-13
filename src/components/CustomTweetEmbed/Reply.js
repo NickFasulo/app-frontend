@@ -129,7 +129,12 @@ function Reply({ tweetData, classes }) {
   }
 
   const text = parseText(replyStatusText);
-  const replyTweetText = text.split(' ').map((string) => linkMentions(string));
+  const replyTweetText = text.split('\n').map((line, idx) => (
+    <>
+      {idx > 0 && <br />}
+      {line.split(' ').map((string) => linkMentions(string))}
+    </>
+  ));
 
   // REPLY CUSTOM HEADER STYLING CONFIG
   const { userAvatar } = classes;

@@ -6,7 +6,8 @@ function BackgroundGradients() {
         alt="background gradient"
         style={{
           position: 'fixed',
-          zIndex: -1
+          zIndex: -1,
+          opacity: 0.5
         }}
       />
       <img
@@ -15,7 +16,8 @@ function BackgroundGradients() {
         style={{
           position: 'fixed',
           left: '50%',
-          zIndex: -1
+          zIndex: -1,
+          opacity: 0.5
         }}
       />
       <img
@@ -25,7 +27,8 @@ function BackgroundGradients() {
           position: 'fixed',
           right: '0',
           bottom: 0,
-          zIndex: -1
+          zIndex: -1,
+          opacity: 0.5
         }}
       />
     </>

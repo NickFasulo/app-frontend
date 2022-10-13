@@ -12,6 +12,7 @@ import withStyles from '@mui/styles/withStyles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/pro-light-svg-icons';
 import clsx from 'clsx';
+import { FlexBox } from '../styles';
 
 const styles = (theme) => ({
   dialog: {
@@ -68,24 +69,27 @@ function YupDialog(props) {
   return (
     <Dialog {...restProps}>
       <DialogTitle style={{ paddingBottom: '10px' }}>
-        <Typography variant="h5">{headline}</Typography>
-        {restProps.onClose ? (
-          <IconButton
-            aria-label="close"
-            onClick={restProps.onClose}
-            sx={{
-              position: 'absolute',
-              right: 24,
-              top: 20,
-              width: 35,
-              height: 35,
-              color: (theme) => theme.palette.M150
-            }}
-            size="medium"
-          >
-            <FontAwesomeIcon icon={faXmark} />
-          </IconButton>
-        ) : null}
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Grid item>
+            <Typography variant="h6">{headline}</Typography>
+          </Grid>
+          <Grid item>
+            {restProps.onClose ? (
+              <IconButton
+                aria-label="close"
+                onClick={restProps.onClose}
+                sx={{
+                  width: 35,
+                  height: 35,
+                  color: (theme) => theme.palette.M150
+                }}
+                size="small"
+              >
+                <FontAwesomeIcon icon={faXmark} />
+              </IconButton>
+            ) : null}
+          </Grid>
+        </Grid>
       </DialogTitle>
       <DialogContent>
         <Grid container direction="column" spacing={2}>

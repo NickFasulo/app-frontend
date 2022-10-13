@@ -30,8 +30,8 @@ const styles = (theme) => ({
     opacity: 0.6
   },
   catIcon: {
-    width: 20,
-    height: 20,
+    width: 15,
+    height: 15,
     borderRadius: '50%',
     padding: '2px',
     [theme.breakpoints.down('md')]: {
@@ -114,8 +114,9 @@ function PostStats({ classes, isShown, quantile, theme, totalVoters, weight }) {
     <Typography
       variant="body2"
       className={classes.weight}
-      style={{
-        color: !isShown ? levelColors[quantile] : theme.palette.M200
+      sx={{
+        color: !isShown ? levelColors[quantile] : theme.palette.M200,
+        lineHeight: '100%'
       }}
       placeholder={weight}
     >
@@ -137,11 +138,8 @@ PostStats.propTypes = {
 };
 
 const postStatStyles = (theme) => ({
-  weight: {
-    fontSize: '16px'
-  },
+  weight: {},
   totalVoters: {
-    fontSize: '16px',
     color: theme.palette.M300,
     opacity: 0.3,
     marginLeft: '7px'
@@ -250,11 +248,11 @@ function VoteButton({
   const AnimatedIcon = animated(FontAwesomeIcon);
   const { ...hover } = useSpring({
     config: { tension: 300, friction: 15, clamp: true },
-    from: { width: '16px', height: '16px', transform: 'rotate(0deg)' },
+    from: { width: '5px', height: '15px', transform: 'rotate(0deg)' },
 
     to: {
-      width: isHovered ? '18px' : '16px',
-      height: isHovered ? '18px' : '16px',
+      width: isHovered ? '18px' : '15px',
+      height: isHovered ? '18px' : '15px',
       transform:
         isHovered && isLoggedIn
           ? type === 'like'
@@ -296,7 +294,7 @@ function VoteButton({
       ? faThumbsDownSolid
       : faThumbsDown;
   return (
-    <FlexBox alignItems="center" gap={0.5} position="relative">
+    <FlexBox alignItems="baseline" gap={0.5} position="relative">
       {transition((style, item) => (
         <animated.div
           className={styles.item}

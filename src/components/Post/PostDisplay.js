@@ -57,7 +57,7 @@ function PostDisplay({ post, classes, isLoading }) {
       <div align="center" className={classes.container}>
         <PostController post={post} hideInteractions showFullPost />
       </div>
-      <Typography variant="h6" sx={{ my: 2, width: '100%' }}>
+      <Typography variant="h6" sx={{ mb: 2, mt: 1, width: '100%' }}>
         Recommended
       </Typography>
       <RecommendedPosts

@@ -14,7 +14,7 @@ function FollowUser({ userId, noBorder }) {
   const { fullname, username, avatar, quantile } = userProfile;
 
   return (
-    <FlexBox gap={{ xs: 1, lg: 3 }} alignItems="center" sx={{ my: 0.5 }}>
+    <FlexBox gap={{ xs: 1, lg: 1.5 }} alignItems="center">
       <ProfilePicture
         src={avatar}
         alt={`${fullname || username}'s profile picture`}
@@ -24,12 +24,12 @@ function FollowUser({ userId, noBorder }) {
         {getInitial(username)}
       </ProfilePicture>
       <Link
-        href={`/accounts/${username}`}
+        href={`/account/${username}`}
         style={{
           flexGrow: 1
         }}
       >
-        <Typography>{username || userId}</Typography>
+        <Typography>{fullname || userId}</Typography>
       </Link>
       <Box>
         <FollowButton userId={userId} />

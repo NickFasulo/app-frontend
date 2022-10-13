@@ -116,14 +116,20 @@ export const ActionButton = styled(Button)(({ theme }) => ({
   background: `${theme.palette.M100}10`
 }));
 
-export const YupCountUp = styled(CountUp)(({ color, theme }) => ({
-  marginRight: theme.spacing(1),
-  color,
-  fontSize: 24,
-  fontWeight: 700
-}));
-
 ActionButton.defaultProps = {
   size: 'small',
   variant: 'default'
 };
+
+export const YupCountUp = styled(CountUp)(({ color, theme }) => ({
+  marginRight: theme.spacing(0),
+  color,
+  fontSize: 20,
+  fontWeight: 600
+}));
+
+export const YupCard = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2.5),
+  borderRadius: 12,
+  backgroundColor: `${theme.palette.M900}88`
+}));

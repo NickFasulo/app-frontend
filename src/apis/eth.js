@@ -13,8 +13,3 @@ export const apiVerifyChallenge = async (address, signature) =>
     method: 'POST',
     data: { address, signature }
   });
-
-export const apiCheckWhitelist = async (address) =>
-  callYupApi({
-    url: `/v1/eth/whitelist/${address}`
-  });

@@ -39,7 +39,7 @@ function UserPosts({ userId, name }) {
       )}
       {(isPostAllFetched || posts?.length === 0) && (
         <Grid item>
-          <Typography variant="h6" sx={{ my: 2 }}>
+          <Typography variant="capsized_subtitle1" sx={{ my: 2 }}>
             Recommended
           </Typography>
           <RecommendedPosts query={name} />

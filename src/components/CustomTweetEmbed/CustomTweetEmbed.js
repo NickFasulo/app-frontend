@@ -105,7 +105,7 @@ const styles = (theme) => ({
     height: 100
   },
   mainReplyContainer: {
-    padding: '16px',
+    padding: '16px 16px 0',
     borderBottomLeftRadius: '12px',
     borderBottomRightRadius: '12px',
     textAlign: 'left',
@@ -138,7 +138,7 @@ const styles = (theme) => ({
     minHeight: 150,
     overflow: 'hidden',
     marginBottom: 25,
-    boxShadow: `0px 0px 3px #AAAAA0`,
+    boxShadow: `0px 0px 10px 0px ${theme.palette.M200}05, 0px 0px 0.75px  ${theme.palette.M200}05`,
     borderRadius: 20
   },
   LinkPreviewURL: {
@@ -146,7 +146,9 @@ const styles = (theme) => ({
   },
   LinkPreviewImageLarge: {
     width: '100%',
-    borderRadius: '12px 12px 0px 0px'
+    borderRadius: '12px 12px 0px 0px',
+    maxHeight: 240,
+    objectFit: 'cover'
   },
   LinkPreviewImageSmallContainer: {
     height: '100%'
@@ -156,13 +158,16 @@ const styles = (theme) => ({
   },
   LinkPreviewContentLarge: {
     flexDirection: 'column',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    padding: theme.spacing(1, 1.5, 1, 1.5)
   },
   LinkPreviewMainLarge: {
     overflow: 'hidden',
-    marginBottom: 25,
+    marginBottom: 12,
     flexDirection: 'column',
-    boxShadow: `0px 0px 3px #AAAAA0`,
+    backgroundColor: `${theme.palette.M900}80`,
+    backdropFilter: 'blur(24px)',
+    boxShadow: `0px 0px 10px 0px ${theme.palette.M200}05, 0px 0px 0.75px  ${theme.palette.M200}05`,
     borderRadius: 12
   },
   LinkPreviewAnchor: {

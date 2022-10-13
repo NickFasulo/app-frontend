@@ -50,6 +50,7 @@ function UserAccountPage() {
     useYupAccount(username);
   const { isLoading: isFetchingCollections, data: collections = [] } =
     useUserCollections(profile?._id);
+  console.log({ isFetchingCollections });
   const { windowScrolled } = useAppUtils();
   const { username: loggedInUsername } = useAuth();
   const [eventSent, setEventSent] = useState(false);
@@ -141,6 +142,9 @@ function UserAccountPage() {
         }'s profile at ${COMPANY_NAME}. ${profile.bio}`}
         metaOg={{
           url: getAbsolutePath(`/account/${profile.username}`),
+          description: `${
+            profile.fullname || profile.username
+          }'s profile at ${COMPANY_NAME}. ${profile.bio}`,
           type: 'profile'
         }}
         metaOther={{
@@ -192,9 +196,12 @@ function UserAccountPage() {
               }
               contentRight={
                 (isFetchingCollections || collections.length) > 0 ? (
-                  <UserCollectionsSection collections={collections} />
+                  <UserCollectionsSection
+                    isFetchingCollections={isFetchingCollections}
+                    collections={collections}
+                  />
                 ) : (
-                  <UserNewConnections profile={profile} />
+                  <UserNewConnections username={username} />
                 )
               }
             />
@@ -207,7 +214,7 @@ function UserAccountPage() {
         )}
         {selectedTab === PROFILE_TAB_IDS.PEOPLE && (
           <YupContainer sx={{ pt: 3 }}>
-            <UserNewConnections profile={profile} />
+            <UserNewConnections username={username} />
           </YupContainer>
         )}
         {selectedTab === PROFILE_TAB_IDS.ANALYTICS && (

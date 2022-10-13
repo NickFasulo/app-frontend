@@ -84,8 +84,12 @@ function Retweet({ tweetData, classes }) {
 
   const initialText = tweetData.tweetInfo.full_text || tweetData.tweetInfo.text;
   const text = parseText(initialText);
-  const tweetText = text.split(' ').map((string) => linkMentions(string));
-
+  const tweetText = text.split('\n').map((line, idx) => (
+    <>
+      {idx > 0 && <br />}
+      {line.split(' ').map((string) => linkMentions(string))}
+    </>
+  ));
   return (
     <Grid container className={classes.container}>
       <Grid item xs={12}>

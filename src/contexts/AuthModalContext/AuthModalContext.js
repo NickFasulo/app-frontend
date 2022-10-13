@@ -14,12 +14,10 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/router';
 import { AUTH_TYPE, LOCAL_STORAGE_KEYS } from '../../constants/enum';
 import {
-  apiCheckWhitelist,
   apiGetAccountByEthAddress,
   apiGetChallenge,
   apiGetOAuthChallenge,
   apiGetTwitterAuthInfo,
-  apiInviteEmail,
   apiMirrorAccount,
   apiRequestWhitelist,
   apiSetETHAddress,
@@ -184,18 +182,7 @@ export const AuthModalContextProvider = ({ children }) => {
     try {
       account = await apiGetAccountByEthAddress(address);
     } catch {
-      // Check if the address is whitelisted
-      try {
-        await apiCheckWhitelist(address);
-
-        // ETH address is whitelisted.
-        // Then require user to enter a unique username to finish Sign-Up process.
-        setStage(AUTH_MODAL_STAGE.REQUIRE_USERNAME);
-      } catch {
-        // ETH address is not whitelisted.
-        // Then require user to enter an email to be notified when the address is whitelisted.
-        setStage(AUTH_MODAL_STAGE.REQUIRE_EMAIL);
-      }
+      setStage(AUTH_MODAL_STAGE.REQUIRE_USERNAME);
 
       return;
     }
@@ -215,8 +202,8 @@ export const AuthModalContextProvider = ({ children }) => {
     handleCloseModal();
 
     if (!options.noRedirect) {
-      // Redirect to profile page
-      router.push(`/account/${account.username}`);
+      // Redirect to the home page
+      router.push(`/`);
     }
   };
   const handleLinkEthAddress = async () => {
@@ -286,24 +273,6 @@ export const AuthModalContextProvider = ({ children }) => {
     } catch {
       toastError(ERROR_TWITTER_AUTH);
     }
-  };
-
-  const handleSignUpWithEmail = async () => {
-    if (!isValidEmail(email)) {
-      toastError(ERROR_INVALID_EMAIL);
-
-      return;
-    }
-
-    await apiInviteEmail(email);
-
-    // Show success notification
-    toastSuccess(INVITE_EMAIL_SUCCESS);
-
-    trackSignUpAttempt(ANALYTICS_SIGN_UP_TYPES.EMAIL, email);
-
-    // Close Modal
-    handleCloseModal();
   };
 
   const handleRequestWhitelist = async () => {
@@ -413,7 +382,7 @@ export const AuthModalContextProvider = ({ children }) => {
               {({ openConnectModal }) => (
                 <AuthMethodButton
                   text="Wallet"
-                  imageUrl="/images/icons/wallet_connect.png"
+                  imageUrl="/images/icons/ethereum.svg"
                   onClick={() => {
                     setCurrAuthMethod(AUTH_TYPE.ETH);
                     openConnectModal();
@@ -427,14 +396,6 @@ export const AuthModalContextProvider = ({ children }) => {
               text="Twitter"
               imageUrl="/images/icons/twitter.svg"
               onClick={handleAuthWithTwitter}
-            />
-          </Grid>
-          <Grid item>
-            <AuthInput
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onEnter={handleSignUpWithEmail}
             />
           </Grid>
         </Grid>
@@ -503,7 +464,7 @@ export const AuthModalContextProvider = ({ children }) => {
       {children}
 
       <YupDialog
-        headline="Sign Up / Login"
+        headline="Connect"
         description={
           <Hidden lgDown>
             {stage === AUTH_MODAL_STAGE.SIGN_IN

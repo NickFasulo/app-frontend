@@ -16,28 +16,23 @@ import { usePostInteractions, useYupAccount } from '../../hooks/queries';
 const styles = (theme) => ({
   interactionBar: {
     opacity: '0.7',
-    padding: '0 0 4px 0',
+    padding: '0 8px 4px',
     marginTop: 0,
     [theme.breakpoints.down('sm')]: {
       padding: '4px 0'
     }
   },
   keyUser: {
-    opacity: '80%'
+    opacity: '100%'
   },
   time: {
     paddingRight: '2px',
     marginLeft: 'auto',
     color: theme.palette.M500,
-    fontSize: '14px',
-    lineHeight: '14px',
-    paddingTop: 0,
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '12px'
-    }
+    paddingTop: 0
   },
   voterOpacity: {
-    opacity: '80%'
+    opacity: '60%'
   },
   avatarImage: {
     fontSize: '14px',
@@ -65,7 +60,7 @@ const PostHeader = ({ postid, classes, hideInteractions }) => {
     : levelColors.sixth;
 
   const voterAvatar = account.avatar;
-  const voterUsername = account.username;
+  const voterFullname = account.fullname;
 
   const voterIsTracked = account.twitterInfo.isTracked;
   const voterIsMirror = account.twitterInfo.isMirror;
@@ -75,28 +70,17 @@ const PostHeader = ({ postid, classes, hideInteractions }) => {
   const headerDisplayName =
     voterIsMirror && voterIsTracked
       ? voterTwitterUsername
-      : voterUsername || vote.voter;
+      : voterFullname || vote.voter;
   console.log({ account }, voterAvatar);
 
   const VoterHeader = (props) => (
     <Grid container direction="row" alignItems="center">
-      <Grid item className={classes.voterOpacity}>
-        <UserAvatar
-          alt={voterUsername}
-          className={classes.avatarImage}
-          src={voterAvatar}
-          style={{
-            borderColor: voterLevelColor
-          }}
-          username={voterUsername}
-        />
-      </Grid>
       <Grid className={classes.keyUser} item>
         <YupLink
           style={{ textDecoration: 'none', color: '#fff' }}
-          href={`/account/${voterUsername || vote.voter}`}
+          href={`/account/${voterFullname || vote.voter}`}
         >
-          <Typography variant="body2" sx={{ mr: 1 }}>
+          <Typography variant="bodyS1" sx={{ mr: 0.5 }}>
             {headerDisplayName}
           </Typography>
         </YupLink>
@@ -135,28 +119,25 @@ const PostHeader = ({ postid, classes, hideInteractions }) => {
               container
               direction="row"
               justifyContent="flex-start"
-              alignItems="center"
+              alignItems="baseline"
             >
               {' '}
               {hideInteractions ? null : (
                 <Grid item>
-                  <Grid container direction="row" alignItems="center">
-                    <Grid item className={classes.voterOpacity}>
-                      <VoterHeader />
-                    </Grid>
-                  </Grid>
+                  <Typography variant="bodyS2" className={classes.voterOpacity}>
+                    <VoterHeader />
+                  </Typography>
                 </Grid>
               )}
-              <Grid item className={classes.voterOpacity}>
-                <FontAwesomeIcon
-                  className={classes.voterOpacity}
-                  icon={vote.like ? faThumbsUp : faThumbsDown}
-                />
+              <Grid item>
+                <Typography variant="bodyS2" className={classes.voterOpacity}>
+                  {vote.like ? 'liked this' : 'disliked this'}
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="body2" className={classes.time}>
+            <Typography variant="bodyS2" className={classes.time}>
               {formattedVoteTime}
             </Typography>
           </Grid>

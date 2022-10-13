@@ -58,7 +58,7 @@ function UserMenuItem() {
       </ListItemAvatar>
       <Grow in={open} timeout={MENU_ANIMATION_DURATION}>
         <ListItemText
-          primary={profile.username}
+          primary={profile.fullname}
           primaryTypographyProps={{
             align: 'right',
             variant: isDesktop ? 'bodyS1' : 'h5'
