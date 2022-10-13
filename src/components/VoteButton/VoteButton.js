@@ -30,8 +30,8 @@ const styles = (theme) => ({
     opacity: 0.6
   },
   catIcon: {
-    width: 20,
-    height: 20,
+    width: 15,
+    height: 15,
     borderRadius: '50%',
     padding: '2px',
     [theme.breakpoints.down('md')]: {
@@ -139,10 +139,8 @@ PostStats.propTypes = {
 
 const postStatStyles = (theme) => ({
   weight: {
-    fontSize: '16px'
   },
   totalVoters: {
-    fontSize: '16px',
     color: theme.palette.M300,
     opacity: 0.3,
     marginLeft: '7px'
@@ -251,11 +249,11 @@ function VoteButton({
   const AnimatedIcon = animated(FontAwesomeIcon);
   const { ...hover } = useSpring({
     config: { tension: 300, friction: 15, clamp: true },
-    from: { width: '16px', height: '16px', transform: 'rotate(0deg)' },
+    from: { width: '5px', height: '15px', transform: 'rotate(0deg)' },
 
     to: {
-      width: isHovered ? '18px' : '16px',
-      height: isHovered ? '18px' : '16px',
+      width: isHovered ? '18px' : '15px',
+      height: isHovered ? '18px' : '15px',
       transform:
         isHovered && isLoggedIn
           ? type === 'like'
