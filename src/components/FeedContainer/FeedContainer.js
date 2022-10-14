@@ -24,7 +24,7 @@ function FeedContainer({ categoryData }) {
             contentLeft={<FeedHOC feedType={categoryData.id} />}
             contentRight={
               <>
-                <Typography variant="h6" sx={{ pb: 1 }}>
+                <Typography variant="capsized_subtitle1" sx={{ pb: 1 }}>
                   Recommended
                 </Typography>
                 <FeedCategoryList currentCategoryId={categoryData.id} />

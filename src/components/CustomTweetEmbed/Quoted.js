@@ -118,9 +118,12 @@ function Quoted({ tweetData, classes }) {
   }
 
   const quotedText = parseText(quotedInitialText);
-  const quotedTweetText = quotedText
-    .split(' ')
-    .map((string) => linkMentions(string));
+  const quotedTweetText = quotedText.split('\n').map((line, idx) => (
+    <>
+      {idx > 0 && <br />}
+      {line.split(' ').map((string) => linkMentions(string))}
+    </>
+  ));
 
   return (
     <Grid container="container" className={classes.container}>

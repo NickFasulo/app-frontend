@@ -47,7 +47,7 @@ const styles = (theme) => ({
     fontWeight: 400
   },
   Skeleton: {
-    background: `${theme.palette.M800}dd`
+    background: `${theme.palette.M900}80`
   }
 });
 

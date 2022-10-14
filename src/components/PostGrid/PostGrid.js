@@ -63,6 +63,7 @@ function PostGrid({
           xs={9}
           tourname="Likes"
           className={`${classes.voteComp} ${listStyle}`}
+          sx={{ pl: 0.5 }}
         >
           <VoteComp
             postInfo={{ post }}

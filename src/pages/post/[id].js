@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
 import PostDisplay from '../../components/Post/PostDisplay';
 import { CreateCollectionFab } from '../../components/Miscellaneous';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
@@ -10,8 +9,6 @@ import { useAppUtils } from '../../contexts/AppUtilsContext';
 import { YupPageWrapper, YupContainer } from '../../components/styles';
 import GridLayout from '../../components/GridLayout';
 import { usePost } from '../../hooks/queries';
-import { REACT_QUERY_KEYS } from '../../constants/enum';
-import callYupApi from '../../apis/base_api';
 import PostHead from '../../components/Heads/PostHead';
 import PostCard from '../../components/PostCard/PostCard';
 import useDevice from '../../hooks/useDevice';
@@ -86,25 +83,6 @@ function PostDetails() {
       </YupPageWrapper>
     </ErrorBoundary>
   );
-}
-
-export async function getServerSideProps(context) {
-  const { id } = context.params;
-  const qc = new QueryClient();
-
-  await qc.prefetchQuery([REACT_QUERY_KEYS.POST, id], () => {
-    if (!id) return null;
-
-    return callYupApi({
-      url: `/posts/post/${id}`
-    });
-  });
-
-  return {
-    props: {
-      dehydratedState: dehydrate(qc)
-    }
-  };
 }
 
 export default PostDetails;

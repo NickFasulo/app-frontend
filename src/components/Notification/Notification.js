@@ -105,7 +105,7 @@ function Notification({ notif, classes }) {
     if (notif.invoker === notif.recipient) {
       return 'You';
     }
-    return notif.invoker.username || notif.invoker;
+    return notif.invoker.fullname || notif.invoker;
   };
 
   const getPostUrl = () => {

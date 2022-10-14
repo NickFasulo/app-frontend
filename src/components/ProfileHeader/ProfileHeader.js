@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/pro-regular-svg-icons';
 import { faEthereum, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { Chip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -21,7 +22,8 @@ import {
   etherscanUrl,
   formatDecimal,
   shortenEthAddress,
-  twitterUrl
+  twitterUrl,
+  blockscanUrl
 } from '../../utils/helpers';
 import YupLogoEmoji from './YupLogoEmoji';
 import useDevice from '../../hooks/useDevice';
@@ -47,7 +49,7 @@ function ProfileHeader({ profile, hidden }) {
     weight: influence,
     balance
   } = profile;
-  const { isLoggedIn, name: authName } = useAuth();
+  const { isLoggedIn, authInfo, name: authName } = useAuth();
   const { data: followings = [] } = useFollowings(id);
   const { data: followers = [] } = useFollowers(id);
   const { data: likeCount = 0 } = useUserLikes(id);
@@ -85,7 +87,8 @@ function ProfileHeader({ profile, hidden }) {
 
         await apiSetETHAddress(ethAddress, {
           eosname: id,
-          signature
+          signature: authInfo.signature,
+          ethSignature: signature
         });
       },
       {
@@ -136,11 +139,16 @@ function ProfileHeader({ profile, hidden }) {
         display: hidden ? 'none' : 'block'
       }}
     >
-      <FlexBox columnGap={4}>
-        <ProfilePicture src={avatar} alt={username} border={userColor}>
+      <FlexBox columnGap={4} alignItems="center">
+        <ProfilePicture src={avatar} alt={username}>
           {username?.toUpperCase().substring(0, 1)}
         </ProfilePicture>
-        <FlexBox flexGrow={1} flexDirection="column" rowGap={1}>
+        <FlexBox
+          flexGrow={1}
+          flexDirection="column"
+          rowGap={1}
+          overflow="hidden"
+        >
           <FlexBox alignItems="center">
             <FlexBox flexGrow={1} alignItems="center" columnGap={1.5}>
               <GradientTypography variant="h3">
@@ -163,73 +171,91 @@ function ProfileHeader({ profile, hidden }) {
               {isLoggedIn && !isMyProfile && <FollowButton userId={id} />}
             </FlexBox>
           </FlexBox>
-          <FlexBox columnGap={1}>
-            {!isMobile && (
-              <Chip
-                label={`@${username}`}
-                clickable
-                component="a"
-                target="_blank"
-              />
-            )}
-            {!isMobile && ethInfo?.address && (
-              <Chip
-                icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
-                label={ensName || shortenEthAddress(ethInfo.address)}
-                clickable
-                component="a"
-                href={etherscanUrl(ethInfo.address)}
-                target="_blank"
-              />
-            )}
-            {!isMobile && isMyProfile && !ethInfo?.address && (
-              <Chip
-                icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
-                label={
-                  isUpdatingEthAddress ? (
-                    <CircularProgress
-                      size={15}
-                      sx={{ verticalAlign: 'middle' }}
-                      color="inherit"
-                    />
-                  ) : (
-                    'Connect Wallet'
-                  )
-                }
-                disabled={isUpdatingEthAddress}
-                clickable
-                onClick={handleConnectWallet}
-              />
-            )}
-            {!isMobile && twitterInfo?.username && (
-              <Chip
-                icon={<FontAwesomeIcon icon={faTwitter} />}
-                label={`@${twitterInfo.username}`}
-                clickable
-                component="a"
-                href={twitterUrl(twitterInfo.username)}
-                target="_blank"
-              />
-            )}
-          </FlexBox>
-          <FlexBox alignItems="center">
-            <Typography variant="body2" sx={{ mr: 2 }}>
-              <YupCountUp
-                end={yupScore}
-                duration={2}
-                useEasing={false}
-                color={userColor}
-              />
-              Yup Score
-            </Typography>
-            <Typography variant="body2" sx={{ mr: 2 }}>
-              <YupCountUp end={influence} duration={2} useEasing={false} />
-              Influence
-            </Typography>
-            <YupLogoEmoji />
-            <Typography variant="body2" sx={{ ml: 1, color: '' }}>
-              {formatDecimal(balance?.YUP || 0)}
-            </Typography>
+          <FlexBox gap={2} flexDirection="column">
+            <FlexBox columnGap={1}>
+              {!isMobile && (
+                <Chip
+                  label={`${username}`}
+                  clickable
+                  component="a"
+                  target="_blank"
+                />
+              )}
+              {!isMobile && ethInfo?.address && (
+                <Chip
+                  icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
+                  label={ensName || shortenEthAddress(ethInfo.address)}
+                  clickable
+                  component="a"
+                  href={etherscanUrl(ethInfo.address)}
+                  target="_blank"
+                />
+              )}
+              {!isMobile && isMyProfile && !ethInfo?.address && (
+                <Chip
+                  icon={<FontAwesomeIcon size="12" icon={faEthereum} />}
+                  label={
+                    isUpdatingEthAddress ? (
+                      <CircularProgress
+                        size={15}
+                        sx={{ verticalAlign: 'middle' }}
+                        color="inherit"
+                      />
+                    ) : (
+                      'Connect Wallet'
+                    )
+                  }
+                  disabled={isUpdatingEthAddress}
+                  clickable
+                  onClick={handleConnectWallet}
+                />
+              )}
+              {!isMobile && twitterInfo?.username && (
+                <Chip
+                  icon={<FontAwesomeIcon icon={faTwitter} />}
+                  label={`${twitterInfo.username}`}
+                  clickable
+                  component="a"
+                  href={twitterUrl(twitterInfo.username)}
+                  target="_blank"
+                />
+              )}
+              {!isMobile && !isMyProfile && ethInfo?.address && (
+                <Chip
+                  icon={<FontAwesomeIcon size="12" icon={faComment} />}
+                  label="Chat"
+                  clickable
+                  component="a"
+                  href={blockscanUrl(ethInfo.address)}
+                  target="_blank"
+                />
+              )}
+            </FlexBox>
+            <FlexBox
+              alignItems="center"
+              columnGap={2}
+              rowGap={1}
+              flexWrap="wrap"
+            >
+              <FlexBox alignItems="baseline">
+                <Typography variant="body2" sx={{ mr: 0.75 }}>
+                  <YupCountUp end={yupScore} duration={0.5} useEasing={false} />
+                </Typography>
+                <Typography variant="body2" sx={{ mr: 0 }}>
+                  Yup Score
+                </Typography>
+              </FlexBox>
+              <FlexBox alignItems="baseline">
+                <YupCountUp
+                  end={influence}
+                  duration={0.5}
+                  useEasing={false}
+                  sx={{ mr: 0.75 }}
+                />
+                <Typography variant="body2">Influence</Typography>
+              </FlexBox>
+              {}
+            </FlexBox>
           </FlexBox>
           {!isDesktop && <FollowerSection />}
         </FlexBox>
